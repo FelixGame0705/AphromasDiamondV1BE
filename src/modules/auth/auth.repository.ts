@@ -17,27 +17,29 @@ export class AuthRepository implements IAuthRepository {
         private jwtService: JwtService,
     ) { }
     async signIn(body: AuthPayloadDTO): Promise<boolean | AuthPermission> {
-        const {username, password} = body;
-        const userAuth = await this.repository.findOne({where: {username}});
+        const {Username, Password} = body;
+        const userAuth = await this.repository.findOne({where: {Username}});
         if(!userAuth) return false;
 
-        const isMatch = await bcrypt.compare(password, userAuth.password);
+        const isMatch = await bcrypt.compare(Password, userAuth.Password);
         if(!isMatch) return false;
         const payload = {...new AuthResponseDTO(userAuth)}
         return new AuthPermission({
-            id: userAuth.id,
+            id: userAuth.AccountID,
             token: await this.jwtService.signAsync(payload),
             expiredTime: 900000
         })
     }
     async signUp(body: AuthPayloadDTO): Promise<AuthResponseDTO> {
-        const{username, password} = body;
+        const{Name, PhoneNumber,Username, Password} = body;
         const salt = await bcrypt.genSalt();
-        const hash = await bcrypt.hash(password, salt);
+        const hash = await bcrypt.hash(Password, salt);
         return this.repository.save({
-            username,
-            password: hash,
-            role: Role.Customer
+            Name,
+            PhoneNumber,
+            Username,
+            Password: hash,
+            Role: Role.Customer
         })
     }
 }

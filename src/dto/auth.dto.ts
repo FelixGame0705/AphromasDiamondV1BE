@@ -1,12 +1,11 @@
 export class AuthResponseDTO{
-    id: number;
-    username: string;
-    role: string;
-
-    constructor({id, username, role}){
-        this.id = id;
-        this.username = username;
-        this.role = role;
+    AccountID: number;
+    Username: string;
+    Role: string;
+    constructor({AccountID, Username, Role}){
+        this.AccountID = AccountID;
+        this.Username = Username;
+        this.Role = Role;
 
         return this;
     };
@@ -14,8 +13,10 @@ export class AuthResponseDTO{
 
 // 
 export class AuthPayloadDTO{
-    username: string;
-    password: string;
+    Name: string;
+    PhoneNumber: string;
+    Username: string;
+    Password: string;
 }
 
 //return after login

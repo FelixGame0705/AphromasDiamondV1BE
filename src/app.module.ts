@@ -21,7 +21,7 @@ import { RolesGuard } from './modules/auth/roles.guard';
     port: 3306,
     username: 'root',
     password: '',
-    database: 'aphromasdiamond',
+    database: 'diamondaphromas',
     entities: [AccountsEntity],
     synchronize: true,
   }), JwtModule.register({
