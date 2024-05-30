@@ -39,6 +39,7 @@ export class AuthGuard implements CanActivate {
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
       request['user'] = payload;//Gán payload vào đối tượng request để có thể sử dụng trong các route handlers.
+      console.log('User ', request['user'])
     } catch {
       throw new UnauthorizedException();
     }

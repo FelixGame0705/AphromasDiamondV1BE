@@ -1,12 +1,18 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-@Entity('accounts')
+import { IsPhoneNumber } from "class-validator";
+import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+@Entity('account')
 export class AccountsEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
-    id: number;
+    AccountID: number;
     @Column()
-    username:string;
+    Name:string;
     @Column()
-    password:string;
+    @IsPhoneNumber()
+    PhoneNumber:string
     @Column()
-    role:string;
+    Username:string;
+    @Column()
+    Password:string;
+    @Column()
+    Role:string;
 }
