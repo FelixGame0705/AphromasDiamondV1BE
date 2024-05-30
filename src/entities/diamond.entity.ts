@@ -3,7 +3,7 @@ import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } fro
 @Entity('diamond')
 export class DiamondEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
-    DiamondID: number
+    DiamondID: number;
     @Column()
     Name: string
     @Column()
@@ -23,7 +23,7 @@ export class DiamondEntity extends BaseEntity{
     @Column()
     IsActive: boolean
     @Column()
-    Fluorescene: boolean
+    Fluorescence: string
     @Column()
     Clarity: string
     @Column()
