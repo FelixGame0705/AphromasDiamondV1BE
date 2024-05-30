@@ -1,5 +1,5 @@
 import { IsPhoneNumber } from "class-validator";
-import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
 @Entity('account')
 export class AccountsEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -9,7 +9,7 @@ export class AccountsEntity extends BaseEntity{
     @Column()
     @IsPhoneNumber()
     PhoneNumber:string
-    @Column()
+    @Column({unique: true})
     Username:string;
     @Column()
     Password:string;

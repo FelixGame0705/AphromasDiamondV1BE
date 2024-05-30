@@ -13,6 +13,8 @@ import { jwtConstants } from './constants/constant';
 import { UserModule } from './modules/user/user.module';
 import { AuthGuard } from './modules/auth/auth.guard';
 import { RolesGuard } from './modules/auth/roles.guard';
+import { DiamondModule } from './modules/diamond/diamond.module';
+import { DiamondEntity } from './entities/diamond.entity';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -22,13 +24,13 @@ import { RolesGuard } from './modules/auth/roles.guard';
     username: 'root',
     password: '',
     database: 'diamondaphromas',
-    entities: [AccountsEntity],
+    entities: [AccountsEntity, DiamondEntity],
     synchronize: true,
   }), JwtModule.register({
     global: true,
     secret: jwtConstants.secret,
     signOptions: {expiresIn: 900000}
-  }), AuthModule, UserModule
+  }), AuthModule, UserModule, DiamondModule
 ],
   controllers: [AppController],
   providers: [AppService,{
