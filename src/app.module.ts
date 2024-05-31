@@ -23,7 +23,7 @@ import { DiamondEntity } from './entities/diamond.entity';
     port: 3306,
     username: 'root',
     password: '',
-    database: 'diamondaphromas',
+    database: 'aphromasdiamond',
     entities: [AccountsEntity, DiamondEntity],
     synchronize: true,
   }), JwtModule.register({

@@ -15,8 +15,9 @@ export class Diamond{
     Polish: string
     Symmetry: string
     ChargeRate: number
-    JewelryID: number
+    ProductID: number
     constructor({
+        DiamondID,
         Name,
         Cut,
         Price,
@@ -32,7 +33,8 @@ export class Diamond{
         Polish,
         Symmetry,
         ChargeRate,
-        JewelryID}){
+        ProductID}){
+            if(DiamondID != undefined) this.DiamondID = DiamondID;
             if(Name!= undefined) this.Name = Name;
             if(Cut!= undefined) this.Cut = Cut;
             if(Price!= undefined) this.Price = Price;
@@ -48,7 +50,7 @@ export class Diamond{
             if(Polish!= undefined) this.Polish = Polish;
             if(Symmetry!= undefined) this.Symmetry = Symmetry;
             if(ChargeRate!= undefined) this.ChargeRate = ChargeRate;
-            if(JewelryID!= undefined) this.JewelryID = JewelryID;
+            if(ProductID!= undefined) this.ProductID = ProductID;
     }
 	
     
