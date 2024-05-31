@@ -1,5 +1,5 @@
 import { IsPhoneNumber } from "class-validator";
-import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, IsNull, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 @Entity('diamond')
 export class DiamondEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -34,7 +34,7 @@ export class DiamondEntity extends BaseEntity{
     Symmetry: string
     @Column()
     ChargeRate: number
-    @Column()
-    JewelryID: number
+    @Column({nullable: true})
+    ProductID: number
 
 }

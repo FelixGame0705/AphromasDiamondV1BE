@@ -15,5 +15,5 @@ export class DiamondDTO{
     Polish: string
     Symmetry: string
     ChargeRate: number
-    JewelryID: number
+    ProductID: number
 }
