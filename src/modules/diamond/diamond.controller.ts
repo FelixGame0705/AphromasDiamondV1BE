@@ -11,7 +11,7 @@ import { ApiTags } from "@nestjs/swagger";
 @Controller('diamond')
 @ApiTags('Diamond')
 export class DiamondController{
-    constructor(private diamondService: DiamondService){
+    constructor(private diamondService: DiamondService){ 
     }
 
     @Get('/showAll')
