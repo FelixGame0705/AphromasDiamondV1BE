@@ -6,8 +6,10 @@ import { HttpMessage, HttpStatus } from "src/global/globalEnum";
 import { ResponseType } from "src/global/globalType";
 import { AuthService } from "./auth.service";
 import { Public } from "src/constants/decorator";
+import { ApiTags } from "@nestjs/swagger";
 
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController{
     constructor(protected readonly authService: AuthService){
 

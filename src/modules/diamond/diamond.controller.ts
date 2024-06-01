@@ -7,7 +7,9 @@ import { ResponseType } from "src/global/globalType";
 import { Roles } from "src/constants/decorator";
 import { Response } from "express";
 import { DiamondDTO } from "src/dto/diamond.dto";
+import { ApiTags } from "@nestjs/swagger";
 @Controller('diamond')
+@ApiTags('Diamond')
 export class DiamondController{
     constructor(private diamondService: DiamondService){
     }
