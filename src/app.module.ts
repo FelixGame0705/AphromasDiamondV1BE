@@ -15,6 +15,8 @@ import { AuthGuard } from './modules/auth/auth.guard';
 import { RolesGuard } from './modules/auth/roles.guard';
 import { DiamondModule } from './modules/diamond/diamond.module';
 import { DiamondEntity } from './entities/diamond.entity';
+import { NotificationEntity } from './entities/notification.entity';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -23,14 +25,14 @@ import { DiamondEntity } from './entities/diamond.entity';
     port: 3306,
     username: 'root',
     password: '',
-    database: 'aphromasdiamond',
-    entities: [AccountsEntity, DiamondEntity],
+    database: 'diamondaphromas',
+    entities: [AccountsEntity, DiamondEntity, NotificationEntity],
     synchronize: true,
   }), JwtModule.register({
     global: true,
     secret: jwtConstants.secret,
     signOptions: {expiresIn: 900000}
-  }), AuthModule, UserModule, DiamondModule
+  }), AuthModule, UserModule, DiamondModule, NotificationModule
 ],
   controllers: [AppController],
   providers: [AppService,{
