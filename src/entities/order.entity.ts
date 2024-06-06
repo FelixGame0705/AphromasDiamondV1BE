@@ -1,0 +1,50 @@
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BillDiscountEntity } from "./billDiscount.entity";
+import { OrderLineEntity } from "./orderLine.entity";
+import { CustomerEntity } from "./customer.entity";
+import { AccountsEntity } from "./accounts.entity";
+
+@Entity('Order')
+export class OrderEntity {
+    @PrimaryGeneratedColumn()
+    OrderID: number;
+
+    @Column({ type: 'datetime' })
+    OrderDate: Date;
+
+    @Column({ type: 'datetime' })
+    CompleteDate: Date;
+
+    @Column({ nullable: true })
+    CustomerID: number;
+
+    @Column({ nullable: true })
+    OrderStatus: string;
+
+    @Column()
+    IsActive: boolean;
+
+    @Column({ nullable: true })
+    AccountDeliveryID: number;
+
+    @Column({ nullable: true })
+    AccountSaleID: number;
+
+    @OneToMany(() => BillDiscountEntity, billDiscount => billDiscount.order)
+    billDiscount: BillDiscountEntity[];
+
+    @OneToMany(() => OrderLineEntity, orderLine => orderLine.order)
+    orderLine: OrderLineEntity[];
+
+    @ManyToOne(() => CustomerEntity, { nullable: true })
+    @JoinColumn({ name: 'CustomerID', referencedColumnName: 'CustomerID' })
+    customer: CustomerEntity;
+
+    @ManyToOne(() => AccountsEntity, { nullable: true })
+    @JoinColumn({ name: 'AccountDeliveryID', referencedColumnName: 'AccountID' })
+    accountDelivery: AccountsEntity;
+
+    @ManyToOne(() => AccountsEntity, { nullable: true })
+    @JoinColumn({ name: 'AccountSaleID', referencedColumnName: 'AccountID' })
+    accountSale: AccountsEntity;
+}

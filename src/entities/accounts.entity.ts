@@ -1,6 +1,8 @@
 import { IsPhoneNumber } from "class-validator";
-import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
-@Entity('account')
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { NotificationEntity } from "./notification.entity";
+import { CustomerEntity } from "./customer.entity";
+@Entity('Account')
 export class AccountsEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     AccountID: number;
@@ -15,4 +17,10 @@ export class AccountsEntity extends BaseEntity{
     Password:string;
     @Column()
     Role:string;
+    @OneToMany(()=>NotificationEntity, notification => notification.Account)
+    notification: NotificationEntity[]
+    @OneToOne(()=>CustomerEntity, customer=>customer.CustomerID, { nullable: true })
+    @JoinColumn()
+    customer:CustomerEntity
+    //Done
 }

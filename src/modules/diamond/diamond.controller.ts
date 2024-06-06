@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Res } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, Res, ValidationPipe } from "@nestjs/common";
 import { DiamondService } from "./diamond.service";
 import { Diamond } from "src/models/diamond.model";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -41,7 +41,7 @@ export class DiamondController{
     
     @Post('/create')
     @Roles(Role.Customer)
-    async create(@Body() diamond: DiamondDTO, @Res() res:Response): Promise<ResponseType<Diamond>>{
+    async create(@Body(new ValidationPipe()) diamond: DiamondDTO, @Res() res:Response): Promise<ResponseType<Diamond>>{
         try{
             return res.json(
                 new ResponseData(await this.diamondService.create(diamond), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
