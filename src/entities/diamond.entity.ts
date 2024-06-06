@@ -9,6 +9,8 @@ export class DiamondEntity extends BaseEntity{
     @Column({nullable: true})
     Name: string
     @Column({nullable: true})
+    Shape: string
+    @Column({nullable: true})
     Cut: string
     @Column({nullable: true})
     Price: number

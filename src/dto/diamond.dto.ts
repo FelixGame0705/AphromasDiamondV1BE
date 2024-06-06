@@ -5,6 +5,8 @@ export class DiamondDTO{
     @IsString()
     Name: string
     @IsString()
+    Shape: string
+    @IsString()
     Cut: string
     @IsNumber()
     Price: number

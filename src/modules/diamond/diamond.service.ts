@@ -2,6 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Diamond } from "src/models/diamond.model";
 import { DiamondRepository } from "./diamond.repository";
 import { IDiamondRepository } from "src/interfaces/IDiamondRepository";
+import { PRODUCT_PER_PAGE } from "src/constants/constant";
 @Injectable()
 export class DiamondService{
     constructor(
@@ -28,5 +29,9 @@ export class DiamondService{
     }
     async findRelationById(id: number):Promise<Diamond>{
         return await this.diamondRepository.findRelationById(id);
+    }
+    async getDiamonds(page: number, filters: any, sort: { field: string, order: 'ASC' | 'DESC' }) {
+        const perPage = PRODUCT_PER_PAGE;
+        return this.diamondRepository.paginateAndFilter(page, perPage, filters, sort);
     }
 }
