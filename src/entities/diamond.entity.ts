@@ -20,7 +20,7 @@ export class DiamondEntity extends BaseEntity{
     PercentDepth: number
     @Column({nullable: true})
     LengthOnWidthRatio: number
-    @Column({nullable: true})
+    @Column({nullable: true, type:'text'})
     Description: string
     @Column({nullable: true})
     IsActive: boolean
