@@ -9,7 +9,7 @@ export class NotificationEntity extends BaseEntity{
     IsRead: boolean
     @Column({type: 'datetime', nullable: true})
     Date: Date
-    @Column({nullable: true})
+    @Column({nullable: true, type:'text'})
     Message: string
     @Column({nullable: true})
     AccountID: number

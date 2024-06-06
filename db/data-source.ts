@@ -12,7 +12,7 @@ export const dataSourceOptions: DataSourceOptions = {
   logging: true,
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/db/migrations/*.js'],
-  synchronize: true,
+  synchronize: false,
   migrationsTableName: 'migrations',
   migrationsRun: true,
 };
