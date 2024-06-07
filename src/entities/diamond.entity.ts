@@ -1,40 +1,51 @@
-import { IsPhoneNumber } from "class-validator";
-import { BaseEntity, Column, Entity, IsNull, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-@Entity('diamond')
+import { BaseEntity, Column, Entity, IsNull, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { CertificateEntity } from "./certificate.entity";
+import { ProductEntity } from "./product.entity";
+import { OrderLineEntity } from "./orderLine.entity";
+@Entity('Diamond')
 export class DiamondEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     DiamondID: number;
-    @Column()
+    @Column({nullable: true})
     Name: string
-    @Column()
+    @Column({nullable: true})
+    Shape: string
+    @Column({nullable: true})
     Cut: string
-    @Column()
+    @Column({nullable: true})
     Price: number
-    @Column()
+    @Column({nullable: true})
     Color: string
-    @Column()
+    @Column({nullable: true})
     WeightCarat: number
-    @Column()
+    @Column({nullable: true})
     PercentDepth: number
-    @Column()
+    @Column({nullable: true})
     LengthOnWidthRatio: number
-    @Column()
+    @Column({nullable: true, type:'text'})
     Description: string
-    @Column()
+    @Column({nullable: true})
     IsActive: boolean
-    @Column()
+    @Column({nullable: true})
     Fluorescence: string
-    @Column()
+    @Column({nullable: true})
     Clarity: string
-    @Column()
+    @Column({nullable: true})
     PercentTable: number
-    @Column()
+    @Column({nullable: true})
     Polish: string
-    @Column()
+    @Column({nullable: true})
     Symmetry: string
-    @Column()
+    @Column({nullable: true})
     ChargeRate: number
     @Column({nullable: true})
     ProductID: number
-
+    @OneToMany(()=>CertificateEntity, certificate=>certificate.Diamond)
+    certificate: CertificateEntity[]
+    @ManyToOne(()=>ProductEntity, { nullable: true })
+    @JoinColumn({name:'ProductID', referencedColumnName:'ProductID'})
+    product: ProductEntity
+    @OneToOne(()=>OrderLineEntity, orderLine=>orderLine.DiamondID, { nullable: true })
+    orderLine: OrderLineEntity
+    //done
 }

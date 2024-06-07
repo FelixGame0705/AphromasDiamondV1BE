@@ -1,13 +1,20 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { AccountsEntity } from "./accounts.entity";
 
-@Entity('notification')
+@Entity('Notification')
 export class NotificationEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
-    NotificationId: number;
+    NotificationID: number
     @Column()
-    IsRead: number;
-    @Column()
-    Date: number;
-    @Column()
-    Message: string;
+    IsRead: boolean
+    @Column({type: 'datetime', nullable: true})
+    Date: Date
+    @Column({nullable: true, type:'text'})
+    Message: string
+    @Column({nullable: true})
+    AccountID: number
+    @ManyToOne(()=>AccountsEntity, { nullable: true })
+    @JoinColumn({name:'AccountID', referencedColumnName:'AccountID'})
+    Account: AccountsEntity
+    //done
 }

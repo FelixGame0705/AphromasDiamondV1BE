@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: aphromasdiamond
+      MYSQL_PASSWORD: 123456
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tientrandevops/aphromas:latest  # Đặt tên hình ảnh ở đây
+    container_name: nestjs_backend
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    environment:
+      TYPEORM_CONNECTION: mysql
+      TYPEORM_HOST: db
+      TYPEORM_PORT: 3306
+      TYPEORM_USERNAME: root
+      TYPEORM_PASSWORD: rootpassword
+      TYPEORM_DATABASE: aphromasdiamond
+      JWT_SECRET: yourjwtsecret
+    volumes:
+      - ./src:/app/src
+
+volumes:
+  mysql-data:

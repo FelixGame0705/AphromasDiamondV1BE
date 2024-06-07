@@ -10,6 +10,7 @@ import { Reflector } from '@nestjs/core';
 import { debug } from 'console';
 import { jwtConstants } from 'src/constants/constant';
 import { IS_PUBLIC_KEY } from 'src/constants/decorator';
+import { env } from 'process';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -33,7 +34,7 @@ export class AuthGuard implements CanActivate {
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {//Xác thực token không đồng bộ với secret key từ jwtConstants.
-        secret: jwtConstants.secret,
+        secret: process.env.JWT_SECRET,
       });
       console.log("Payload: ", payload)
       // 💡 We're assigning the payload to the request object here
