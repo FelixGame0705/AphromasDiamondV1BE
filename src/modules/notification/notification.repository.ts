@@ -19,11 +19,11 @@ export class NotificationRepository extends BaseRepository<NotificationEntity, R
     }
 
     protected getIdField(): keyof Notification {
-        return 'NotificationId';
+        return 'NotificationID';
     }
 
     async findAll(): Promise<NotificationEntity[]> {
-        return await this.repository.find({where: { IsActive: true } as FindOptionsWhere<NotificationEntity>});
+        return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<NotificationEntity>});
     }
 
 }

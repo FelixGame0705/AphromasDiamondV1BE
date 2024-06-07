@@ -1,11 +1,11 @@
 export class Notification {
-    NotificationId: number
-    IsRead: number
-    Date: number
+    NotificationID: number
+    IsRead: boolean
+    Date: Date
     Message: string
 
-    constructor({NotificationId, IsRead, Date, Message}){
-        if(NotificationId != undefined)this.NotificationId = NotificationId;
+    constructor({NotificationID, IsRead, Date, Message}){
+        if(NotificationID != undefined)this.NotificationID = NotificationID
         if(IsRead != undefined)this.IsRead = IsRead;
         if(Date !=undefined)this.Date=Date;
         if(Message !=undefined)this.Message=Message;

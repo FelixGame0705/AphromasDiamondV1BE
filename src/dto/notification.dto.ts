@@ -1,6 +1,6 @@
   export class NotificationDTO{
-    NotificationId: number
-    IsRead:number
-    Date: number
+    NotificationID: number
+    IsRead: boolean
+    Date: Date
     Message: string 
  }
