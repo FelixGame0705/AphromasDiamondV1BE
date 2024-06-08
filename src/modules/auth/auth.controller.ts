@@ -6,7 +6,9 @@ import { HttpMessage, HttpStatus } from "src/global/globalEnum";
 import { ResponseType } from "src/global/globalType";
 import { AuthService } from "./auth.service";
 import { Public } from "src/constants/decorator";
+import { ApiBearerAuth } from "@nestjs/swagger";
 
+@ApiBearerAuth()
 @Controller('auth')
 export class AuthController{
     constructor(protected readonly authService: AuthService){
