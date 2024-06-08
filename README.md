@@ -32,8 +32,17 @@
 $ npm install
 ```
 
-## Running the app
+## Deploy
+```bash
+Uninstall bcrypt and install bcrypt in docker again
+```
 
+## Swagger
+````bash
+Add @ApiBearerAuth() on function have authorization
+````
+
+## Running the app
 ```bash
 # development
 $ npm run start
@@ -45,6 +54,14 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Migrations
+```bash
+# Create migration
+$ npm run migration:generate -- db/migrations/CreateAllTable
+# Run migration
+$ npm run migration:run
+
+```
 ## Test
 
 ```bash

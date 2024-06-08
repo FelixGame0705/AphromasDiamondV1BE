@@ -7,12 +7,21 @@ import { ResponseType } from "src/global/globalType";
 import { IS_PUBLIC_KEY, Public, Roles } from "src/constants/decorator";
 import { Response, Request } from "express";
 import { DiamondDTO } from "src/dto/diamond.dto";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
+
+@ApiTags('DiamondsApi')
 @Controller('diamond')
 export class DiamondController {
     constructor(private diamondService: DiamondService) {
     }
-
+    
+    @ApiBearerAuth()
     @Get('/showAll')
+    @ApiOperation({ 
+        summary: 'Get all diamonds', 
+        description: 'Retrieve all diamonds from the database.' 
+    })
+    
     @Roles(Role.Customer)
     // @Roles(Role.Admin 
     async list(@Res() res: Response): Promise<ResponseType<Diamond>> {
@@ -25,6 +34,25 @@ export class DiamondController {
     }
 
     @Get('/showDiamonds')
+    @ApiQuery({ 
+        name: 'page', 
+        required: false, 
+        type: Number, 
+        description: 'Page number', 
+        example: 1 
+    })
+    @ApiQuery({ 
+        name: 'Shape', 
+        required: false, 
+        type: String, 
+        description: 'Diamond shape' 
+    })
+    @ApiQuery({ 
+        name: 'Color', 
+        required: false, 
+        type: String, 
+        description: 'Diamond color' 
+    })
     @Public()
     async showProducts(@Query() query: any) {
         const page: number = parseInt(query.page as any) || 1;
@@ -42,6 +70,7 @@ export class DiamondController {
 
     @Get('/:id')
     @Roles(Role.Customer)
+    @ApiParam({ name: 'id', description: 'ID of the diamond to watch detail', type: Number })
     // @Roles(Role.Admin 
     async detailProduct(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
         try {
@@ -54,7 +83,7 @@ export class DiamondController {
 
 
 
-
+    
     @Post('/create')
     @Roles(Role.Customer)
     async create(@Body(new ValidationPipe()) diamond: DiamondDTO, @Res() res: Response): Promise<ResponseType<Diamond>> {
@@ -69,6 +98,7 @@ export class DiamondController {
         }
     }
 
+    @ApiParam({ name: 'id', description: 'ID of the diamond to update', type: Number })
     @Put('/update/:id')
     @Roles(Role.Customer)
     async update(@Param('id') id: number, @Body() diamond: DiamondDTO, @Res() res: Response): Promise<ResponseType<Diamond>> {
