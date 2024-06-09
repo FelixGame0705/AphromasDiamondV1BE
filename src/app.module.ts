@@ -25,6 +25,7 @@ import { ProductEntity } from './entities/product.entity';
 import { ShellEntity } from './entities/shell.entity';
 import { dataSourceOptions } from 'db/data-source';
 import { NotificationModule } from './modules/notification/notification.module';
+import { OrderModule } from './modules/order/order.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,7 +34,7 @@ import { NotificationModule } from './modules/notification/notification.module';
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
       entities: [DiamondEntity, AccountsEntity, BillDiscountEntity, CertificateEntity,CustomerEntity, JewelryTypeEntity,MaterialJewelryEntity,
-        NotificationEntity,OrderEntity,OrderLineEntity,ProductEntity,ShellEntity
+        NotificationEntity,OrderEntity,OrderLineEntity,ProductEntity,ShellEntity, OrderEntity
       ]
     }),
     JwtModule.register({
@@ -43,7 +44,7 @@ import { NotificationModule } from './modules/notification/notification.module';
     }),
     AuthModule,
     UserModule,
-    DiamondModule, NotificationModule
+    DiamondModule, NotificationModule, OrderModule
   ],
   controllers: [AppController],
   providers: [
