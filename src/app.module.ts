@@ -26,6 +26,7 @@ import { ShellEntity } from './entities/shell.entity';
 import { dataSourceOptions } from 'db/data-source';
 import { NotificationModule } from './modules/notification/notification.module';
 import { OrderModule } from './modules/order/order.module';
+import { OrderLineModule } from './modules/orderline/orderLine.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -44,7 +45,7 @@ import { OrderModule } from './modules/order/order.module';
     }),
     AuthModule,
     UserModule,
-    DiamondModule, NotificationModule, OrderModule
+    DiamondModule, NotificationModule, OrderModule, OrderLineModule
   ],
   controllers: [AppController],
   providers: [

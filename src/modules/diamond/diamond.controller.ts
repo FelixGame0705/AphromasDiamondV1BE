@@ -22,7 +22,7 @@ export class DiamondController {
         description: 'Retrieve all diamonds from the database.' 
     })
     
-    @Roles(Role.Customer)
+    @Public()
     // @Roles(Role.Admin 
     async list(@Res() res: Response): Promise<ResponseType<Diamond>> {
         try {
@@ -69,7 +69,7 @@ export class DiamondController {
     }
 
     @Get('/:id')
-    @Roles(Role.Customer)
+    @Public()
     @ApiParam({ name: 'id', description: 'ID of the diamond to watch detail', type: Number })
     // @Roles(Role.Admin 
     async detailProduct(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
@@ -85,7 +85,7 @@ export class DiamondController {
 
     
     @Post('/create')
-    @Roles(Role.Customer)
+    @Roles(Role.Customer, Role.Admin, Role.Manager)
     async create(@Body(new ValidationPipe()) diamond: DiamondDTO, @Res() res: Response): Promise<ResponseType<Diamond>> {
         try {
             return res.json(
@@ -100,7 +100,7 @@ export class DiamondController {
 
     @ApiParam({ name: 'id', description: 'ID of the diamond to update', type: Number })
     @Put('/update/:id')
-    @Roles(Role.Customer)
+    @Roles(Role.Customer, Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() diamond: DiamondDTO, @Res() res: Response): Promise<ResponseType<Diamond>> {
         try {
             return res.json(

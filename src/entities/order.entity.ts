@@ -34,6 +34,7 @@ export class OrderEntity extends BaseEntity{
     billDiscount: BillDiscountEntity[];
 
     @OneToMany(() => OrderLineEntity, orderLine => orderLine.order)
+    @JoinColumn()
     orderLine: OrderLineEntity[];
 
     @ManyToOne(() => CustomerEntity, { nullable: true })
