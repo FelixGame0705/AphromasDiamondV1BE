@@ -4,15 +4,15 @@ import { Public, Roles } from "src/constants/decorator";
 import { ResponseData } from "src/global/globalClass";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseType } from "src/global/globalType";
-import { Order } from "src/models/order.model";
-import { OrderService } from "./order.service";
-import { OrderDTO } from "src/dto/order.dto";
 import { Response } from "express";
+import { OrderLineService } from "./orderLine.service";
+import { OrderLineDTO } from "src/dto/orderline.dto";
+import { OrderLine } from "src/models/orderline.model";
 
-@ApiTags('OrderApi')
-@Controller("order")
-export class OrderController{
-    constructor(private orderService: OrderService) {
+@ApiTags('OrderLineApi')
+@Controller("orderLine")
+export class OrderLineController{
+    constructor(private orderService: OrderLineService) {
     }
     
     @ApiBearerAuth()
@@ -21,9 +21,10 @@ export class OrderController{
         summary: 'Get all order', 
         description: 'Retrieve all orders from the database.' 
     })
-    @Roles(Role.Customer, Role.Admin, Role.DeliveryStaff, Role.Manager, Role.SaleStaff)
+    
+    @Roles(Role.Customer)
     // @Roles(Role.Admin 
-    async list(@Res() res: Response): Promise<ResponseType<Order>> {
+    async list(@Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(new ResponseData(await this.orderService.findAll(), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
         }
@@ -52,7 +53,6 @@ export class OrderController{
         type: String, 
         description: 'Filter status' 
     })
-
     @Public()
     async showProducts(@Query() query: any) {
         const page: number = parseInt(query.page as any) || 1;
@@ -67,29 +67,13 @@ export class OrderController{
         return this.orderService.getOrders(page, filters, sort);
     }
 
-    @ApiBearerAuth()
     @Get('/:id')
-    @Roles(Role.Customer, Role.Admin, Role.DeliveryStaff, Role.Manager, Role.SaleStaff)
+    @Roles(Role.Customer)
     @ApiParam({ name: 'id', description: 'ID of the order to watch detail', type: Number })
     // @Roles(Role.Admin 
-    async detailProduct(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Order>> {
+    async detailProduct(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(new ResponseData(await this.orderService.findById(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
-        }
-        catch (error) {
-            return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
-        }
-    }
-
-    @ApiBearerAuth()
-    @Get("/relations/:id")
-    @Roles(Role.Customer)
-    @ApiParam({ name: 'id', description: 'ID of the order to watch relation', type: Number })
-    async findRelationById(
-        @Param('id') id: number, 
-        @Res()res: Response){
-        try {
-            return res.json(new ResponseData(await this.orderService.findRelationById(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
         }
         catch (error) {
             return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
@@ -101,8 +85,8 @@ export class OrderController{
     @ApiBearerAuth()
     @Post('/create')
     @Roles(Role.Customer)
-    @ApiBody({ type: OrderDTO, description: 'The data to create an existing order'})
-    async create(@Body(new ValidationPipe()) order: OrderDTO, @Res() res: Response): Promise<ResponseType<Order>> {
+    @ApiBody({ type: OrderLineDTO, description: 'The data to update an existing order'})
+    async create(@Body(new ValidationPipe()) order: OrderLineDTO, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(
                 new ResponseData(await this.orderService.create(order), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
@@ -117,7 +101,7 @@ export class OrderController{
     @ApiParam({ name: 'id', description: 'ID of the order to update', type: Number })
     @Put('/update/:id')
     @Roles(Role.Customer)
-    async update(@Param('id') id: number, @Body() order: OrderDTO, @Res() res: Response): Promise<ResponseType<Order>> {
+    async update(@Param('id') id: number, @Body() order: OrderLineDTO, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(
                 new ResponseData(await this.orderService.update(id, order), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
@@ -131,7 +115,7 @@ export class OrderController{
 
     @Post('/delete')
     @Roles(Role.Admin, Role.Manager, Role.Customer)
-    async delete(@Body() orderID: number, @Res() res: Response): Promise<ResponseType<Order>> {
+    async delete(@Body() orderID: number, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(
                 new ResponseData(await this.orderService.delete(orderID), HttpStatus.SUCCESS, HttpMessage.SUCCESS),

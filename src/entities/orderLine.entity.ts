@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { OrderEntity } from "./order.entity";
 import { DiamondEntity } from "./diamond.entity";
 import { ProductEntity } from "./product.entity";
 
 @Entity('OrderLine')
-export class OrderLineEntity{
+export class OrderLineEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     OrderLineID:number
     @Column({default: 1})
