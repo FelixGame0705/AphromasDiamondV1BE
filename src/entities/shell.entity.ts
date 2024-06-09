@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ProductEntity } from "./product.entity";
 import { JewelryTypeEntity } from "./jewelryType.entity";
 import { MaterialJewelryEntity } from "./marterialJewelry.entity";
 
 @Entity('Shell')
-export class ShellEntity{
+export class ShellEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     ShellID: number
     @Column()

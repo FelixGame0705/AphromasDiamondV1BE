@@ -27,11 +27,18 @@ export class NotificationService {
     return this.findById(id);
   }
 
-  async delete(id: number): Promise<boolean> {
-    return await this.NotificationRepository.delete(id);
+  async delete(id: number): Promise<Notification> {
+    const notification = await this.NotificationRepository.findById(id);
+    if (!notification) {
+        throw new Error('Notification not found');
+    }
+        await this.NotificationRepository.delete(id);
+        return notification;
   }
 
   async findRelationById(id: number): Promise<Notification> {
     return await this.NotificationRepository.findRelationById(id);
   }
 }
+
+ 

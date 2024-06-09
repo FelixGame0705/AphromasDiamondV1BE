@@ -1,8 +1,8 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ShellEntity } from "./shell.entity";
 
 @Entity('JewelryType')
-export class JewelryTypeEntity{
+export class JewelryTypeEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     JewelryTypeID: number
     @Column()

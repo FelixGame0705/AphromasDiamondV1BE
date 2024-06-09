@@ -26,17 +26,43 @@ export class NotificationController{
 
     
     @Post('/create')
-    @Roles(Role.Manager, 
-        Role.Customer
-    )
+    @Roles(Role.Manager,Role.Customer)
     async create(@Body() notificationDto: NotificationDTO): Promise<ResponseData<Notification>> {
-    try {
-        const notification = await this.notificationService.create(notificationDto);
-        return new ResponseData<Notification>(notification, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
-    } catch (error) {
-        return new ResponseData<Notification>(null, HttpStatus.ERROR, HttpMessage.ERROR);
-}
-}
+        try {
+            const notification = await this.notificationService.create(notificationDto);
+            return new ResponseData<Notification>(notification, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+        } catch (error) {
+            return new ResponseData<Notification>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+        }
+    }
 
+
+    @Put('/update/:id')
+    @Roles(Role.Customer)
+    async update(@Param('id') id: number, @Body() notificationDto: NotificationDTO): Promise<ResponseType<Notification>> {
+        try {
+            const notification = await this.notificationService.update(id, notificationDto);
+            return new ResponseData<Notification>(notification, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+        } catch (error) {
+            return new ResponseData<Notification>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+        }
+    }
+
+
+    @Post('/delete')
+    @Roles(Role.Admin, Role.Manager, Role.Customer)
+    async delete(@Body() id: number ): Promise<ResponseType<Notification>> {
+        try {
+            const notification = await this.notificationService.delete(id);
+            return new ResponseData<Notification>(notification, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+        } catch (error) {
+            return new ResponseData<Notification>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+        }
+    }
+
+    
+        
+    
+    
     
 }
