@@ -1,8 +1,8 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { AccountsEntity } from "./accounts.entity";
 import { OrderEntity } from "./order.entity";
 @Entity('Customer')
-export class CustomerEntity{
+export class CustomerEntity extends BaseEntity{
     @PrimaryColumn()
     CustomerID: number
     @Column({nullable: true, type: Date})

@@ -1,3 +1,6 @@
+import { IsEnum } from "class-validator";
+import { Role } from "src/global/globalEnum";
+
 export class AuthResponseDTO{
     AccountID: number;
     Username: string;
@@ -17,6 +20,45 @@ export class AuthPayloadDTO{
     PhoneNumber: string;
     Username: string;
     Password: string;
+    @IsEnum(Role)
+    Role: Role;
+    constructor(Name:string, PhoneNumber:string, Username: string, Password:string, Role:Role){
+        this.Name = Name;
+        this.PhoneNumber = PhoneNumber;
+        this.Username = Username;
+        this.Password = Password;
+        this.Role = Role;
+    }
+}
+
+export class CustomerInforDTO{
+    Name: string;
+    PhoneNumber: string;
+    Username: string;
+    Password: string;
+    @IsEnum(Role)
+    Role: Role;
+    Birthday: Date;
+    Gender: boolean;
+    Address: string;
+    constructor(Name:string, PhoneNumber:string, Username: string, Password:string, Role:Role){
+        this.Name = Name;
+        this.PhoneNumber = PhoneNumber;
+        this.Username = Username;
+        this.Password = Password;
+        this.Role = Role;
+    }
+}
+
+export class AuthPayloadCustomerDTO{
+    Name: string;
+    PhoneNumber: string;
+    Username: string;
+    Password: string;
+    Birthday: Date
+    Gender: boolean
+    Address:string
+    AccountID: number
 }
 
 //return after login
