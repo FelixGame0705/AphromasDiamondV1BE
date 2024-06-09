@@ -1,11 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BillDiscountEntity } from "./billDiscount.entity";
 import { OrderLineEntity } from "./orderLine.entity";
 import { CustomerEntity } from "./customer.entity";
 import { AccountsEntity } from "./accounts.entity";
 
 @Entity('Order')
-export class OrderEntity {
+export class OrderEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     OrderID: number;
 
