@@ -3,13 +3,13 @@ export class Account{
     lastName:string;
     username: string;
     password: string;
-    permission: string;
+    role: string;
 
-    constructor({firstName, lastName, username, password, permission}){
+    constructor({firstName, lastName, username, password, role}){
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.permission = permission;
+        this.role = role;
     }
 }
