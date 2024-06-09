@@ -39,7 +39,7 @@ export class NotificationController{
 
     @Put('/update/:id')
     @Roles(Role.Customer)
-    async update(@Param('id') id: number, @Body() notificationDto: NotificationDTO, @Res() res: Response): Promise<ResponseType<Notification>> {
+    async update(@Param('id') id: number, @Body() notificationDto: NotificationDTO): Promise<ResponseType<Notification>> {
         try {
             const notification = await this.notificationService.update(id, notificationDto);
             return new ResponseData<Notification>(notification, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
@@ -51,7 +51,7 @@ export class NotificationController{
 
     @Post('/delete')
     @Roles(Role.Admin, Role.Manager, Role.Customer)
-    async delete(@Body() id: number, @Res() res: Response): Promise<ResponseType<Notification>> {
+    async delete(@Body() id: number ): Promise<ResponseType<Notification>> {
         try {
             const notification = await this.notificationService.delete(id);
             return new ResponseData<Notification>(notification, HttpStatus.SUCCESS, HttpMessage.SUCCESS);

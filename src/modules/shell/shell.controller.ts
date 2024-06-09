@@ -38,7 +38,7 @@ export class ShellController{
 
     @Put('/update/:id')
     @Roles(Role.Customer)
-    async update(@Param('id') id: number, @Body() shellDto: ShellDTO, @Res() res: Response): Promise<ResponseType<Shell>> {
+    async update(@Param('id') id: number, @Body() shellDto: ShellDTO): Promise<ResponseType<Shell>> {
         try {
             const shell = await this.shellService.update(id, shellDto);
             return new ResponseData<Shell>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
@@ -48,23 +48,12 @@ export class ShellController{
     }
 
 
-    // @Post('/delete')
-    // @Roles(Role.Admin, Role.Manager, Role.Customer)
-    // async delete(@Body() id: number, @Res() res: Response): Promise<ResponseType<Notification>> {
-    //     try {
-    //         const shell = await this.shellService.delete(id);
-    //         return new ResponseData<Shell>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
-    //     } catch (error) {
-    //         return new ResponseData<Shell>(null, HttpStatus.ERROR, HttpMessage.ERROR);
-    //     }
-    // }
-
-
+     
 
 
     @Post('/delete')
 @Roles(Role.Admin, Role.Manager, Role.Customer)
-async delete(@Body() id: number, @Res() res: Response): Promise<ResponseType<Notification>> {
+async delete(@Body() id: number ): Promise<ResponseType<Notification>> {
     try {
         const isDeleted = await this.shellService.delete(id);
         if (isDeleted) {
