@@ -30,7 +30,7 @@ export class  JewelryTypeService {
   async delete(id: number): Promise<JewelryType> {
     const jewelrytype = await this.JewelryTypeRepository.findById(id);
     if (!jewelrytype) {
-        throw new Error('Notification not found');
+        throw new Error('id not found');
     }
         await this.JewelryTypeRepository.delete(id);
         return jewelrytype;

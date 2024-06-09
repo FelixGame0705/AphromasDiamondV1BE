@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
-import { ShellService } from './shell.servie';
+import { ShellService } from './shell.service';
 import { Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
 import { ResponseData } from 'src/global/globalClass';
