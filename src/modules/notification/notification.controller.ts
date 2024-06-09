@@ -28,12 +28,12 @@ export class NotificationController{
     @Post('/create')
     @Roles(Role.Manager,Role.Customer)
     async create(@Body() notificationDto: NotificationDTO): Promise<ResponseData<Notification>> {
-    try {
-        const notification = await this.notificationService.create(notificationDto);
-        return new ResponseData<Notification>(notification, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
-    } catch (error) {
-        return new ResponseData<Notification>(null, HttpStatus.ERROR, HttpMessage.ERROR);
-    }
+        try {
+            const notification = await this.notificationService.create(notificationDto);
+            return new ResponseData<Notification>(notification, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+        } catch (error) {
+            return new ResponseData<Notification>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+        }
     }
 
 
