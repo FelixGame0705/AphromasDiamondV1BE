@@ -53,16 +53,16 @@ export class ShellController{
 
     @Post('/delete')
 @Roles(Role.Admin, Role.Manager, Role.Customer)
-async delete(@Body() id: number ): Promise<ResponseType<Notification>> {
+async delete(@Body() id: number ): Promise<ResponseType<Shell>> {
     try {
         const isDeleted = await this.shellService.delete(id);
         if (isDeleted) {
-            return new ResponseData<Notification>(null, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            return new ResponseData<Shell>(null, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } else {
-            return new ResponseData<Notification>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+            return new ResponseData<Shell>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     } catch (error) {
-        return new ResponseData<Notification>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+        return new ResponseData<Shell>(null, HttpStatus.ERROR, HttpMessage.ERROR);
     }
 }
 
