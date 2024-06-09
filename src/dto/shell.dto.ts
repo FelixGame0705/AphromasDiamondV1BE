@@ -1,7 +1,7 @@
 export class ShellDTO{
     ShellID: number
     ProductionCost: number
-    IsActive: number
+    IsActive: boolean
     Weight: number
     
 }

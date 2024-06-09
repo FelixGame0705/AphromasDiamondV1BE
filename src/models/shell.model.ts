@@ -1,7 +1,7 @@
 export class Shell{
     ShellID: number
     ProductionCost: number
-    IsActive: number
+    IsActive: boolean
     Weight: number
 
     constructor({ShellID,ProductionCost,IsActive,Weight}){
