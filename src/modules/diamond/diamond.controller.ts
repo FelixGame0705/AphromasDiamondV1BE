@@ -83,7 +83,7 @@ export class DiamondController {
 
 
 
-    
+    @ApiBearerAuth()
     @Post('/create')
     @Roles(Role.Customer, Role.Admin, Role.Manager)
     async create(@Body(new ValidationPipe()) diamond: DiamondDTO, @Res() res: Response): Promise<ResponseType<Diamond>> {
@@ -98,6 +98,7 @@ export class DiamondController {
         }
     }
 
+    @ApiBearerAuth()
     @ApiParam({ name: 'id', description: 'ID of the diamond to update', type: Number })
     @Put('/update/:id')
     @Roles(Role.Customer, Role.Admin, Role.Manager)
@@ -113,6 +114,7 @@ export class DiamondController {
         }
     }
 
+    @ApiBearerAuth()
     @Post('/delete')
     @Roles(Role.Admin, Role.Manager, Role.Customer)
     async delete(@Body() diamondId: number, @Res() res: Response): Promise<ResponseType<Diamond>> {

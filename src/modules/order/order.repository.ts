@@ -28,6 +28,9 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
         if (filters.Status) {
             builder.andWhere("order.Status LIKE :Status", { Shape: `${filters.Status}` });
         }
+        if(filters.Search){
+            builder.andWhere("order. LIKE :Status", { Shape: `${filters.Status}` });
+        }
 
         // Apply sorting
         if (sort && sort.field && sort.order) {
