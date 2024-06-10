@@ -21,7 +21,9 @@
     "typeorm": "npm run build && npx typeorm -d dist/db/data-source.js",
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:run": "npm run typeorm -- migration:run",
-    "migration-revert": "npm run typeorm -- migration:revert"
+    "migration-revert": "npm run typeorm -- migration:revert",
+    "typeorm:migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -- db/migrations/CreateAllTable",
+    "typeorm:migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

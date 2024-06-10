@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: aphromasdiamond
+      MYSQL_DATABASE: aphromasdiamondv1
       MYSQL_PASSWORD: 123456
     ports:
       - '3306:3306'
@@ -31,8 +31,9 @@ services:
       TYPEORM_PORT: 3306
       TYPEORM_USERNAME: root
       TYPEORM_PASSWORD: rootpassword
-      TYPEORM_DATABASE: aphromasdiamond
+      TYPEORM_DATABASE: aphromasdiamondv1
       JWT_SECRET: yourjwtsecret
+    # command: /bin/sh -c "npm run build && npm run typeorm:migration:run && npm run start:dev"
     volumes:
       - ./src:/app/src
 
