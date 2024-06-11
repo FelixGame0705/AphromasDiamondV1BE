@@ -27,6 +27,9 @@ import { dataSourceOptions } from 'db/data-source';
 import { NotificationModule } from './modules/notification/notification.module';
 import { OrderModule } from './modules/order/order.module';
 import { OrderLineModule } from './modules/orderline/orderLine.module';
+import { ProductModule } from './modules/product/product.module';
+import { JewelryTypeModule } from './modules/jewelrytype/jewelrytype.module';
+import { MaterialJewelryModule } from './modules/materialjewelry/materialjewelry.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -35,7 +38,7 @@ import { OrderLineModule } from './modules/orderline/orderLine.module';
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
       entities: [DiamondEntity, AccountsEntity, BillDiscountEntity, CertificateEntity,CustomerEntity, JewelryTypeEntity,MaterialJewelryEntity,
-        NotificationEntity,OrderEntity,OrderLineEntity,ProductEntity,ShellEntity, OrderEntity
+        NotificationEntity,OrderEntity,OrderLineEntity,ProductEntity,ShellEntity
       ]
     }),
     JwtModule.register({
@@ -45,7 +48,7 @@ import { OrderLineModule } from './modules/orderline/orderLine.module';
     }),
     AuthModule,
     UserModule,
-    DiamondModule, NotificationModule, OrderModule, OrderLineModule
+    DiamondModule, NotificationModule, OrderModule, OrderLineModule, ProductModule, JewelryTypeModule, MaterialJewelryModule
   ],
   controllers: [AppController],
   providers: [

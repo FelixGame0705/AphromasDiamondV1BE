@@ -1,19 +1,21 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from "@nestjs/common";
 import { JewelryTypeService } from './jewelrytype.service';
-import { Roles } from "src/constants/decorator";
+import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseData } from "src/global/globalClass";
 import { JewelryType } from "src/models/jewelrytype.model";
 import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
 import { ResponseType } from "src/global/globalType";
+import { ApiTags } from "@nestjs/swagger";
  
+@ApiTags('JewelryTypeApi')
 @Controller('jewelrytype')
 export class JewelryTypeController{
     constructor(private jewelrytypeService: JewelryTypeService){
     }
 
     @Get('/showAll')
-    @Roles(Role.Customer, Role.Manager, Role.Admin)
+    @Public()
     async findAll(): Promise<ResponseData<JewelryType[]>> {
         try{
             const jewelrytype = await this.jewelrytypeService.findAll();
@@ -25,7 +27,7 @@ export class JewelryTypeController{
 
     
     @Post('/create')
-    @Roles(Role.Manager,Role.Customer)
+    @Roles(Role.Manager, Role.Admin)
     async create(@Body() jewelrytypeDto: JewelryTypeDTO): Promise<ResponseData<JewelryType>> {
         try {
             const jewelrytype = await this.jewelrytypeService.create(jewelrytypeDto);
@@ -37,7 +39,7 @@ export class JewelryTypeController{
 
 
     @Put('/update/:id')
-    @Roles(Role.Customer)
+    @Roles(Role.Manager, Role.Admin)
     async update(@Param('id') id: number, @Body()  jewelrytypeDto: JewelryTypeDTO): Promise<ResponseType<JewelryType>> {
         try {
             const jewelrytype = await this.jewelrytypeService.update(id, jewelrytypeDto);
@@ -49,7 +51,7 @@ export class JewelryTypeController{
 
 
     @Post('/delete')
-    @Roles(Role.Admin, Role.Manager, Role.Customer)
+    @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number): Promise<ResponseType<JewelryType>> {
         try {
             const jewelrytype = await this.jewelrytypeService.delete(id);
