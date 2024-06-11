@@ -3,6 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { MaterialJewelryEntity } from "src/entities/marterialJewelry.entity";
 import { MaterialJewelryService } from "./materialjewelry.service";
 import { MaterialJewelryRepository } from "./materialjewelry.repository";
+import { MaterialJewelry } from '../../models/materialjewelry.model';
 
 @Module({
     imports: [TypeOrmModule.forFeature([ MaterialJewelryEntity])],
@@ -12,6 +13,6 @@ import { MaterialJewelryRepository } from "./materialjewelry.repository";
         provide: 'MaterialJewelryRepository'
     }]
 })
-export class JewelryTypeModule{
+export class MaterialJewelryModule{
 
 }

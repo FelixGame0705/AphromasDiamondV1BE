@@ -4,6 +4,7 @@ import { ShellEntity } from "src/entities/shell.entity";
 import { ShellController } from "./shell.controller";
 import { ShellRepository } from "./shell.repository";
 import { ShellService } from "./shell.service";
+import { Shell } from '../../models/shell.model';
 
 @Module({
     imports: [TypeOrmModule.forFeature([ShellEntity])],
@@ -13,6 +14,6 @@ import { ShellService } from "./shell.service";
         provide: 'IShellRepository'
     }]
 })
-export class NotificationModule{
+export class ShellModule{
 
 }
