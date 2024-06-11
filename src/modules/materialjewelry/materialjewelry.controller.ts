@@ -7,9 +7,11 @@ import { MaterialJewelry } from "src/models/materialjewelry.model";
 import { ResponseType } from "src/global/globalType";
 import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
 import { MaterialJewelryDTO } from "src/dto/materaljewelry.dto";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('MaterialJewelryApi')
 @Controller('materialjewelry')
-export class JewelryTypeController{
+export class MaterialJewelryController{
     constructor(private materialjewelryService: MaterialJewelryService){
     }
 

@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { DiamondEntity } from "./diamond.entity";
 import { OrderLineEntity } from "./orderLine.entity";
 import { ShellEntity } from "./shell.entity";
 
 @Entity('Product')
-export class ProductEntity{
+export class ProductEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     ProductID: number
     @Column({nullable: true})

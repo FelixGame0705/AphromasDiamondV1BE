@@ -45,6 +45,7 @@ export class CustomerInforDTO{
     Username: string;
     @ApiProperty({ example: 'duongso14', description: 'password' })
     Password: string;
+    @ApiProperty({example: Role.Admin, description: 'Role'})
     @IsEnum(Role)
     Role: Role;
     @ApiProperty({example:'20-11-1990',description:'dd/mm/yyyy'})

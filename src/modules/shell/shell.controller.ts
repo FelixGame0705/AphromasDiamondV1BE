@@ -6,7 +6,9 @@ import { ResponseData } from 'src/global/globalClass';
 import { ShellDTO } from 'src/dto/shell.dto';
 import { Shell } from 'src/models/shell.model';
 import { ResponseType } from 'src/global/globalType';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('ShellApi')
 @Controller('shell')
 export class ShellController{
     constructor(private  shellService: ShellService){       

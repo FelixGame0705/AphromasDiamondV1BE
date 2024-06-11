@@ -6,8 +6,9 @@ import { ResponseType } from "src/global/globalType";
 import { ResponseData } from "src/global/globalClass";
 import { Notification } from "src/models/notification.model";
 import { NotificationDTO } from "src/dto/notification.dto";
+import { ApiTags } from "@nestjs/swagger";
 
- 
+ @ApiTags('NotificationApi')
 @Controller('notification')
 export class NotificationController{
     constructor(private notificationService: NotificationService){
