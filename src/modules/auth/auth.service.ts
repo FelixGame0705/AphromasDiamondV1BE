@@ -9,7 +9,7 @@ export class AuthService{
         protected readonly authRepository: IAuthRepository
     ){}
     async signIn(auth: AuthPayloadDTO): Promise<AuthPermission | boolean>{
-        const{Username, Password} = auth;
+        const{Email: Username, Password} = auth;
         if(!Username || !Password) return false;
 
         const isAuth = await this.authRepository.signIn(auth);
@@ -18,16 +18,16 @@ export class AuthService{
     }
 
     async signUp(auth: AuthPayloadDTO): Promise<AuthResponseDTO | boolean>{
-        const{Username, Password} = auth;
-        if(!Username || !Password) return false;
+        const{Email, Password} = auth;
+        if(!Email || !Password) return false;
 
         const userDTO : AuthResponseDTO = new AuthResponseDTO(await this.authRepository.signUp(auth));
         return userDTO;
     }
 
     async signUpCustomer(auth: AuthPayloadCustomerDTO): Promise<AuthResponseDTO | boolean>{
-        const{Username, Password} = auth;
-        if(!Username || !Password) return false;
+        const{Email, Password} = auth;
+        if(!Email || !Password) return false;
 
         const userDTO : AuthResponseDTO = new AuthResponseDTO(await this.authRepository.signUpCustomer(auth));
         return userDTO;
