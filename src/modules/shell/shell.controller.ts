@@ -10,26 +10,26 @@ import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('ShellApi')
 @Controller('shell')
-export class ShellController{
-    constructor(private  shellService: ShellService){       
+export class ShellController {
+    constructor(private shellService: ShellService) {
     }
 
 
     @Get('/showAll')
     @Roles(Role.Customer, Role.Manager, Role.Admin)
     async findAll(): Promise<ResponseData<Shell[]>> {
-        try{
+        try {
             const shell = await this.shellService.findAll();
-            return new ResponseData<Shell[]>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS );
-        }catch(error){
-            return new ResponseData<Shell[]>(null, HttpStatus.ERROR, HttpMessage.ERROR );
+            return new ResponseData<Shell[]>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+        } catch (error) {
+            return new ResponseData<Shell[]>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 
-    
+
     @Post('/create')
     @Roles(Role.Manager, Role.Customer)
-    async create(@Body()  shellDto: ShellDTO): Promise<ResponseData<Shell>> {
+    async create(@Body() shellDto: ShellDTO): Promise<ResponseData<Shell>> {
         try {
             const shell = await this.shellService.create(shellDto);
             return new ResponseData<Shell>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
@@ -49,26 +49,18 @@ export class ShellController{
         }
     }
 
-
-     
-
-
     @Post('/delete')
-@Roles(Role.Admin, Role.Manager, Role.Customer)
-async delete(@Body() id: number ): Promise<ResponseType<Shell>> {
-    try {
-        const isDeleted = await this.shellService.delete(id);
-        if (isDeleted) {
-            return new ResponseData<Shell>(null, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
-        } else {
+    @Roles(Role.Admin, Role.Manager, Role.Customer)
+    async delete(@Body() id: number): Promise<ResponseType<Shell>> {
+        try {
+            const isDeleted = await this.shellService.delete(id);
+            if (isDeleted) {
+                return new ResponseData<Shell>(null, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            } else {
+                return new ResponseData<Shell>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+            }
+        } catch (error) {
             return new ResponseData<Shell>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
-    } catch (error) {
-        return new ResponseData<Shell>(null, HttpStatus.ERROR, HttpMessage.ERROR);
     }
-}
-
-
-
-
 }

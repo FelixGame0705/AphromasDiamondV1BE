@@ -3,12 +3,12 @@ export class OrderLine{
     Quantity: number
     OrderID: number
     DiamondID: number
-    ProductID: number
-    constructor({OrderLineID, Quantity, OrderID, DiamondID, ProductID}){
+    ShellID: number
+    constructor({OrderLineID, Quantity, OrderID, DiamondID, ShellID}){
         this.OrderLineID = OrderLineID
         this.Quantity = Quantity
         this.OrderID = OrderID
         this.DiamondID = DiamondID
-        this.ProductID = ProductID
+        this.ShellID = ShellID
     }
 }

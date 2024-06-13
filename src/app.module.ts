@@ -30,6 +30,8 @@ import { JewelryTypeModule } from './modules/jewelrytype/jewelrytype.module';
 import { MaterialJewelryModule } from './modules/materialjewelry/materialjewelry.module';
 import { FeedbackEntity } from './entities/feedback.entity';
 import { ShellModule } from './modules/shell/shell.module';
+import { SizeEntity } from './entities/size.entity';
+import { SizeMatchShellEntity } from './entities/sizeMatchShell.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -38,7 +40,7 @@ import { ShellModule } from './modules/shell/shell.module';
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
       entities: [DiamondEntity, AccountsEntity, BillDiscountEntity, CertificateEntity,CustomerEntity, JewelryTypeEntity,MaterialJewelryEntity,
-        NotificationEntity,OrderEntity,OrderLineEntity,ShellEntity, FeedbackEntity
+        NotificationEntity,OrderEntity,OrderLineEntity, ShellEntity, FeedbackEntity, SizeEntity, SizeMatchShellEntity
       ]
     }),
     JwtModule.register({

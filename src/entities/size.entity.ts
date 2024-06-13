@@ -1,10 +1,14 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { SizeMatchShellEntity } from "./sizeMatchShell.entity";
 
-export class SizeEntity{
+@Entity('Size')
+export class SizeEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     SizeID: number
     @Column()
-    Size: number
+    SizeValue: number
     @Column()
     UnitOfMeasure: string
+    @OneToMany(()=>SizeMatchShellEntity, sizeMatchShell=>sizeMatchShell.size)
+    sizeMatchShell: SizeMatchShellEntity[]
 }

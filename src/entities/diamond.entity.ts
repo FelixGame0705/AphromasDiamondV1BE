@@ -50,7 +50,7 @@ export class DiamondEntity extends BaseEntity{
     shell: ShellEntity
     @OneToOne(()=>OrderLineEntity, orderLine=>orderLine.DiamondID, { nullable: true })
     orderLine: OrderLineEntity
-    @OneToMany(()=>FeedbackEntity, customer=>customer.diamond)
+    @OneToMany(()=>FeedbackEntity, feedback=>feedback.diamond)
     feedback: FeedbackEntity[]
     //done
 }

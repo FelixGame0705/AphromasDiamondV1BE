@@ -1,8 +1,9 @@
-import { Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { SizeEntity } from "./size.entity";
 import { ShellEntity } from "./shell.entity";
 
-export class SizeMatchShellEntity{
+@Entity('SizeMatchShell')
+export class SizeMatchShellEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     SizeMatchShellID: number
     @Column()

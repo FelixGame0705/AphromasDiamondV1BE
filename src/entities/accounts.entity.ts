@@ -22,6 +22,6 @@ export class AccountsEntity extends BaseEntity{
     @JoinColumn({name:'CustomerID', referencedColumnName:'CustomerID'})
     customer:CustomerEntity
     @OneToMany(()=>FeedbackEntity, feedback => feedback.account)
-    feedback: FeedbackEntity
+    feedback: FeedbackEntity[]
     //Done
 }

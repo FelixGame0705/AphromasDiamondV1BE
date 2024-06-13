@@ -32,13 +32,13 @@ export class ShellEntity extends BaseEntity{
     @ManyToOne(()=>MaterialJewelryEntity, { nullable: true })
     @JoinColumn({name:'MaterialID', referencedColumnName:'MaterialID'})
     materialJewelry:MaterialJewelryEntity
-    @OneToMany(()=>DiamondEntity, diamond => diamond.ShellID)
-    diamond: DiamondEntity
-    @OneToMany(()=>FeedbackEntity, feedback => feedback.ShellID)
-    feedback: FeedbackEntity
-    @OneToMany(()=>SizeMatchShellEntity, sizeMatchShell => sizeMatchShell.ShellID)
-    sizeMatchShell: SizeMatchShellEntity
-    @OneToMany(()=> OrderLineEntity, orderLine=>orderLine.ShellID)
-    orderLine: OrderLineEntity
+    @OneToMany(()=>DiamondEntity, diamond => diamond.shell)
+    diamond: DiamondEntity[]
+    @OneToMany(()=>FeedbackEntity, feedback => feedback.shell)
+    feedback: FeedbackEntity[]
+    @OneToMany(()=>SizeMatchShellEntity, sizeMatchShell => sizeMatchShell.shell)
+    sizeMatchShellEntity: SizeMatchShellEntity[]
+    @OneToMany(()=> OrderLineEntity, orderLine=>orderLine.shell)
+    orderLine: OrderLineEntity[]
     //done
 }

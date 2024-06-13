@@ -50,5 +50,5 @@ export class OrderEntity extends BaseEntity{
     @JoinColumn({ name: 'AccountSaleID', referencedColumnName: 'AccountID' })
     accountSale: AccountsEntity;
     @OneToMany(()=> FeedbackEntity, feedback => feedback.order)
-    feedBack: FeedbackEntity
+    feedBack: FeedbackEntity[]
 }
