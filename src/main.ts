@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { configSwagger } from './configs/api-docs.config';
 declare const module: any;
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {cors: true});
   configSwagger(app);
 
   await app.listen(3000);
