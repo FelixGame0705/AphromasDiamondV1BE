@@ -1,5 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { PRODUCT_PER_PAGE } from "src/constants/constant";
+import { OrderLineDTO } from "src/dto/orderline.dto";
 import { IOrderLineRepository } from "src/interfaces/IOrderLineRepository";
 import { IOrderRepository } from "src/interfaces/IOrderRepository";
 import { Order } from "src/models/order.model";
@@ -19,10 +20,10 @@ export class OrderLineService{
     async findById(id:number):Promise<OrderLine>{
         return await this.orderRepository.findById(id);
     }
-    async create(order:OrderLine):Promise<OrderLine>{
+    async create(order:OrderLineDTO):Promise<OrderLine>{
         return await this.orderRepository.create(order);
     }
-    async update(id: number, order: OrderLine): Promise<OrderLine>{
+    async update(id: number, order: OrderLineDTO): Promise<OrderLine>{
         await this.orderRepository.update(id, order);
         return this.findById(id);
     }

@@ -49,8 +49,6 @@ export class CustomerInforDTO{
     @ApiProperty({example: Role.Admin, description: 'Role'})
     @IsEnum(Role)
     Role: Role;
-    @ApiProperty({example:'20-11-1990',description:'dd/mm/yyyy'})
-    Birthday: Date;
     @ApiProperty({example:true, description:'true for man, false for women'})
     Gender: boolean;
     @ApiProperty({example:'Tay Ninh', description:'Address'})
