@@ -1,3 +1,5 @@
+import { FromDatabaseDateTime } from "src/constants/date-util"
+
 export class Diamond{
     DiamondID: number
     Name: string
@@ -15,7 +17,9 @@ export class Diamond{
     Polish: string
     Symmetry: string
     ChargeRate: number
-    ProductID: number
+    @FromDatabaseDateTime()
+    UpdateTime: Date
+    ShellID: number
     constructor({
         DiamondID,
         Name,
@@ -33,8 +37,9 @@ export class Diamond{
         Polish,
         Symmetry,
         ChargeRate,
-        ProductID}){
-            if(DiamondID != undefined) this.DiamondID = DiamondID;
+        UpdateTime,
+        ShellID}){
+            if(ShellID != undefined) this.ShellID = ShellID;
             if(Name!= undefined) this.Name = Name;
             if(Cut!= undefined) this.Cut = Cut;
             if(Price!= undefined) this.Price = Price;
@@ -50,7 +55,8 @@ export class Diamond{
             if(Polish!= undefined) this.Polish = Polish;
             if(Symmetry!= undefined) this.Symmetry = Symmetry;
             if(ChargeRate!= undefined) this.ChargeRate = ChargeRate;
-            if(ProductID!= undefined) this.ProductID = ProductID;
+            if(UpdateTime!=undefined) this.UpdateTime = UpdateTime;
+            if(ShellID!= undefined) this.ShellID = ShellID;
     }
 	
     

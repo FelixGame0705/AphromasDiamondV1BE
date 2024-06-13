@@ -1,9 +1,9 @@
 import { text } from "stream/consumers";
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { DiamondEntity } from "./diamond.entity";
-import { ProductEntity } from "./product.entity";
 import { OrderEntity } from "./order.entity";
 import { AccountsEntity } from "./accounts.entity";
+import { ShellEntity } from "./shell.entity";
 
 @Entity('Feedback')
 export class FeedbackEntity extends BaseEntity{
@@ -13,12 +13,14 @@ export class FeedbackEntity extends BaseEntity{
     Stars: number
     @Column({nullable: true, type:'text'})
     Comment:string
+    @Column({nullable: true, type:'datetime'})
+    CommentTime: Date
     @Column({default: true})
     IsActive: boolean
     @Column({nullable:true})
     DiamondID: number
     @Column({nullable:true})
-    ProductID: number
+    ShellID: number
     @Column({nullable: true})
     OrderID: number
     @Column({nullable: true})
@@ -26,9 +28,9 @@ export class FeedbackEntity extends BaseEntity{
     @ManyToOne(()=>DiamondEntity, {nullable:true})
     @JoinColumn({name: 'DiamondID', referencedColumnName:'DiamondID'})
     diamond: DiamondEntity
-    @ManyToOne(()=>ProductEntity, {nullable:true})
-    @JoinColumn({name: 'ProductID', referencedColumnName:'ProductID'})
-    product: ProductEntity
+    @ManyToOne(()=>ShellEntity, {nullable:true})
+    @JoinColumn({name: 'ShellID', referencedColumnName:'ShellID'})
+    shell: ShellEntity
     @ManyToOne(()=>OrderEntity, {nullable:true})
     @JoinColumn({name: 'OrderID', referencedColumnName:'OrderID'})
     order: OrderEntity

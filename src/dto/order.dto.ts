@@ -1,12 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsTimeZone } from "class-validator";
+import { ToDatabaseDateTime } from "src/constants/date-util";
 
 export class OrderDTO{
     OrderID: number
     @ApiProperty({ example: '2023-06-07T14:30:00Z', description: 'The date the order was placed' })
+    @ToDatabaseDateTime()
     OrderDate: Date;
 
     @ApiProperty({ example: '2023-06-14T14:30:00Z', description: 'The date the order was completed' })
+    @ToDatabaseDateTime()
     CompleteDate: Date;
 
     @ApiProperty({ example: null, description: 'The ID of the customer' })

@@ -1,7 +1,10 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { ProductEntity } from "./product.entity";
 import { JewelryTypeEntity } from "./jewelryType.entity";
 import { MaterialJewelryEntity } from "./marterialJewelry.entity";
+import { DiamondEntity } from "./diamond.entity";
+import { FeedbackEntity } from "./feedback.entity";
+import { SizeMatchShellEntity } from "./sizeMatchShell.entity";
+import { OrderLineEntity } from "./orderLine.entity";
 
 @Entity('Shell')
 export class ShellEntity extends BaseEntity{
@@ -13,17 +16,29 @@ export class ShellEntity extends BaseEntity{
     IsActive: boolean
     @Column()
     Weight: number
-    @Column({nullable:true})
+    @Column({type:"datetime"})
+    UpdateTime: Date
+    @Column({nullable: true})
+    DiamondShape: string
+    @Column({default: 100})
+    ChargeRate: number
+    @Column({nullable: true})
     JewelryTypeID: number
     @Column({nullable: true})
     MarterialJewelrID: number
-    @OneToMany(()=>ProductEntity, product=>product.ShellID)
-    product: ProductEntity[]
     @ManyToOne(()=>JewelryTypeEntity, { nullable: true })
     @JoinColumn({name:'JewelryTypeID', referencedColumnName:'JewelryTypeID'})
     jewelryType: JewelryTypeEntity
     @ManyToOne(()=>MaterialJewelryEntity, { nullable: true })
     @JoinColumn({name:'MaterialID', referencedColumnName:'MaterialID'})
     materialJewelry:MaterialJewelryEntity
+    @OneToMany(()=>DiamondEntity, diamond => diamond.ShellID)
+    diamond: DiamondEntity
+    @OneToMany(()=>FeedbackEntity, feedback => feedback.ShellID)
+    feedback: FeedbackEntity
+    @OneToMany(()=>SizeMatchShellEntity, sizeMatchShell => sizeMatchShell.ShellID)
+    sizeMatchShell: SizeMatchShellEntity
+    @OneToMany(()=> OrderLineEntity, orderLine=>orderLine.ShellID)
+    orderLine: OrderLineEntity
     //done
 }

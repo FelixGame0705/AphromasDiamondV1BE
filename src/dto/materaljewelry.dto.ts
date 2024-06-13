@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsDate, IsNumber, IsString } from "class-validator"
+import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class MaterialJewelryDTO{
     MaterialID: number
@@ -13,6 +14,7 @@ export class MaterialJewelryDTO{
     SellPrice: number
 
     @ApiProperty({ example: '2023-06-07T14:30:00', description: 'Date update' })
+    @ToDatabaseDateTime()
     @IsDate()
     UpdateTime: Date
 

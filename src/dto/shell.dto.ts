@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsBoolean, IsNumber } from "class-validator"
+import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class ShellDTO{
     ShellID: number
@@ -14,6 +15,9 @@ export class ShellDTO{
     @ApiProperty({example: 200, description:"Weight of shell"})
     @IsNumber()
     Weight: number
+    @ApiProperty({example: '2024-01-01 00:00:00'})
+    @ToDatabaseDateTime()
+    UpdateTime: Date
 
     @ApiProperty({example: null, description:"JewelryTypeID"})
     JewelryTypeID: number
@@ -23,5 +27,5 @@ export class ShellDTO{
     
     @ApiProperty({example: null, description:" ID of material"})
     MaterialID: number
-    
+
 }

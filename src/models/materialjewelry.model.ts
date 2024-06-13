@@ -1,7 +1,10 @@
+import { FromDatabaseDateTime } from "src/constants/date-util"
+
  export class MaterialJewelry {
     MaterialID: number
     BuyPrice: number
     SellPrice: number
+    @FromDatabaseDateTime()
     UpdateTime: Date
     Name: string
 

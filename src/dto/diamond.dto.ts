@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsBoolean, IsNumber, IsPhoneNumber, IsString } from "class-validator"
+import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class DiamondDTO{
     DiamondID: number
@@ -46,6 +47,9 @@ export class DiamondDTO{
     Symmetry: string
     @ApiProperty({ example: 120 , description: 'Diamond' })
     ChargeRate: number
+    @ApiProperty({example: '2024-01-01 00:00:00'})
+    @ToDatabaseDateTime()
+    UpdateTime: Date
     @ApiProperty({ example: null , description: 'Diamond' })
-    ProductID: number
+    ShellID: number
 }

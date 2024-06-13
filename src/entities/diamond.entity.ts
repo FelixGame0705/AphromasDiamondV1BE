@@ -1,8 +1,8 @@
 import { BaseEntity, Column, Entity, IsNull, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { CertificateEntity } from "./certificate.entity";
-import { ProductEntity } from "./product.entity";
 import { OrderLineEntity } from "./orderLine.entity";
 import { FeedbackEntity } from "./feedback.entity";
+import { ShellEntity } from "./shell.entity";
 @Entity('Diamond')
 export class DiamondEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -39,13 +39,15 @@ export class DiamondEntity extends BaseEntity{
     Symmetry: string
     @Column({nullable: true})
     ChargeRate: number
+    @Column({type: "datetime"})
+    UpdateTime: Date
     @Column({nullable: true})
-    ProductID: number
+    ShellID: number
     @OneToMany(()=>CertificateEntity, certificate=>certificate.Diamond)
     certificate: CertificateEntity[]
-    @ManyToOne(()=>ProductEntity, { nullable: true })
-    @JoinColumn({name:'ProductID', referencedColumnName:'ProductID'})
-    product: ProductEntity
+    @ManyToOne(()=>ShellEntity, { nullable: true })
+    @JoinColumn({name:'ShellID', referencedColumnName:'ShellID'})
+    shell: ShellEntity
     @OneToOne(()=>OrderLineEntity, orderLine=>orderLine.DiamondID, { nullable: true })
     orderLine: OrderLineEntity
     @OneToMany(()=>FeedbackEntity, customer=>customer.diamond)
