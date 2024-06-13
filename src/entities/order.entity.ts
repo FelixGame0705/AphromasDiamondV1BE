@@ -3,6 +3,7 @@ import { BillDiscountEntity } from "./billDiscount.entity";
 import { OrderLineEntity } from "./orderLine.entity";
 import { CustomerEntity } from "./customer.entity";
 import { AccountsEntity } from "./accounts.entity";
+import { FeedbackEntity } from "./feedback.entity";
 
 @Entity('Order')
 export class OrderEntity extends BaseEntity{
@@ -48,4 +49,6 @@ export class OrderEntity extends BaseEntity{
     @ManyToOne(() => AccountsEntity, { nullable: true })
     @JoinColumn({ name: 'AccountSaleID', referencedColumnName: 'AccountID' })
     accountSale: AccountsEntity;
+    @OneToMany(()=> FeedbackEntity, feedback => feedback.order)
+    feedBack: FeedbackEntity
 }

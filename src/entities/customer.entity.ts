@@ -14,7 +14,7 @@ export class CustomerEntity extends BaseEntity{
     @OneToOne(()=>AccountsEntity, account=>account.customer)
     //@JoinColumn({name:'CustomerID', referencedColumnName:'AccountID'})
     account:AccountsEntity
-    @OneToMany(()=>OrderEntity, order=>order.OrderID)
+    @OneToMany(()=>OrderEntity, order=>order.customer)
     order: OrderEntity[]
     //done
 }

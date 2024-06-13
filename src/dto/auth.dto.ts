@@ -19,6 +19,7 @@ export class AuthResponseDTO{
 export class AuthPayloadDTO{
     @ApiProperty({ example: 'Name of account', description: 'Name' })
     Name: string;
+    @ApiProperty({ example: 'PhoneNumber', description: 'phone' })
     PhoneNumber: string;
     @ApiProperty({ example: 'InputUsername', description: 'Username is uniqe' })
     Username: string;

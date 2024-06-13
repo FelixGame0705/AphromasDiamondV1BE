@@ -53,6 +53,18 @@ export class DiamondController {
         type: String, 
         description: 'Diamond color' 
     })
+    @ApiQuery({
+        name: 'sortField',
+        required: false,
+        type: String,
+        description: 'Field to sort'
+    })
+    @ApiQuery({
+        name: 'sortOrder',
+        required: false,
+        type: String,
+        description: 'ASC or DESC'
+    })
     @Public()
     async showProducts(@Query() query: any) {
         const page: number = parseInt(query.page as any) || 1;

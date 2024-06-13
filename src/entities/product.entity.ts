@@ -2,6 +2,7 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGe
 import { DiamondEntity } from "./diamond.entity";
 import { OrderLineEntity } from "./orderLine.entity";
 import { ShellEntity } from "./shell.entity";
+import { FeedbackEntity } from "./feedback.entity";
 
 @Entity('Product')
 export class ProductEntity extends BaseEntity{
@@ -18,4 +19,6 @@ export class ProductEntity extends BaseEntity{
     @ManyToOne(()=>ShellEntity)
     @JoinColumn({name:'ShellID', referencedColumnName:'ShellID'})
     shell:ShellEntity
+    @OneToMany(()=>FeedbackEntity, feedback=>feedback.product)
+    feedback: FeedbackEntity[]
 }

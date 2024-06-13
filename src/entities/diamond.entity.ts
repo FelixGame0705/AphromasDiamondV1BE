@@ -2,6 +2,7 @@ import { BaseEntity, Column, Entity, IsNull, JoinColumn, ManyToOne, OneToMany, O
 import { CertificateEntity } from "./certificate.entity";
 import { ProductEntity } from "./product.entity";
 import { OrderLineEntity } from "./orderLine.entity";
+import { FeedbackEntity } from "./feedback.entity";
 @Entity('Diamond')
 export class DiamondEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -47,5 +48,7 @@ export class DiamondEntity extends BaseEntity{
     product: ProductEntity
     @OneToOne(()=>OrderLineEntity, orderLine=>orderLine.DiamondID, { nullable: true })
     orderLine: OrderLineEntity
+    @OneToMany(()=>FeedbackEntity, customer=>customer.diamond)
+    feedback: FeedbackEntity[]
     //done
 }
