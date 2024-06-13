@@ -32,6 +32,8 @@ import { FeedbackEntity } from './entities/feedback.entity';
 import { ShellModule } from './modules/shell/shell.module';
 import { SizeEntity } from './entities/size.entity';
 import { SizeMatchShellEntity } from './entities/sizeMatchShell.entity';
+import { SizeModule } from './modules/size/size.module';
+import { SizeMatchShellModule } from './modules/sizeMatchShell/sizeMatchShell.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -50,7 +52,8 @@ import { SizeMatchShellEntity } from './entities/sizeMatchShell.entity';
     }),
     AuthModule,
     UserModule,
-    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, ShellModule
+    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, ShellModule,
+    SizeModule, SizeMatchShellModule
   ],
   controllers: [AppController],
   providers: [
