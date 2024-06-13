@@ -1,8 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { DiamondEntity } from "./diamond.entity";
 
 @Entity('Certificate')
-export class CertificateEntity{
+export class CertificateEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     CerID: number
     @Column({nullable: true})
