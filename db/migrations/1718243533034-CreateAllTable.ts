@@ -1,12 +1,13 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateAllTable1718038022780 implements MigrationInterface {
-    name = 'CreateAllTable1718038022780'
+export class CreateAllTable1718243533034 implements MigrationInterface {
+    name = 'CreateAllTable1718243533034'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE \`Certificate\` (\`CerID\` int NOT NULL AUTO_INCREMENT, \`DiamondID\` int NULL, \`Name\` varchar(255) NULL, PRIMARY KEY (\`CerID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`BillDiscount\` (\`BillDiscountID\` int NOT NULL AUTO_INCREMENT, \`StartDate\` datetime NOT NULL, \`EndDate\` datetime NOT NULL, \`PercentDiscounts\` int NOT NULL, \`OrderID\` int NULL, PRIMARY KEY (\`BillDiscountID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Notification\` (\`NotificationID\` int NOT NULL AUTO_INCREMENT, \`IsRead\` tinyint NOT NULL, \`Date\` datetime NULL, \`Message\` text NULL, \`AccountID\` int NULL, PRIMARY KEY (\`NotificationID\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`Feedback\` (\`FeedbackID\` int NOT NULL AUTO_INCREMENT, \`Stars\` int NULL, \`Comment\` text NULL, \`IsActive\` tinyint NOT NULL DEFAULT 1, \`DiamondID\` int NULL, \`ProductID\` int NULL, \`OrderID\` int NULL, \`AccountID\` int NULL, PRIMARY KEY (\`FeedbackID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Account\` (\`AccountID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NOT NULL, \`PhoneNumber\` varchar(13) NOT NULL, \`Username\` varchar(255) NOT NULL, \`Password\` varchar(255) NOT NULL, \`Role\` varchar(255) NOT NULL, \`CustomerID\` int NULL, UNIQUE INDEX \`IDX_412a2768f8054c28b160cca18f\` (\`Username\`), UNIQUE INDEX \`REL_1f40b69ab608afc66251c4d11e\` (\`CustomerID\`), PRIMARY KEY (\`AccountID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Customer\` (\`CustomerID\` int NOT NULL, \`Birthday\` datetime NULL, \`Gender\` tinyint NULL, \`Address\` varchar(255) NULL, PRIMARY KEY (\`CustomerID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Order\` (\`OrderID\` int NOT NULL AUTO_INCREMENT, \`OrderDate\` datetime NOT NULL, \`CompleteDate\` datetime NOT NULL, \`CustomerID\` int NULL, \`OrderStatus\` varchar(255) NULL, \`IsActive\` tinyint NOT NULL, \`AccountDeliveryID\` int NULL, \`AccountSaleID\` int NULL, PRIMARY KEY (\`OrderID\`)) ENGINE=InnoDB`);
@@ -19,6 +20,10 @@ export class CreateAllTable1718038022780 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`Certificate\` ADD CONSTRAINT \`FK_f336682a2e0a7a6d43e112ee8d6\` FOREIGN KEY (\`DiamondID\`) REFERENCES \`Diamond\`(\`DiamondID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`BillDiscount\` ADD CONSTRAINT \`FK_65a674bc4101168340694a4fef5\` FOREIGN KEY (\`OrderID\`) REFERENCES \`Order\`(\`OrderID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Notification\` ADD CONSTRAINT \`FK_242207db359f002548b506633bf\` FOREIGN KEY (\`AccountID\`) REFERENCES \`Account\`(\`AccountID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`Feedback\` ADD CONSTRAINT \`FK_d6fcb584fc265983d0ce5a10b2e\` FOREIGN KEY (\`DiamondID\`) REFERENCES \`Diamond\`(\`DiamondID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`Feedback\` ADD CONSTRAINT \`FK_7801a16c560b2df76c0a64e8455\` FOREIGN KEY (\`ProductID\`) REFERENCES \`Product\`(\`ProductID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`Feedback\` ADD CONSTRAINT \`FK_332bd44d0fde3be7cc618a5cc85\` FOREIGN KEY (\`OrderID\`) REFERENCES \`Order\`(\`OrderID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`Feedback\` ADD CONSTRAINT \`FK_1ffbd6363d12c970949fb53908c\` FOREIGN KEY (\`AccountID\`) REFERENCES \`Account\`(\`AccountID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Account\` ADD CONSTRAINT \`FK_1f40b69ab608afc66251c4d11ea\` FOREIGN KEY (\`CustomerID\`) REFERENCES \`Customer\`(\`CustomerID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Order\` ADD CONSTRAINT \`FK_e75f91068e5c01ca5860e0d2f6c\` FOREIGN KEY (\`CustomerID\`) REFERENCES \`Customer\`(\`CustomerID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Order\` ADD CONSTRAINT \`FK_615919c21ee5a55c66b3d7859d5\` FOREIGN KEY (\`AccountDeliveryID\`) REFERENCES \`Account\`(\`AccountID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -44,6 +49,10 @@ export class CreateAllTable1718038022780 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`Order\` DROP FOREIGN KEY \`FK_615919c21ee5a55c66b3d7859d5\``);
         await queryRunner.query(`ALTER TABLE \`Order\` DROP FOREIGN KEY \`FK_e75f91068e5c01ca5860e0d2f6c\``);
         await queryRunner.query(`ALTER TABLE \`Account\` DROP FOREIGN KEY \`FK_1f40b69ab608afc66251c4d11ea\``);
+        await queryRunner.query(`ALTER TABLE \`Feedback\` DROP FOREIGN KEY \`FK_1ffbd6363d12c970949fb53908c\``);
+        await queryRunner.query(`ALTER TABLE \`Feedback\` DROP FOREIGN KEY \`FK_332bd44d0fde3be7cc618a5cc85\``);
+        await queryRunner.query(`ALTER TABLE \`Feedback\` DROP FOREIGN KEY \`FK_7801a16c560b2df76c0a64e8455\``);
+        await queryRunner.query(`ALTER TABLE \`Feedback\` DROP FOREIGN KEY \`FK_d6fcb584fc265983d0ce5a10b2e\``);
         await queryRunner.query(`ALTER TABLE \`Notification\` DROP FOREIGN KEY \`FK_242207db359f002548b506633bf\``);
         await queryRunner.query(`ALTER TABLE \`BillDiscount\` DROP FOREIGN KEY \`FK_65a674bc4101168340694a4fef5\``);
         await queryRunner.query(`ALTER TABLE \`Certificate\` DROP FOREIGN KEY \`FK_f336682a2e0a7a6d43e112ee8d6\``);
@@ -59,6 +68,7 @@ export class CreateAllTable1718038022780 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX \`REL_1f40b69ab608afc66251c4d11e\` ON \`Account\``);
         await queryRunner.query(`DROP INDEX \`IDX_412a2768f8054c28b160cca18f\` ON \`Account\``);
         await queryRunner.query(`DROP TABLE \`Account\``);
+        await queryRunner.query(`DROP TABLE \`Feedback\``);
         await queryRunner.query(`DROP TABLE \`Notification\``);
         await queryRunner.query(`DROP TABLE \`BillDiscount\``);
         await queryRunner.query(`DROP TABLE \`Certificate\``);

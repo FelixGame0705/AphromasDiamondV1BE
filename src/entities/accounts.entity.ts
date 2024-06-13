@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { NotificationEntity } from "./notification.entity";
 import { CustomerEntity } from "./customer.entity";
+import { FeedbackEntity } from "./feedback.entity";
 @Entity('Account')
 export class AccountsEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -20,5 +21,7 @@ export class AccountsEntity extends BaseEntity{
     @OneToOne(()=>CustomerEntity, customer=>customer.account,{ nullable: true })
     @JoinColumn({name:'CustomerID', referencedColumnName:'CustomerID'})
     customer:CustomerEntity
+    @OneToMany(()=>FeedbackEntity, feedback => feedback.account)
+    feedback: FeedbackEntity
     //Done
 }
