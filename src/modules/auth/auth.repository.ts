@@ -24,8 +24,8 @@ export class AuthRepository implements IAuthRepository {
         throw new Error("Method not implemented.");
     }
     async signIn(body: AuthPayloadDTO): Promise<boolean | AuthPermission> {
-        const {Username, Password} = body;
-        const userAuth = await this.accountRepository.findOne({where: {Username}});
+        const {Email: Email, Password} = body;
+        const userAuth = await this.accountRepository.findOne({where: {Email}});
         if(!userAuth) return false;
 
         const isMatch = await bcrypt.compare(Password, userAuth.Password);
@@ -38,20 +38,20 @@ export class AuthRepository implements IAuthRepository {
         })
     }
     async signUp(body: AuthPayloadDTO): Promise<AuthResponseDTO> {
-        const{Name, PhoneNumber,Username, Password, Role} = body;
+        const{Name, PhoneNumber,Email, Password, Role} = body;
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(Password, salt);
         return this.accountRepository.save({
             Name,
             PhoneNumber,
-            Username,
+            Email,
             Password: hash,
             Role
         })
     }
 
     async signUpCustomer(body: AuthPayloadCustomerDTO): Promise<AuthResponseDTO> {
-        const { Name, PhoneNumber, Username, Password, Birthday, Gender, Address } = body;
+        const { Name, PhoneNumber, Email, Password, Birthday, Gender, Address } = body;
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(Password, salt);
 
@@ -65,7 +65,7 @@ export class AuthRepository implements IAuthRepository {
             const account = this.accountRepository.create({
                 Name,
                 PhoneNumber,
-                Username,
+                Email,
                 Password: hash,
                 Role: Role.Customer,
             });
@@ -96,13 +96,13 @@ export class AuthRepository implements IAuthRepository {
     }
 
     async updateAccount(id:number,body: AuthPayloadDTO): Promise<AuthResponseDTO | boolean>{
-        const{Name, PhoneNumber,Username, Password, Role} = body;
+        const{Name, PhoneNumber,Email , Password, Role} = body;
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(Password, salt);
         await this.accountRepository.update(id, {
             Name,
             PhoneNumber,
-            Username,
+            Email,
             Password: hash,
             Role
         });
@@ -133,8 +133,8 @@ export class AuthRepository implements IAuthRepository {
         return await this.accountRepository.findOne( {where: {[idField]:id} as FindOptionsWhere<BaseEntity>});
     }
 
-    async findByUsername(username: string){
+    async findByUsername(email: string){
         const idField = this.getIdField();
-        return await this.accountRepository.findOne( {where: {Username:username} as FindOptionsWhere<BaseEntity>});
+        return await this.accountRepository.findOne( {where: {Email:email} as FindOptionsWhere<BaseEntity>});
     }
 }

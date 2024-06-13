@@ -13,6 +13,6 @@ import { ShellService } from "./shell.service";
         provide: 'IShellRepository'
     }]
 })
-export class NotificationModule{
+export class ShellModule{
 
 }

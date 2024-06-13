@@ -11,7 +11,7 @@ export class AccountsEntity extends BaseEntity{
     @Column({type:'varchar', length: 13})
     PhoneNumber:string
     @Column({unique: true, type:'varchar', length: 255})
-    Username:string;
+    Email:string;
     @Column()
     Password:string;
     @Column()

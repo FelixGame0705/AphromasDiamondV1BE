@@ -9,6 +9,6 @@ export interface IAuthRepository{
     signUpCustomer(body: AuthPayloadCustomerDTO): Promise<AuthResponseDTO>;
     updateAccount(id: number,body: AuthPayloadDTO): Promise<AuthResponseDTO | boolean>;
     findByID(id:number): Promise<AuthResponseDTO>
-    findByUsername(username: string): Promise<AuthResponseDTO>
+    findByUsername(Email: string): Promise<AuthResponseDTO>
     updateCustomer(id: number, body: AuthPayloadCustomerDTO): Promise<AuthResponseDTO | boolean>;
 }
