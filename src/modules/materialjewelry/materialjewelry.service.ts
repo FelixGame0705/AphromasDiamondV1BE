@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { MaterialJewelryRepository } from "../../interfaces/MaterialJewelryRepository";
-import { MaterialJewelry } from "../../models/materialjewelry.model";
+import { MaterialJewelryRepository } from "src/interfaces/MaterialJewelryRepository";
+import { MaterialJewelry } from "src/models/materialjewelry.model";
 
 @Injectable()
 export class  MaterialJewelryService {

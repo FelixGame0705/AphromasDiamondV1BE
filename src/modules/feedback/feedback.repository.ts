@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FeedbackEntity } from "../../entities/feedback.entity";
-import { BaseRepository } from "../../interfaces/BaseRepository";
-import { Feedback } from "../../models/feedback.model";
+import { FeedbackEntity } from "src/entities/feedback.entity";
+import { BaseRepository } from "src/interfaces/BaseRepository";
+import { Feedback } from "src/models/feedback.model";
 import { FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()

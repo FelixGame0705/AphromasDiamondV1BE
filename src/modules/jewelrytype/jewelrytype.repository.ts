@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { JewelryTypeEntity } from "../../entities/jewelryType.entity";
-import { BaseRepository } from "../../interfaces/BaseRepository";
-import { JewelryType } from "../../models/jewelrytype.model";
+import { JewelryTypeEntity } from "src/entities/jewelryType.entity";
+import { BaseRepository } from "src/interfaces/BaseRepository";
+import { JewelryType } from "src/models/jewelrytype.model";
 import { FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()

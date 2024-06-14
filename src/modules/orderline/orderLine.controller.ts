@@ -1,13 +1,13 @@
 import { Body, Controller, Get, Param, Post, Put, Query, Res, ValidationPipe } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { Public, Roles } from "../../constants/decorator";
-import { ResponseData } from "../../global/globalClass";
-import { HttpMessage, HttpStatus, Role } from "../../global/globalEnum";
-import { ResponseType } from "../../global/globalType";
+import { Public, Roles } from "src/constants/decorator";
+import { ResponseData } from "src/global/globalClass";
+import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
+import { ResponseType } from "src/global/globalType";
 import { Response } from "express";
 import { OrderLineService } from "./orderLine.service";
-import { OrderLineDTO } from "../../dto/orderline.dto";
-import { OrderLine } from "../../models/orderline.model";
+import { OrderLineDTO } from "src/dto/orderline.dto";
+import { OrderLine } from "src/models/orderline.model";
 
 @ApiTags('OrderLineApi')
 @Controller("orderLine")

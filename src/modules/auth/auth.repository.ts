@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { AuthPayloadCustomerDTO, AuthPayloadDTO, AuthPermission, AuthResponseDTO, CustomerInforDTO } from "../../dto/auth.dto";
-import { AccountsEntity } from "../../entities/accounts.entity";
-import { IAuthRepository } from "../../interfaces/IAuthRepository";
+import { AuthPayloadCustomerDTO, AuthPayloadDTO, AuthPermission, AuthResponseDTO, CustomerInforDTO } from "src/dto/auth.dto";
+import { AccountsEntity } from "src/entities/accounts.entity";
+import { IAuthRepository } from "src/interfaces/IAuthRepository";
 import { BaseEntity, DataSource, FindOptionsWhere, Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
-import { Role } from "../../global/globalEnum";
+import { Role } from "src/global/globalEnum";
 import { JwtService } from "@nestjs/jwt";
-import { CustomerEntity } from "../../entities/customer.entity";
+import { CustomerEntity } from "src/entities/customer.entity";
 
 @Injectable()
 export class AuthRepository implements IAuthRepository {

@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, Put, Query, Res, ValidationPipe } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { Public, Roles } from "../../constants/decorator";
-import { ResponseData } from "../../global/globalClass";
-import { HttpMessage, HttpStatus, Role } from "../../global/globalEnum";
-import { ResponseType } from "../../global/globalType";
-import { Order } from "../../models/order.model";
+import { Public, Roles } from "src/constants/decorator";
+import { ResponseData } from "src/global/globalClass";
+import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
+import { ResponseType } from "src/global/globalType";
+import { Order } from "src/models/order.model";
 import { OrderService } from "./order.service";
-import { OrderDTO } from "../../dto/order.dto";
+import { OrderDTO } from "src/dto/order.dto";
 import { Response } from "express";
 
 @ApiTags('OrderApi')

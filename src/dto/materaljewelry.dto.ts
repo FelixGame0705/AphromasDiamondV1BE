@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsDate, IsNumber, IsString } from "class-validator"
-import { ToDatabaseDateTime } from "../constants/date-util"
+import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class MaterialJewelryDTO{
     MaterialID: number

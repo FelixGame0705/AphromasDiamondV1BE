@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsTimeZone } from "class-validator";
-import { ToDatabaseDateTime } from "../constants/date-util";
+import { ToDatabaseDateTime } from "src/constants/date-util";
 
 export class OrderDTO{
     OrderID: number

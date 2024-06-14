@@ -1,9 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ShellDTO } from "../../dto/shell.dto";
-import { SizeDTO } from "../../dto/size.dto";
-import { SizeMatchShellDTO } from "../../dto/sizeMatchShell.dto";
-import { IShellRepository } from "../../interfaces/IShellRepository";
-import { Shell } from "../../models/shell.model";
+import { ShellDTO } from "src/dto/shell.dto";
+import { SizeDTO } from "src/dto/size.dto";
+import { SizeMatchShellDTO } from "src/dto/sizeMatchShell.dto";
+import { IShellRepository } from "src/interfaces/IShellRepository";
+import { Shell } from "src/models/shell.model";
 
 @Injectable()
 export class ShellService{

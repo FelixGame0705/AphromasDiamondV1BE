@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { JewelryTypeEntity } from "../../entities/jewelryType.entity";
+import { JewelryTypeEntity } from "src/entities/jewelryType.entity";
 import { JewelryTypeController } from "./jewelrytype.controller";
 import { JewelryTypeService } from "./jewelrytype.service";
 import { JewelryTypeRepository } from "./jewelrytype.repository";

@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
-import { Roles } from '../../constants/decorator';
-import { HttpMessage, HttpStatus, Role } from '../../global/globalEnum';
-import { ResponseData } from '../../global/globalClass';
-import { SizeDTO } from '../../dto/size.dto';
-import { ResponseType } from '../../global/globalType';
+import { Roles } from 'src/constants/decorator';
+import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
+import { ResponseData } from 'src/global/globalClass';
+import { SizeDTO } from 'src/dto/size.dto';
+import { ResponseType } from 'src/global/globalType';
 import { ApiTags } from '@nestjs/swagger';
-import { Size } from '../../models/size.model';
+import { Size } from 'src/models/size.model';
 import { SizeService } from './size.service';
 
 @ApiTags('SizeApi')

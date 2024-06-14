@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from "@nestjs/common";
 import { FeedbackService } from './feedback.service';
-import { Public, Roles } from "../../constants/decorator";
-import { HttpMessage, HttpStatus, Role } from "../../global/globalEnum";
-import { ResponseData } from "../../global/globalClass";
-import { Feedback } from "../../models/feedback.model";
-import { FeedbackDTO } from "../../dto/feedback.dto";
-import { ResponseType } from "../../global/globalType";
+import { Public, Roles } from "src/constants/decorator";
+import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
+import { ResponseData } from "src/global/globalClass";
+import { Feedback } from "src/models/feedback.model";
+import { FeedbackDTO } from "src/dto/feedback.dto";
+import { ResponseType } from "src/global/globalType";
 import { ApiTags } from "@nestjs/swagger";
  
 @ApiTags('FeedbackApi')

@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { Diamond } from "../../models/diamond.model";
+import { Diamond } from "src/models/diamond.model";
 import { DiamondRepository } from "./diamond.repository";
-import { IDiamondRepository } from "../../interfaces/IDiamondRepository";
-import { PRODUCT_PER_PAGE } from "../../constants/constant";
+import { IDiamondRepository } from "src/interfaces/IDiamondRepository";
+import { PRODUCT_PER_PAGE } from "src/constants/constant";
 @Injectable()
 export class DiamondService{
     constructor(

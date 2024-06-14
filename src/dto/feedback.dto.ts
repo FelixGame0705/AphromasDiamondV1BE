@@ -1,5 +1,5 @@
 import { IsNumber, IsString } from "class-validator"
-import { ToDatabaseDateTime } from "../constants/date-util"
+import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class FeedbackDTO{
     FeedbackID: number

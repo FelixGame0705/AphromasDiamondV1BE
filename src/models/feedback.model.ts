@@ -1,4 +1,4 @@
-import { FromDatabaseDateTime } from "../constants/date-util"
+import { FromDatabaseDateTime } from "src/constants/date-util"
 
 export class Feedback{
     FeedbackID: number

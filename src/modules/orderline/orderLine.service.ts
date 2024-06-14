@@ -1,10 +1,10 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { PRODUCT_PER_PAGE } from "../../constants/constant";
-import { OrderLineDTO } from "../../dto/orderline.dto";
-import { IOrderLineRepository } from "../../interfaces/IOrderLineRepository";
-import { IOrderRepository } from "../../interfaces/IOrderRepository";
-import { Order } from "../../models/order.model";
-import { OrderLine } from "../../models/orderline.model";
+import { PRODUCT_PER_PAGE } from "src/constants/constant";
+import { OrderLineDTO } from "src/dto/orderline.dto";
+import { IOrderLineRepository } from "src/interfaces/IOrderLineRepository";
+import { IOrderRepository } from "src/interfaces/IOrderRepository";
+import { Order } from "src/models/order.model";
+import { OrderLine } from "src/models/orderline.model";
 
 @Injectable()
 export class OrderLineService{

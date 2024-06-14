@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { ShellService } from './shell.service';
-import { Roles } from '../../constants/decorator';
-import { HttpMessage, HttpStatus, Role } from '../../global/globalEnum';
-import { ResponseData } from '../../global/globalClass';
-import { ShellDTO } from '../../dto/shell.dto';
-import { Shell } from '../../models/shell.model';
-import { ResponseType } from '../../global/globalType';
+import { Roles } from 'src/constants/decorator';
+import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
+import { ResponseData } from 'src/global/globalClass';
+import { ShellDTO } from 'src/dto/shell.dto';
+import { Shell } from 'src/models/shell.model';
+import { ResponseType } from 'src/global/globalType';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('ShellApi')

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { AuthPayloadCustomerDTO, AuthPayloadDTO, AuthPermission, AuthResponseDTO } from "../../dto/auth.dto";
-import { IAuthRepository } from "../../interfaces/IAuthRepository";
+import { AuthPayloadCustomerDTO, AuthPayloadDTO, AuthPermission, AuthResponseDTO } from "src/dto/auth.dto";
+import { IAuthRepository } from "src/interfaces/IAuthRepository";
 
 @Injectable()
 export class AuthService{

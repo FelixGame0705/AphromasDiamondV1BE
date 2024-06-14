@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { JewelryTypeRepository } from "../../interfaces/JewelryTypeRepository";
-import { JewelryType } from "../../models/jewelrytype.model";
+import { JewelryTypeRepository } from "src/interfaces/JewelryTypeRepository";
+import { JewelryType } from "src/models/jewelrytype.model";
 
 @Injectable()
 export class  JewelryTypeService {
