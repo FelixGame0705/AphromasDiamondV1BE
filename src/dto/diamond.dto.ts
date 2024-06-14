@@ -47,7 +47,7 @@ export class DiamondDTO{
     Symmetry: string
     @ApiProperty({ example: 120 , description: 'Diamond' })
     ChargeRate: number
-    @ApiProperty({example: '2024-01-01 00:00:00'})
+    @ApiProperty({example: '01-01-2024 00:00:00'})
     @ToDatabaseDateTime()
     UpdateTime: Date
     @ApiProperty({ example: null , description: 'Diamond' })

@@ -22,9 +22,11 @@ export class AuthPayloadDTO{
     @ApiProperty({ example: 'PhoneNumber', description: 'phone' })
     PhoneNumber: string;
     @ApiProperty({ example: 'Email', description: 'Username is uniqe' })
+    @IsEmail()
     Email: string;
     @ApiProperty({ example: 'duongso14', description: 'password' })
     Password: string;
+    @ApiProperty({example: Role.Admin, description: 'Role'})
     @IsEnum(Role)
     Role: Role;
     constructor(Name:string, PhoneNumber:string, Email: string, Password:string, Role:Role){
@@ -43,6 +45,7 @@ export class CustomerInforDTO{
     @IsPhoneNumber()
     PhoneNumber: string;
     @ApiProperty({ example: 'tientran@gmail.com', description: 'Username is uniqe' })
+    @IsEmail()
     Email: string;
     @ApiProperty({ example: 'duongso14', description: 'password' })
     Password: string;
