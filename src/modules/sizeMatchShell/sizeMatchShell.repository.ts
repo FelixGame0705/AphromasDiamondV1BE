@@ -23,7 +23,7 @@ export class SizeMatchShellRepository extends BaseRepository<SizeMatchShellEntit
     }
 
     async findAll(): Promise<SizeMatchShellEntity[]> {
-        return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<SizeMatchShellEntity>});
+        return await this.repository.find();
     }
 
 }

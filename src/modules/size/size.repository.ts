@@ -23,7 +23,7 @@ export class SizeRepository extends BaseRepository<SizeEntity, Repository<SizeEn
     }
 
     async findAll(): Promise<SizeEntity[]> {
-        return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<SizeEntity>});
+        return await this.repository.find();
     }
 
 }
