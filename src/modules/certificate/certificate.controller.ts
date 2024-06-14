@@ -8,8 +8,8 @@ import { Certificate } from "src/models/certificate.model";
 import { ResponseType } from "src/global/globalType";
 import { CertificateDTO } from "src/dto/certificate.dto";
 
-@ApiTags('NotificationApi')
-@Controller('notification')
+@ApiTags('CertificateApi')
+@Controller('certificate')
 export class CertificateController{
     constructor(private certificateService: CertificateService){
     }
