@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { OrderEntity } from "src/entities/order.entity";
-import { OrderLineEntity } from "src/entities/orderLine.entity";
-import { BaseRepository } from "src/interfaces/BaseRepository";
-import { IOrderRepository } from "src/interfaces/IOrderRepository";
-import { Order } from "src/models/order.model";
+import { OrderEntity } from "../../entities/order.entity";
+import { OrderLineEntity } from "../../entities/orderLine.entity";
+import { BaseRepository } from "../../interfaces/BaseRepository";
+import { IOrderRepository } from "../../interfaces/IOrderRepository";
+import { Order } from "../../models/order.model";
 import { Repository } from "typeorm";
 
 @Injectable()

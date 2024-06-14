@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ShellEntity } from "src/entities/shell.entity";
+import { ShellEntity } from "../../entities/shell.entity";
 import { ShellController } from "./shell.controller";
 import { ShellRepository } from "./shell.repository";
 import { ShellService } from "./shell.service";

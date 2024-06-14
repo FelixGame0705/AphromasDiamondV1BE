@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { PRODUCT_PER_PAGE } from "src/constants/constant";
-import { IOrderRepository } from "src/interfaces/IOrderRepository";
-import { Order } from "src/models/order.model";
+import { PRODUCT_PER_PAGE } from "../../constants/constant";
+import { IOrderRepository } from "../../interfaces/IOrderRepository";
+import { Order } from "../../models/order.model";
 
 @Injectable()
 export class OrderService{

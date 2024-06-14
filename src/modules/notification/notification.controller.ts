@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from "@nestjs/common";
 import { NotificationService } from './notification.service';
-import { Roles } from "src/constants/decorator";
-import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
-import { ResponseType } from "src/global/globalType";
-import { ResponseData } from "src/global/globalClass";
-import { Notification } from "src/models/notification.model";
-import { NotificationDTO } from "src/dto/notification.dto";
+import { Roles } from "../../constants/decorator";
+import { HttpMessage, HttpStatus, Role } from "../../global/globalEnum";
+import { ResponseType } from "../../global/globalType";
+import { ResponseData } from "../../global/globalClass";
+import { Notification } from "../../models/notification.model";
+import { NotificationDTO } from "../../dto/notification.dto";
 import { ApiTags } from "@nestjs/swagger";
 
  @ApiTags('NotificationApi')

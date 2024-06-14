@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { OrderLineEntity } from "src/entities/orderLine.entity";
-import { BaseRepository } from "src/interfaces/BaseRepository";
-import { IOrderLineRepository } from "src/interfaces/IOrderLineRepository";
+import { OrderLineEntity } from "../../entities/orderLine.entity";
+import { BaseRepository } from "../../interfaces/BaseRepository";
+import { IOrderLineRepository } from "../../interfaces/IOrderLineRepository";
 import { Repository } from "typeorm";
 
 @Injectable()

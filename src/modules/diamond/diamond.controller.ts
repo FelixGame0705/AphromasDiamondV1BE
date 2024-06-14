@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, Put, Query, Req, Res, ValidationPipe } from "@nestjs/common";
 import { DiamondService } from "./diamond.service";
-import { Diamond } from "src/models/diamond.model";
-import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
-import { ResponseData } from "src/global/globalClass";
-import { ResponseType } from "src/global/globalType";
-import { IS_PUBLIC_KEY, Public, Roles } from "src/constants/decorator";
+import { Diamond } from "../../models/diamond.model";
+import { HttpMessage, HttpStatus, Role } from "../../global/globalEnum";
+import { ResponseData } from "../../global/globalClass";
+import { ResponseType } from "../../global/globalType";
+import { IS_PUBLIC_KEY, Public, Roles } from "../../constants/decorator";
 import { Response, Request } from "express";
-import { DiamondDTO } from "src/dto/diamond.dto";
+import { DiamondDTO } from "../../dto/diamond.dto";
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('DiamondsApi')

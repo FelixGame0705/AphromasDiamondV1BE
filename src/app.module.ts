@@ -8,7 +8,6 @@ import { DiamondEntity } from './entities/diamond.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants/constant';
 import { AuthModule } from './modules/auth/auth.module';
-import { UserModule } from './modules/user/user.module';
 import { DiamondModule } from './modules/diamond/diamond.module';
 import { AuthGuard } from './modules/auth/auth.guard';
 import { RolesGuard } from './modules/auth/roles.guard';
@@ -22,7 +21,7 @@ import { NotificationEntity } from './entities/notification.entity';
 import { OrderEntity } from './entities/order.entity';
 import { OrderLineEntity } from './entities/orderLine.entity';
 import { ShellEntity } from './entities/shell.entity';
-import { dataSourceOptions } from 'db/data-source';
+import { dataSourceOptions } from '../db/data-source';
 import { NotificationModule } from './modules/notification/notification.module';
 import { OrderModule } from './modules/order/order.module';
 import { OrderLineModule } from './modules/orderline/orderLine.module';
@@ -51,7 +50,6 @@ import { SizeMatchShellModule } from './modules/sizeMatchShell/sizeMatchShell.mo
       signOptions: { expiresIn: '90m' },
     }),
     AuthModule,
-    UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, ShellModule,
     SizeModule, SizeMatchShellModule
   ],

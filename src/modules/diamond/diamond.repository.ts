@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DiamondEntity } from "src/entities/diamond.entity";
-import { BaseRepository } from "src/interfaces/BaseRepository";
+import { DiamondEntity } from "../../entities/diamond.entity";
+import { BaseRepository } from "../../interfaces/BaseRepository";
 import { IDiamondRepository } from "src/interfaces/IDiamondRepository";
-import { Diamond } from "src/models/diamond.model";
+import { Diamond } from "../../models/diamond.model";
 import { FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()

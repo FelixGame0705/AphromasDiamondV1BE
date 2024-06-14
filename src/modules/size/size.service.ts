@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { SizeDTO } from "src/dto/size.dto";
-import { ISizeRepository } from "src/interfaces/ISizeRepository"
-import { Size } from "src/models/size.model";
+import { SizeDTO } from "../../dto/size.dto";
+import { ISizeRepository } from "../../interfaces/ISizeRepository"
+import { Size } from "../../models/size.model";
 
 @Injectable()
 export class SizeService{

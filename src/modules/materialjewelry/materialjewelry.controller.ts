@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
 import { MaterialJewelryService } from "./materialjewelry.service";
-import { Roles } from "src/constants/decorator";
-import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
-import { ResponseData } from "src/global/globalClass";
-import { MaterialJewelry } from "src/models/materialjewelry.model";
-import { ResponseType } from "src/global/globalType";
-import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
-import { MaterialJewelryDTO } from "src/dto/materaljewelry.dto";
+import { Roles } from "../../constants/decorator";
+import { HttpMessage, HttpStatus, Role } from "../../global/globalEnum";
+import { ResponseData } from "../../global/globalClass";
+import { MaterialJewelry } from "../../models/materialjewelry.model";
+import { ResponseType } from "../../global/globalType";
+import { JewelryTypeDTO } from "../../dto/jewelrytype.dto";
+import { MaterialJewelryDTO } from "../../dto/materaljewelry.dto";
 import { ApiTags } from "@nestjs/swagger";
 
 @ApiTags('MaterialJewelryApi')

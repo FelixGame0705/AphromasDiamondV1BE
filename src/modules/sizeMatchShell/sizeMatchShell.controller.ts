@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
-import { Roles } from 'src/constants/decorator';
-import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
-import { ResponseData } from 'src/global/globalClass';
-import { SizeMatchShellDTO } from 'src/dto/sizeMatchShell.dto';
-import { ResponseType } from 'src/global/globalType';
+import { Roles } from '../../constants/decorator';
+import { HttpMessage, HttpStatus, Role } from '../../global/globalEnum';
+import { ResponseData } from '../../global/globalClass';
+import { SizeMatchShellDTO } from '../../dto/sizeMatchShell.dto';
+import { ResponseType } from '../../global/globalType';
 import { ApiTags } from '@nestjs/swagger';
-import { SizeMatchShell } from 'src/models/sizeMatchShell.model';
+import { SizeMatchShell } from '../../models/sizeMatchShell.model';
 import { SizeMatchShellService } from './sizeMatchShell.service';
 
 @ApiTags('SizeMatchShellApi')

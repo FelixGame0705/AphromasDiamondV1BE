@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { SizeMatchShellDTO } from "src/dto/sizeMatchShell.dto";
-import { ISizeMatchShellRepository } from "src/interfaces/ISizeMatchShellRepository"
-import { SizeMatchShell } from "src/models/sizeMatchShell.model";
+import { SizeMatchShellDTO } from "../../dto/sizeMatchShell.dto";
+import { ISizeMatchShellRepository } from "../../interfaces/ISizeMatchShellRepository"
+import { SizeMatchShell } from "../../models/sizeMatchShell.model";
 
 @Injectable()
 export class SizeMatchShellService{

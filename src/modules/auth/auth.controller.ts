@@ -1,11 +1,11 @@
 import { Body, Controller, Res,Post, UsePipes, ValidationPipe, Param } from "@nestjs/common";
 import { Response } from "express";
-import { AuthPayloadCustomerDTO, AuthPayloadDTO, AuthPermission, AuthResponseDTO } from "src/dto/auth.dto";
-import { ResponseData } from "src/global/globalClass";
-import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
-import { ResponseType } from "src/global/globalType";
+import { AuthPayloadCustomerDTO, AuthPayloadDTO, AuthPermission, AuthResponseDTO } from "../../dto/auth.dto";
+import { ResponseData } from "../../global/globalClass";
+import { HttpMessage, HttpStatus, Role } from "../../global/globalEnum";
+import { ResponseType } from "../../global/globalType"
 import { AuthService } from "./auth.service";
-import { Public, Roles } from "src/constants/decorator";
+import { Public, Roles } from "../../constants/decorator";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('Authentication')

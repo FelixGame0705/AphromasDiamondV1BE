@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { SizeMatchShellEntity } from "src/entities/sizeMatchShell.entity";
+import { SizeMatchShellEntity } from "../../entities/sizeMatchShell.entity";
 import { SizeMatchShellRepository } from "./sizeMatchShell.repository";
 import { SizeMatchShellService } from "./sizeMatchShell.service";
 import { SizeMatchShellController } from "./sizeMatchShell.controller";

@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { SizeMatchShellEntity } from "src/entities/sizeMatchShell.entity";
-import { BaseRepository } from "src/interfaces/BaseRepository";
-import { ISizeMatchShellRepository } from "src/interfaces/ISizeMatchShellRepository";
-import { SizeMatchShell } from "src/models/sizeMatchShell.model";
+import { SizeMatchShellEntity } from "../../entities/sizeMatchShell.entity";
+import { BaseRepository } from "../../interfaces/BaseRepository";
+import { ISizeMatchShellRepository } from "../../interfaces/ISizeMatchShellRepository";
+import { SizeMatchShell } from "../../models/sizeMatchShell.model";
 import { FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()

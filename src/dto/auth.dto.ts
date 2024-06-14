@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsEnum, IsPhoneNumber } from "class-validator";
-import { Role } from "src/global/globalEnum";
+import { Role } from "../global/globalEnum";
 
 export class AuthResponseDTO{
     AccountID: number;

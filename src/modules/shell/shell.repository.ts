@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ShellEntity } from "src/entities/shell.entity";
-import { BaseRepository } from "src/interfaces/BaseRepository";
-import { IShellRepository } from "src/interfaces/IShellRepository";
-import { Shell } from "src/models/shell.model";
+import { ShellEntity } from "../../entities/shell.entity";
+import { BaseRepository } from "../../interfaces/BaseRepository";
+import { IShellRepository } from "../../interfaces/IShellRepository";
+import { Shell } from "../../models/shell.model";
 import { FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()

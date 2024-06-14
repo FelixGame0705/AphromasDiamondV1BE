@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { SizeEntity } from "src/entities/size.entity";
-import { BaseRepository } from "src/interfaces/BaseRepository";
-import { ISizeRepository } from "src/interfaces/ISizeRepository";
-import { Size } from "src/models/size.model";
+import { SizeEntity } from "../../entities/size.entity";
+import { BaseRepository } from "../../interfaces/BaseRepository";
+import { ISizeRepository } from "../../interfaces/ISizeRepository";
+import { Size } from "../../models/size.model";
 import { FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()

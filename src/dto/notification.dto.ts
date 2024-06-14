@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsBoolean, IsDate, IsString } from "class-validator"
-import { ToDatabaseDateTime } from "src/constants/date-util"
+import { ToDatabaseDateTime } from "../constants/date-util"
 
   export class NotificationDTO{
     NotificationID: number

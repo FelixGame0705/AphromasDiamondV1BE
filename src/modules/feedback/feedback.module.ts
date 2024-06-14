@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { FeedbackController } from "./feedback.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { FeedbackEntity } from "src/entities/feedback.entity";
+import { FeedbackEntity } from "../../entities/feedback.entity";
 import { FeedbackService } from "./feedback.service";
 import { FeedbackRepository } from "./feedback.repository";
 
