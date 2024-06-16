@@ -23,7 +23,7 @@ export class ShellRepository extends BaseRepository<ShellEntity, Repository<Shel
     }
 
     async findAll(): Promise<ShellEntity[]> {
-        return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<ShellEntity>});
+        return await this.repository.find({where: { IsActive: true } as FindOptionsWhere<ShellEntity>});
     }
 
 }

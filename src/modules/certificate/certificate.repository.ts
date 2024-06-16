@@ -23,7 +23,7 @@ export class CertificateRepository extends BaseRepository<CertificateEntity, Rep
     }
 
     async findAll(): Promise<CertificateEntity[]> {
-        return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<CertificateEntity>});
+        return await this.repository.find();
     }
 
 }
