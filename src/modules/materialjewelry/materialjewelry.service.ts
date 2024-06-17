@@ -28,12 +28,12 @@ export class  MaterialJewelryService {
   }
 
   async delete(id: number): Promise<MaterialJewelry> {
-    const jewelrytype = await this.MaterialJewelryRepository.findById(id);
-    if (!jewelrytype) {
+    const materialjewelry = await this.MaterialJewelryRepository.findById(id);
+    if (!materialjewelry) {
         throw new Error('id not found');
     }
         await this.MaterialJewelryRepository.delete(id);
-        return jewelrytype;
+        return materialjewelry;
   }
 
   async findRelationById(id: number): Promise<MaterialJewelry> {
