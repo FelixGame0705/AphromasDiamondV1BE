@@ -1,20 +1,20 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
 import { MaterialJewelryService } from "./materialjewelry.service";
-import { Roles } from "src/constants/decorator";
+import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseData } from "src/global/globalClass";
 import { MaterialJewelry } from "src/models/materialjewelry.model";
 import { ResponseType } from "src/global/globalType";
 import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
 import { MaterialJewelryDTO } from "src/dto/materaljewelry.dto";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('MaterialJewelryApi')
 @Controller('materialjewelry')
 export class MaterialJewelryController{
     constructor(private materialjewelryService: MaterialJewelryService){
     }
-
+    @Public()
     @Get('/showAll')
     @Roles(Role.Customer, Role.Manager, Role.Admin)
     async findAll(): Promise<ResponseData<MaterialJewelry[]>> {
@@ -26,7 +26,7 @@ export class MaterialJewelryController{
         }
     }
 
-    
+    @ApiBearerAuth()
     @Post('/create')
     @Roles(Role.Manager,Role.Customer)
     async create(@Body() materialjewelryDto:  MaterialJewelryDTO): Promise<ResponseData<MaterialJewelry>> {
@@ -38,9 +38,9 @@ export class MaterialJewelryController{
         }
     }
 
-
+    @ApiBearerAuth()
     @Put('/update/:id')
-    @Roles(Role.Customer)
+    @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body()  materialjewelryDto:  MaterialJewelryDTO): Promise<ResponseType<MaterialJewelry>> {
         try {
             const materialjewelry = await this.materialjewelryService.update(id, materialjewelryDto);
@@ -50,9 +50,9 @@ export class MaterialJewelryController{
         }
     }
 
-
+    @ApiBearerAuth()
     @Post('/delete')
-    @Roles(Role.Admin, Role.Manager, Role.Customer)
+    @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number): Promise<ResponseType<MaterialJewelry>> {
         try {
             const materialjewelry = await this.materialjewelryService.delete(id);
