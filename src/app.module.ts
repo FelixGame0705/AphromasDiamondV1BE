@@ -34,6 +34,8 @@ import { SizeEntity } from './entities/size.entity';
 import { SizeMatchShellEntity } from './entities/sizeMatchShell.entity';
 import { SizeModule } from './modules/size/size.module';
 import { SizeMatchShellModule } from './modules/sizeMatchShell/sizeMatchShell.module';
+import { BillDiscountModule } from './modules/billdiscount/billdiscount.module';
+import { CertificateModule } from './modules/certificate/certificate.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -53,7 +55,7 @@ import { SizeMatchShellModule } from './modules/sizeMatchShell/sizeMatchShell.mo
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, ShellModule,
-    SizeModule, SizeMatchShellModule
+    SizeModule, SizeMatchShellModule, BillDiscountModule, CertificateModule
   ],
   controllers: [AppController],
   providers: [

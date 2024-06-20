@@ -13,6 +13,6 @@ import { BillDiscountController } from "./billdiscount.controller";
         provide: 'IBillDiscountRepository'
     }]
 })
-export class DiamondModule{
+export class BillDiscountModule{
 
 }
