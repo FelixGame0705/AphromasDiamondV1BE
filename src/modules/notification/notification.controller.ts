@@ -58,10 +58,10 @@ export class NotificationController{
         };
         const sort = {
             field: query.sortField || 'Date',
-            order: query.sortOrder || 'ASC'
+            notificate : query.sortNotificate || 'ASC'
         };
 
-        return this.notificationService.getNoti(page, filters, sort);
+        return this.notificationService.getNotificate(page, filters, sort);
     }
 
 

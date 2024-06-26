@@ -3,6 +3,7 @@ import { Feedback } from "src/models/feedback.model";
 import { FeedbackRepository } from "./feedback.repository";
 import { IFeedbackRepository } from "src/interfaces/IFeedbackRepository";
 import { FeedbackDTO } from "src/dto/feedback.dto";
+import { PRODUCT_PER_PAGE } from "src/constants/constant";
 
 @Injectable()
 export class  FeedbackService {
@@ -41,6 +42,15 @@ export class  FeedbackService {
   async findRelationById(id: number): Promise<Feedback> {
     return await this.feedbackRepository.findRelationFeedbackById(id);
   }
+
+ 
+
+  async getFeedback(page: number, filters: any, sort: { field: string, feedback: 'ASC' | 'DESC' }) {
+    const perPage = PRODUCT_PER_PAGE;
+    return this.feedbackRepository.paginateAndFilter(page, perPage, filters, sort);
+  }
+  
+
 }
 
  

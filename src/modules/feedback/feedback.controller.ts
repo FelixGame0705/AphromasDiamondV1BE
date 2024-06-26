@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Res } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, Query, Res } from "@nestjs/common";
 import { FeedbackService } from './feedback.service';
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -6,7 +6,7 @@ import { ResponseData } from "src/global/globalClass";
 import { Feedback } from "src/models/feedback.model";
 import { FeedbackDTO } from "src/dto/feedback.dto";
 import { ResponseType } from "src/global/globalType";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiQuery, ApiTags } from "@nestjs/swagger";
  
 @ApiTags('FeedbackApi')
 @Controller('feedback')
@@ -24,6 +24,47 @@ export class FeedbackController{
             return new ResponseData<Feedback[]>(null, HttpStatus.ERROR, HttpMessage.ERROR );
         }
     }
+
+
+    @Get('/showFeedback')
+    @ApiQuery({ 
+        name: 'page', 
+        required: false, 
+        type: Number, 
+        description: 'Page number', 
+        example: 1 
+    })
+    
+    @ApiQuery({ 
+        name: 'Product Name', 
+        required: false, 
+        type: String, 
+        description: 'Name of Product' 
+    })
+
+    @ApiQuery({ 
+        name: 'Customer Name', 
+        required: false, 
+        type: String, 
+        description: 'Customer Name' 
+    })
+
+    @Public()
+    async showFeedback(@Query() query: any) {
+        const page: number = parseInt(query.page as any) || 1;
+        const filters = {
+            ProductName: query.ProductName,
+            CustomerName: query.CustomerName
+        };
+        const sort = {
+            field: query.sortField || 'Name',
+            feedback: query.sortFeedback || 'ASC'
+        };
+
+        return this.feedbackService.getFeedback(page, filters, sort);
+    }
+
+
 
     
     @Post('/create')

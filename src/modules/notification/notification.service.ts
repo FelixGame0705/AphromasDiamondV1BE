@@ -17,7 +17,7 @@ export class NotificationService {
 
 
 
-  async getNoti(page: number, filters: any, sort: { field: string, order: 'ASC' | 'DESC' }) {
+  async getNotificate(page: number, filters: any, sort: { field: string, notificate: 'ASC' | 'DESC' }) {
     const perPage = PRODUCT_PER_PAGE;
     return this.notificationRepository.paginateAndFilter(page, perPage, filters, sort);
   }

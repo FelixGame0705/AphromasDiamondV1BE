@@ -6,7 +6,7 @@ import { AbstractPromise } from "./AbstractRepository";
     paginateAndFilter(
         page: number,
         perPage: number,
-        filters: { isRead?: boolean },
-        sort: { field: string, order: 'ASC' | 'DESC' }
+        filters: any,
+        sort: { field: string, notificate: 'ASC' | 'DESC' }
     ): Promise<{ data: Notification[], total: number, page: number, last_page: number }>;
 }

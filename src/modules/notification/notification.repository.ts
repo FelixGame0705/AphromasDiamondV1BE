@@ -29,14 +29,23 @@ export class NotificationRepository extends BaseRepository<NotificationEntity, R
     async paginateAndFilter(
         page: number,
         perPage: number,
-        filters: { isRead?: boolean }
+        filters:  any,
+        sort: { field: string, notificate: 'ASC' | 'DESC' }
     ): Promise<{ data: NotificationEntity[], total: number, page: number, last_page: number }> {
         const builder = this.repository.createQueryBuilder('notification');
     
-        // Áp dụng bộ lọc isRead
-        if (filters.isRead !== undefined) {
-            builder.andWhere("notification.isRead = :isRead", { isRead: filters.isRead });
+        // Áp dụng bộ lọc  
+        if (filters.isRead) {
+            builder.andWhere("notification.isRead LIKE = :IsRead", { isRead: `${filters.isRead}` });
         }
+        if (filters.UnRead) {
+            builder.andWhere("notification.UnRead LIKE = :UnRead", { isRead: `${filters.UnRead}` });
+        }
+         //  Sắp xếp 
+         if (sort && sort.field && sort.notificate) {
+            builder.orderBy(`notification.${sort.field}`, sort.notificate);
+        }
+
     
         // Lấy tổng số lượng thông báo phù hợp với tiêu chí lọc
         const total = await builder.getCount();
