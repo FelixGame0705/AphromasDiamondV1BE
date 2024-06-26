@@ -26,4 +26,32 @@ export class NotificationRepository extends BaseRepository<NotificationEntity, R
         return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<NotificationEntity>});
     }
 
+    async paginateAndFilter(
+        page: number,
+        perPage: number,
+        filters: { isRead?: boolean }
+    ): Promise<{ data: NotificationEntity[], total: number, page: number, last_page: number }> {
+        const builder = this.repository.createQueryBuilder('notification');
+    
+        // Áp dụng bộ lọc isRead
+        if (filters.isRead !== undefined) {
+            builder.andWhere("notification.isRead = :isRead", { isRead: filters.isRead });
+        }
+    
+        // Lấy tổng số lượng thông báo phù hợp với tiêu chí lọc
+        const total = await builder.getCount();
+    
+        // Áp dụng phân trang: bỏ qua (page-1) * perPage mục đầu tiên, giới hạn số mục là perPage
+        builder.skip((page - 1) * perPage).take(perPage);
+    
+        // Lấy dữ liệu cho trang hiện tại
+        const data = await builder.getMany();
+    
+        return {
+            data,
+            total,
+            page,
+            last_page: Math.ceil(total / perPage) // Tổng số trang
+        };
+    }
 }

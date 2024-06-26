@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Res } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, Query, Res } from "@nestjs/common";
 import { NotificationService } from './notification.service';
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -6,7 +6,7 @@ import { ResponseType } from "src/global/globalType";
 import { ResponseData } from "src/global/globalClass";
 import { Notification } from "src/models/notification.model";
 import { NotificationDTO } from "src/dto/notification.dto";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('NotificationApi')
 @Controller('notification')
@@ -25,6 +25,38 @@ export class NotificationController{
             return new ResponseData<Notification[]>(null, HttpStatus.ERROR, HttpMessage.ERROR );
         }
     }
+
+    @Get('/showNotificate')
+    @ApiQuery({ 
+        name: 'page', 
+        required: false, 
+        type: Number, 
+        description: 'Page number', 
+        example: 1 
+    })
+    
+    @ApiQuery({ 
+        name: 'IsRead', 
+        required: false, 
+        type: String, 
+        description: 'Filter Is Read' 
+    })
+    @Public()
+    async showNotificate(@Query() query: any) {
+        const page: number = parseInt(query.page as any) || 1;
+        const filters = {
+            IsRead: query.IsRead
+        };
+        const sort = {
+            field: query.sortField || 'Date',
+            order: query.sortOrder || 'ASC'
+        };
+
+        return this.notificationService.getNoti(page, filters, sort);
+    }
+
+
+     
 
     
     @ApiBearerAuth()
