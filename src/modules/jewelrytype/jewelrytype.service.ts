@@ -1,9 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { JewelryTypeRepository } from "src/interfaces/JewelryTypeRepository";
-import { JewelryType } from "src/models/jewelrytype.model";
+import { JewelryType } from "src/models/JewelryType.model";
 
 @Injectable()
-export class  JewelryTypeService {
+export class JewelryTypeService {
 
   constructor(
     @Inject('JewelryTypeRepository')  

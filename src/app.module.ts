@@ -21,19 +21,20 @@ import { MaterialJewelryEntity } from './entities/marterialJewelry.entity';
 import { NotificationEntity } from './entities/notification.entity';
 import { OrderEntity } from './entities/order.entity';
 import { OrderLineEntity } from './entities/orderLine.entity';
-import { ShellEntity } from './entities/shell.entity';
+import { JewelrySettingEntity } from './entities/jewelrySetting.entity';
 import { dataSourceOptions } from 'db/data-source';
 import { NotificationModule } from './modules/notification/notification.module';
 import { OrderModule } from './modules/order/order.module';
 import { OrderLineModule } from './modules/orderline/orderLine.module';
-import { JewelryTypeModule } from './modules/jewelrytype/jewelrytype.module';
+import { JewelryTypeModule } from './modules/jewelrytype/jewelryType.module';
 import { MaterialJewelryModule } from './modules/materialjewelry/materialjewelry.module';
 import { FeedbackEntity } from './entities/feedback.entity';
-import { ShellModule } from './modules/shell/shell.module';
+import { JewelrySettingModule } from './modules/jewelrySetting/jewelrySetting.module';
 import { SizeEntity } from './entities/size.entity';
-import { SizeMatchShellEntity } from './entities/sizeMatchShell.entity';
+import { JewelrySettingVariantEntity } from './entities/jewlrySettingVariant.entity';
 import { SizeModule } from './modules/size/size.module';
-import { SizeMatchShellModule } from './modules/sizeMatchShell/sizeMatchShell.module';
+import { JewelrySettingVariantModule } from './modules/jewelrySettingVariant/jewelrySettingVariant.module';
+import { ProductEntity } from './entities/products.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -42,7 +43,7 @@ import { SizeMatchShellModule } from './modules/sizeMatchShell/sizeMatchShell.mo
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
       entities: [DiamondEntity, AccountsEntity, BillDiscountEntity, CertificateEntity,CustomerEntity, JewelryTypeEntity,MaterialJewelryEntity,
-        NotificationEntity,OrderEntity,OrderLineEntity, ShellEntity, FeedbackEntity, SizeEntity, SizeMatchShellEntity
+        NotificationEntity,OrderEntity,OrderLineEntity, JewelrySettingEntity, FeedbackEntity, SizeEntity, JewelrySettingVariantEntity, ProductEntity
       ]
     }),
     JwtModule.register({
@@ -52,8 +53,8 @@ import { SizeMatchShellModule } from './modules/sizeMatchShell/sizeMatchShell.mo
     }),
     AuthModule,
     UserModule,
-    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, ShellModule,
-    SizeModule, SizeMatchShellModule
+    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
+    SizeModule, JewelrySettingVariantModule
   ],
   controllers: [AppController],
   providers: [

@@ -3,7 +3,7 @@ import { IsDate, IsNumber, IsString } from "class-validator"
 import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class MaterialJewelryDTO{
-    MaterialID: number
+    MaterialJewelryID: number
 
     @ApiProperty({ example: '12.000.000', description: 'Buy price' })
     @IsNumber()

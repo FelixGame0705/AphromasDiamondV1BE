@@ -2,7 +2,8 @@ import { BaseEntity, Column, Entity, IsNull, JoinColumn, ManyToOne, OneToMany, O
 import { CertificateEntity } from "./certificate.entity";
 import { OrderLineEntity } from "./orderLine.entity";
 import { FeedbackEntity } from "./feedback.entity";
-import { ShellEntity } from "./shell.entity";
+import { JewelrySettingEntity } from "./jewelrySetting.entity";
+import { ProductEntity } from "./products.entity";
 @Entity('Diamond')
 export class DiamondEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -42,15 +43,19 @@ export class DiamondEntity extends BaseEntity{
     @Column({type: "datetime"})
     UpdateTime: Date
     @Column({nullable: true})
-    ShellID: number
+    JewelrySettingID: number
+    @Column({nullable: true})
+    ProductID: number
     @OneToMany(()=>CertificateEntity, certificate=>certificate.Diamond)
     certificate: CertificateEntity[]
-    @ManyToOne(()=>ShellEntity, { nullable: true })
-    @JoinColumn({name:'ShellID', referencedColumnName:'ShellID'})
-    shell: ShellEntity
+    @ManyToOne(()=>JewelrySettingEntity, { nullable: true })
+    @JoinColumn({name:'JewelrySettingID', referencedColumnName:'JewelrySettingID'})
+    jewelrySetting: JewelrySettingEntity
     @OneToOne(()=>OrderLineEntity, orderLine=>orderLine.DiamondID, { nullable: true })
     orderLine: OrderLineEntity
     @OneToMany(()=>FeedbackEntity, feedback=>feedback.diamond)
     feedback: FeedbackEntity[]
+    @OneToMany(()=>ProductEntity, product=>product.diamonds)
+    products: ProductEntity[]
     //done
 }

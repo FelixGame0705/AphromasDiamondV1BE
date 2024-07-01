@@ -4,7 +4,7 @@ import { OrderLineEntity } from "src/entities/orderLine.entity";
 import { OrderLine } from "src/models/orderline.model";
 
  export interface IOrderLineRepository extends AbstractPromise<OrderLine>{
-    findRelationById(id: number): Promise<OrderLineEntity>;
+    findRelationById(id: number): Promise<OrderLine>;
     paginateAndFilter(
         page: number,
         perPage: number,

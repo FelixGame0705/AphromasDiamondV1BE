@@ -1,15 +1,16 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { JewelryTypeEntity } from "./jewelryType.entity";
 import { MaterialJewelryEntity } from "./marterialJewelry.entity";
 import { DiamondEntity } from "./diamond.entity";
 import { FeedbackEntity } from "./feedback.entity";
-import { SizeMatchShellEntity } from "./sizeMatchShell.entity";
+import { JewelrySettingVariantEntity } from "./jewlrySettingVariant.entity";
 import { OrderLineEntity } from "./orderLine.entity";
+import { ProductEntity } from "./products.entity";
 
-@Entity('Shell')
-export class ShellEntity extends BaseEntity{
+@Entity('JewelrySetting')
+export class JewelrySettingEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
-    ShellID: number
+    JewelrySettingID: number
     @Column()
     ProductionCost: number
     @Column()
@@ -25,20 +26,18 @@ export class ShellEntity extends BaseEntity{
     @Column({nullable: true})
     JewelryTypeID: number
     @Column({nullable: true})
-    MarterialJewelrID: number
+    ProductID: number
     @ManyToOne(()=>JewelryTypeEntity, { nullable: true })
     @JoinColumn({name:'JewelryTypeID', referencedColumnName:'JewelryTypeID'})
     jewelryType: JewelryTypeEntity
-    @ManyToOne(()=>MaterialJewelryEntity, { nullable: true })
-    @JoinColumn({name:'MaterialID', referencedColumnName:'MaterialID'})
-    materialJewelry:MaterialJewelryEntity
-    @OneToMany(()=>DiamondEntity, diamond => diamond.shell)
+    @OneToMany(()=>DiamondEntity, diamond => diamond.jewelrySetting)
     diamond: DiamondEntity[]
-    @OneToMany(()=>FeedbackEntity, feedback => feedback.shell)
+    @OneToMany(()=>FeedbackEntity, feedback => feedback.jewelrySetting)
     feedback: FeedbackEntity[]
-    @OneToMany(()=>SizeMatchShellEntity, sizeMatchShell => sizeMatchShell.shell)
-    sizeMatchShellEntity: SizeMatchShellEntity[]
-    @OneToMany(()=> OrderLineEntity, orderLine=>orderLine.shell)
-    orderLine: OrderLineEntity[]
+    @OneToMany(()=>JewelrySettingVariantEntity, jewelrySettingVariant => jewelrySettingVariant.jewelrySettings)
+    jewelrySettingVariant: JewelrySettingVariantEntity[]
+    @OneToOne(()=>ProductEntity, product => product.JewelrySettingID)
+    @JoinColumn({name:'ProductID', referencedColumnName:'ProductID'})
+    product: ProductEntity
     //done
 }

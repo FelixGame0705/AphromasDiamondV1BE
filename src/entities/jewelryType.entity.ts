@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { ShellEntity } from "./shell.entity";
+import { JewelrySettingEntity } from "./jewelrySetting.entity";
 
 @Entity('JewelryType')
 export class JewelryTypeEntity extends BaseEntity{
@@ -7,7 +7,7 @@ export class JewelryTypeEntity extends BaseEntity{
     JewelryTypeID: number
     @Column()
     Name: string
-    @OneToMany(()=>ShellEntity, shell => shell.JewelryTypeID)
-    shells: ShellEntity[]
+    @OneToMany(()=>JewelrySettingEntity, jewelrySetting => jewelrySetting.jewelryType)
+    jewelrySettings: JewelrySettingEntity[]
     //done
 }
