@@ -1,8 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { OrderEntity } from "./order.entity";
 
 @Entity('BillDiscount')
-export class BillDiscountEntity{
+export class BillDiscountEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     BillDiscountID:number
     @Column({type:'datetime'})

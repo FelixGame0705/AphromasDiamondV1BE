@@ -6,14 +6,14 @@ import { ResponseData } from "src/global/globalClass";
 import { JewelryType } from "src/models/JewelryType.model";
 import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
 import { ResponseType } from "src/global/globalType";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
  
 @ApiTags('JewelryTypeApi')
 @Controller('jewelrytype')
 export class JewelryTypeController{
     constructor(private jewelrytypeService: JewelryTypeService){
     }
-
+    @Public()
     @Get('/showAll')
     @Public()
     async findAll(): Promise<ResponseData<JewelryType[]>> {
@@ -25,7 +25,7 @@ export class JewelryTypeController{
         }
     }
 
-    
+    @ApiBearerAuth()
     @Post('/create')
     @Roles(Role.Manager, Role.Admin)
     async create(@Body() jewelrytypeDto: JewelryTypeDTO): Promise<ResponseData<JewelryType>> {
@@ -37,7 +37,7 @@ export class JewelryTypeController{
         }
     }
 
-
+    @ApiBearerAuth()
     @Put('/update/:id')
     @Roles(Role.Manager, Role.Admin)
     async update(@Param('id') id: number, @Body()  jewelrytypeDto: JewelryTypeDTO): Promise<ResponseType<JewelryType>> {
@@ -49,7 +49,7 @@ export class JewelryTypeController{
         }
     }
 
-
+    @ApiBearerAuth()
     @Post('/delete')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number): Promise<ResponseType<JewelryType>> {

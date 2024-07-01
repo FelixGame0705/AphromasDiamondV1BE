@@ -25,4 +25,39 @@ export class FeedbackRepository extends BaseRepository<FeedbackEntity, Repositor
         return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<FeedbackEntity>});
     }
 
+    async paginateAndFilter(
+        page: number,
+        perPage: number,
+        filters: any,
+        sort: { field: string, feedback: 'ASC' | 'DESC' }
+    ): Promise<{ data: FeedbackEntity[], total: number, page: number, last_page: number }> {
+        const builder = this.repository.createQueryBuilder('feedback');
+
+        // Apply filters
+        // if (filters.isRead) {
+        //     builder.andWhere("notification.isRead LIKE = :IsRead", { isRead: `${filters.isRead}` });
+        // }
+
+        // Apply sorting
+        if (sort && sort.field && sort.feedback) {
+            builder.orderBy(`feedback.${sort.field}`, sort.feedback);
+        }
+
+        // Get total count
+        const total = await builder.getCount();
+
+        // Apply pagination
+        builder.offset((page - 1) * perPage).limit(perPage);
+
+        // Get data
+        const data = await builder.getMany();
+
+        return {
+            data,
+            total,
+            page,
+            last_page: Math.ceil(total / perPage)
+        };
+    }
+
 }
