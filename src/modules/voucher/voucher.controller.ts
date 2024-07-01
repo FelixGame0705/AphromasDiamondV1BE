@@ -1,64 +1,64 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { BillDiscount } from '../../models/billdiscount.model';
+import { Voucher } from '../../models/voucher.model';
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
-import { BillDiscountDTO } from "src/dto/billdiscount.dto";
+import { VoucherDTO } from "src/dto/voucher.dto";
 import { ResponseData } from "src/global/globalClass";
 import { ResponseType } from "src/global/globalType";
-import { BillDiscountService } from './voucher.service';
+import { VoucherService as VoucherService } from './voucher.service';
 
 @ApiTags('BillDisCountApi')
 @Controller('billdiscount')
-export class BillDiscountController{
-    constructor(private billdiscountService: BillDiscountService){
+export class VoucherController{
+    constructor(private voucherService: VoucherService){
     }
     
     @Public()
     @Get('/showAll')
     @Public()
-    async findAll(): Promise<ResponseData<BillDiscount[]>> {
+    async findAll(): Promise<ResponseData<Voucher[]>> {
         try{
-            const billdiscount = await this.billdiscountService.findAll();
-            return new ResponseData<BillDiscount[]>(billdiscount, HttpStatus.SUCCESS, HttpMessage.SUCCESS );
+            const billdiscount = await this.voucherService.findAll();
+            return new ResponseData<Voucher[]>(billdiscount, HttpStatus.SUCCESS, HttpMessage.SUCCESS );
         }catch(error){
-            return new ResponseData<BillDiscount[]>(null, HttpStatus.ERROR, HttpMessage.ERROR );
+            return new ResponseData<Voucher[]>(null, HttpStatus.ERROR, HttpMessage.ERROR );
         }
     }
 
     
     @Post('/create')
     @Roles(Role.Manager, Role.Admin)
-    async create(@Body()billdiscountDto:BillDiscountDTO): Promise<ResponseData<BillDiscount>> {
+    async create(@Body()billdiscountDto:VoucherDTO): Promise<ResponseData<Voucher>> {
         try {
-            const billdiscount = await this.billdiscountService.create(billdiscountDto);
-            return new ResponseData<BillDiscount>(billdiscount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            const billdiscount = await this.voucherService.create(billdiscountDto);
+            return new ResponseData<Voucher>(billdiscount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
-            return new ResponseData<BillDiscount>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+            return new ResponseData<Voucher>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 
     @ApiBearerAuth()
     @Put('/update/:id')
     @Roles(Role.Manager, Role.Admin)
-    async update(@Param('id') id: number,@Body()billdiscountDto:BillDiscountDTO): Promise<ResponseType<BillDiscount>> {
+    async update(@Param('id') id: number,@Body()billdiscountDto:VoucherDTO): Promise<ResponseType<Voucher>> {
         try {
-            const billdiscount = await this.billdiscountService.update(id,billdiscountDto);
-            return new ResponseData<BillDiscount>(billdiscount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            const billdiscount = await this.voucherService.update(id,billdiscountDto);
+            return new ResponseData<Voucher>(billdiscount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
-            return new ResponseData<BillDiscount>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+            return new ResponseData<Voucher>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 
     @ApiBearerAuth()
     @Post('/delete')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number): Promise<ResponseType<BillDiscount>> {
+    async delete(@Body() id: number): Promise<ResponseType<Voucher>> {
         try {
-            const billdiscount= await this.billdiscountService.delete(id);
-            return new ResponseData<BillDiscount>(billdiscount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            const billdiscount= await this.voucherService.delete(id);
+            return new ResponseData<Voucher>(billdiscount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
-            return new ResponseData<BillDiscount>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+            return new ResponseData<Voucher>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 

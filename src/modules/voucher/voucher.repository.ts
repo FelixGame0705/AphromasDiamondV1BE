@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { BillDiscountEntity } from "src/entities/billDiscount.entity";
+import { VoucherEntity } from "src/entities/voucher.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IBillDiscountRepository } from "src/interfaces/IBillDiscountRepository";
-import { BillDiscount } from "src/models/billdiscount.model";
+import { Voucher } from "src/models/voucher.model";
 import { Repository } from "typeorm";
  
 
@@ -11,26 +11,26 @@ import { Repository } from "typeorm";
 
 
 @Injectable()
-export class BillDiscountRepository extends BaseRepository<BillDiscountEntity, Repository<BillDiscountEntity>> implements IBillDiscountRepository{
+export class VoucherRepository extends BaseRepository<VoucherEntity, Repository<VoucherEntity>> implements IBillDiscountRepository{
     constructor(
-        @InjectRepository(BillDiscountEntity)
-        protected readonly repository: Repository<BillDiscountEntity>
+        @InjectRepository(VoucherEntity)
+        protected readonly repository: Repository<VoucherEntity>
     ){
         super(repository);
     }
    
-    findRelationById(id: number): Promise<BillDiscount> {
+    findRelationById(id: number): Promise<Voucher> {
         return null;
     }ư
 
-    protected getIdField(): keyof BillDiscount {
-        return 'BillDiscountID';
+    protected getIdField(): keyof Voucher {
+        return 'VoucherID';
     }
 
-    async findAll(): Promise<BillDiscountEntity[]> {
+    async findAll(): Promise<VoucherEntity[]> {
         return await this.repository.find();
     } 
-    async paginateAndFilter(page: number, perPage: number, filters: any, sort: { field: string; order: "ASC" | "DESC"; }): Promise<{ data: BillDiscount[]; total: number; page: number; last_page: number; }> {
+    async paginateAndFilter(page: number, perPage: number, filters: any, sort: { field: string; order: "ASC" | "DESC"; }): Promise<{ data: Voucher[]; total: number; page: number; last_page: number; }> {
         throw new Error("Method not implemented.");
     }
 

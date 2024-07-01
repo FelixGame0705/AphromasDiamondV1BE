@@ -1,42 +1,42 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { BillDiscount } from "src/models/billdiscount.model";
-import { IBillDiscountRepository } from "src/interfaces/IBillDiscountRepository";
+import { Voucher } from "src/models/voucher.model";
+import { IBillDiscountRepository as IVoucherRepository } from "src/interfaces/IBillDiscountRepository";
 
 @Injectable()
-export class  BillDiscountService {
+export class  VoucherService {
 
   constructor(
-    @Inject('IBillDiscountRepository')  
-    private readonly billDiscountRepository: IBillDiscountRepository 
+    @Inject('IVoucherRepository')  
+    private readonly voucherRepository: IVoucherRepository 
   ) {}
 
-  async findAll(): Promise<BillDiscount[]> {
-    return (await this.billDiscountRepository.findAll());
+  async findAll(): Promise<Voucher[]> {
+    return (await this.voucherRepository.findAll());
   }
 
-  async findById(id: number): Promise<BillDiscount> {
-    return await this.billDiscountRepository.findById(id);
+  async findById(id: number): Promise<Voucher> {
+    return await this.voucherRepository.findById(id);
   }
 
-  async create(billdiscount: BillDiscount): Promise<BillDiscount> {
-    return await this.billDiscountRepository.create(billdiscount);
+  async create(billdiscount: Voucher): Promise<Voucher> {
+    return await this.voucherRepository.create(billdiscount);
   }
 
-  async update(id: number, billdiscount:BillDiscount): Promise<BillDiscount> {
-    await this.billDiscountRepository.update(id, billdiscount);
+  async update(id: number, billdiscount:Voucher): Promise<Voucher> {
+    await this.voucherRepository.update(id, billdiscount);
     return this.findById(id);
   }
 
-  async delete(id: number): Promise<BillDiscount> {
-    const billdiscount = await this.billDiscountRepository.findById(id);
+  async delete(id: number): Promise<Voucher> {
+    const billdiscount = await this.voucherRepository.findById(id);
     if (!billdiscount) {
         throw new Error('id not found');
     }
-        await this.billDiscountRepository.delete(id);
+        await this.voucherRepository.delete(id);
         return billdiscount;
   }
 
-  async findRelationById(id: number): Promise<BillDiscount> {
-    return await this.billDiscountRepository.findRelationById(id);
+  async findRelationById(id: number): Promise<Voucher> {
+    return await this.voucherRepository.findRelationById(id);
   }
 }

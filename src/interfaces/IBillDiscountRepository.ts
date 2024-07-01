@@ -1,13 +1,13 @@
-import { BillDiscount } from "src/models/billdiscount.model";
+import { Voucher } from "src/models/voucher.model";
 import { AbstractPromise } from "./AbstractRepository";
 
-export interface IBillDiscountRepository extends AbstractPromise<BillDiscount>{
-    findRelationById(id: number): Promise<BillDiscount>;
+export interface IBillDiscountRepository extends AbstractPromise<Voucher>{
+    findRelationById(id: number): Promise<Voucher>;
     paginateAndFilter(
         page: number,
         perPage: number,
         filters: any,
         sort: { field: string, order: 'ASC' | 'DESC' }
-    ): Promise<{ data: BillDiscount[], total: number, page: number, last_page: number }>;
+    ): Promise<{ data: Voucher[], total: number, page: number, last_page: number }>;
 
 }

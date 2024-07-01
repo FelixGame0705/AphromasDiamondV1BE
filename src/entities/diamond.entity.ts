@@ -4,6 +4,8 @@ import { OrderLineEntity } from "./orderLine.entity";
 import { FeedbackEntity } from "./feedback.entity";
 import { JewelrySettingEntity } from "./jewelrySetting.entity";
 import { ProductEntity } from "./products.entity";
+import { CollectionEntity } from "./collection.entity";
+import { DiscountEntity } from "./discount.entity";
 @Entity('Diamond')
 export class DiamondEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -46,6 +48,10 @@ export class DiamondEntity extends BaseEntity{
     JewelrySettingID: number
     @Column({nullable: true})
     ProductID: number
+    @Column({nullable: true})
+    CollectionID: number
+    @Column({nullable: true})
+    DiscountID: number
     @OneToMany(()=>CertificateEntity, certificate=>certificate.Diamond)
     certificate: CertificateEntity[]
     @ManyToOne(()=>JewelrySettingEntity, { nullable: true })
@@ -55,7 +61,14 @@ export class DiamondEntity extends BaseEntity{
     orderLine: OrderLineEntity
     @OneToMany(()=>FeedbackEntity, feedback=>feedback.diamond)
     feedback: FeedbackEntity[]
-    @OneToMany(()=>ProductEntity, product=>product.diamonds)
-    products: ProductEntity[]
+    @ManyToOne(()=>ProductEntity, {nullable: true})
+    @JoinColumn({name:'ProductID', referencedColumnName: 'ProductID'})
+    products: ProductEntity
+    @ManyToOne(()=>CollectionEntity,{nullable: true})
+    @JoinColumn({name:'CollectionID', referencedColumnName:'CollectionID'})
+    collection: CollectionEntity
+    @ManyToOne(()=>DiscountEntity,{nullable: true})
+    @JoinColumn({name:'DiscountID', referencedColumnName: 'DiscountID'})
+    discount: DiscountEntity
     //done
 }

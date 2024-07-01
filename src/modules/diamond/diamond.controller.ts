@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, Req, Res, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req, Res, ValidationPipe } from "@nestjs/common";
 import { DiamondService } from "./diamond.service";
 import { Diamond } from "src/models/diamond.model";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -127,7 +127,8 @@ export class DiamondController {
     }
 
     @ApiBearerAuth()
-    @Post('/delete')
+    @ApiParam({ name: 'id', description: 'ID of the diamond to delete', type: Number })
+    @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager, Role.Customer)
     async delete(@Body() diamondId: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
         try {

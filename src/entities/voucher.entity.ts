@@ -1,10 +1,14 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { OrderEntity } from "./order.entity";
 
-@Entity('BillDiscount')
-export class BillDiscountEntity extends BaseEntity{
+@Entity('Voucher')
+export class VoucherEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
-    BillDiscountID:number
+    VoucherID:number
+    @Column({nullable: true})
+    VoucherCode: string
+    @Column({nullable:true})
+    Description: string
     @Column({type:'datetime'})
     StartDate: Date
     @Column({type: 'datetime'})

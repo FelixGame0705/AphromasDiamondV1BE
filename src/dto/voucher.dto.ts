@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsDate, IsNumber } from "class-validator"
 
-export class BillDiscountDTO{
-    BillDiscountID: number
+export class VoucherDTO{
+    VoucherID: number
 
     @ApiProperty({ example: '2023-06-14T14:30:00Z', description: 'Discount code effective date' })
     @IsDate()

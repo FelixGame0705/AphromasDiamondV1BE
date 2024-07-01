@@ -13,7 +13,7 @@ import { DiamondModule } from './modules/diamond/diamond.module';
 import { AuthGuard } from './modules/auth/auth.guard';
 import { RolesGuard } from './modules/auth/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
-import { BillDiscountEntity } from './entities/billDiscount.entity';
+import { VoucherEntity } from './entities/voucher.entity';
 import { CertificateEntity } from './entities/certificate.entity';
 import { CustomerEntity } from './entities/customer.entity';
 import { JewelryTypeEntity } from './entities/jewelryType.entity';
@@ -42,7 +42,7 @@ import { ProductEntity } from './entities/products.entity';
     }),
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
-      entities: [DiamondEntity, AccountsEntity, BillDiscountEntity, CertificateEntity,CustomerEntity, JewelryTypeEntity,MaterialJewelryEntity,
+      entities: [DiamondEntity, AccountsEntity, VoucherEntity, CertificateEntity,CustomerEntity, JewelryTypeEntity,MaterialJewelryEntity,
         NotificationEntity,OrderEntity,OrderLineEntity, JewelrySettingEntity, FeedbackEntity, SizeEntity, JewelrySettingVariantEntity, ProductEntity
       ]
     }),
