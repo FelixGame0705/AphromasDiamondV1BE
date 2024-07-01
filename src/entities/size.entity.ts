@@ -1,5 +1,6 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { SizeMatchShellEntity } from "./sizeMatchShell.entity";
+import { JewelrySettingVariantEntity } from "./jewlrySettingVariant.entity";
+import { JewelrySettingEntity } from "./jewelrySetting.entity";
 
 @Entity('Size')
 export class SizeEntity extends BaseEntity{
@@ -9,6 +10,6 @@ export class SizeEntity extends BaseEntity{
     SizeValue: number
     @Column()
     UnitOfMeasure: string
-    @OneToMany(()=>SizeMatchShellEntity, sizeMatchShell=>sizeMatchShell.size)
-    sizeMatchShell: SizeMatchShellEntity[]
+    @OneToMany(()=>JewelrySettingVariantEntity, JewelrySettingVariant=>JewelrySettingVariant.size)
+    jewelrySettingVariants: JewelrySettingVariantEntity[]
 }

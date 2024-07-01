@@ -1,7 +1,9 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { OrderEntity } from "./order.entity";
 import { DiamondEntity } from "./diamond.entity";
-import { ShellEntity } from "./shell.entity";
+import { JewelrySettingEntity } from "./jewelrySetting.entity";
+import { ProductEntity } from "./products.entity";
+import { CustomerEntity } from "./customer.entity";
 
 @Entity('OrderLine')
 export class OrderLineEntity extends BaseEntity{
@@ -13,15 +15,20 @@ export class OrderLineEntity extends BaseEntity{
     OrderID: number
     @Column({nullable: true})
     DiamondID: number
+    @Column({nullable:true})
+    ProductID: number
     @Column({nullable: true})
-    ShellID: number
+    CustomerID: number
     @ManyToOne(()=>OrderEntity, { nullable: true })
     @JoinColumn({name:'OrderID', referencedColumnName:'OrderID'})
     order: OrderEntity
     @OneToOne(()=>DiamondEntity, { nullable: true })
     @JoinColumn({name:'DiamondID', referencedColumnName:'DiamondID'})
     diamond: DiamondEntity
-    @ManyToOne(()=>ShellEntity, { nullable: true })
-    @JoinColumn({name:'ShellID', referencedColumnName:'ShellID'})
-    shell: ShellEntity
+    @ManyToOne(()=>ProductEntity, { nullable: true })
+    @JoinColumn({name:'ProductID', referencedColumnName:'ProductID'})
+    product: ProductEntity
+    @ManyToOne(()=>CustomerEntity, { nullable: true })
+    @JoinColumn({name:'CustomerID', referencedColumnName:'CustomerID'})
+    customer: CustomerEntity
 }

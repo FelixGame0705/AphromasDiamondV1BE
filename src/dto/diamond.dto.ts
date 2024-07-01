@@ -51,5 +51,5 @@ export class DiamondDTO{
     @ToDatabaseDateTime()
     UpdateTime: Date
     @ApiProperty({ example: null , description: 'Diamond' })
-    ShellID: number
+    JewelrySettingID: number
 }

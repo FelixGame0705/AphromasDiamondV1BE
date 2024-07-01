@@ -8,11 +8,11 @@ export class Feedback{
     CommentTime: Date
     IsActive: boolean
     DiamondID: number
-    ShellID: number
+    ProductID: number
     OrderID: number
     AccountID: number
     constructor({FeedbackID,Stars,Comment, CommentTime, IsActive, DiamondID
-        ,ShellID, OrderID, AccountID
+        ,ProductID, OrderID, AccountID
     }){
         this.FeedbackID = FeedbackID
         this.Stars = Stars
@@ -20,7 +20,7 @@ export class Feedback{
         this.CommentTime = CommentTime
         this.IsActive = IsActive
         this.DiamondID = DiamondID
-        this.ShellID = ShellID
+        this.ProductID = ProductID
         this.OrderID = OrderID
         this.AccountID = AccountID
     }

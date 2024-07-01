@@ -1,7 +1,7 @@
 import { FromDatabaseDateTime } from "src/constants/date-util"
 
  export class MaterialJewelry {
-    MaterialID: number
+    MaterialJewelryID: number
     BuyPrice: number
     SellPrice: number
     @FromDatabaseDateTime()
@@ -9,8 +9,8 @@ import { FromDatabaseDateTime } from "src/constants/date-util"
     Name: string
 
 
-    constructor({MaterialID, BuyPrice, SellPrice, UpdateTime, Name}){
-        if( MaterialID != undefined)this.MaterialID = MaterialID
+    constructor({MaterialJewelryID, BuyPrice, SellPrice, UpdateTime, Name}){
+        if( MaterialJewelryID != undefined)this.MaterialJewelryID = MaterialJewelryID
         if(BuyPrice != undefined)this.BuyPrice = BuyPrice;
         if(SellPrice !=undefined)this.SellPrice=SellPrice;
         if(UpdateTime !=undefined)this.UpdateTime= BuyPrice;

@@ -3,7 +3,8 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColu
 import { DiamondEntity } from "./diamond.entity";
 import { OrderEntity } from "./order.entity";
 import { AccountsEntity } from "./accounts.entity";
-import { ShellEntity } from "./shell.entity";
+import { JewelrySettingEntity } from "./jewelrySetting.entity";
+import { ProductEntity } from "./products.entity";
 
 @Entity('Feedback')
 export class FeedbackEntity extends BaseEntity{
@@ -20,21 +21,26 @@ export class FeedbackEntity extends BaseEntity{
     @Column({nullable:true})
     DiamondID: number
     @Column({nullable:true})
-    ShellID: number
+    JewelrySettingID: number
     @Column({nullable: true})
     OrderID: number
     @Column({nullable: true})
     AccountID: number
+    @Column({nullable:true})
+    ProductID: number
     @ManyToOne(()=>DiamondEntity, {nullable:true})
     @JoinColumn({name: 'DiamondID', referencedColumnName:'DiamondID'})
     diamond: DiamondEntity
-    @ManyToOne(()=>ShellEntity, {nullable:true})
-    @JoinColumn({name: 'ShellID', referencedColumnName:'ShellID'})
-    shell: ShellEntity
+    @ManyToOne(()=>JewelrySettingEntity, {nullable:true})
+    @JoinColumn({name: 'JewelrySettingID', referencedColumnName:'JewelrySettingID'})
+    jewelrySetting: JewelrySettingEntity
     @ManyToOne(()=>OrderEntity, {nullable:true})
     @JoinColumn({name: 'OrderID', referencedColumnName:'OrderID'})
     order: OrderEntity
     @ManyToOne(()=>AccountsEntity, {nullable:true})
     @JoinColumn({name: 'AccountID', referencedColumnName:'AccountID'})
     account: AccountsEntity
+    @ManyToOne(()=>ProductEntity, {nullable:true})
+    @JoinColumn({name: 'ProductID', referencedColumnName:'ProductID'})
+    product: ProductEntity
 }
