@@ -1,10 +1,11 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { ShellEntity } from "./shell.entity";
+import { JewelrySettingEntity } from "./jewelrySetting.entity";
+import { JewelrySettingVariantEntity } from "./jewlrySettingVariant.entity";
 
 @Entity('MaterialJewelry')
 export class MaterialJewelryEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
-    MaterialID: number
+    MaterialJewelryID: number
     @Column({nullable:true})
     BuyPrice: number
     @Column({nullable:true})
@@ -13,7 +14,7 @@ export class MaterialJewelryEntity extends BaseEntity{
     UpdateTime: Date
     @Column()
     Name: string
-    @OneToMany(()=>ShellEntity, shell=> shell.MarterialJewelrID)
-    shells: ShellEntity[]
+    @OneToMany(()=>JewelrySettingVariantEntity, jewelrySettingVariant=> jewelrySettingVariant.MaterialJewelryID)
+    jewelrySettingVariant: JewelrySettingVariantEntity[]
     //done
 }

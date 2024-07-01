@@ -1,6 +1,6 @@
 import { AbstractPromise } from "./AbstractRepository";
-import { Shell } from "src/models/shell.model";
+import { JewelrySetting } from "src/models/jewelrySetting.model";
 
-export interface IShellRepository extends AbstractPromise<Shell>{
-    findRelationById(id: number): Promise<Shell>;
+export interface IJewelrySettingRepository extends AbstractPromise<JewelrySetting>{
+    findRelationById(id: number): Promise<JewelrySetting>;
 }

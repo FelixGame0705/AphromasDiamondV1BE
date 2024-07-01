@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { JewelryTypeEntity } from "src/entities/jewelryType.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
-import { JewelryType } from "src/models/jewelrytype.model";
-import { Repository } from "typeorm";
+import { JewelryType } from "src/models/JewelryType.model";
+import { FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()
 export class JewelryTypeRepository extends BaseRepository<JewelryTypeEntity, Repository<JewelryTypeEntity>> implements JewelryTypeRepository{
@@ -22,7 +22,7 @@ export class JewelryTypeRepository extends BaseRepository<JewelryTypeEntity, Rep
     }
 
     async findAll(): Promise<JewelryTypeEntity[]> {
-        return await this.repository.find();   
-     }
+        return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<JewelryTypeEntity>});
+    }
 
 }

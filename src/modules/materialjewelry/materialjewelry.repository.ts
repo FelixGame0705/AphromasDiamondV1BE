@@ -18,7 +18,7 @@ export class MaterialJewelryRepository extends BaseRepository<MaterialJewelryEnt
     }
 
     protected getIdField(): keyof MaterialJewelry {
-        return 'MaterialID';
+        return 'MaterialJewelryID';
     }
 
     async findAll(): Promise<MaterialJewelryEntity[]> {

@@ -19,7 +19,7 @@ export class Diamond{
     ChargeRate: number
     @FromDatabaseDateTime()
     UpdateTime: Date
-    ShellID: number
+    JewelrySettingID: number
     constructor({
         DiamondID,
         Name,
@@ -38,8 +38,7 @@ export class Diamond{
         Symmetry,
         ChargeRate,
         UpdateTime,
-        ShellID}){
-            if(ShellID != undefined) this.ShellID = ShellID;
+        JewelrySettingID}){
             if(Name!= undefined) this.Name = Name;
             if(Cut!= undefined) this.Cut = Cut;
             if(Price!= undefined) this.Price = Price;
@@ -56,7 +55,7 @@ export class Diamond{
             if(Symmetry!= undefined) this.Symmetry = Symmetry;
             if(ChargeRate!= undefined) this.ChargeRate = ChargeRate;
             if(UpdateTime!=undefined) this.UpdateTime = UpdateTime;
-            if(ShellID!= undefined) this.ShellID = ShellID;
+            if(JewelrySettingID!= undefined) this.JewelrySettingID = JewelrySettingID;
     }
 	
     

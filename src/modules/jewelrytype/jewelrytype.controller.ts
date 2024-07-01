@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from "@nestjs/common";
-import { JewelryTypeService } from './jewelrytype.service';
+import { JewelryTypeService } from './jewelryType.service';
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseData } from "src/global/globalClass";
-import { JewelryType } from "src/models/jewelrytype.model";
+import { JewelryType } from "src/models/JewelryType.model";
 import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
 import { ResponseType } from "src/global/globalType";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";

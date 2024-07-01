@@ -1,6 +1,6 @@
-import { SizeMatchShell } from "src/models/sizeMatchShell.model";
+import { JewelrySettingVariant } from "src/models/jewelrySettingVariant.model";
 import { AbstractPromise } from "./AbstractRepository";
 
-export interface ISizeMatchShellRepository extends AbstractPromise<SizeMatchShell>{
-    findRelationById(id: number): Promise<SizeMatchShell>;
+export interface IJewelrySettingVariantRepository extends AbstractPromise<JewelrySettingVariant>{
+    findRelationById(id: number): Promise<JewelrySettingVariant>;
 }
