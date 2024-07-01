@@ -6,7 +6,7 @@ import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { BillDiscountDTO } from "src/dto/billdiscount.dto";
 import { ResponseData } from "src/global/globalClass";
 import { ResponseType } from "src/global/globalType";
-import { BillDiscountService } from './billdiscount.service';
+import { BillDiscountService } from './voucher.service';
 
 @ApiTags('BillDisCountApi')
 @Controller('billdiscount')
