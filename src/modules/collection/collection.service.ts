@@ -29,7 +29,6 @@ export class  CollectionService {
         Description: collectionResult.Description,
         DebutTime: collectionResult.DebutTime
     })
-    return await this.CollectionRepository.create(collection);
   }
 
   async update(id: number, collection: CollectionDTO): Promise<Collection> {

@@ -13,6 +13,6 @@ import { CollectionRepository } from "./collection.repository";
         provide: 'ICollectionRepository'
     }]
 })
-export class DiamondModule{
+export class CollectionModule{
 
 }

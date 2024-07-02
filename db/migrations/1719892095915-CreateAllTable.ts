@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateAllTable1719834021762 implements MigrationInterface {
-    name = 'CreateAllTable1719834021762'
+export class CreateAllTable1719892095915 implements MigrationInterface {
+    name = 'CreateAllTable1719892095915'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE \`Certificate\` (\`CerID\` int NOT NULL AUTO_INCREMENT, \`DiamondID\` int NULL, \`Name\` varchar(255) NULL, PRIMARY KEY (\`CerID\`)) ENGINE=InnoDB`);
@@ -21,6 +21,8 @@ export class CreateAllTable1719834021762 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE \`OrderLine\` (\`OrderLineID\` int NOT NULL AUTO_INCREMENT, \`Quantity\` int NOT NULL DEFAULT '1', \`OrderID\` int NULL, \`DiamondID\` int NULL, \`ProductID\` int NULL, \`CustomerID\` int NULL, UNIQUE INDEX \`REL_87d1a0e4fca950091a52e91be4\` (\`DiamondID\`), PRIMARY KEY (\`OrderLineID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Order\` (\`OrderID\` int NOT NULL AUTO_INCREMENT, \`OrderDate\` datetime NOT NULL, \`CompleteDate\` datetime NOT NULL, \`CustomerID\` int NULL, \`OrderStatus\` varchar(255) NULL, \`IsActive\` tinyint NOT NULL, \`AccountDeliveryID\` int NULL, \`AccountSaleID\` int NULL, PRIMARY KEY (\`OrderID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Voucher\` (\`VoucherID\` int NOT NULL AUTO_INCREMENT, \`VoucherCode\` varchar(255) NULL, \`Description\` varchar(255) NULL, \`StartDate\` datetime NOT NULL, \`EndDate\` datetime NOT NULL, \`PercentDiscounts\` int NOT NULL, \`OrderID\` int NULL, PRIMARY KEY (\`VoucherID\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`Image\` (\`ImageID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NOT NULL, \`url\` varchar(255) NULL, PRIMARY KEY (\`ImageID\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`UsingImage\` (\`UsingImageID\` int NOT NULL AUTO_INCREMENT, \`ProductID\` int NOT NULL, \`DiamondID\` int NULL, \`JewelrySettingID\` int NULL, \`ImageID\` int NULL, PRIMARY KEY (\`UsingImageID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`ALTER TABLE \`Certificate\` ADD CONSTRAINT \`FK_f336682a2e0a7a6d43e112ee8d6\` FOREIGN KEY (\`DiamondID\`) REFERENCES \`Diamond\`(\`DiamondID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Notification\` ADD CONSTRAINT \`FK_242207db359f002548b506633bf\` FOREIGN KEY (\`AccountID\`) REFERENCES \`Account\`(\`AccountID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Account\` ADD CONSTRAINT \`FK_1f40b69ab608afc66251c4d11ea\` FOREIGN KEY (\`CustomerID\`) REFERENCES \`Customer\`(\`CustomerID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -49,9 +51,17 @@ export class CreateAllTable1719834021762 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`Order\` ADD CONSTRAINT \`FK_615919c21ee5a55c66b3d7859d5\` FOREIGN KEY (\`AccountDeliveryID\`) REFERENCES \`Account\`(\`AccountID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Order\` ADD CONSTRAINT \`FK_badcce4599250806d6bff5426eb\` FOREIGN KEY (\`AccountSaleID\`) REFERENCES \`Account\`(\`AccountID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Voucher\` ADD CONSTRAINT \`FK_14b3ff9672754a7c6d0cfa5fe65\` FOREIGN KEY (\`OrderID\`) REFERENCES \`Order\`(\`OrderID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`UsingImage\` ADD CONSTRAINT \`FK_2a80b04b3dfa404b976d035aeb4\` FOREIGN KEY (\`ProductID\`) REFERENCES \`Product\`(\`ProductID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`UsingImage\` ADD CONSTRAINT \`FK_f7f9074e3314bdcf9d5d79eec9a\` FOREIGN KEY (\`DiamondID\`) REFERENCES \`Diamond\`(\`DiamondID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`UsingImage\` ADD CONSTRAINT \`FK_1af09bfef8153f175e16073587e\` FOREIGN KEY (\`JewelrySettingID\`) REFERENCES \`JewelrySetting\`(\`JewelrySettingID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`UsingImage\` ADD CONSTRAINT \`FK_3a13f3d75b795d5d4e043cd966c\` FOREIGN KEY (\`ImageID\`) REFERENCES \`Image\`(\`ImageID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`ALTER TABLE \`UsingImage\` DROP FOREIGN KEY \`FK_3a13f3d75b795d5d4e043cd966c\``);
+        await queryRunner.query(`ALTER TABLE \`UsingImage\` DROP FOREIGN KEY \`FK_1af09bfef8153f175e16073587e\``);
+        await queryRunner.query(`ALTER TABLE \`UsingImage\` DROP FOREIGN KEY \`FK_f7f9074e3314bdcf9d5d79eec9a\``);
+        await queryRunner.query(`ALTER TABLE \`UsingImage\` DROP FOREIGN KEY \`FK_2a80b04b3dfa404b976d035aeb4\``);
         await queryRunner.query(`ALTER TABLE \`Voucher\` DROP FOREIGN KEY \`FK_14b3ff9672754a7c6d0cfa5fe65\``);
         await queryRunner.query(`ALTER TABLE \`Order\` DROP FOREIGN KEY \`FK_badcce4599250806d6bff5426eb\``);
         await queryRunner.query(`ALTER TABLE \`Order\` DROP FOREIGN KEY \`FK_615919c21ee5a55c66b3d7859d5\``);
@@ -80,6 +90,8 @@ export class CreateAllTable1719834021762 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`Account\` DROP FOREIGN KEY \`FK_1f40b69ab608afc66251c4d11ea\``);
         await queryRunner.query(`ALTER TABLE \`Notification\` DROP FOREIGN KEY \`FK_242207db359f002548b506633bf\``);
         await queryRunner.query(`ALTER TABLE \`Certificate\` DROP FOREIGN KEY \`FK_f336682a2e0a7a6d43e112ee8d6\``);
+        await queryRunner.query(`DROP TABLE \`UsingImage\``);
+        await queryRunner.query(`DROP TABLE \`Image\``);
         await queryRunner.query(`DROP TABLE \`Voucher\``);
         await queryRunner.query(`DROP TABLE \`Order\``);
         await queryRunner.query(`DROP INDEX \`REL_87d1a0e4fca950091a52e91be4\` ON \`OrderLine\``);
