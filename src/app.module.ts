@@ -26,7 +26,7 @@ import { dataSourceOptions } from 'db/data-source';
 import { NotificationModule } from './modules/notification/notification.module';
 import { OrderModule } from './modules/order/order.module';
 import { OrderLineModule } from './modules/orderline/orderLine.module';
-import { JewelryTypeModule } from './modules/jewelrytype/jewelryType.module';
+import { JewelryTypeModule } from './modules/jewelryType/jewelryType.module';
 import { MaterialJewelryModule } from './modules/materialjewelry/materialjewelry.module';
 import { FeedbackEntity } from './entities/feedback.entity';
 import { JewelrySettingModule } from './modules/jewelrySetting/jewelrySetting.module';
@@ -35,6 +35,9 @@ import { JewelrySettingVariantEntity } from './entities/jewlrySettingVariant.ent
 import { SizeModule } from './modules/size/size.module';
 import { JewelrySettingVariantModule } from './modules/jewelrySettingVariant/jewelrySettingVariant.module';
 import { ProductEntity } from './entities/products.entity';
+import { CollectionEntity } from './entities/collection.entity';
+import { DiscountEntity } from './entities/discount.entity';
+import { CollectionModule } from './modules/collection/collection.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -43,7 +46,7 @@ import { ProductEntity } from './entities/products.entity';
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
       entities: [DiamondEntity, AccountsEntity, VoucherEntity, CertificateEntity,CustomerEntity, JewelryTypeEntity,MaterialJewelryEntity,
-        NotificationEntity,OrderEntity,OrderLineEntity, JewelrySettingEntity, FeedbackEntity, SizeEntity, JewelrySettingVariantEntity, ProductEntity
+        NotificationEntity,OrderEntity,OrderLineEntity, JewelrySettingEntity, FeedbackEntity, SizeEntity, JewelrySettingVariantEntity, ProductEntity,CollectionEntity, DiscountEntity
       ]
     }),
     JwtModule.register({
@@ -54,7 +57,7 @@ import { ProductEntity } from './entities/products.entity';
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-    SizeModule, JewelrySettingVariantModule
+    SizeModule, JewelrySettingVariantModule, CollectionModule
   ],
   controllers: [AppController],
   providers: [

@@ -14,11 +14,11 @@ export class ProductEntity extends BaseEntity{
     @Column({nullable: true})
     JewelrySettingID: number
     @Column({nullable: true})
-    AccountID: string
+    AccountID: number
     @Column({nullable: true})
-    CollectionID: string
+    CollectionID: number
     @Column({nullable: true})
-    DiscountID: string
+    DiscountID: number
     @OneToMany(()=>DiamondEntity, diamond=>diamond.ProductID)
     diamonds: DiamondEntity[]
     @OneToOne(()=>JewelrySettingEntity, jewelrySetting => jewelrySetting.ProductID)
