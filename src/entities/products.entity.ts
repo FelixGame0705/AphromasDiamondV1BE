@@ -3,6 +3,9 @@ import { JewelrySettingVariantEntity } from "./jewlrySettingVariant.entity";
 import { JewelrySettingEntity } from "./jewelrySetting.entity";
 import { DiamondEntity } from "./diamond.entity";
 import { CustomerEntity } from "./customer.entity";
+import { AccountsEntity } from "./accounts.entity";
+import { CollectionEntity } from "./collection.entity";
+import { DiscountEntity } from "./discount.entity";
 
 @Entity('Product')
 export class ProductEntity extends BaseEntity{
@@ -11,12 +14,22 @@ export class ProductEntity extends BaseEntity{
     @Column({nullable: true})
     JewelrySettingID: number
     @Column({nullable: true})
-    CustomerID: string
+    AccountID: string
+    @Column({nullable: true})
+    CollectionID: string
+    @Column({nullable: true})
+    DiscountID: string
     @OneToMany(()=>DiamondEntity, diamond=>diamond.ProductID)
     diamonds: DiamondEntity[]
     @OneToOne(()=>JewelrySettingEntity, jewelrySetting => jewelrySetting.ProductID)
     jewelrySettings: JewelrySettingEntity[]
-    @ManyToOne(()=>CustomerEntity, {nullable:true})
-    @JoinColumn({name:'CustomerID', referencedColumnName:'CustomerID'})
-    customer: CustomerEntity
+    @ManyToOne(()=>AccountsEntity, {nullable:true})
+    @JoinColumn({name:'AccountID', referencedColumnName:'AccountID'})
+    account: AccountsEntity
+    @ManyToOne(()=>CollectionEntity, {nullable: true})
+    @JoinColumn({name: 'CollectionID', referencedColumnName:'CollectionID'})
+    collection: CollectionEntity
+    @ManyToOne(()=>DiscountEntity, {nullable: true})
+    @JoinColumn({name: 'DiscountID', referencedColumnName:'DiscountID'})
+    discount: DiscountEntity
 }

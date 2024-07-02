@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ShellDTO as JewelrySettingDTO } from "src/dto/shell.dto";
+import { ShellDTO as JewelrySettingDTO } from "src/dto/jewelrySetting.dto";
 import { SizeDTO } from "src/dto/size.dto";
 import { IJewelrySettingRepository as IJewelrySettingRepository } from "src/interfaces/IShellRepository";
 import { JewelrySetting } from "src/models/jewelrySetting.model";

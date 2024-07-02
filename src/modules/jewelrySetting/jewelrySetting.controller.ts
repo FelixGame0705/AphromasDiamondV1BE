@@ -3,7 +3,7 @@ import { JewelrySettingService } from './jewelrySetting.service';
 import { Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
 import { ResponseData } from 'src/global/globalClass';
-import { ShellDTO } from 'src/dto/shell.dto';
+import { ShellDTO as JewelrySettingDTO } from 'src/dto/jewelrySetting.dto';
 import { JewelrySetting } from 'src/models/jewelrySetting.model';
 import { ResponseType } from 'src/global/globalType';
 import { ApiTags } from '@nestjs/swagger';
@@ -19,8 +19,8 @@ export class JewelrySettingController {
     @Roles(Role.Customer, Role.Manager, Role.Admin)
     async findAll(): Promise<ResponseData<JewelrySetting[]>> {
         try {
-            const shell = await this.jewelrySettingService.findAll();
-            return new ResponseData<JewelrySetting[]>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            const jewelrySetting = await this.jewelrySettingService.findAll();
+            return new ResponseData<JewelrySetting[]>(jewelrySetting, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<JewelrySetting[]>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
@@ -29,9 +29,9 @@ export class JewelrySettingController {
 
     @Post('/create')
     @Roles(Role.Manager, Role.Customer)
-    async create(@Body() shellDto: ShellDTO): Promise<ResponseData<JewelrySetting>> {
+    async create(@Body() jewelrySettingDTO: JewelrySettingDTO): Promise<ResponseData<JewelrySetting>> {
         try {
-            const shell = await this.jewelrySettingService.create(shellDto);
+            const shell = await this.jewelrySettingService.create(jewelrySettingDTO);
             return new ResponseData<JewelrySetting>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<JewelrySetting>(null, HttpStatus.ERROR, HttpMessage.ERROR);
@@ -40,9 +40,9 @@ export class JewelrySettingController {
 
     @Put('/update/:id')
     @Roles(Role.Customer)
-    async update(@Param('id') id: number, @Body() shellDto: ShellDTO): Promise<ResponseType<JewelrySetting>> {
+    async update(@Param('id') id: number, @Body() JewelrySettingDTO: JewelrySettingDTO): Promise<ResponseType<JewelrySetting>> {
         try {
-            const shell = await this.jewelrySettingService.update(id, shellDto);
+            const shell = await this.jewelrySettingService.update(id, JewelrySettingDTO);
             return new ResponseData<JewelrySetting>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<JewelrySetting>(null, HttpStatus.ERROR, HttpMessage.ERROR);

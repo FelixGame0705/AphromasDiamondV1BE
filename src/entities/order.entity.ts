@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { BillDiscountEntity } from "./billDiscount.entity";
+import { VoucherEntity } from "./voucher.entity";
 import { OrderLineEntity } from "./orderLine.entity";
 import { CustomerEntity } from "./customer.entity";
 import { AccountsEntity } from "./accounts.entity";
@@ -31,8 +31,8 @@ export class OrderEntity extends BaseEntity{
     @Column({ nullable: true })
     AccountSaleID: number;
 
-    @OneToMany(() => BillDiscountEntity, billDiscount => billDiscount.order)
-    billDiscount: BillDiscountEntity[];
+    @OneToMany(() => VoucherEntity, voucher => voucher.order)
+    voucher: VoucherEntity[];
 
     @OneToMany(() => OrderLineEntity, orderLine => orderLine.order)
     @JoinColumn()
