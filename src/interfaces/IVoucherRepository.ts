@@ -1,7 +1,7 @@
 import { Voucher } from "src/models/voucher.model";
 import { AbstractPromise } from "./AbstractRepository";
 
-export interface IBillDiscountRepository extends AbstractPromise<Voucher>{
+export interface IVoucherRepository extends AbstractPromise<Voucher>{
     findRelationById(id: number): Promise<Voucher>;
     paginateAndFilter(
         page: number,

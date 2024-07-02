@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Voucher } from "src/models/voucher.model";
-import { IBillDiscountRepository as IVoucherRepository } from "src/interfaces/IBillDiscountRepository";
+import { IVoucherRepository as IVoucherRepository } from "src/interfaces/IVoucherRepository";
 
 @Injectable()
 export class  VoucherService {

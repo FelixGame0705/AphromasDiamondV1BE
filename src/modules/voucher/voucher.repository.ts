@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { VoucherEntity } from "src/entities/voucher.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
-import { IBillDiscountRepository } from "src/interfaces/IBillDiscountRepository";
+import { IVoucherRepository } from "src/interfaces/IVoucherRepository";
 import { Voucher } from "src/models/voucher.model";
 import { Repository } from "typeorm";
  
@@ -11,7 +11,7 @@ import { Repository } from "typeorm";
 
 
 @Injectable()
-export class VoucherRepository extends BaseRepository<VoucherEntity, Repository<VoucherEntity>> implements IBillDiscountRepository{
+export class VoucherRepository extends BaseRepository<VoucherEntity, Repository<VoucherEntity>> implements IVoucherRepository{
     constructor(
         @InjectRepository(VoucherEntity)
         protected readonly repository: Repository<VoucherEntity>
