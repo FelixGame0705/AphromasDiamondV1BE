@@ -31,57 +31,13 @@ export class DiscountController {
         }
     }
 
-    @Get('/showDiamonds')
-    @ApiQuery({ 
-        name: 'page', 
-        required: false, 
-        type: Number, 
-        description: 'Page number', 
-        example: 1 
-    })
-    @ApiQuery({ 
-        name: 'Shape', 
-        required: false, 
-        type: String, 
-        description: 'Diamond shape' 
-    })
-    @ApiQuery({ 
-        name: 'Color', 
-        required: false, 
-        type: String, 
-        description: 'Diamond color' 
-    })
-    @ApiQuery({
-        name: 'sortField',
-        required: false,
-        type: String,
-        description: 'Field to sort'
-    })
-    @ApiQuery({
-        name: 'sortOrder',
-        required: false,
-        type: String,
-        description: 'ASC or DESC'
-    })
-    @Public()
-    async showProducts(@Query() query: any) {
-        const page: number = parseInt(query.page as any) || 1;
-        const filters = {
-            Shape: query.Shape,
-            Color: query.Color
-        };
-        const sort = {
-            field: query.sortField || 'Name',
-            order: query.sortOrder || 'ASC'
-        };
-
-        return this.discountService.getDiamonds(page, filters, sort);
-    }
+    
+     
 
     @Get('/:id')
     @Public()
-    @ApiParam({ name: 'id', description: 'ID of the discount to watch detail', type: Number })
-    async detailProduct(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Discount>> {
+    @ApiParam({ name: 'id', description: 'Discount detail', type: Number })
+    async detailDiscount(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Discount>> {
         try {
             const discount = await this.discountService.findById(id);
             return new ResponseData<Discount>(discount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);

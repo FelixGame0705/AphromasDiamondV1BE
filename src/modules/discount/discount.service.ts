@@ -35,8 +35,5 @@ export class DiscountService{
     async findRelationById(id: number):Promise<Discount>{
         return await this.discountRepository.findRelationById(id);
     }
-    async getDiamonds(page: number, filters: any, sort: { field: string, order: 'ASC' | 'DESC' }) {
-        const perPage = PRODUCT_PER_PAGE;
-        return this.discountRepository.paginateAndFilter(page, perPage, filters, sort);
-    }
+     
 }
