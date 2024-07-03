@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { MaterialJewelryRepository } from "src/interfaces/MaterialJewelryRepository";
+import { IMaterialJewelryRepository } from "src/interfaces/IMaterialJewelryRepository";
 import { MaterialJewelry } from "src/models/materialjewelry.model";
 
 @Injectable()
@@ -7,7 +7,7 @@ export class  MaterialJewelryService {
 
   constructor(
     @Inject('MaterialJewelryRepository')  
-    private readonly MaterialJewelryRepository: MaterialJewelryRepository
+    private readonly MaterialJewelryRepository: IMaterialJewelryRepository
   ) {}
 
   async findAll(): Promise<MaterialJewelry[]> {
