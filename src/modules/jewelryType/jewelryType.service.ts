@@ -1,13 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { JewelryTypeRepository } from "src/interfaces/JewelryTypeRepository";
-import { JewelryType } from "src/models/JewelryType.model";
+import { IJewelryTypeRepository } from "src/interfaces/IJewelryTypeRepository";
+import { JewelryType } from "src/models/jewelryType.model";
+
 
 @Injectable()
 export class JewelryTypeService {
 
   constructor(
-    @Inject('JewelryTypeRepository')  
-    private readonly JewelryTypeRepository: JewelryTypeRepository
+    @Inject('IJewelryTypeRepository')  
+    private readonly JewelryTypeRepository: IJewelryTypeRepository
   ) {}
 
   async findAll(): Promise<JewelryType[]> {
