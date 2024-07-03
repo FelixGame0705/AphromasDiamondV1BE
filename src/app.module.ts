@@ -26,7 +26,7 @@ import { dataSourceOptions } from 'db/data-source';
 import { NotificationModule } from './modules/notification/notification.module';
 import { OrderModule } from './modules/order/order.module';
 import { OrderLineModule } from './modules/orderline/orderLine.module';
-import { JewelryTypeModule } from './modules/jewelrytype/jewelryType.module';
+import { JewelryTypeModule } from './modules/jewelryType/jewelryType.module';
 import { MaterialJewelryModule } from './modules/materialjewelry/materialjewelry.module';
 import { FeedbackEntity } from './entities/feedback.entity';
 import { JewelrySettingModule } from './modules/jewelrySetting/jewelrySetting.module';
