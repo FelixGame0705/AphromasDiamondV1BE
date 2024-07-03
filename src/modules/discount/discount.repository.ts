@@ -23,7 +23,7 @@ export class DiscountRepository extends BaseRepository<DiscountEntity, Repositor
     }
 
     async findAll(): Promise<DiscountEntity[]> {
-        return await this.repository.find({where: { IsActive: true } as FindOptionsWhere<DiscountEntity>});
+        return await this.repository.find();
     }
 
     
