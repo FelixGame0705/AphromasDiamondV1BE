@@ -38,6 +38,7 @@ import { ProductEntity } from './entities/products.entity';
 import { CollectionEntity } from './entities/collection.entity';
 import { DiscountEntity } from './entities/discount.entity';
 import { CollectionModule } from './modules/collection/collection.module';
+import { DiscountModule } from './modules/discount/discount.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -57,7 +58,7 @@ import { CollectionModule } from './modules/collection/collection.module';
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-    SizeModule, JewelrySettingVariantModule, CollectionModule
+    SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule
   ],
   controllers: [AppController],
   providers: [
