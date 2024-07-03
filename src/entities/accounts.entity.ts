@@ -2,6 +2,8 @@ import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryCol
 import { NotificationEntity } from "./notification.entity";
 import { CustomerEntity } from "./customer.entity";
 import { FeedbackEntity } from "./feedback.entity";
+import { CollectionEntity } from "./collection.entity";
+import { ProductEntity } from "./products.entity";
 @Entity('Account')
 export class AccountsEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -23,5 +25,7 @@ export class AccountsEntity extends BaseEntity{
     customer:CustomerEntity
     @OneToMany(()=>FeedbackEntity, feedback => feedback.account)
     feedback: FeedbackEntity[]
+    @OneToMany(()=>ProductEntity, product => product.account)
+    product: ProductEntity[]
     //Done
 }
