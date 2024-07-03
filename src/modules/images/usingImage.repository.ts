@@ -14,6 +14,7 @@ export class UsingImageRepository extends BaseRepository<UsingImageEntity, Repos
     ){
         super(repository);
     }
+
     findRelationById(id: number): Promise<UsingImage> {
         return null;
     }

@@ -8,13 +8,13 @@ import { JewelrySettingEntity } from "./jewelrySetting.entity";
 export class UsingImageEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     UsingImageID: number
-    @Column()
+    @Column({nullable: true})
     ProductID: number
     @Column({nullable: true})
     DiamondID: number
     @Column({nullable: true})
     JewelrySettingID: number
-    @Column()
+    @Column({nullable: true})
     Name: string
     @Column({nullable: true})
     url: string
