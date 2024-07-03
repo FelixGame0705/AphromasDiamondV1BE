@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res, ValidationPipe } from "@nestjs/common";
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { Discount } from 'src/models/discount.model';
 import { DiscountService } from "./discount.service";
 import { Public, Roles } from "src/constants/decorator";
@@ -20,7 +20,6 @@ export class DiscountController {
         summary: 'Get all discount', 
         description: 'Retrieve all discount from the database.' 
     })
-    
     @Public()
     async findAll(): Promise<ResponseData<Discount[]>> {
         try{
@@ -50,6 +49,7 @@ export class DiscountController {
 
     @ApiBearerAuth()
     @Post('/create')
+    @ApiBody({ type: DiscountDTO, description: 'The data to create discount'})
     @Roles(Role.Customer, Role.Admin, Role.Manager)
     async create(@Body() DiscountDTO): Promise<ResponseData<Discount>> {
         try {
