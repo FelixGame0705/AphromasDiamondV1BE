@@ -6,7 +6,7 @@ import { ResponseData } from 'src/global/globalClass';
 import { ShellDTO as JewelrySettingDTO } from 'src/dto/jewelrySetting.dto';
 import { JewelrySetting } from 'src/models/jewelrySetting.model';
 import { ResponseType } from 'src/global/globalType';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('JewelrySetting')
 @Controller('jewelrySetting')
@@ -39,6 +39,7 @@ export class JewelrySettingController {
     }
 
     @Put('/update/:id')
+    @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
     @Roles(Role.Customer)
     async update(@Param('id') id: number, @Body() JewelrySettingDTO: JewelrySettingDTO): Promise<ResponseType<JewelrySetting>> {
         try {
@@ -49,8 +50,9 @@ export class JewelrySettingController {
         }
     }
 
-    @Post('/delete')
-    @Roles(Role.Admin, Role.Manager, Role.Customer)
+    @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
+    @Post('/delete/:id')
+    @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number): Promise<ResponseType<JewelrySetting>> {
         try {
             const isDeleted = await this.jewelrySettingService.delete(id);

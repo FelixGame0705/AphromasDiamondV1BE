@@ -16,7 +16,6 @@ export class MaterialJewelryController{
     }
     @Public()
     @Get('/showAll')
-    @Roles(Role.Customer, Role.Manager, Role.Admin)
     async findAll(): Promise<ResponseData<MaterialJewelry[]>> {
         try{
             const materialjewelry = await this.materialjewelryService.findAll();
