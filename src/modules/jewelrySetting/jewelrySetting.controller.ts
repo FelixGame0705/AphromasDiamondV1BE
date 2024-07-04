@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { JewelrySettingService } from './jewelrySetting.service';
-import { Roles } from 'src/constants/decorator';
+import { Public, Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
 import { ResponseData } from 'src/global/globalClass';
 import { ShellDTO as JewelrySettingDTO } from 'src/dto/jewelrySetting.dto';
 import { JewelrySetting } from 'src/models/jewelrySetting.model';
 import { ResponseType } from 'src/global/globalType';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('JewelrySetting')
 @Controller('jewelrySetting')
@@ -14,9 +14,9 @@ export class JewelrySettingController {
     constructor(private jewelrySettingService: JewelrySettingService) {
     }
 
-
+    @ApiBearerAuth()
     @Get('/showAll')
-    @Roles(Role.Customer, Role.Manager, Role.Admin)
+    @Public()
     async findAll(): Promise<ResponseData<JewelrySetting[]>> {
         try {
             const jewelrySetting = await this.jewelrySettingService.findAll();
@@ -26,7 +26,7 @@ export class JewelrySettingController {
         }
     }
 
-
+    @ApiBearerAuth()
     @Post('/create')
     @Roles(Role.Manager, Role.Customer)
     async create(@Body() jewelrySettingDTO: JewelrySettingDTO): Promise<ResponseData<JewelrySetting>> {
@@ -38,6 +38,7 @@ export class JewelrySettingController {
         }
     }
 
+    @ApiBearerAuth()
     @Put('/update/:id')
     @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
     @Roles(Role.Customer)
@@ -50,6 +51,7 @@ export class JewelrySettingController {
         }
     }
 
+    @ApiBearerAuth()
     @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
     @Post('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
