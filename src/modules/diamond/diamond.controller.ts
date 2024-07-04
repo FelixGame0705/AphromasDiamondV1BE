@@ -86,9 +86,10 @@ export class DiamondController {
     // @Roles(Role.Admin 
     async detailProduct(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
         try {
-            return res.json(new ResponseData(await this.diamondService.findById(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
+            return res.json(new ResponseData(await this.diamondService.findRelationById(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
         }
         catch (error) {
+            console.log(error)
             return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
         }
     }
