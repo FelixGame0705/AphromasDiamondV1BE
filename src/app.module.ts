@@ -38,6 +38,8 @@ import { ProductEntity } from './entities/products.entity';
 import { CollectionEntity } from './entities/collection.entity';
 import { DiscountEntity } from './entities/discount.entity';
 import { CollectionModule } from './modules/collection/collection.module';
+import { UsingImageModule } from './modules/images/usingImage.module';
+import { UsingImageEntity } from './entities/usingImage.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -46,7 +48,7 @@ import { CollectionModule } from './modules/collection/collection.module';
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
       entities: [DiamondEntity, AccountsEntity, VoucherEntity, CertificateEntity,CustomerEntity, JewelryTypeEntity,MaterialJewelryEntity,
-        NotificationEntity,OrderEntity,OrderLineEntity, JewelrySettingEntity, FeedbackEntity, SizeEntity, JewelrySettingVariantEntity, ProductEntity,CollectionEntity, DiscountEntity
+        NotificationEntity,OrderEntity,OrderLineEntity, JewelrySettingEntity, FeedbackEntity, SizeEntity, JewelrySettingVariantEntity, ProductEntity,CollectionEntity, DiscountEntity, UsingImageEntity
       ]
     }),
     JwtModule.register({
@@ -57,7 +59,7 @@ import { CollectionModule } from './modules/collection/collection.module';
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-    SizeModule, JewelrySettingVariantModule, CollectionModule
+    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule
   ],
   controllers: [AppController],
   providers: [
