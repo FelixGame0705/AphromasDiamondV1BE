@@ -4,6 +4,7 @@ import { DiamondEntity } from "src/entities/diamond.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IDiamondRepository } from "src/interfaces/IDiamondRepository";
 import { Diamond } from "src/models/diamond.model";
+import { UsingImage } from "src/models/usingImage.model";
 import { FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()
@@ -14,8 +15,8 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
     ){
         super(repository);
     }
-    findRelationById(id: number): Promise<Diamond> {
-        return null;
+    async findRelationById(id: number): Promise<Diamond> {
+        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['usingImage']})
     }
 
     protected getIdField(): keyof Diamond {
@@ -32,7 +33,7 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
         filters: any,
         sort: { field: string, order: 'ASC' | 'DESC' }
     ): Promise<{ data: DiamondEntity[], total: number, page: number, last_page: number }> {
-        const builder = this.repository.createQueryBuilder('diamond');
+        const builder = this.repository.createQueryBuilder('diamond').leftJoinAndSelect('diamond.usingImage', 'usingImage');;
 
         // Apply filters
         if (filters.Shape) {

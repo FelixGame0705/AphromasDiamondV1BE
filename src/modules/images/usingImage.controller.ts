@@ -4,7 +4,7 @@ import { UsingImageService } from './usingImage.service';
 import { Response } from 'express';
 import { join } from 'path';
 import { ApiBody, ApiConsumes, ApiParam, ApiTags } from '@nestjs/swagger';
-import { UsingImageDTO } from 'src/dto/usingImage.dto';
+import { UsingImageDTO, UsingImageUpdateDTO } from 'src/dto/usingImage.dto';
 import { Public } from 'src/constants/decorator';
 import { UsingImage } from 'src/models/usingImage.model';
 import { HttpMessage, HttpStatus } from 'src/global/globalEnum';
@@ -30,11 +30,11 @@ export class UsingImageController {
       return `${host}/usingImage/${(await entity).UsingImageID}`;
     }));
   }
-
+  @Public()
   @Put('/update/:id')
   @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
-  @Public()
-  async update(@Param('id') id: number, @Body() UsingImageDTO: UsingImageDTO): Promise<ResponseType<UsingImage>> {
+  
+  async update(@Param('id') id: number, @Body() UsingImageDTO: UsingImageUpdateDTO): Promise<ResponseType<UsingImage>> {
     try {
       const usingImage = await this.usingImageService.update(id, UsingImageDTO);
       return new ResponseData<UsingImage>(usingImage, HttpStatus.SUCCESS, HttpMessage.SUCCESS);

@@ -6,6 +6,7 @@ import { CustomerEntity } from "./customer.entity";
 import { AccountsEntity } from "./accounts.entity";
 import { CollectionEntity } from "./collection.entity";
 import { DiscountEntity } from "./discount.entity";
+import { UsingImageEntity } from "./usingImage.entity";
 
 @Entity('Product')
 export class ProductEntity extends BaseEntity{
@@ -32,4 +33,6 @@ export class ProductEntity extends BaseEntity{
     @ManyToOne(()=>DiscountEntity, {nullable: true})
     @JoinColumn({name: 'DiscountID', referencedColumnName:'DiscountID'})
     discount: DiscountEntity
+    @OneToMany(()=>UsingImageEntity, usingImage => usingImage.product)
+    usingImage: UsingImageEntity[]
 }
