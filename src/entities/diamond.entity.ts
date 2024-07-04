@@ -6,6 +6,7 @@ import { JewelrySettingEntity } from "./jewelrySetting.entity";
 import { ProductEntity } from "./products.entity";
 import { CollectionEntity } from "./collection.entity";
 import { DiscountEntity } from "./discount.entity";
+import { UsingImageEntity } from "./usingImage.entity";
 @Entity('Diamond')
 export class DiamondEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -70,5 +71,7 @@ export class DiamondEntity extends BaseEntity{
     @ManyToOne(()=>DiscountEntity,{nullable: true})
     @JoinColumn({name:'DiscountID', referencedColumnName: 'DiscountID'})
     discount: DiscountEntity
+    @OneToMany(()=>UsingImageEntity, usingImage => usingImage.diamond)
+    usingImage: UsingImageEntity[]
     //done
 }

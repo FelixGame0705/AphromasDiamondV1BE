@@ -6,6 +6,7 @@ import { FeedbackEntity } from "./feedback.entity";
 import { JewelrySettingVariantEntity } from "./jewlrySettingVariant.entity";
 import { OrderLineEntity } from "./orderLine.entity";
 import { ProductEntity } from "./products.entity";
+import { UsingImageEntity } from "./usingImage.entity";
 
 @Entity('JewelrySetting')
 export class JewelrySettingEntity extends BaseEntity{
@@ -39,5 +40,7 @@ export class JewelrySettingEntity extends BaseEntity{
     @OneToOne(()=>ProductEntity, product => product.JewelrySettingID)
     @JoinColumn({name:'ProductID', referencedColumnName:'ProductID'})
     product: ProductEntity
+    @OneToMany(()=>UsingImageEntity, usingImage => usingImage.jewelrySetting)
+    usingImage: UsingImageEntity[]
     //done
 }
