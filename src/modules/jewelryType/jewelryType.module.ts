@@ -10,7 +10,7 @@ import { JewelryTypeRepository } from "./jewelryType.repository";
     controllers: [JewelryTypeController],
     providers: [JewelryTypeService, {
         useClass:  JewelryTypeRepository,
-        provide: 'JewelryTypeRepository'
+        provide: 'IJewelryTypeRepository'
     }]
 })
 export class JewelryTypeModule{
