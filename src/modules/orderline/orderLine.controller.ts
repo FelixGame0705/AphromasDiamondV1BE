@@ -11,47 +11,43 @@ import { OrderLine } from "src/models/orderline.model";
 
 @ApiTags('OrderLineApi')
 @Controller("orderLine")
-export class OrderLineController{
-    constructor(private orderService: OrderLineService) {
-    }
-    
+export class OrderLineController {
+    constructor(private orderService: OrderLineService) {}
+
+    @Roles(Role.Customer, Role.Admin)
     @ApiBearerAuth()
     @Get('/showAll')
-    @ApiOperation({ 
-        summary: 'Get all order', 
-        description: 'Retrieve all orders from the database.' 
+    @ApiOperation({
+        summary: 'Get all order',
+        description: 'Retrieve all orders from the database.'
     })
-    
-    @Roles(Role.Customer)
-    // @Roles(Role.Admin 
     async list(@Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(new ResponseData(await this.orderService.findAll(), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
-        }
-        catch (error) {
+        } catch (error) {
             return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
         }
     }
 
     @Get('/showOrders')
-    @ApiQuery({ 
-        name: 'page', 
-        required: false, 
-        type: Number, 
-        description: 'Page number', 
-        example: 1 
+    @ApiQuery({
+        name: 'page',
+        required: false,
+        type: Number,
+        description: 'Page number',
+        example: 1
     })
-    @ApiQuery({ 
-        name: 'Search', 
-        required: false, 
-        type: String, 
-        description: 'Search information' 
+    @ApiQuery({
+        name: 'Search',
+        required: false,
+        type: String,
+        description: 'Search information'
     })
-    @ApiQuery({ 
-        name: 'Status', 
-        required: false, 
-        type: String, 
-        description: 'Filter status' 
+    @ApiQuery({
+        name: 'Status',
+        required: false,
+        type: String,
+        description: 'Filter status'
     })
     @Public()
     async showProducts(@Query() query: any) {
@@ -67,25 +63,21 @@ export class OrderLineController{
         return this.orderService.getOrders(page, filters, sort);
     }
 
+    @Roles(Role.Customer, Role.Admin)
     @Get('/:id')
-    @Roles(Role.Customer)
     @ApiParam({ name: 'id', description: 'ID of the order to watch detail', type: Number })
-    // @Roles(Role.Admin 
     async detailProduct(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(new ResponseData(await this.orderService.findById(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
-        }
-        catch (error) {
+        } catch (error) {
             return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
         }
     }
 
-
-
+    @Roles(Role.Customer, Role.Admin)
     @ApiBearerAuth()
     @Post('/create')
-    @Roles(Role.Customer)
-    @ApiBody({ type: OrderLineDTO, description: 'The data to update an existing order'})
+    @ApiBody({ type: OrderLineDTO, description: 'The data to create a new order' })
     async create(@Body(new ValidationPipe()) order: OrderLineDTO, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(
@@ -98,10 +90,12 @@ export class OrderLineController{
         }
     }
 
+    @Roles(Role.Customer, Role.Admin, Role.Manager)
+    @ApiBearerAuth()
     @ApiParam({ name: 'id', description: 'ID of the order to update', type: Number })
     @Put('/update/:id')
-    @Roles(Role.Customer)
-    async update(@Param('id') id: number, @Body() order: OrderLineDTO, @Res() res: Response): Promise<ResponseType<OrderLine>> {
+    @ApiBody({ type: OrderLineDTO, description: 'The data to update' })
+    async update(@Param('id') id: number, @Body(new ValidationPipe()) order: OrderLineDTO, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(
                 new ResponseData(await this.orderService.update(id, order), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
@@ -113,8 +107,8 @@ export class OrderLineController{
         }
     }
 
-    @Post('/delete')
     @Roles(Role.Admin, Role.Manager, Role.Customer)
+    @Post('/delete')
     async delete(@Body() orderID: number, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(

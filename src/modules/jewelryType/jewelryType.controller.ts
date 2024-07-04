@@ -5,7 +5,7 @@ import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseData } from "src/global/globalClass";
 import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
 import { ResponseType } from "src/global/globalType";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { JewelryType } from "src/models/jewelryType.model";
  
 @ApiTags('JewelryTypeApi')
@@ -38,6 +38,7 @@ export class JewelryTypeController{
     }
 
     @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
     @Put('/update/:id')
     @Roles(Role.Manager, Role.Admin)
     async update(@Param('id') id: number, @Body()  jewelrytypeDto: JewelryTypeDTO): Promise<ResponseType<JewelryType>> {
@@ -50,7 +51,8 @@ export class JewelryTypeController{
     }
 
     @ApiBearerAuth()
-    @Post('/delete')
+    @ApiParam({ name: 'id', description: 'ID for delete ', type: Number })
+    @Post('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number): Promise<ResponseType<JewelryType>> {
         try {
