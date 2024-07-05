@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res } from "@nestjs/common";
 import { FeedbackService } from './feedback.service';
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -91,7 +91,7 @@ export class FeedbackController{
     }
 
 
-    @Post('/delete')
+    @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number): Promise<ResponseType<Feedback>> {
         try {

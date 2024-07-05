@@ -6,8 +6,10 @@ export class OrderLineDTO{
     Quantity: number
     @ApiProperty({ example: 1, description: 'OrderID' })
     OrderID: number
-    @ApiProperty({ example: null, description: 'OrderID' })
+    @ApiProperty({ example: null, description: 'DiamondID' })
     DiamondID: number
-    @ApiProperty({ example: null, description: 'OrderID' })
+    @ApiProperty({ example: null, description: 'ProductID' })
     ProductID: number
+    @ApiProperty({ example: null, description: 'CustomerID' })
+    CustomerID: number
 }

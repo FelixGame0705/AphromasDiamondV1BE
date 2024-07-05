@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { JewelrySettingService } from './jewelrySetting.service';
 import { Public, Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
@@ -53,7 +53,7 @@ export class JewelrySettingController {
 
     @ApiBearerAuth()
     @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
-    @Post('/delete/:id')
+    @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number): Promise<ResponseType<JewelrySetting>> {
         try {
