@@ -9,9 +9,9 @@ export class FeedbackDTO{
     @IsNumber()
     Stars: number
 
-    @ApiProperty({ example: "chất lượng", description: "comment" })
+    @ApiProperty({ example: "Chất lượng sản phẩm rất tốt!", description: "comment" })
     @IsString()
-    Comments: string
+    Comment: string
 
     @ApiProperty({ example: '01-01-2024 00:00:00', description: "date of review" })
     @ToDatabaseDateTime()
@@ -24,11 +24,16 @@ export class FeedbackDTO{
     DiamondID: number
 
     @ApiProperty({ example: null, description: "Feedback" })
-    ShellID: number
+    JewelrySettingID: number
 
     @ApiProperty({ example: null, description: "Feedback" })
     OrderID: number  
     
     @ApiProperty({ example: null, description: "Feedback" })
     AccountID: number
+
+    @ApiProperty({ example: null, description: "Feedback" })
+    ProductID: number
+
+
 }
