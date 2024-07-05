@@ -51,10 +51,10 @@ export class JewelryTypeController{
     }
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'id', description: 'ID for delete ', type: Number })
-    @Delete('/delete/:id')
+    @ApiParam({ name: 'JewelryTypeID', description: 'ID for delete ', type: Number })
+    @Delete('/delete/:JewelryTypeID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number): Promise<ResponseType<JewelryType>> {
+    async delete(@Param() id: number): Promise<ResponseType<JewelryType>> {
         try {
             const jewelrytype = await this.jewelrytypeService.delete(id);
             return new ResponseData<JewelryType>(jewelrytype, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
