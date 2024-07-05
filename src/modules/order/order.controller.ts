@@ -15,13 +15,13 @@ export class OrderController{
     constructor(private orderService: OrderService) {
     }
     
+    @Roles(Role.Customer, Role.Admin, Role.DeliveryStaff, Role.Manager, Role.SaleStaff)
     @ApiBearerAuth()
     @Get('/showAll')
     @ApiOperation({ 
         summary: 'Get all order', 
         description: 'Retrieve all orders from the database.' 
     })
-    @Roles(Role.Customer, Role.Admin, Role.DeliveryStaff, Role.Manager, Role.SaleStaff)
     // @Roles(Role.Admin 
     async list(@Res() res: Response): Promise<ResponseType<Order>> {
         try {
@@ -97,10 +97,10 @@ export class OrderController{
     }
 
 
-
+    @Roles(Role.Customer, Role.Admin)
     @ApiBearerAuth()
     @Post('/create')
-    @Roles(Role.Customer)
+    
     @ApiBody({ type: OrderDTO, description: 'The data to create an existing order'})
     async create(@Body(new ValidationPipe()) order: OrderDTO, @Res() res: Response): Promise<ResponseType<Order>> {
         try {
@@ -113,10 +113,9 @@ export class OrderController{
             );
         }
     }
-
+    @Roles(Role.Customer, Role.Admin, Role.DeliveryStaff, Role.SaleStaff, Role.Manager)
     @ApiParam({ name: 'id', description: 'ID of the order to update', type: Number })
     @Put('/update/:id')
-    @Roles(Role.Customer)
     async update(@Param('id') id: number, @Body() order: OrderDTO, @Res() res: Response): Promise<ResponseType<Order>> {
         try {
             return res.json(
@@ -129,7 +128,8 @@ export class OrderController{
         }
     }
 
-    @Post('/delete')
+    @Post('/delete/:id')
+    @ApiParam({ name: 'id', description: 'ID of the order to delete', type: Number })
     @Roles(Role.Admin, Role.Manager, Role.Customer)
     async delete(@Body() orderID: number, @Res() res: Response): Promise<ResponseType<Order>> {
         try {

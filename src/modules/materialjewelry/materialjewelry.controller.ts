@@ -7,7 +7,7 @@ import { MaterialJewelry } from "src/models/materialjewelry.model";
 import { ResponseType } from "src/global/globalType";
 import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
 import { MaterialJewelryDTO } from "src/dto/materaljewelry.dto";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('MaterialJewelryApi')
 @Controller('materialjewelry')
@@ -16,7 +16,6 @@ export class MaterialJewelryController{
     }
     @Public()
     @Get('/showAll')
-    @Roles(Role.Customer, Role.Manager, Role.Admin)
     async findAll(): Promise<ResponseData<MaterialJewelry[]>> {
         try{
             const materialjewelry = await this.materialjewelryService.findAll();
@@ -40,6 +39,7 @@ export class MaterialJewelryController{
 
     @ApiBearerAuth()
     @Put('/update/:id')
+    @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body()  materialjewelryDto:  MaterialJewelryDTO): Promise<ResponseType<MaterialJewelry>> {
         try {
@@ -51,7 +51,8 @@ export class MaterialJewelryController{
     }
 
     @ApiBearerAuth()
-    @Post('/delete')
+    @Post('/delete/:id')
+    @ApiParam({ name: 'id', description: 'ID for delete ', type: Number })
     @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number): Promise<ResponseType<MaterialJewelry>> {
         try {
