@@ -13,6 +13,8 @@ export class ProductEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     ProductID: number
     @Column({nullable: true})
+    Name: string
+    @Column({nullable: true})
     Inscription: string
     @Column({nullable: true})
     InscriptionFont: string
