@@ -38,12 +38,13 @@ import { ProductEntity } from './entities/products.entity';
 import { CollectionEntity } from './entities/collection.entity';
 import { DiscountEntity } from './entities/discount.entity';
 import { CollectionModule } from './modules/collection/collection.module';
-<<<<<<< HEAD
+// <<<<<<< HEAD
 import { DiscountModule } from './modules/discount/discount.module';
-=======
+// =======
 import { UsingImageModule } from './modules/images/usingImage.module';
 import { UsingImageEntity } from './entities/usingImage.entity';
->>>>>>> develop
+import { FeedbackModule } from './modules/feedback/feedback.module';
+// >>>>>>> develop
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -62,12 +63,12 @@ import { UsingImageEntity } from './entities/usingImage.entity';
     }),
     AuthModule,
     UserModule,
-    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-<<<<<<< HEAD
-    SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule
-=======
+    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule, FeedbackModule,
+// <<<<<<< HEAD
+    SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule,
+// =======
     SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule
->>>>>>> develop
+// >>>>>>> develop
   ],
   controllers: [AppController],
   providers: [

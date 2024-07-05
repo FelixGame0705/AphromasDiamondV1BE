@@ -6,7 +6,7 @@ import { MaterialJewelry } from "src/models/materialjewelry.model";
 export class  MaterialJewelryService {
 
   constructor(
-    @Inject('MaterialJewelryRepository')  
+    @Inject('IMaterialJewelryRepository')  
     private readonly MaterialJewelryRepository: IMaterialJewelryRepository
   ) {}
 
