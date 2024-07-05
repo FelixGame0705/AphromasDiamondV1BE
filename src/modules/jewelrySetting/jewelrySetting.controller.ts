@@ -55,7 +55,7 @@ export class JewelrySettingController {
     @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
     @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number): Promise<ResponseType<JewelrySetting>> {
+    async delete(@Param() id: number): Promise<ResponseType<JewelrySetting>> {
         try {
             const isDeleted = await this.jewelrySettingService.delete(id);
             if (isDeleted) {

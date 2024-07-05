@@ -128,10 +128,10 @@ export class OrderController{
         }
     }
 
-    @Delete('/delete/:id')
-    @ApiParam({ name: 'id', description: 'ID of the order to delete', type: Number })
+    @Delete('/delete/:OrderID')
+    @ApiParam({ name: 'OrderID', description: 'ID of the order to delete', type: Number })
     @Roles(Role.Admin, Role.Manager, Role.Customer)
-    async delete(@Body() orderID: number, @Res() res: Response): Promise<ResponseType<Order>> {
+    async delete(@Param() orderID: number, @Res() res: Response): Promise<ResponseType<Order>> {
         try {
             return res.json(
                 new ResponseData(await this.orderService.delete(orderID), HttpStatus.SUCCESS, HttpMessage.SUCCESS),

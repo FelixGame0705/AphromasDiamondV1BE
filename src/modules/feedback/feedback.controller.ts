@@ -93,7 +93,7 @@ export class FeedbackController{
 
     @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number): Promise<ResponseType<Feedback>> {
+    async delete(@Param() id: number): Promise<ResponseType<Feedback>> {
         try {
             const feedback = await this.feedbackService.delete(id);
             return new ResponseData<Feedback>(feedback, HttpStatus.SUCCESS, HttpMessage.SUCCESS);

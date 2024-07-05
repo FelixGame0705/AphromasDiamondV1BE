@@ -128,16 +128,19 @@ export class DiamondController {
     }
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'id', description: 'ID of the diamond to delete', type: Number })
-    @Delete('/delete/:id')
+    @ApiParam({ name: 'DiamondID', description: 'ID of the diamond to delete', type: Number })
+    @Delete('/delete/:DiamondID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() diamondId: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
+    async delete(@Param() diamondId: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
         try {
             return res.json(
                 new ResponseData(await this.diamondService.delete(diamondId), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
             );
         } catch (error) {
+            console.log(error)
+            console.log('error ' + diamondId)
             return res.json(
+                
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
         }
