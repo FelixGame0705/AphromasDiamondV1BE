@@ -14,14 +14,14 @@ import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestj
 export class DiamondController {
     constructor(private diamondService: DiamondService) {
     }
-    
+
     @ApiBearerAuth()
     @Get('/showAll')
-    @ApiOperation({ 
-        summary: 'Get all diamonds', 
-        description: 'Retrieve all diamonds from the database.' 
+    @ApiOperation({
+        summary: 'Get all diamonds',
+        description: 'Retrieve all diamonds from the database.'
     })
-    
+
     @Public()
     // @Roles(Role.Admin 
     async list(@Res() res: Response): Promise<ResponseType<Diamond>> {
@@ -34,24 +34,64 @@ export class DiamondController {
     }
 
     @Get('/showDiamonds')
-    @ApiQuery({ 
-        name: 'page', 
-        required: false, 
-        type: Number, 
-        description: 'Page number', 
-        example: 1 
+    @ApiQuery({
+        name: 'page',
+        required: false,
+        type: Number,
+        description: 'Page number',
+        example: 1
     })
-    @ApiQuery({ 
-        name: 'Shape', 
-        required: false, 
-        type: String, 
-        description: 'Diamond shape' 
+    @ApiQuery({
+        name: 'Shape',
+        required: false,
+        type: String,
+        isArray: true,
+        description: 'Diamond shape'
     })
-    @ApiQuery({ 
-        name: 'Color', 
-        required: false, 
-        type: String, 
-        description: 'Diamond color' 
+    @ApiQuery({
+        name: 'Color',
+        required: false,
+        isArray: true,
+        type: String,
+        description: 'Diamond color'
+    })
+    @ApiQuery({
+        name: 'minPrice',
+        required: false,
+        type: Number,
+        description: 'Min price'
+    })
+    @ApiQuery({
+        name: 'maxPrice',
+        required: false,
+        type: Number,
+        description: 'Max price'
+    })
+    @ApiQuery({
+        name: 'minCarat',
+        required: false,
+        type: Number,
+        description: 'Min price'
+    })
+    @ApiQuery({
+        name: 'maxCarat',
+        required: false,
+        type: Number,
+        description: 'Max price'
+    })
+    @ApiQuery({
+        name: 'Clarity',
+        required: false,
+        isArray: true,
+        type: String,
+        description: 'Diamond clarity'
+    })
+    @ApiQuery({
+        name: 'Cut',
+        required: false,
+        isArray: true,
+        type: String,
+        description: 'Diamond clarity'
     })
     @ApiQuery({
         name: 'sortField',
@@ -69,8 +109,14 @@ export class DiamondController {
     async showProducts(@Query() query: any) {
         const page: number = parseInt(query.page as any) || 1;
         const filters = {
-            Shape: query.Shape,
-            Color: query.Color
+            Shape: Array.isArray(query.Shape) ? query.Shape : (query.Shape ? query.Shape.split(',') : []),
+            Color: Array.isArray(query.Color) ? query.Color : (query.Color ? query.Color.split(',') : []),
+            Clarity: Array.isArray(query.Clarity) ? query.Clarity : (query.Clarity ? query.Clarity.split(',') : []),
+            Cut: Array.isArray(query.Cut) ? query.Cut : (query.Cut ? query.Cut.split(',') : []),
+            minPrice: query.minPrice,
+            maxPrice: query.maxPrice,
+            minCarat: query.minCarat,
+            maxCarat: query.maxCarat
         };
         const sort = {
             field: query.sortField || 'Name',
@@ -140,7 +186,7 @@ export class DiamondController {
             console.log(error)
             console.log('error ' + diamondId)
             return res.json(
-                
+
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
         }
