@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, Res, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res, ValidationPipe } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { Public, Roles } from "src/constants/decorator";
 import { ResponseData } from "src/global/globalClass";
@@ -107,14 +107,17 @@ export class OrderLineController {
         }
     }
 
+    @ApiBearerAuth()
+    @ApiParam({ name: 'OrderLineID', description: 'ID of the order to delete', type: Number })
     @Roles(Role.Admin, Role.Manager, Role.Customer)
-    @Post('/delete')
-    async delete(@Body() orderID: number, @Res() res: Response): Promise<ResponseType<OrderLine>> {
+    @Delete('/delete/:OrderLineID')
+    async delete(@Param() orderID: number, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(
                 new ResponseData(await this.orderService.delete(orderID), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
             );
         } catch (error) {
+            console.log(error)
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );

@@ -13,7 +13,11 @@ export class JewelrySettingEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     JewelrySettingID: number
     @Column()
+    Name: string
+    @Column()
     ProductionCost: number
+    @Column()
+    AuxiliaryCost: number
     @Column()
     IsActive: boolean
     @Column()

@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
 import { Voucher } from '../../models/voucher.model';
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -26,8 +26,9 @@ export class VoucherController{
         }
     }
 
-    
+    @ApiBearerAuth()
     @Post('/create')
+    @ApiBody({ type: VoucherDTO, description: 'The data to create' })
     @Roles(Role.Manager, Role.Admin)
     async create(@Body()billdiscountDto:VoucherDTO): Promise<ResponseData<Voucher>> {
         try {
@@ -40,6 +41,8 @@ export class VoucherController{
 
     @ApiBearerAuth()
     @Put('/update/:id')
+    @ApiParam({ name: 'id', description: 'ID of the voucher to update', type: Number })
+    @ApiBody({ type: VoucherDTO, description: 'The data to update' })
     @Roles(Role.Manager, Role.Admin)
     async update(@Param('id') id: number,@Body()billdiscountDto:VoucherDTO): Promise<ResponseType<Voucher>> {
         try {
@@ -51,9 +54,10 @@ export class VoucherController{
     }
 
     @ApiBearerAuth()
-    @Post('/delete')
+    @ApiParam({ name: 'VoucherID', description: 'ID of the voucher to delete', type: Number })
+    @Delete('/delete/:VoucherID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number): Promise<ResponseType<Voucher>> {
+    async delete(@Param() id: number): Promise<ResponseType<Voucher>> {
         try {
             const billdiscount= await this.voucherService.delete(id);
             return new ResponseData<Voucher>(billdiscount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CertificateService } from "./certificate.service";
 import { Public, Roles } from "src/constants/decorator";
@@ -50,7 +50,7 @@ export class CertificateController{
     }
 
     @ApiBearerAuth()
-    @Post('/delete')
+    @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number ): Promise<ResponseType<Certificate>> {
         try {

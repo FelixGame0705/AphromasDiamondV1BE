@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { MaterialJewelryService } from "./materialjewelry.service";
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -51,10 +51,10 @@ export class MaterialJewelryController{
     }
 
     @ApiBearerAuth()
-    @Post('/delete/:id')
+    @Delete('/delete/:id')
     @ApiParam({ name: 'id', description: 'ID for delete ', type: Number })
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number): Promise<ResponseType<MaterialJewelry>> {
+    async delete(@Param() id: number): Promise<ResponseType<MaterialJewelry>> {
         try {
             const materialjewelry = await this.materialjewelryService.delete(id);
             return new ResponseData<MaterialJewelry>(materialjewelry, HttpStatus.SUCCESS, HttpMessage.SUCCESS);

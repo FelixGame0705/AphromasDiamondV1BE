@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { Public, Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
 import { ResponseData } from 'src/global/globalClass';
 import { ResponseType } from 'src/global/globalType';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import { JewelrySettingVariantService as JewelrySettingVariantService } from './jewelrySettingVariant.service';
 import { JewelrySettingVariant } from 'src/models/jewelrySettingVariant.model';
 import { JewelrySettingVariantDTO } from 'src/dto/jewelrySettingVariant.dto';
@@ -37,6 +37,7 @@ export class JewelrySettingVariantController {
         }
     }
     @ApiBearerAuth()
+    @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID for update ', type: Number })
     @Put('/update/:id')
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() sizeMatchShellDto: JewelrySettingVariantDTO): Promise<ResponseType<JewelrySettingVariant>> {
@@ -52,9 +53,10 @@ export class JewelrySettingVariantController {
 
 
     @ApiBearerAuth()
-    @Post('/delete')
+    @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID for delete ', type: Number })
+    @Delete('/delete/:JewelrySettingVariantID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number): Promise<ResponseType<JewelrySettingVariant>> {
+    async delete(@Param() id: number): Promise<ResponseType<JewelrySettingVariant>> {
         try {
             const isDeleted = await this.jewelrySettingVariantService.delete(id);
             if (isDeleted) {

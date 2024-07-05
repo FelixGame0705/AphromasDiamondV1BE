@@ -1,10 +1,10 @@
-import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { Public, Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
 import { ResponseData } from 'src/global/globalClass';
 import { SizeDTO } from 'src/dto/size.dto';
 import { ResponseType } from 'src/global/globalType';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Size } from 'src/models/size.model';
 import { SizeService } from './size.service';
 
@@ -40,6 +40,7 @@ export class SizeController {
     }
 
     @ApiBearerAuth()
+    @ApiParam({ name: 'SizeID', description: 'ID of the order to delete', type: Number })
     @ApiBody({ type: SizeDTO, description: 'The data to update' })
     @Put('/update/:id')
     @Roles(Role.Manager, Role.Admin)
@@ -56,9 +57,10 @@ export class SizeController {
 
 
     @ApiBearerAuth()
-    @Post('/delete')
+    @ApiParam({ name: 'SizeID', description: 'ID of the order to delete', type: Number })
+    @Delete('/delete/:SizeID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number): Promise<ResponseType<Size>> {
+    async delete(@Param() id: number): Promise<ResponseType<Size>> {
         try {
             const isDeleted = await this.sizeService.delete(id);
             if (isDeleted) {
