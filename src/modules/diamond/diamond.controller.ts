@@ -86,9 +86,10 @@ export class DiamondController {
     // @Roles(Role.Admin 
     async detailProduct(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
         try {
-            return res.json(new ResponseData(await this.diamondService.findById(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
+            return res.json(new ResponseData(await this.diamondService.findRelationById(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
         }
         catch (error) {
+            console.log(error)
             return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
         }
     }
@@ -97,7 +98,7 @@ export class DiamondController {
 
     @ApiBearerAuth()
     @Post('/create')
-    @Roles(Role.Customer, Role.Admin, Role.Manager)
+    @Roles(Role.Admin, Role.Manager)
     async create(@Body(new ValidationPipe()) diamond: DiamondDTO, @Res() res: Response): Promise<ResponseType<Diamond>> {
         try {
             return res.json(
@@ -113,7 +114,7 @@ export class DiamondController {
     @ApiBearerAuth()
     @ApiParam({ name: 'id', description: 'ID of the diamond to update', type: Number })
     @Put('/update/:id')
-    @Roles(Role.Customer, Role.Admin, Role.Manager)
+    @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() diamond: DiamondDTO, @Res() res: Response): Promise<ResponseType<Diamond>> {
         try {
             return res.json(
@@ -129,7 +130,7 @@ export class DiamondController {
     @ApiBearerAuth()
     @ApiParam({ name: 'id', description: 'ID of the diamond to delete', type: Number })
     @Delete('/delete/:id')
-    @Roles(Role.Admin, Role.Manager, Role.Customer)
+    @Roles(Role.Admin, Role.Manager)
     async delete(@Body() diamondId: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
         try {
             return res.json(

@@ -38,7 +38,12 @@ import { ProductEntity } from './entities/products.entity';
 import { CollectionEntity } from './entities/collection.entity';
 import { DiscountEntity } from './entities/discount.entity';
 import { CollectionModule } from './modules/collection/collection.module';
+<<<<<<< HEAD
 import { DiscountModule } from './modules/discount/discount.module';
+=======
+import { UsingImageModule } from './modules/images/usingImage.module';
+import { UsingImageEntity } from './entities/usingImage.entity';
+>>>>>>> develop
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -47,7 +52,7 @@ import { DiscountModule } from './modules/discount/discount.module';
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
       entities: [DiamondEntity, AccountsEntity, VoucherEntity, CertificateEntity,CustomerEntity, JewelryTypeEntity,MaterialJewelryEntity,
-        NotificationEntity,OrderEntity,OrderLineEntity, JewelrySettingEntity, FeedbackEntity, SizeEntity, JewelrySettingVariantEntity, ProductEntity,CollectionEntity, DiscountEntity
+        NotificationEntity,OrderEntity,OrderLineEntity, JewelrySettingEntity, FeedbackEntity, SizeEntity, JewelrySettingVariantEntity, ProductEntity,CollectionEntity, DiscountEntity, UsingImageEntity
       ]
     }),
     JwtModule.register({
@@ -58,7 +63,11 @@ import { DiscountModule } from './modules/discount/discount.module';
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
+<<<<<<< HEAD
     SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule
+=======
+    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule
+>>>>>>> develop
   ],
   controllers: [AppController],
   providers: [

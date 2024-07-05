@@ -1,22 +1,23 @@
 import { text } from "stream/consumers";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ProductEntity } from "./products.entity";
 import { DiamondEntity } from "./diamond.entity";
 import { JewelrySettingEntity } from "./jewelrySetting.entity";
-import { ImageEntity } from "./image.entity";
 
 @Entity('UsingImage')
-export class UsingImageEntity{
+export class UsingImageEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     UsingImageID: number
-    @Column()
+    @Column({nullable: true})
     ProductID: number
     @Column({nullable: true})
     DiamondID: number
     @Column({nullable: true})
     JewelrySettingID: number
     @Column({nullable: true})
-    ImageID: number
+    Name: string
+    @Column({nullable: true})
+    url: string
     @ManyToOne(()=> ProductEntity,{nullable: true})
     @JoinColumn({name: 'ProductID', referencedColumnName: 'ProductID'})
     product: ProductEntity
@@ -26,7 +27,4 @@ export class UsingImageEntity{
     @ManyToOne(()=>JewelrySettingEntity, {nullable: true})
     @JoinColumn({name: 'JewelrySettingID', referencedColumnName: 'JewelrySettingID'})
     jewelrySetting: JewelrySettingEntity
-    @ManyToOne(()=> ImageEntity, {nullable:true})
-    @JoinColumn({name: 'ImageID', referencedColumnName:'ImageID'})
-    image: ImageEntity
 }
