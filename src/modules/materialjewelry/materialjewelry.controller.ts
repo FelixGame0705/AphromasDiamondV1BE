@@ -7,7 +7,7 @@ import { MaterialJewelry } from "src/models/materialjewelry.model";
 import { ResponseType } from "src/global/globalType";
 import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
 import { MaterialJewelryDTO } from "src/dto/materaljewelry.dto";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('MaterialJewelryApi')
 @Controller('materialjewelry')
@@ -16,6 +16,10 @@ export class MaterialJewelryController{
     }
     @Public()
     @Get('/showAll')
+    @ApiOperation({ 
+        summary: 'Get all  Material Jewelry', 
+        description: 'Retrieve all Material Jewelry from the database.' 
+    })
     async findAll(): Promise<ResponseData<MaterialJewelry[]>> {
         try{
             const materialjewelry = await this.materialjewelryService.findAll();
@@ -27,6 +31,7 @@ export class MaterialJewelryController{
 
     @ApiBearerAuth()
     @Post('/create')
+    @ApiBody({ type:  MaterialJewelryDTO, description: 'The data to create Material Jewelry '})
     @Roles(Role.Manager,Role.Customer)
     async create(@Body() materialjewelryDto:  MaterialJewelryDTO): Promise<ResponseData<MaterialJewelry>> {
         try {

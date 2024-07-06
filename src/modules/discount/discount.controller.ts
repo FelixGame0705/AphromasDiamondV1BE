@@ -33,17 +33,17 @@ export class DiscountController {
     
      
 
-    @Get('/:id')
-    @Public()
-    @ApiParam({ name: 'id', description: 'Discount detail', type: Number })
-    async detailDiscount(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Discount>> {
-        try {
-            const discount = await this.discountService.findById(id);
-            return new ResponseData<Discount>(discount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
-        }catch (error) {
-            return new ResponseData<Discount>(null, HttpStatus.ERROR, HttpMessage.ERROR);
-        }
-    }
+    // @Get('/:id')
+    // @Public()
+    // @ApiParam({ name: 'id', description: 'Discount detail', type: Number })
+    // async detailDiscount(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Discount>> {
+    //     try {
+    //         const discount = await this.discountService.findById(id);
+    //         return new ResponseData<Discount>(discount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+    //     }catch (error) {
+    //         return new ResponseData<Discount>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+    //     }
+    // }
 
 
 
@@ -51,9 +51,9 @@ export class DiscountController {
     @Post('/create')
     @ApiBody({ type: DiscountDTO, description: 'The data to create discount'})
     @Roles(Role.Customer, Role.Admin, Role.Manager)
-    async create(@Body() DiscountDTO): Promise<ResponseData<Discount>> {
+    async create(@Body() discountDto:DiscountDTO): Promise<ResponseData<Discount>> {
         try {
-            const discount = await this.discountService.create(DiscountDTO);
+            const discount = await this.discountService.create(discountDto);
             return new ResponseData<Discount>(discount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<Discount>(null, HttpStatus.ERROR, HttpMessage.ERROR);
@@ -64,9 +64,9 @@ export class DiscountController {
     @ApiParam({ name: 'id', description: 'ID of the discount to update', type: Number })
     @Put('/update/:id')
     @Roles(Role.Customer, Role.Admin, Role.Manager)
-    async update(@Param('id') id: number, @Body() DiscountDTO): Promise<ResponseType<Discount>> {
+    async update(@Param('id') id: number, @Body() discountDto:DiscountDTO): Promise<ResponseType<Discount>> {
         try {
-            const discount = await this.discountService.update(id,DiscountDTO);
+            const discount = await this.discountService.update(id,discountDto);
             return new ResponseData<Discount>(discount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<Discount>(null, HttpStatus.ERROR, HttpMessage.ERROR);

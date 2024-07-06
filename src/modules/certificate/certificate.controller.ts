@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { CertificateService } from "./certificate.service";
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -13,9 +13,14 @@ import { CertificateDTO } from "src/dto/certificate.dto";
 export class CertificateController{
     constructor(private certificateService: CertificateService){
     }
+    @ApiBearerAuth()
     @Public()
     @Get('/showAll')
-    @Roles(Role.Customer, Role.Manager, Role.Admin)
+    @ApiOperation({ 
+        summary: 'Get all certificates', 
+        description: 'Retrieve all certificates from the database.' 
+    })
+    // @Roles(Role.Customer, Role.Manager, Role.Admin)
     async findAll(): Promise<ResponseData<Certificate[]>> {
         try{
             const certicate = await this.certificateService.findAll();
@@ -27,6 +32,7 @@ export class CertificateController{
 
     @ApiBearerAuth()
     @Post('/create')
+    @ApiBody({ type: CertificateDTO, description: 'The data to create certificate'})
     @Roles(Role.Manager,Role.Customer)
     async create(@Body() certificateDto:  CertificateDTO): Promise<ResponseData<Certificate>> {
         try {
@@ -38,6 +44,7 @@ export class CertificateController{
     }
 
     @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID of the certificate to update', type: Number })
     @Put('/update/:id')
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() certificateDto:  CertificateDTO): Promise<ResponseType<Certificate>> {
@@ -50,6 +57,7 @@ export class CertificateController{
     }
 
     @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID of the certificate to delete', type: Number })
     @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number ): Promise<ResponseType<Certificate>> {

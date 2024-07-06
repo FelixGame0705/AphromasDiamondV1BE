@@ -44,6 +44,7 @@ import { DiscountModule } from './modules/discount/discount.module';
 import { UsingImageModule } from './modules/images/usingImage.module';
 import { UsingImageEntity } from './entities/usingImage.entity';
 import { FeedbackModule } from './modules/feedback/feedback.module';
+import { CertificateModule } from './modules/certificate/certificate.module';
 // >>>>>>> develop
 @Module({
   imports: [
@@ -63,7 +64,7 @@ import { FeedbackModule } from './modules/feedback/feedback.module';
     }),
     AuthModule,
     UserModule,
-    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule, FeedbackModule,
+    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule, FeedbackModule, CertificateModule,
 // <<<<<<< HEAD
     SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule,
 // =======

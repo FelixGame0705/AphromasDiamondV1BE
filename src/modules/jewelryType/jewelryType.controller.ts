@@ -5,7 +5,7 @@ import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseData } from "src/global/globalClass";
 import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
 import { ResponseType } from "src/global/globalType";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { JewelryType } from "src/models/jewelryType.model";
  
 @ApiTags('JewelryTypeApi')
@@ -15,6 +15,10 @@ export class JewelryTypeController{
     }
     @Public()
     @Get('/showAll')
+    @ApiOperation({ 
+        summary: 'Get all Jewelry Type', 
+        description: 'Retrieve all Jewelry Type from the database.' 
+    })
     @Public()
     async findAll(): Promise<ResponseData<JewelryType[]>> {
         try{
@@ -27,6 +31,7 @@ export class JewelryTypeController{
 
     @ApiBearerAuth()
     @Post('/create')
+    @ApiBody({ type: JewelryTypeDTO, description: 'The data to create Jewelry Type'})
     @Roles(Role.Manager, Role.Admin)
     async create(@Body() jewelrytypeDto: JewelryTypeDTO): Promise<ResponseData<JewelryType>> {
         try {

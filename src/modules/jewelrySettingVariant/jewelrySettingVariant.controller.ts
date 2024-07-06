@@ -3,7 +3,7 @@ import { Public, Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
 import { ResponseData } from 'src/global/globalClass';
 import { ResponseType } from 'src/global/globalType';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { JewelrySettingVariantService as JewelrySettingVariantService } from './jewelrySettingVariant.service';
 import { JewelrySettingVariant } from 'src/models/jewelrySettingVariant.model';
 import { JewelrySettingVariantDTO } from 'src/dto/jewelrySettingVariant.dto';
@@ -15,6 +15,10 @@ export class JewelrySettingVariantController {
     }
 
     @Get('/showAll')
+    @ApiOperation({ 
+        summary: 'Get all Jewelry Setting Variant', 
+        description: 'Retrieve all Jewelry Setting Variant from the database.' 
+    })
     @Public()
     async findAll(): Promise<ResponseData<JewelrySettingVariant[]>> {
         try {
@@ -27,6 +31,7 @@ export class JewelrySettingVariantController {
 
     @ApiBearerAuth()
     @Post('/create')
+    @ApiBody({ type: JewelrySettingVariantDTO, description: 'The data to create Jewelry Setting Variant '})
     @Roles(Role.Manager, Role.Customer)
     async create(@Body() jewelrySettingVariantDTO: JewelrySettingVariantDTO): Promise<ResponseData<JewelrySettingVariant>> {
         try {
@@ -37,6 +42,7 @@ export class JewelrySettingVariantController {
         }
     }
     @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID of the Jewelry Setting Variant to update', type: Number })
     @Put('/update/:id')
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() sizeMatchShellDto: JewelrySettingVariantDTO): Promise<ResponseType<JewelrySettingVariant>> {
@@ -52,6 +58,7 @@ export class JewelrySettingVariantController {
 
 
     @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID of the Jewelry Setting Variant to delete', type: Number })
     @Delete('/delete')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number): Promise<ResponseType<JewelrySettingVariant>> {

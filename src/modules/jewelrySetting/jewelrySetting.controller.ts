@@ -6,7 +6,7 @@ import { ResponseData } from 'src/global/globalClass';
 import { ShellDTO as JewelrySettingDTO } from 'src/dto/jewelrySetting.dto';
 import { JewelrySetting } from 'src/models/jewelrySetting.model';
 import { ResponseType } from 'src/global/globalType';
-import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('JewelrySetting')
 @Controller('jewelrySetting')
@@ -16,6 +16,10 @@ export class JewelrySettingController {
 
     @ApiBearerAuth()
     @Get('/showAll')
+    @ApiOperation({ 
+        summary: 'Get all jewelry setting', 
+        description: 'Retrieve all jewelry setting from the database.' 
+    })
     @Public()
     async findAll(): Promise<ResponseData<JewelrySetting[]>> {
         try {
@@ -28,6 +32,7 @@ export class JewelrySettingController {
 
     @ApiBearerAuth()
     @Post('/create')
+    @ApiBody({ type: JewelrySettingDTO, description: 'The data to create discount'})
     @Roles(Role.Manager, Role.Customer)
     async create(@Body() jewelrySettingDTO: JewelrySettingDTO): Promise<ResponseData<JewelrySetting>> {
         try {
@@ -42,9 +47,9 @@ export class JewelrySettingController {
     @Put('/update/:id')
     @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
     @Roles(Role.Customer)
-    async update(@Param('id') id: number, @Body() JewelrySettingDTO: JewelrySettingDTO): Promise<ResponseType<JewelrySetting>> {
+    async update(@Param('id') id: number, @Body() jewelrySettingDTO: JewelrySettingDTO): Promise<ResponseType<JewelrySetting>> {
         try {
-            const shell = await this.jewelrySettingService.update(id, JewelrySettingDTO);
+            const shell = await this.jewelrySettingService.update(id, jewelrySettingDTO);
             return new ResponseData<JewelrySetting>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<JewelrySetting>(null, HttpStatus.ERROR, HttpMessage.ERROR);
@@ -52,7 +57,7 @@ export class JewelrySettingController {
     }
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
+    @ApiParam({ name: 'id', description: 'ID for delete ', type: Number })
     @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number): Promise<ResponseType<JewelrySetting>> {
