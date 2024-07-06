@@ -44,6 +44,9 @@ import { DiscountModule } from './modules/discount/discount.module';
 import { UsingImageModule } from './modules/images/usingImage.module';
 import { UsingImageEntity } from './entities/usingImage.entity';
 import { FeedbackModule } from './modules/feedback/feedback.module';
+import { DbModule } from 'db/db.module';
+import { CertificateModule } from './modules/certificate/certificate.module';
+import { BillDiscountModule } from './modules/voucher/voucher.module';
 // >>>>>>> develop
 @Module({
   imports: [
@@ -65,11 +68,7 @@ import { FeedbackModule } from './modules/feedback/feedback.module';
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule, FeedbackModule, CertificateModule,
-// <<<<<<< HEAD
-    SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule,
-// =======
-    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule
-// >>>>>>> develop
+    SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule, UsingImageModule, BillDiscountModule,
   ],
   controllers: [AppController],
   providers: [
