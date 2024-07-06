@@ -6,7 +6,7 @@ import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseType } from "src/global/globalType";
 import { Order } from "src/models/order.model";
 import { OrderService } from "./order.service";
-import { OrderDTO } from "src/dto/order.dto";
+import { OrderDTO, PaymentDTO } from "src/dto/order.dto";
 import { Response } from "express";
 
 @ApiTags('OrderApi')
@@ -122,6 +122,23 @@ export class OrderController{
                 new ResponseData(await this.orderService.update(id, order), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
             );
         } catch (error) {
+            return res.json(
+                new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
+            );
+        }
+    }
+
+    @ApiBearerAuth()
+    @Roles(Role.Customer, Role.Admin)
+    @ApiParam({ name: 'id', description: 'ID of the order to update', type: Number })
+    @Put('/payment/:id')
+    async payment(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Order>> {
+        try {
+            return res.json(
+                new ResponseData(await this.orderService.payment(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
+            );
+        } catch (error) {
+            console.log(error)
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );

@@ -1,5 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { PRODUCT_PER_PAGE } from "src/constants/constant";
+import { PaymentDTO } from "src/dto/order.dto";
 import { IOrderRepository } from "src/interfaces/IOrderRepository";
 import { Order } from "src/models/order.model";
 
@@ -24,6 +25,12 @@ export class OrderService{
         await this.orderRepository.update(id, order);
         return this.findById(id);
     }
+
+    async payment(id: number): Promise<Order>{
+        await this.orderRepository.payOrder(id);
+        return this.findById(id);
+    }
+
     async delete(id: number):Promise<boolean>{
         return await this.orderRepository.delete(id);
     }
