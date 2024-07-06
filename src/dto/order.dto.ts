@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsTimeZone } from "class-validator";
 import { ToDatabaseDateTime } from "src/constants/date-util";
+import { DiamondDTO } from "./diamond.dto";
 
 export class OrderDTO{
     OrderID: number
@@ -24,4 +25,10 @@ export class OrderDTO{
     AccountDeliveryID: number
     @ApiProperty({ example: null, description: 'Whether the order is active or not' })
     AccountSaleID: number
+}
+export class PaymentDTO{
+    @ApiProperty({ example: 'Complete', description: 'The status of the order' })
+    Order: OrderDTO;
+    @ApiProperty({ example: false, description: 'The status of the order' })
+    Diamond: DiamondDTO;
 }
