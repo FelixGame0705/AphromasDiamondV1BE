@@ -36,11 +36,29 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
         const builder = this.repository.createQueryBuilder('diamond').leftJoinAndSelect('diamond.usingImage', 'usingImage');;
 
         // Apply filters
-        if (filters.Shape) {
-            builder.andWhere("diamond.shape LIKE :Shape", { Shape: `${filters.Shape}` });
+        if (filters.Shape && filters.Shape.length > 0) {
+            builder.andWhere("diamond.shape IN (:...Shape)", { Color: filters.Color });
         }
-        if (filters.Color) {
-            builder.andWhere("diamond.color LIKE :Color", { Color: `${filters.Color}` });
+        if (filters.Color && filters.Color.length > 0) {
+            builder.andWhere("diamond.color IN (:...Color)", { Color: filters.Color });
+        }
+        if (filters.minPrice) {
+            builder.andWhere("diamond.price >= :minPrice", { minPrice: filters.minPrice });
+        }
+        if (filters.maxPrice) {
+            builder.andWhere("diamond.price <= :maxPrice", { maxPrice: filters.maxPrice });
+        }
+        if (filters.minCarat) {
+            builder.andWhere("diamond.weightcarat >= :minCarat", { minCarat: filters.minCarat });
+        }
+        if (filters.maxCarat) {
+            builder.andWhere("diamond.weightcarat <= :maxCarat", { maxCarat: filters.maxCarat });
+        }
+        if (filters.Clarity && filters.Clarity.length > 0) {
+            builder.andWhere("diamond.clarity IN (:...Clarity)", { Clarity: filters.Clarity });
+        }
+        if (filters.Cut && filters.Cut.length > 0) {
+            builder.andWhere("diamond.cut IN (:...Cut)", { Cut: filters.Cut });
         }
 
         // Apply sorting

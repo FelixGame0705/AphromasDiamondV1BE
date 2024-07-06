@@ -108,15 +108,16 @@ export class OrderLineController {
     }
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'id', description: 'ID of the order to delete', type: Number })
+    @ApiParam({ name: 'OrderLineID', description: 'ID of the order to delete', type: Number })
     @Roles(Role.Admin, Role.Manager, Role.Customer)
-    @Delete('/delete/:id')
-    async delete(@Body() orderID: number, @Res() res: Response): Promise<ResponseType<OrderLine>> {
+    @Delete('/delete/:OrderLineID')
+    async delete(@Param() orderID: number, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
             return res.json(
                 new ResponseData(await this.orderService.delete(orderID), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
             );
         } catch (error) {
+            console.log(error)
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );

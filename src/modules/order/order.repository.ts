@@ -1,20 +1,55 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { PaymentDTO } from "src/dto/order.dto";
+import { DiamondEntity } from "src/entities/diamond.entity";
 import { OrderEntity } from "src/entities/order.entity";
-import { OrderLineEntity } from "src/entities/orderLine.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IOrderRepository } from "src/interfaces/IOrderRepository";
 import { Order } from "src/models/order.model";
-import { Repository } from "typeorm";
+import { DataSource, EntityManager, FindOptionsWhere, Repository, getManager } from "typeorm";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class OrderRepository extends BaseRepository<OrderEntity, Repository<OrderEntity>> implements IOrderRepository {
 
     constructor(
         @InjectRepository(OrderEntity)
-        protected readonly repository: Repository<OrderEntity>,
+        protected readonly repository: Repository<OrderEntity>
     ) {
         super(repository);
+    }
+    @Transactional()
+    async payOrder(id: number): Promise<Order> {
+        const manager = this.repository.manager
+        const order = await this.findRelationOrderLineById(id);
+            const diamondsToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
+            await manager
+                .createQueryBuilder()
+                .update(DiamondEntity)
+                .set({ IsActive: true })
+                .whereInIds(diamondsToUpdate)
+                .execute();
+
+            order.OrderStatus = 'Complete';
+            await manager.save(OrderEntity, order);
+        return this.findRelationOrderLineById(id);
+        // async (manager: EntityManager) => {
+        //     const order = await this.findRelationOrderLineById(id);
+        //     const diamondsToUpdate = order.OrderLines.map(orderLine => orderLine);
+        //     console.error("Diamond up aaaaaaaaa" + diamondsToUpdate)
+        //     await manager
+        //         .createQueryBuilder()
+        //         .update(DiamondEntity)
+        //         .set({ IsActive: false })
+        //         .whereInIds(diamondsToUpdate)
+        //         .execute();
+
+        //     order.OrderStatus = 'Complete';
+        //     await manager.save(OrderEntity, order);
+
+            
+        // }
+        // return this.findRelationOrderLineById(id);
     }
     async paginateAndFilter(
         page: number,
@@ -28,7 +63,7 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
         if (filters.Status) {
             builder.andWhere("order.Status LIKE :Status", { Shape: `${filters.Status}` });
         }
-        if(filters.Search){
+        if (filters.Search) {
             builder.andWhere("order. LIKE :Status", { Shape: `${filters.Status}` });
         }
 
@@ -57,7 +92,7 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
     protected getIdField(): keyof OrderEntity {
         return "OrderID";
     }
-    async findRelationOrderLineById(id: number): Promise<Order> {
+    async findRelationOrderLineById(id: number): Promise<any> {
         // const [orderWithOrderLine, orderWithAccountDelivery] = await Promise.all([
         //     this.repository.findOne({ where: { OrderID: id }, relations: ['orderLine'] }),
         //     this.repository.findOne({ where: { OrderID: id }, relations: ['accountDelivery'] })
@@ -117,7 +152,7 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
             TotalPrice: totalPrice
         };
 
-        return response as unknown as Order;
+        return response;
     }
 
 }

@@ -22,7 +22,7 @@ import { NotificationEntity } from './entities/notification.entity';
 import { OrderEntity } from './entities/order.entity';
 import { OrderLineEntity } from './entities/orderLine.entity';
 import { JewelrySettingEntity } from './entities/jewelrySetting.entity';
-import { dataSourceOptions } from 'db/data-source';
+import dataSource, { dataSourceOptions } from 'db/data-source';
 import { NotificationModule } from './modules/notification/notification.module';
 import { OrderModule } from './modules/order/order.module';
 import { OrderLineModule } from './modules/orderline/orderLine.module';
@@ -44,8 +44,13 @@ import { DiscountModule } from './modules/discount/discount.module';
 import { UsingImageModule } from './modules/images/usingImage.module';
 import { UsingImageEntity } from './entities/usingImage.entity';
 import { FeedbackModule } from './modules/feedback/feedback.module';
+<<<<<<< HEAD
 import { CertificateModule } from './modules/certificate/certificate.module';
 // >>>>>>> develop
+=======
+import { DataSource } from 'typeorm';
+import { DbModule } from 'db/db.module';
+>>>>>>> 2be04b10bbb3e92d60ffe722ddcef133a3d880f4
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -62,6 +67,7 @@ import { CertificateModule } from './modules/certificate/certificate.module';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '90m' },
     }),
+    DbModule,
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule, FeedbackModule, CertificateModule,
