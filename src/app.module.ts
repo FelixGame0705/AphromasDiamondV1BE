@@ -38,8 +38,12 @@ import { ProductEntity } from './entities/products.entity';
 import { CollectionEntity } from './entities/collection.entity';
 import { DiscountEntity } from './entities/discount.entity';
 import { CollectionModule } from './modules/collection/collection.module';
+// <<<<<<< HEAD
+import { DiscountModule } from './modules/discount/discount.module';
+// =======
 import { UsingImageModule } from './modules/images/usingImage.module';
 import { UsingImageEntity } from './entities/usingImage.entity';
+import { FeedbackModule } from './modules/feedback/feedback.module';
 import { DataSource } from 'typeorm';
 import { DbModule } from 'db/db.module';
 @Module({
@@ -61,8 +65,12 @@ import { DbModule } from 'db/db.module';
     DbModule,
     AuthModule,
     UserModule,
-    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
+    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule, FeedbackModule,
+// <<<<<<< HEAD
+    SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule,
+// =======
     SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule
+// >>>>>>> develop
   ],
   controllers: [AppController],
   providers: [
