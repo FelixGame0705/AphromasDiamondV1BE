@@ -1,8 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { configSwagger } from './configs/api-docs.config';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 declare const module: any;
 async function bootstrap() {
+  initializeTransactionalContext();
   const app = await NestFactory.create(AppModule, {cors: true});
   configSwagger(app);
 

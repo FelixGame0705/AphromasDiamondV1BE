@@ -59,7 +59,7 @@ export class MaterialJewelryController{
     @Delete('/delete/:id')
     @ApiParam({ name: 'id', description: 'ID for delete ', type: Number })
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number): Promise<ResponseType<MaterialJewelry>> {
+    async delete(@Param() id: number): Promise<ResponseType<MaterialJewelry>> {
         try {
             const materialjewelry = await this.materialjewelryService.delete(id);
             return new ResponseData<MaterialJewelry>(materialjewelry, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
