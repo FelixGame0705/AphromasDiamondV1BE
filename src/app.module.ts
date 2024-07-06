@@ -44,13 +44,7 @@ import { DiscountModule } from './modules/discount/discount.module';
 import { UsingImageModule } from './modules/images/usingImage.module';
 import { UsingImageEntity } from './entities/usingImage.entity';
 import { FeedbackModule } from './modules/feedback/feedback.module';
-<<<<<<< HEAD
-import { CertificateModule } from './modules/certificate/certificate.module';
 // >>>>>>> develop
-=======
-import { DataSource } from 'typeorm';
-import { DbModule } from 'db/db.module';
->>>>>>> 2be04b10bbb3e92d60ffe722ddcef133a3d880f4
 @Module({
   imports: [
     ConfigModule.forRoot({

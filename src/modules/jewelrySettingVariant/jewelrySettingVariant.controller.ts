@@ -3,11 +3,7 @@ import { Public, Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
 import { ResponseData } from 'src/global/globalClass';
 import { ResponseType } from 'src/global/globalType';
-<<<<<<< HEAD
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
-=======
-import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
->>>>>>> 2be04b10bbb3e92d60ffe722ddcef133a3d880f4
 import { JewelrySettingVariantService as JewelrySettingVariantService } from './jewelrySettingVariant.service';
 import { JewelrySettingVariant } from 'src/models/jewelrySettingVariant.model';
 import { JewelrySettingVariantDTO } from 'src/dto/jewelrySettingVariant.dto';
@@ -46,11 +42,7 @@ export class JewelrySettingVariantController {
         }
     }
     @ApiBearerAuth()
-<<<<<<< HEAD
     @ApiParam({ name: 'id', description: 'ID of the Jewelry Setting Variant to update', type: Number })
-=======
-    @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID for update ', type: Number })
->>>>>>> 2be04b10bbb3e92d60ffe722ddcef133a3d880f4
     @Put('/update/:id')
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() sizeMatchShellDto: JewelrySettingVariantDTO): Promise<ResponseType<JewelrySettingVariant>> {
@@ -66,13 +58,8 @@ export class JewelrySettingVariantController {
 
 
     @ApiBearerAuth()
-<<<<<<< HEAD
-    @ApiParam({ name: 'id', description: 'ID of the Jewelry Setting Variant to delete', type: Number })
-    @Delete('/delete')
-=======
     @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID for delete ', type: Number })
     @Delete('/delete/:JewelrySettingVariantID')
->>>>>>> 2be04b10bbb3e92d60ffe722ddcef133a3d880f4
     @Roles(Role.Admin, Role.Manager)
     async delete(@Param() id: number): Promise<ResponseType<JewelrySettingVariant>> {
         try {

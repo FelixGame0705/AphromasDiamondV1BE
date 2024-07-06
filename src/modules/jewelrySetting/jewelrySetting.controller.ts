@@ -35,7 +35,6 @@ export class JewelrySettingController {
     @Post('/create')
     @ApiBody({ type: JewelrySettingDTO, description: 'The data to create discount'})
     @Roles(Role.Manager, Role.Customer)
-
     async create(@Body() jewelrySettingDTO: JewelrySettingDTO): Promise<ResponseData<JewelrySetting>> {
         try {
             const shell = await this.jewelrySettingService.create(jewelrySettingDTO);
@@ -48,7 +47,6 @@ export class JewelrySettingController {
     @ApiBearerAuth()
     @Put('/update/:id')
     @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
- 
     @Roles(Role.Customer)
     async update(@Param('id') id: number, @Body() jewelrySettingDTO: JewelrySettingDTO): Promise<ResponseType<JewelrySetting>> {
         try {
