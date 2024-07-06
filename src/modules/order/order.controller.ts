@@ -60,7 +60,7 @@ export class OrderController{
             Status: query.Status
         };
         const sort = {
-            field: query.sortField || 'Date',
+            field: query.sortField || 'OrderDate',
             order: query.sortOrder || 'ASC'
         };
 
@@ -83,7 +83,7 @@ export class OrderController{
 
     @ApiBearerAuth()
     @Get("/relations/:id")
-    @Roles(Role.Customer)
+    @Roles(Role.Customer, Role.Admin)
     @ApiParam({ name: 'id', description: 'ID of the order to watch relation', type: Number })
     async findRelationById(
         @Param('id') id: number, 
@@ -100,7 +100,6 @@ export class OrderController{
     @Roles(Role.Customer, Role.Admin)
     @ApiBearerAuth()
     @Post('/create')
-    
     @ApiBody({ type: OrderDTO, description: 'The data to create an existing order'})
     async create(@Body(new ValidationPipe()) order: OrderDTO, @Res() res: Response): Promise<ResponseType<Order>> {
         try {
@@ -113,15 +112,18 @@ export class OrderController{
             );
         }
     }
-    @Roles(Role.Customer, Role.Admin, Role.DeliveryStaff, Role.SaleStaff, Role.Manager)
-    @ApiParam({ name: 'id', description: 'ID of the order to update', type: Number })
-    @Put('/update/:id')
-    async update(@Param('id') id: number, @Body() order: OrderDTO, @Res() res: Response): Promise<ResponseType<Order>> {
+
+    @ApiBearerAuth()
+    @Roles(Role.Customer, Role.Admin, Role.DeliveryStaff, Role.SaleStaff)
+    @ApiParam({ name: 'OrderID', description: 'ID of the order to update', type: Number })
+    @Put('/update/:OrderID')
+    async update(@Param('OrderID') id: number, @Body(new ValidationPipe()) order: OrderDTO, @Res() res: Response): Promise<ResponseType<Order>> {
         try {
             return res.json(
                 new ResponseData(await this.orderService.update(id, order), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
             );
         } catch (error) {
+            console.log(error)
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
@@ -138,13 +140,13 @@ export class OrderController{
                 new ResponseData(await this.orderService.payment(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
             );
         } catch (error) {
-            console.log(error)
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
         }
     }
 
+    @ApiBearerAuth()
     @Delete('/delete/:OrderID')
     @ApiParam({ name: 'OrderID', description: 'ID of the order to delete', type: Number })
     @Roles(Role.Admin, Role.Manager, Role.Customer)
