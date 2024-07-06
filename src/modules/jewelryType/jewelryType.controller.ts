@@ -21,6 +21,7 @@ export class JewelryTypeController{
             const jewelrytype = await this.jewelrytypeService.findAll();
             return new ResponseData<JewelryType[]>(jewelrytype, HttpStatus.SUCCESS, HttpMessage.SUCCESS );
         }catch(error){
+            console.log(error)
             return new ResponseData<JewelryType[]>(null, HttpStatus.ERROR, HttpMessage.ERROR );
         }
     }
