@@ -3,7 +3,7 @@ import { JewelrySettingService } from './jewelrySetting.service';
 import { Public, Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
 import { ResponseData } from 'src/global/globalClass';
-import { ShellDTO as JewelrySettingDTO } from 'src/dto/jewelrySetting.dto';
+import { JewelrySetting as JewelrySettingDTO } from 'src/dto/jewelrySetting.dto';
 import { JewelrySetting } from 'src/models/jewelrySetting.model';
 import { ResponseType } from 'src/global/globalType';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { JewelrySettingEntity } from "src/entities/jewelrySetting.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
-import { IJewelrySettingRepository } from "src/interfaces/IShellRepository";
+import { IJewelrySettingRepository } from "src/interfaces/IJewelrySettingRepository";
 import { JewelrySetting } from "src/models/jewelrySetting.model";
 import { FindOptionsWhere, Repository } from "typeorm";
 
@@ -18,12 +18,13 @@ export class JewelrySettingRepository extends BaseRepository<JewelrySettingEntit
         return null;
     }
 
-    protected getIdField(): keyof JewelrySetting {
+    protected getIdField(): keyof JewelrySettingEntity {
         return 'JewelrySettingID';
     }
 
     async findAll(): Promise<JewelrySettingEntity[]> {
-        return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<JewelrySettingEntity>});
+        let data = await this.repository.find();
+        return data;
     }
 
 }
