@@ -2,18 +2,19 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FeedbackEntity } from "src/entities/feedback.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
+import { IFeedbackRepository } from "src/interfaces/IFeedbackRepository";
 import { Feedback } from "src/models/feedback.model";
 import { FindOptionsWhere, Repository } from "typeorm";
 
 @Injectable()
-export class FeedbackRepository extends BaseRepository<FeedbackEntity, Repository<FeedbackEntity>> implements FeedbackRepository{
+export class FeedbackRepository extends BaseRepository<FeedbackEntity, Repository<FeedbackEntity>> implements IFeedbackRepository{
     constructor(
         @InjectRepository(FeedbackEntity)
         protected readonly repository: Repository<FeedbackEntity>
     ){
         super(repository);
     }
-    findRelationById(id: number): Promise<Feedback> {
+    findRelationFeedbackById(id: number): Promise<Feedback> {
         return null;
     }
 

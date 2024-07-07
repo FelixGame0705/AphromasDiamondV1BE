@@ -5,7 +5,6 @@ import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseData } from "src/global/globalClass";
 import { MaterialJewelry } from "src/models/materialjewelry.model";
 import { ResponseType } from "src/global/globalType";
-import { JewelryTypeDTO } from "src/dto/jewelrytype.dto";
 import { MaterialJewelryDTO } from "src/dto/materaljewelry.dto";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 
@@ -14,6 +13,7 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs
 export class MaterialJewelryController{
     constructor(private materialjewelryService: MaterialJewelryService){
     }
+    @ApiBearerAuth()
     @Public()
     @Get('/showAll')
     @ApiOperation({ 
@@ -32,7 +32,7 @@ export class MaterialJewelryController{
     @ApiBearerAuth()
     @Post('/create')
     @ApiBody({ type:  MaterialJewelryDTO, description: 'The data to create Material Jewelry '})
-    @Roles(Role.Manager,Role.Customer)
+    @Roles(Role.Manager, Role.Admin, Role.Customer)
     async create(@Body() materialjewelryDto:  MaterialJewelryDTO): Promise<ResponseData<MaterialJewelry>> {
         try {
             const materialjewelry = await this.materialjewelryService.create(materialjewelryDto);
