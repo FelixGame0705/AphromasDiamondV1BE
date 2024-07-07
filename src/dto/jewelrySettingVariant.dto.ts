@@ -5,4 +5,6 @@ export class JewelrySettingVariantDTO{
     SizeID: number
     @ApiProperty({example:1,description:'Size ID match to shell'})
     JewelrySettingID: number
+    @ApiProperty({example:1,description:'Material ID match to shell'})
+    MaterialJewelryID: number
 }

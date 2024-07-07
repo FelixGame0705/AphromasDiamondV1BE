@@ -28,7 +28,7 @@ export class ProductEntity extends BaseEntity{
     CollectionID: number
     @Column({nullable: true})
     DiscountID: number
-    @OneToMany(()=>DiamondEntity, diamond=>diamond.ProductID)
+    @OneToMany(()=>DiamondEntity, diamond=>diamond.products)
     diamonds: DiamondEntity[]
     @OneToOne(()=>JewelrySettingEntity, jewelrySetting => jewelrySetting.ProductID)
     jewelrySettings: JewelrySettingEntity[]

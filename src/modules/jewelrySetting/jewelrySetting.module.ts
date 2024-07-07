@@ -2,8 +2,9 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { JewelrySettingEntity } from "src/entities/jewelrySetting.entity";
 import { JewelrySettingController } from "./jewelrySetting.controller";
-import { JewelrySettingRepository } from "./jewelrySetting.repository";
+
 import { JewelrySettingService as JewelrySettingService } from "./jewelrySetting.service";
+import { JewelrySettingRepository } from "./jewelrySetting.repository";
 
 @Module({
     imports: [TypeOrmModule.forFeature([JewelrySettingEntity])],
