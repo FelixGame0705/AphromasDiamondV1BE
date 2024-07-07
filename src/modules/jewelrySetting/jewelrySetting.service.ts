@@ -4,6 +4,7 @@ import { SizeDTO } from "src/dto/size.dto";
 import { JewelrySettingEntity } from "src/entities/jewelrySetting.entity";
 import { IJewelrySettingRepository as IJewelrySettingRepository } from "src/interfaces/IJewelrySettingRepository";
 import { JewelrySetting } from "src/models/jewelrySetting.model";
+import { JewelrySettingVariant } from "src/models/jewelrySettingVariant.model";
 
 @Injectable()
 export class JewelrySettingService {
@@ -22,30 +23,54 @@ export class JewelrySettingService {
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
             Weight: entity.Weight,
-            Price: entity.AuxiliaryCost + entity.ProductionCost
+            JewelrySettingVariant: entity.jewelrySettingVariant.map(
+                item => {
+                const modifiedJewelrySetting = {
+                    ...item,
+                    Price: item.materialJewelry.SellPrice * entity.Weight + entity.AuxiliaryCost + entity.ProductionCost
+                }
+                return modifiedJewelrySetting
+            }
+            )
             // Map other properties accordingly
         }));
 
         return jewelrySettings;
     }
     async findById(id: number): Promise<JewelrySetting> {
-        let rs = await this.jewelrySettingRepository.findById(id);
+        let entity = await this.jewelrySettingRepository.findById(id);
         return new JewelrySetting({
-            JewelrySettingID: rs.JewelrySettingID, // Replace with actual properties
-            ProductionCost: rs.ProductionCost,
-            IsActive: rs.IsActive,
-            Weight: rs.Weight,
-            Price: rs.AuxiliaryCost + rs.ProductionCost
+            JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
+            ProductionCost: entity.ProductionCost,
+            IsActive: entity.IsActive,
+            Weight: entity.Weight,
+            JewelrySettingVariant: entity.jewelrySettingVariant.map(
+                item => {
+                const modifiedJewelrySetting = {
+                    ...item,
+                    Price: item.materialJewelry.SellPrice * entity.Weight + entity.AuxiliaryCost + entity.ProductionCost
+                }
+                return modifiedJewelrySetting
+            }
+            )
         })
     }
     async create(shell: JewelrySettingDTO): Promise<JewelrySetting> {
-        let rs = await this.jewelrySettingRepository.create(shell);
+        let entity = await this.jewelrySettingRepository.create(shell);
         return new JewelrySetting({
-            JewelrySettingID: rs.JewelrySettingID, // Replace with actual properties
-            ProductionCost: rs.ProductionCost,
-            IsActive: rs.IsActive,
-            Weight: rs.Weight,
-            Price: rs.AuxiliaryCost + rs.ProductionCost
+            JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
+            ProductionCost: entity.ProductionCost,
+            IsActive: entity.IsActive,
+            Weight: entity.Weight,
+            JewelrySettingVariant: entity.jewelrySettingVariant.map(
+                item => {
+                const modifiedJewelrySetting = {
+                    ...item,
+                    Price: item.materialJewelry.SellPrice * entity.Weight + entity.AuxiliaryCost + entity.ProductionCost
+                }
+                return modifiedJewelrySetting
+            }
+            )
         })
     }
     async update(id: number, shell: JewelrySettingDTO): Promise<JewelrySetting> {
@@ -56,6 +81,21 @@ export class JewelrySettingService {
         return await this.jewelrySettingRepository.delete(id);
     }
     async findRelationById(id: number): Promise<JewelrySetting> {
-        return await this.jewelrySettingRepository.findRelationById(id);
+        let entity = await this.jewelrySettingRepository.findRelationById(id);
+        return new JewelrySetting({
+            JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
+            ProductionCost: entity.ProductionCost,
+            IsActive: entity.IsActive,
+            Weight: entity.Weight,
+            JewelrySettingVariant: entity.jewelrySettingVariant.map(
+                item => {
+                const modifiedJewelrySetting = {
+                    ...item,
+                    Price: item.materialJewelry.SellPrice * entity.Weight + entity.AuxiliaryCost + entity.ProductionCost
+                }
+                return modifiedJewelrySetting
+            }
+            )
+        })
     }
 }

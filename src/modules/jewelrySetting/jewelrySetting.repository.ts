@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { JewelrySettingEntity } from "src/entities/jewelrySetting.entity";
+import { MaterialJewelryEntity } from "src/entities/marterialJewelry.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IJewelrySettingRepository } from "src/interfaces/IJewelrySettingRepository";
 import { JewelrySetting } from "src/models/jewelrySetting.model";
@@ -14,8 +15,8 @@ export class JewelrySettingRepository extends BaseRepository<JewelrySettingEntit
     ){
         super(repository);
     }
-    findRelationById(id: number): Promise<JewelrySetting> {
-        return null;
+    async findRelationById(id: number): Promise<JewelrySettingEntity> {
+        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['product']})
     }
 
     protected getIdField(): keyof JewelrySettingEntity {
@@ -23,7 +24,18 @@ export class JewelrySettingRepository extends BaseRepository<JewelrySettingEntit
     }
 
     async findAll(): Promise<JewelrySettingEntity[]> {
-        let data = await this.repository.find();
+        const builder = this.repository.createQueryBuilder('jewelrySetting')
+        .leftJoinAndSelect('jewelrySetting.jewelrySettingVariant', 'jewelrySettingVariant')
+        .leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry')
+        .select([
+            'jewelrySetting',
+            'jewelrySettingVariant',
+            'materialJewelry.SellPrice'
+        ])
+        .getMany();
+        //const jewelrySettingVariantBuilder = this.repository.createQueryBuilder('jewelrySettingVariant').leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry');
+        const data = await builder;
+        
         return data;
     }
 

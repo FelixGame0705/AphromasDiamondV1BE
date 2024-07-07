@@ -3,5 +3,5 @@ import { AbstractPromise } from "./AbstractRepository";
 import { JewelrySetting } from "src/models/jewelrySetting.model";
 
 export interface IJewelrySettingRepository extends AbstractPromise<JewelrySettingEntity>{
-    findRelationById(id: number): Promise<JewelrySetting>;
+    findRelationById(id: number): Promise<JewelrySettingEntity>;
 }

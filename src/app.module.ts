@@ -42,6 +42,7 @@ import { UsingImageModule } from './modules/images/usingImage.module';
 import { UsingImageEntity } from './entities/usingImage.entity';
 import { DataSource } from 'typeorm';
 import { DbModule } from 'db/db.module';
+import { ProductModule } from './modules/product/product.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -62,7 +63,7 @@ import { DbModule } from 'db/db.module';
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule
+    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule
   ],
   controllers: [AppController],
   providers: [

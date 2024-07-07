@@ -5,6 +5,8 @@ import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IProductRepository } from "src/interfaces/IProductRepository";
 import { Product } from "src/models/product.model";
 import { FindOptionsWhere, Repository } from "typeorm";
+import { DiamondRepository } from "../diamond/diamond.repository";
+import { DiamondEntity } from "src/entities/diamond.entity";
 
 @Injectable()
 export class ProductRepository extends BaseRepository<ProductEntity, Repository<ProductEntity>> implements IProductRepository{
@@ -14,8 +16,8 @@ export class ProductRepository extends BaseRepository<ProductEntity, Repository<
     ){
         super(repository);
     }
-    findRelationById(id: number): Promise<Product> {
-        return null;
+    async findRelationById(id: number): Promise<ProductEntity> {
+        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['diamonds']})
     }
 
     protected getIdField(): keyof ProductEntity {
@@ -23,8 +25,15 @@ export class ProductRepository extends BaseRepository<ProductEntity, Repository<
     }
 
     async findAll(): Promise<ProductEntity[]> {
-        let data = await this.repository.find();
+        const builder = this.repository.createQueryBuilder('product').leftJoinAndSelect('product.diamonds', 'diamonds');
+        const data = await builder.getMany();
+        
         return data;
     }
+
+    // async findById(id: number): Promise<ProductEntity> {
+    //     const idField = this.getIdField();
+    //     return await this.repository.findOne( {where: {[idField]:id} as FindOptionsWhere<ProductEntity>});
+    // }
 
 }

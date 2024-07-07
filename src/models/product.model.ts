@@ -6,11 +6,11 @@ export class Product{
     Brand: string
     JewelrySettingID: number
     AccountID: number
-    //Price: number
+    Price: number
     CollectionID: number
     DiscountID: number
 
-    constructor({ProductID, Name, Inscription, InscriptionFont, Brand,JewelrySettingID, AccountID, CollectionID, DiscountID}){
+    constructor({ProductID, Name, Inscription, InscriptionFont, Brand,JewelrySettingID, AccountID, Price, CollectionID, DiscountID}){
         this.ProductID = ProductID
         this.Name = Name
         this.Inscription = Inscription
@@ -18,7 +18,7 @@ export class Product{
         this.Brand = Brand
         this.JewelrySettingID = JewelrySettingID
         this.AccountID = AccountID
-        //this.Price = Price
+        this.Price = Price
         this.CollectionID = CollectionID
         this.DiscountID = DiscountID
     }
