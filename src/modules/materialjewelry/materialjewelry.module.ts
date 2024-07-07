@@ -10,7 +10,7 @@ import { MaterialJewelryController } from "./materialjewelry.controller";
     controllers: [ MaterialJewelryController],
     providers: [MaterialJewelryService, {
         useClass:  MaterialJewelryRepository,
-        provide: 'MaterialJewelryRepository'
+        provide: 'IMaterialJewelryRepository'
     }]
 })
 export class MaterialJewelryModule{
