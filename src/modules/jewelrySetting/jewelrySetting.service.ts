@@ -26,7 +26,7 @@ export class JewelrySettingService {
                 item => {
                 const modifiedJewelrySetting = {
                     ...item,
-                    Price: item.materialJewelry.SellPrice * + entity.AuxiliaryCost + entity.ProductionCost
+                    TotalPriceVariant: item.materialJewelry.SellPrice * item.Weight + entity.ProductionCost
                 }
                 return modifiedJewelrySetting
             }
@@ -46,7 +46,7 @@ export class JewelrySettingService {
                 item => {
                 const modifiedJewelrySetting = {
                     ...item,
-                    Price: item.materialJewelry.SellPrice * 1 + entity.AuxiliaryCost + entity.ProductionCost
+                    TotalPriceVariant: item.materialJewelry.SellPrice * item.Weight + entity.ProductionCost
                 }
                 return modifiedJewelrySetting
             }
@@ -63,7 +63,7 @@ export class JewelrySettingService {
                 item => {
                 const modifiedJewelrySetting = {
                     ...item,
-                    Price: item.materialJewelry.SellPrice * entity.AuxiliaryCost + entity.AuxiliaryCost + entity.ProductionCost
+                    TotalPriceVariant: item.materialJewelry.SellPrice * item.Weight + entity.ProductionCost
                 }
                 return modifiedJewelrySetting
             }
@@ -87,7 +87,7 @@ export class JewelrySettingService {
                 item => {
                 const modifiedJewelrySetting = {
                     ...item,
-                    Price: item.materialJewelry.SellPrice * 1 + entity.AuxiliaryCost + entity.ProductionCost
+                    TotalPriceVariant: item.materialJewelry.SellPrice * item.Weight + entity.ProductionCost
                 }
                 return modifiedJewelrySetting
             }

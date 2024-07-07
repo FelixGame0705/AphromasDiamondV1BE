@@ -6,7 +6,7 @@ import { UsingImageEntity } from "./usingImage.entity";
 @Entity('Certificate')
 export class CertificateEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
-    CerID: number
+    CertificateID: number
     @Column({nullable: true})
     DiamondID: number
     @Column({nullable: true})

@@ -17,7 +17,7 @@ export class JewelrySettingVariantService {
             return new JewelrySettingVariant({
                 JewelrySettingVariantID: item.JewelrySettingVariantID,
                 JewelrySettingID: item.JewelrySettingID,
-                Price: 100,
+                TotalPriceVariant: item.Weight*item.materialJewelry.SellPrice + item.jewelrySettings.ProductionCost + item.jewelrySettings.AuxiliaryCost,
                 SizeID: item.SizeID
 
             });
@@ -29,7 +29,7 @@ export class JewelrySettingVariantService {
         return new JewelrySettingVariant({
             JewelrySettingVariantID: item.JewelrySettingVariantID,
             JewelrySettingID: item.JewelrySettingID,
-            Price: 100,
+            TotalPriceVariant: item.Weight*item.materialJewelry.SellPrice + item.jewelrySettings.ProductionCost + item.jewelrySettings.AuxiliaryCost,
             SizeID: item.SizeID
         })
     }
@@ -38,7 +38,7 @@ export class JewelrySettingVariantService {
         return new JewelrySettingVariant({
             JewelrySettingVariantID: item.JewelrySettingVariantID,
             JewelrySettingID: item.JewelrySettingID,
-            Price: 100,
+            TotalPriceVariant: item.Weight*item.materialJewelry.SellPrice + item.jewelrySettings.ProductionCost + item.jewelrySettings.AuxiliaryCost,
             SizeID: item.SizeID
         })
     }

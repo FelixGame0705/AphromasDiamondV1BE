@@ -1,9 +1,9 @@
 export class Certificate{
-    CerID: number
+    CertificateID: number
     DiamondID: number
 
-    constructor({CerID,DiamondID}){
-        if(CerID !=undefined) this.CerID = CerID;
+    constructor({CertificateID,DiamondID}){
+        if(CertificateID !=undefined) this.CertificateID = CertificateID;
         if(DiamondID != undefined) this.DiamondID =DiamondID;
     }
 }

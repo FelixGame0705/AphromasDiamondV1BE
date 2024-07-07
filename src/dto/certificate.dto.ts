@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger"
 
 export class CertificateDTO{
-    CerID: number
+    CertificateID: number
     @ApiProperty({ example: null , description: 'Diamond' })
     DiamondID: number
 }
