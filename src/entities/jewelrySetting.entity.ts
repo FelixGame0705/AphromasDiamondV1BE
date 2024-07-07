@@ -20,8 +20,6 @@ export class JewelrySettingEntity extends BaseEntity{
     AuxiliaryCost: number
     @Column()
     IsActive: boolean
-    @Column()
-    Weight: number
     @Column({type:"datetime"})
     UpdateTime: Date
     @Column({nullable: true})

@@ -15,6 +15,25 @@ export class JewelrySettingRepository extends BaseRepository<JewelrySettingEntit
     ){
         super(repository);
     }
+    async findRelationVariantById(id: number): Promise<JewelrySettingEntity | null> {
+        const builder = this.repository.createQueryBuilder('jewelrySetting')
+        .leftJoinAndSelect('jewelrySetting.jewelrySettingVariant', 'jewelrySettingVariant')
+        .leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry')
+        .leftJoinAndSelect('jewelrySettingVariant.size', 'size')
+        .select([
+            'jewelrySetting',
+            'jewelrySettingVariant',
+            'materialJewelry.SellPrice',
+            'size'
+        ]).where('jewelrySetting.JewelrySettingID = :id', {id})
+        .getOne();
+        const data = await builder;
+        if (!data) {
+            console.error(`JewelrySettingEntity with id ${id} not found`);
+            return null;
+        }
+        return data;
+    }
     async findRelationById(id: number): Promise<JewelrySettingEntity> {
         return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['product']})
     }

@@ -4,4 +4,5 @@ import { JewelrySetting } from "src/models/jewelrySetting.model";
 
 export interface IJewelrySettingRepository extends AbstractPromise<JewelrySettingEntity>{
     findRelationById(id: number): Promise<JewelrySettingEntity>;
+    findRelationVariantById(id: number): Promise<JewelrySettingEntity>;
 }

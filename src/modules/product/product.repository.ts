@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ProductEntity } from "src/entities/products.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
@@ -25,7 +25,7 @@ export class ProductRepository extends BaseRepository<ProductEntity, Repository<
     }
 
     async findAll(): Promise<ProductEntity[]> {
-        const builder = this.repository.createQueryBuilder('product').leftJoinAndSelect('product.diamonds', 'diamonds');
+        const builder = this.repository.createQueryBuilder('product').leftJoinAndSelect('product.diamonds', 'diamonds').leftJoinAndSelect('product.usingImage','usingImage');
         const data = await builder.getMany();
         
         return data;

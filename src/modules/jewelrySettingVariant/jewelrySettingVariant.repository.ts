@@ -18,7 +18,7 @@ export class JewelrySettingVariantRepository extends BaseRepository<JewelrySetti
         return null;
     }
 
-    protected getIdField(): keyof JewelrySettingVariant {
+    protected getIdField(): keyof JewelrySettingVariantEntity {
         return 'JewelrySettingVariantID';
     }
 

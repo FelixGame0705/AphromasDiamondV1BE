@@ -22,12 +22,11 @@ export class JewelrySettingService {
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
-            Weight: entity.Weight,
             JewelrySettingVariant: entity.jewelrySettingVariant.map(
                 item => {
                 const modifiedJewelrySetting = {
                     ...item,
-                    Price: item.materialJewelry.SellPrice * entity.Weight + entity.AuxiliaryCost + entity.ProductionCost
+                    Price: item.materialJewelry.SellPrice * + entity.AuxiliaryCost + entity.ProductionCost
                 }
                 return modifiedJewelrySetting
             }
@@ -38,17 +37,16 @@ export class JewelrySettingService {
         return jewelrySettings;
     }
     async findById(id: number): Promise<JewelrySetting> {
-        let entity = await this.jewelrySettingRepository.findById(id);
+        let entity = await this.jewelrySettingRepository.findRelationVariantById(id);
         return new JewelrySetting({
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
-            Weight: entity.Weight,
             JewelrySettingVariant: entity.jewelrySettingVariant.map(
                 item => {
                 const modifiedJewelrySetting = {
                     ...item,
-                    Price: item.materialJewelry.SellPrice * entity.Weight + entity.AuxiliaryCost + entity.ProductionCost
+                    Price: item.materialJewelry.SellPrice * 1 + entity.AuxiliaryCost + entity.ProductionCost
                 }
                 return modifiedJewelrySetting
             }
@@ -61,12 +59,11 @@ export class JewelrySettingService {
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
-            Weight: entity.Weight,
             JewelrySettingVariant: entity.jewelrySettingVariant.map(
                 item => {
                 const modifiedJewelrySetting = {
                     ...item,
-                    Price: item.materialJewelry.SellPrice * entity.Weight + entity.AuxiliaryCost + entity.ProductionCost
+                    Price: item.materialJewelry.SellPrice * entity.AuxiliaryCost + entity.AuxiliaryCost + entity.ProductionCost
                 }
                 return modifiedJewelrySetting
             }
@@ -86,12 +83,11 @@ export class JewelrySettingService {
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
-            Weight: entity.Weight,
             JewelrySettingVariant: entity.jewelrySettingVariant.map(
                 item => {
                 const modifiedJewelrySetting = {
                     ...item,
-                    Price: item.materialJewelry.SellPrice * entity.Weight + entity.AuxiliaryCost + entity.ProductionCost
+                    Price: item.materialJewelry.SellPrice * 1 + entity.AuxiliaryCost + entity.ProductionCost
                 }
                 return modifiedJewelrySetting
             }
