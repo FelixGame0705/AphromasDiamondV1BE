@@ -18,6 +18,8 @@ export class AccountsEntity extends BaseEntity{
     Password:string;
     @Column()
     Role:string;
+    @Column()
+    CustomerID:number;
     @OneToMany(()=>NotificationEntity, notification => notification.Account)
     notification: NotificationEntity[]
     @OneToOne(()=>CustomerEntity, customer=>customer.account,{ nullable: true })

@@ -20,10 +20,10 @@ export class UsingImageController {
   @Public()
   @Post("upload-entity")
   @ApiConsumes("multipart/form-data")
-  @ApiBody({ type: UsingImageDTO })
+  @ApiBody({ type: UsingImageDTO})
   @UseInterceptors(FilesInterceptor("files"))
-  async uploadEntity(@UploadedFiles() files: Express.Multer.File[]) {
-    const data = await this.usingImageService.create(files);
+  async uploadEntity(@UploadedFiles() files: Express.Multer.File[], @Body() UsingImageDTO: UsingImageDTO) {
+    const data = await this.usingImageService.create(files, UsingImageDTO);
     console.log(data);
     return await Promise.all(data.map(async (entity) => {
       const host = "http://localhost:3000";
