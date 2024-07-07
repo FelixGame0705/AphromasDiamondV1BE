@@ -58,7 +58,7 @@ export class ProductService {
         let item = await this.productRepository.findRelationById(id);
         console.log("hello"+item)
         const prices = item.diamonds
-        .map(diamond => diamond.Price);
+        .map(diamond => diamond.Price * diamond.ChargeRate);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const dataJewelrySetting =  (await this.jewelrySettingService.findById(item.ProductID))
         const modifiedData = new Product({
