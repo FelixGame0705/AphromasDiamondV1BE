@@ -29,18 +29,21 @@ export class UsingImageService {
     if (isNaN(UsingImageDTO.CertificateID)) UsingImageDTO.CertificateID = null;
 
     return await Promise.all(
-        files.map((item) =>
-            this.usingImageRepository.create({
-                ProductID: UsingImageDTO.ProductID || null,
-                Name: item.filename,
-                DiamondID: UsingImageDTO.DiamondID || null,
-                JewelrySettingID: UsingImageDTO.JewelrySettingID || null,
-                CertificateID: UsingImageDTO.CertificateID || null,
-                url: item.destination,
-            }),
-        ),
+      files.map((item) =>
+        this.usingImageRepository.create({
+          ProductID: UsingImageDTO.ProductID || null,
+          Name: item.filename,
+          DiamondID: UsingImageDTO.DiamondID || null,
+          JewelrySettingID: UsingImageDTO.JewelrySettingID || null,
+          CertificateID: UsingImageDTO.CertificateID || null,
+          url: item.destination,
+        }),
+      ),
     );
-}
+  }
+  async delete(id: number): Promise<boolean> {
+    return await this.usingImageRepository.delete(id);
+  }
 
   async getOneById(id: number) {
     const entity = await this.usingImageRepository.findById(id);
