@@ -22,7 +22,7 @@ export class JewelryTypeRepository extends BaseRepository<JewelryTypeEntity, Rep
     }
 
     async findAll(): Promise<JewelryTypeEntity[]> {
-        return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<JewelryTypeEntity>});
+        return await this.repository.find();
     }
 
 }

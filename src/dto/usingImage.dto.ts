@@ -7,7 +7,10 @@ export class UsingImageDTO{
 
 export class UsingImageUpdateDTO{
     UsingImageID: number
+    @ApiProperty({example:'1', description:'id product'})
     ProductID: number
+    @ApiProperty({example:'1', description:'id diamond'})
     DiamondID: number
+    @ApiProperty({example:'1', description:'id jewelry'})
     JewelrySettingID: number
 }
