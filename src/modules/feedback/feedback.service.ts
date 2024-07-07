@@ -9,7 +9,7 @@ import { PRODUCT_PER_PAGE } from "src/constants/constant";
 export class  FeedbackService {
 
   constructor(
-    @Inject('FeedbackRepository')  
+    @Inject('IFeedbackRepository')  
     private readonly feedbackRepository: IFeedbackRepository
   ) {}
 

@@ -6,15 +6,19 @@ import { ResponseData } from "src/global/globalClass";
 import { Feedback } from "src/models/feedback.model";
 import { FeedbackDTO } from "src/dto/feedback.dto";
 import { ResponseType } from "src/global/globalType";
-import { ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
  
 @ApiTags('FeedbackApi')
 @Controller('feedback')
 export class FeedbackController{
     constructor(private feedbackService: FeedbackService){
     }
-
+    @ApiBearerAuth()
     @Get('/showAll')
+    @ApiOperation({ 
+        summary: 'Get all feedbacks', 
+        description: 'Retrieve all feedbacks from the database.' 
+    })
     @Public()
     async findAll(): Promise<ResponseData<Feedback[]>> {
         try{
@@ -66,9 +70,9 @@ export class FeedbackController{
 
 
 
-    
+    @ApiBearerAuth()
     @Post('/create')
-    @Roles(Role.Manager, Role.Admin)
+    @Roles(Role.Manager, Role.Admin, Role.Customer)
     async create(@Body() feedbackDto: FeedbackDTO): Promise<ResponseData<Feedback>> {
         try {
             const feedback = await this.feedbackService.create(feedbackDto);
@@ -78,7 +82,8 @@ export class FeedbackController{
         }
     }
 
-
+    @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID of the feedback to update', type: Number })
     @Put('/update/:id')
     @Roles(Role.Manager, Role.Admin)
     async update(@Param('id') id: number, @Body()  feedbackDto: FeedbackDTO): Promise<ResponseType<Feedback>> {
@@ -90,7 +95,8 @@ export class FeedbackController{
         }
     }
 
-
+    @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID of the feedback to delete', type: Number })
     @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Param() id: number): Promise<ResponseType<Feedback>> {
