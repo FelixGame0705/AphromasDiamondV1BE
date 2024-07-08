@@ -25,7 +25,6 @@ export class UsingImageController {
   @UseInterceptors(FilesInterceptor("files"))
   async uploadEntity(@UploadedFiles() files: Express.Multer.File[], @Body() UsingImageDTO: UsingImageDTO) {
     const data = await this.usingImageService.create(files, UsingImageDTO);
-    console.log(data);
     return await Promise.all(data.map(async (entity) => {
       const host = "http://localhost:3000";
       return `${host}/usingImage/${(await entity).UsingImageID}`;

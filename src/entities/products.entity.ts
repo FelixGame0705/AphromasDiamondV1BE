@@ -30,8 +30,9 @@ export class ProductEntity extends BaseEntity{
     DiscountID: number
     @OneToMany(()=>DiamondEntity, diamond=>diamond.products)
     diamonds: DiamondEntity[]
-    @OneToOne(()=>JewelrySettingEntity, jewelrySetting => jewelrySetting.ProductID)
-    jewelrySettings: JewelrySettingEntity[]
+    @ManyToOne(()=>JewelrySettingEntity, {nullable: true})
+    @JoinColumn({name:'JewelrySettingID', referencedColumnName:'JewelrySettingID'})
+    jewelrySetting: JewelrySettingEntity
     @ManyToOne(()=>AccountsEntity, {nullable:true})
     @JoinColumn({name:'AccountID', referencedColumnName:'AccountID'})
     account: AccountsEntity
