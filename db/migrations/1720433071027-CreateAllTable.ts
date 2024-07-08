@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateAllTable1720403148299 implements MigrationInterface {
-    name = 'CreateAllTable1720403148299'
+export class CreateAllTable1720433071027 implements MigrationInterface {
+    name = 'CreateAllTable1720433071027'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE \`JewelryType\` (\`JewelryTypeID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NOT NULL, PRIMARY KEY (\`JewelryTypeID\`)) ENGINE=InnoDB`);
@@ -11,8 +11,8 @@ export class CreateAllTable1720403148299 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE \`Feedback\` (\`FeedbackID\` int NOT NULL AUTO_INCREMENT, \`Stars\` int NULL, \`Comment\` text NULL, \`CommentTime\` datetime NULL, \`IsActive\` tinyint NOT NULL DEFAULT 1, \`DiamondID\` int NULL, \`JewelrySettingID\` int NULL, \`OrderID\` int NULL, \`AccountID\` int NULL, \`ProductID\` int NULL, PRIMARY KEY (\`FeedbackID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Size\` (\`SizeID\` int NOT NULL AUTO_INCREMENT, \`SizeValue\` int NOT NULL, \`UnitOfMeasure\` varchar(255) NOT NULL, PRIMARY KEY (\`SizeID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`MaterialJewelry\` (\`MaterialJewelryID\` int NOT NULL AUTO_INCREMENT, \`BuyPrice\` int NULL, \`SellPrice\` int NULL, \`UpdateTime\` datetime NOT NULL, \`Name\` varchar(255) NOT NULL, PRIMARY KEY (\`MaterialJewelryID\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`JewelrySettingVariant\` (\`JewelrySettingVariantID\` int NOT NULL AUTO_INCREMENT, \`SizeID\` int NOT NULL, \`JewelrySettingID\` int NOT NULL, \`MaterialJewelryID\` int NOT NULL, \`Weight\` int NOT NULL, PRIMARY KEY (\`JewelrySettingVariantID\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`JewelrySetting\` (\`JewelrySettingID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NOT NULL, \`ProductionCost\` int NOT NULL, \`AuxiliaryCost\` int NOT NULL, \`IsActive\` tinyint NOT NULL, \`UpdateTime\` datetime NOT NULL, \`DiamondShape\` varchar(255) NULL, \`ChargeRate\` int NOT NULL DEFAULT '100', \`JewelryTypeID\` int NULL, \`ProductID\` int NULL, UNIQUE INDEX \`REL_5cd826fd008793434bc4ce4da1\` (\`ProductID\`), PRIMARY KEY (\`JewelrySettingID\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`JewelrySettingVariant\` (\`JewelrySettingVariantID\` int NOT NULL AUTO_INCREMENT, \`SizeID\` int NULL, \`JewelrySettingID\` int NULL, \`MaterialJewelryID\` int NULL, \`Weight\` int NOT NULL, \`Amount\` int NOT NULL DEFAULT '0', PRIMARY KEY (\`JewelrySettingVariantID\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`JewelrySetting\` (\`JewelrySettingID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NOT NULL, \`ProductionCost\` int NOT NULL, \`AuxiliaryCost\` int NOT NULL, \`IsActive\` tinyint NOT NULL, \`UpdateTime\` datetime NOT NULL, \`DiamondShape\` varchar(255) NULL, \`ChargeRate\` int NOT NULL DEFAULT '100', \`JewelryTypeID\` int NULL, \`ProductID\` int NULL, PRIMARY KEY (\`JewelrySettingID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Collection\` (\`CollectionID\` int NOT NULL AUTO_INCREMENT, \`CollectionName\` varchar(255) NULL, \`Description\` varchar(255) NULL, \`DebutTime\` datetime NULL, PRIMARY KEY (\`CollectionID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Discount\` (\`DiscountID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NULL, \`Description\` varchar(255) NULL, \`StartDate\` datetime NULL, \`EndDate\` datetime NULL, \`PercentDiscounts\` int NOT NULL DEFAULT '0', \`FinalPrice\` int NULL, PRIMARY KEY (\`DiscountID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Product\` (\`ProductID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NULL, \`Inscription\` varchar(255) NULL, \`InscriptionFont\` varchar(255) NULL, \`Brand\` varchar(255) NULL, \`JewelrySettingID\` int NULL, \`AccountID\` int NULL, \`CollectionID\` int NULL, \`DiscountID\` int NULL, PRIMARY KEY (\`ProductID\`)) ENGINE=InnoDB`);
@@ -33,7 +33,7 @@ export class CreateAllTable1720403148299 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`JewelrySettingVariant\` ADD CONSTRAINT \`FK_fe40c0ef9c180bf635b2899eee1\` FOREIGN KEY (\`JewelrySettingID\`) REFERENCES \`JewelrySetting\`(\`JewelrySettingID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`JewelrySettingVariant\` ADD CONSTRAINT \`FK_ed6b364c34a05be5c11cd4bbc80\` FOREIGN KEY (\`MaterialJewelryID\`) REFERENCES \`MaterialJewelry\`(\`MaterialJewelryID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`JewelrySetting\` ADD CONSTRAINT \`FK_d87fe3a6c984623fa33839bb1d4\` FOREIGN KEY (\`JewelryTypeID\`) REFERENCES \`JewelryType\`(\`JewelryTypeID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`JewelrySetting\` ADD CONSTRAINT \`FK_5cd826fd008793434bc4ce4da18\` FOREIGN KEY (\`ProductID\`) REFERENCES \`Product\`(\`ProductID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE \`Product\` ADD CONSTRAINT \`FK_9d3b1225f7550d8307bf99ddc4c\` FOREIGN KEY (\`JewelrySettingID\`) REFERENCES \`JewelrySetting\`(\`JewelrySettingID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Product\` ADD CONSTRAINT \`FK_66067f5f3673d509378b9b34151\` FOREIGN KEY (\`AccountID\`) REFERENCES \`Account\`(\`AccountID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Product\` ADD CONSTRAINT \`FK_588f242bdafefcfeaf046da2c6a\` FOREIGN KEY (\`CollectionID\`) REFERENCES \`Collection\`(\`CollectionID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`Product\` ADD CONSTRAINT \`FK_f8a68b3419fb78d942a33445836\` FOREIGN KEY (\`DiscountID\`) REFERENCES \`Discount\`(\`DiscountID\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -77,7 +77,7 @@ export class CreateAllTable1720403148299 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`Product\` DROP FOREIGN KEY \`FK_f8a68b3419fb78d942a33445836\``);
         await queryRunner.query(`ALTER TABLE \`Product\` DROP FOREIGN KEY \`FK_588f242bdafefcfeaf046da2c6a\``);
         await queryRunner.query(`ALTER TABLE \`Product\` DROP FOREIGN KEY \`FK_66067f5f3673d509378b9b34151\``);
-        await queryRunner.query(`ALTER TABLE \`JewelrySetting\` DROP FOREIGN KEY \`FK_5cd826fd008793434bc4ce4da18\``);
+        await queryRunner.query(`ALTER TABLE \`Product\` DROP FOREIGN KEY \`FK_9d3b1225f7550d8307bf99ddc4c\``);
         await queryRunner.query(`ALTER TABLE \`JewelrySetting\` DROP FOREIGN KEY \`FK_d87fe3a6c984623fa33839bb1d4\``);
         await queryRunner.query(`ALTER TABLE \`JewelrySettingVariant\` DROP FOREIGN KEY \`FK_ed6b364c34a05be5c11cd4bbc80\``);
         await queryRunner.query(`ALTER TABLE \`JewelrySettingVariant\` DROP FOREIGN KEY \`FK_fe40c0ef9c180bf635b2899eee1\``);
@@ -99,7 +99,6 @@ export class CreateAllTable1720403148299 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE \`Product\``);
         await queryRunner.query(`DROP TABLE \`Discount\``);
         await queryRunner.query(`DROP TABLE \`Collection\``);
-        await queryRunner.query(`DROP INDEX \`REL_5cd826fd008793434bc4ce4da1\` ON \`JewelrySetting\``);
         await queryRunner.query(`DROP TABLE \`JewelrySetting\``);
         await queryRunner.query(`DROP TABLE \`JewelrySettingVariant\``);
         await queryRunner.query(`DROP TABLE \`MaterialJewelry\``);

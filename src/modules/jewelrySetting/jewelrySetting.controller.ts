@@ -3,8 +3,8 @@ import { JewelrySettingService } from './jewelrySetting.service';
 import { Public, Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
 import { ResponseData } from 'src/global/globalClass';
-import { JewelrySetting as JewelrySettingDTO } from 'src/dto/jewelrySetting.dto';
-import { JewelrySetting } from 'src/models/jewelrySetting.model';
+import {JewelrySettingDTO } from 'src/dto/jewelrySetting.dto';
+import { JewelrySetting, JewelrySettingAll } from 'src/models/jewelrySetting.model';
 import { ResponseType } from 'src/global/globalType';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
@@ -21,12 +21,27 @@ export class JewelrySettingController {
         description: 'Retrieve all jewelry setting from the database.' 
     })
     @Public()
-    async findAll(): Promise<ResponseData<JewelrySetting[]>> {
+    async findAll(): Promise<ResponseData<JewelrySettingAll[]>> {
         try {
             const jewelrySetting = await this.jewelrySettingService.findAll();
-            return new ResponseData<JewelrySetting[]>(jewelrySetting, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            return new ResponseData<JewelrySettingAll[]>(jewelrySetting, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
-            return new ResponseData<JewelrySetting[]>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+            console.log(error)
+            return new ResponseData<JewelrySettingAll[]>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+        }
+    }
+
+    @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID for create ', type: Number })
+    @Get('/detail/:id')
+    @Public()
+    async findDetail(@Param('id') id:number): Promise<ResponseData<JewelrySettingAll>> {
+        try {
+            const jewelrySetting = await this.jewelrySettingService.findById(id);
+            return new ResponseData<JewelrySettingAll>(jewelrySetting, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+        } catch (error) {
+            console.log(error)
+            return new ResponseData<JewelrySettingAll>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 
@@ -53,6 +68,7 @@ export class JewelrySettingController {
             const shell = await this.jewelrySettingService.update(id, jewelrySettingDTO);
             return new ResponseData<JewelrySetting>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
+            console.log(error)
             return new ResponseData<JewelrySetting>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
