@@ -2,7 +2,10 @@ import { Admin } from "typeorm";
 
 export enum HttpStatus{
     ERROR = 404,
-    SUCCESS = 200
+    SUCCESS = 200,
+    NOT_FOUND,
+    INTERNAL_SERVER_ERROR,
+    OK
 };
 
 export enum HttpMessage{

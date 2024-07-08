@@ -14,6 +14,8 @@ export class JewelrySettingVariantEntity extends BaseEntity{
     JewelrySettingID: number
     @Column()
     MaterialJewelryID: number
+    @Column()
+    Weight: number
     @ManyToOne(()=> SizeEntity, {nullable:true})
     @JoinColumn({name:'SizeID', referencedColumnName:'SizeID'})
     size: SizeEntity

@@ -45,9 +45,13 @@ import { UsingImageModule } from './modules/images/usingImage.module';
 import { UsingImageEntity } from './entities/usingImage.entity';
 import { FeedbackModule } from './modules/feedback/feedback.module';
 import { DbModule } from 'db/db.module';
+<<<<<<< HEAD
 import { CertificateModule } from './modules/certificate/certificate.module';
 import { BillDiscountModule } from './modules/voucher/voucher.module';
 // >>>>>>> develop
+=======
+import { ProductModule } from './modules/product/product.module';
+>>>>>>> develop
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -67,8 +71,13 @@ import { BillDiscountModule } from './modules/voucher/voucher.module';
     DbModule,
     AuthModule,
     UserModule,
+<<<<<<< HEAD
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule, FeedbackModule, CertificateModule,
     SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule, UsingImageModule, BillDiscountModule,
+=======
+    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
+    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule
+>>>>>>> develop
   ],
   controllers: [AppController],
   providers: [

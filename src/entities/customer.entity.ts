@@ -4,7 +4,7 @@ import { OrderEntity } from "./order.entity";
 import { OrderLineEntity } from "./orderLine.entity";
 @Entity('Customer')
 export class CustomerEntity extends BaseEntity{
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     CustomerID: number
     @Column({nullable: true, type: Date})
     Birthday: Date
