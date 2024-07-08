@@ -26,6 +26,7 @@
     "typeorm:migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
   },
   "dependencies": {
+    "@nestjs/axios": "^3.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
@@ -34,6 +35,7 @@
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/typeorm": "^10.0.2",
     "@types/bcrypt": "^5.0.2",
+    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",

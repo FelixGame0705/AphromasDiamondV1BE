@@ -48,6 +48,7 @@ import { DataSource } from 'typeorm';
 import { DbModule } from 'db/db.module';
 import { ProductModule } from './modules/product/product.module';
 import { CertificateModule } from './modules/certificate/certificate.module';
+import { PayPalModule } from './modules/paypal/paypal.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -68,7 +69,7 @@ import { CertificateModule } from './modules/certificate/certificate.module';
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule
+    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule, PayPalModule
   ],
   controllers: [AppController],
   providers: [
