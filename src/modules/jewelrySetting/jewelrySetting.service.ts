@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { JewelrySetting as JewelrySettingDTO } from "src/dto/jewelrySetting.dto";
+import { JewelrySettingDTO } from "src/dto/jewelrySetting.dto";
 import { SizeDTO } from "src/dto/size.dto";
 import { JewelrySettingEntity } from "src/entities/jewelrySetting.entity";
 import { IJewelrySettingRepository as IJewelrySettingRepository } from "src/interfaces/IJewelrySettingRepository";
@@ -45,30 +45,10 @@ export class JewelrySettingService {
     async findById(id: number): Promise<JewelrySetting> {
         let entity = await this.jewelrySettingRepository.findRelationVariantById(id);
         return new JewelrySetting({
-            ProductID: entity.ProductID,
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
-            JewelrySettingVariant: entity.jewelrySettingVariant.map(
-                item => {
-                    const sellPrice = item.materialJewelry?.SellPrice??0;
-                    const modifiedJewelrySetting = {
-                        ...item,
-                        TotalPriceVariant: (sellPrice* item.Weight + entity.ProductionCost) * entity.ChargeRate
-                    }
-                    return modifiedJewelrySetting
-                }
-            )
-        })
-    }
-    async create(shell: JewelrySettingDTO): Promise<JewelrySetting> {
-        let entity = await this.jewelrySettingRepository.create(shell);
-        return new JewelrySetting({
-            ProductID: entity.ProductID,
-            JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
-            ProductionCost: entity.ProductionCost,
-            IsActive: entity.IsActive,
-            JewelrySettingVariant: entity.jewelrySettingVariant.map(
+            JewelrySettingVariant: Array.isArray(entity.jewelrySettingVariant) ? entity.jewelrySettingVariant.map(
                 item => {
                     const modifiedJewelrySetting = {
                         ...item,
@@ -76,7 +56,24 @@ export class JewelrySettingService {
                     }
                     return modifiedJewelrySetting
                 }
-            )
+            ):[]
+        })
+    }
+    async create(shell: JewelrySettingDTO): Promise<JewelrySetting> {
+        let entity = await this.jewelrySettingRepository.create(shell);
+        return new JewelrySetting({
+            JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
+            ProductionCost: entity.ProductionCost,
+            IsActive: entity.IsActive,
+            JewelrySettingVariant: Array.isArray(entity.jewelrySettingVariant) ? entity.jewelrySettingVariant.map(
+                item => {
+                    const modifiedJewelrySetting = {
+                        ...item,
+                        TotalPriceVariant: (item.materialJewelry.SellPrice * item.Weight + entity.ProductionCost) * entity.ChargeRate
+                    }
+                    return modifiedJewelrySetting
+                }
+            ):[]
         })
     }
     async update(id: number, shell: JewelrySettingDTO): Promise<JewelrySetting> {
@@ -92,7 +89,7 @@ export class JewelrySettingService {
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
-            JewelrySettingVariant: entity.jewelrySettingVariant.map(
+            JewelrySettingVariant: Array.isArray(entity.jewelrySettingVariant) ? entity.jewelrySettingVariant.map(
                 item => {
                     const modifiedJewelrySetting = {
                         ...item,
@@ -100,7 +97,7 @@ export class JewelrySettingService {
                     }
                     return modifiedJewelrySetting
                 }
-            )
+            ):[]
         })
     }
 }

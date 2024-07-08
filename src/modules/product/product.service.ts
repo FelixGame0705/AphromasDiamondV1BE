@@ -25,14 +25,6 @@ export class ProductService {
             const prices = item.diamonds
                 .filter(diamond => diamond.ProductID === item.ProductID)
                 .map(diamond => diamond.Price);
-                let dataJewelrySetting = null;
-                if(item.ProductID != null) {
-                    try {
-                        dataJewelrySetting = await this.jewelrySettingService.findById(item.ProductID);
-                    } catch (e) {
-                        console.error(`JewelrySetting with ProductID ${item.ProductID} not found`);
-                    }
-                }
             // Tính tổng giá trị của các viên kim cương
             const totalPrice = prices.reduce((acc, current) => acc + current, 0);
 
@@ -49,7 +41,7 @@ export class ProductService {
                 Price: totalPrice,
                 UsingImage: item.usingImage,
                 Diamond: item.diamonds,
-                JewelrySetting: dataJewelrySetting || null
+                JewelrySetting: item.jewelrySetting
             })
         }))
         return modifiedData;
@@ -60,7 +52,6 @@ export class ProductService {
         const prices = item.diamonds
         .map(diamond => diamond.Price * diamond.ChargeRate);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
-        const dataJewelrySetting =  (await this.jewelrySettingService.findById(item.ProductID))
         const modifiedData = new Product({
             ProductID: item.ProductID,
             AccountID: item.AccountID,
@@ -74,7 +65,7 @@ export class ProductService {
             Price: totalPrice,
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
-            JewelrySetting: dataJewelrySetting,
+            JewelrySetting: item.jewelrySetting
             
         })
         return modifiedData;
@@ -84,14 +75,6 @@ export class ProductService {
     async create(product: ProductDTO): Promise<Product> {
         let itemCreate = await this.productRepository.create(product);
         let item = await this.productRepository.findRelationById(itemCreate.ProductID);
-        let dataJewelrySetting =  null
-        if(itemCreate.ProductID != null) {
-            try {
-                dataJewelrySetting = await this.jewelrySettingService.findById(item.ProductID);
-            } catch (e) {
-                console.error(`JewelrySetting with ProductID ${item.ProductID} not found`);
-            }
-        }
         const prices = item.diamonds
         .map(diamond => diamond.Price);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
@@ -108,7 +91,7 @@ export class ProductService {
             Price: totalPrice,
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
-            JewelrySetting: dataJewelrySetting
+            JewelrySetting: item.jewelrySetting
         })
         return modifiedData;
     }
@@ -124,7 +107,6 @@ export class ProductService {
         console.log("hello"+item)
         const prices = item.diamonds
         .map(diamond => diamond.Price);
-        const dataJewelrySetting =  (await this.jewelrySettingService.findById(item.ProductID))
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const modifiedData = new Product({
             ProductID: item.ProductID,
@@ -139,7 +121,7 @@ export class ProductService {
             Price: totalPrice,
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
-            JewelrySetting: dataJewelrySetting
+            JewelrySetting: item.jewelrySetting
         })
         return modifiedData;
     }

@@ -46,6 +46,7 @@ export class JewelrySettingVariantController {
             const sizeMatchShell = await this.jewelrySettingVariantService.update(id, sizeMatchShellDto);
             return new ResponseData<JewelrySettingVariant>(sizeMatchShell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
+            console.log(error)
             return new ResponseData<JewelrySettingVariant>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
