@@ -22,6 +22,7 @@ export class ProductController {
             const product = await this.productService.findAll();
             return new ResponseData<Product[]>(product, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
+            console.log(error)
             return new ResponseData<Product[]>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
@@ -29,12 +30,13 @@ export class ProductController {
     @ApiBearerAuth()
     @Post('/create')
     @ApiBody({ type: ProductDTO, description: 'The data to create' })
-    @Roles(Role.Manager, Role.Customer)
+    @Roles(Role.Manager, Role.Customer, Role.Admin)
     async create(@Body() productDto: ProductDTO): Promise<ResponseData<Product>> {
         try {
             const product = await this.productService.create(productDto);
             return new ResponseData<Product>(product, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
+            console.log(error)
             return new ResponseData<Product>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }

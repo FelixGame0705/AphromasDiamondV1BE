@@ -27,7 +27,7 @@ export class JewelrySettingVariantController {
 
     @ApiBearerAuth()
     @Post('/create')
-    @Roles(Role.Manager, Role.Customer)
+    @Roles(Role.Manager, Role.Customer, Role.Admin)
     async create(@Body() jewelrySettingVariantDTO: JewelrySettingVariantDTO): Promise<ResponseData<JewelrySettingVariant>> {
         try {
             const sizeMatchShell = await this.jewelrySettingVariantService.create(jewelrySettingVariantDTO);

@@ -3,6 +3,8 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGe
 import { ProductEntity } from "./products.entity";
 import { DiamondEntity } from "./diamond.entity";
 import { JewelrySettingEntity } from "./jewelrySetting.entity";
+import { Certificate } from "crypto";
+import { CertificateEntity } from "./certificate.entity";
 
 @Entity('UsingImage')
 export class UsingImageEntity extends BaseEntity{
@@ -18,6 +20,8 @@ export class UsingImageEntity extends BaseEntity{
     Name: string
     @Column({nullable: true})
     url: string
+    @Column({nullable: true})
+    CertificateID: number
     @ManyToOne(()=> ProductEntity,{nullable: true})
     @JoinColumn({name: 'ProductID', referencedColumnName: 'ProductID'})
     product: ProductEntity
@@ -27,4 +31,7 @@ export class UsingImageEntity extends BaseEntity{
     @ManyToOne(()=>JewelrySettingEntity, {nullable: true})
     @JoinColumn({name: 'JewelrySettingID', referencedColumnName: 'JewelrySettingID'})
     jewelrySetting: JewelrySettingEntity
+    @ManyToOne(()=>CertificateEntity, {nullable: true})
+    @JoinColumn({name: 'CertificateID', referencedColumnName: 'CertificateID'})
+    certificate: CertificateEntity[]
 }

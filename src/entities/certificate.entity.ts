@@ -1,10 +1,12 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { DiamondEntity } from "./diamond.entity";
+import { UsingImage } from "src/models/usingImage.model";
+import { UsingImageEntity } from "./usingImage.entity";
 
 @Entity('Certificate')
 export class CertificateEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
-    CerID: number
+    CertificateID: number
     @Column({nullable: true})
     DiamondID: number
     @Column({nullable: true})
@@ -12,5 +14,7 @@ export class CertificateEntity extends BaseEntity{
     @ManyToOne(()=>DiamondEntity, { nullable: true })
     @JoinColumn({name:'DiamondID', referencedColumnName:'DiamondID'})
     Diamond: DiamondEntity
+    @OneToMany(()=>UsingImageEntity, usingImage=>usingImage.certificate)
+    certificate: CertificateEntity[]
     //done
 }

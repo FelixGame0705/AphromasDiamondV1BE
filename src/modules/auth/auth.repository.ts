@@ -62,24 +62,25 @@ export class AuthRepository implements IAuthRepository {
 
         try {
             // Save the account information
+            
+
+            // Save the customer information
+            const customer = this.customerRepository.create({
+                Birthday,
+                Gender,
+                Address
+            });
+            await queryRunner.manager.save(customer);
+
             const account = this.accountRepository.create({
                 Name,
                 PhoneNumber,
                 Email,
                 Password: hash,
                 Role: Role.Customer,
+                CustomerID: customer.CustomerID
             });
             await queryRunner.manager.save(account);
-
-            // Save the customer information
-            const customer = this.customerRepository.create({
-                Birthday,
-                Gender,
-                Address,
-                CustomerID: account.AccountID,
-            });
-            await queryRunner.manager.save(customer);
-
             // Commit the transaction
             await queryRunner.commitTransaction();
 

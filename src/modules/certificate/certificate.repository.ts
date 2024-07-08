@@ -16,10 +16,10 @@ export class CertificateRepository extends BaseRepository<CertificateEntity, Rep
     }
     findRelationById(id: number): Promise<Certificate> {
         return null;
-    }ư
+    }
 
     protected getIdField(): keyof Certificate {
-        return 'CerID';
+        return 'CertificateID';
     }
 
     async findAll(): Promise<CertificateEntity[]> {

@@ -29,7 +29,7 @@ export class SizeController {
     @ApiBearerAuth()
     @Post('/create')
     @ApiBody({ type: SizeDTO, description: 'The data to create' })
-    @Roles(Role.Manager, Role.Customer)
+    @Roles(Role.Manager, Role.Customer, Role.Admin)
     async create(@Body() sizeDto: SizeDTO): Promise<ResponseData<Size>> {
         try {
             const size = await this.sizeService.create(sizeDto);
