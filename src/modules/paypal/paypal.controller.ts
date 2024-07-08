@@ -10,13 +10,13 @@ export class PayPalController {
     constructor(private readonly paypalService: PayPalService) {}
 
     @ApiBody({type: PayPalDTO, description: 'The payment amount'})
-    @Post('/paypal/create-order')
+    @Post('/create-order')
     @Public()
     async createOrder(@Body('amount') amount: number) {
         return this.paypalService.createOrder(amount);
     }
 
-    @Post('/paypal/capture-order/:orderID')
+    @Post('/capture-order/:orderID')
     @Public()
     async captureOrder(@Param('orderID') orderID: number) {
         return this.paypalService.captureOrder(orderID);
