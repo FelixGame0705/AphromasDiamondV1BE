@@ -46,10 +46,12 @@ export class JewelrySettingRepository extends BaseRepository<JewelrySettingEntit
         const builder = this.repository.createQueryBuilder('jewelrySetting')
         .leftJoinAndSelect('jewelrySetting.jewelrySettingVariant', 'jewelrySettingVariant')
         .leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry')
+        .leftJoinAndSelect('jewelrySettingVariant.size', 'size')
         .select([
             'jewelrySetting',
             'jewelrySettingVariant',
-            'materialJewelry.SellPrice'
+            'materialJewelry.SellPrice',
+            'size'
         ])
         .getMany();
         //const jewelrySettingVariantBuilder = this.repository.createQueryBuilder('jewelrySettingVariant').leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry');

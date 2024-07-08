@@ -4,6 +4,9 @@ import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class JewelrySetting {
     JewelrySetting: number
+    @ApiProperty({ example: 1, description: "Product id of shell" })
+    @IsNumber()
+    ProductID: number
     @ApiProperty({ example: 200, description: "Product cost of shell" })
     @IsNumber()
     ProductionCost: number
@@ -15,10 +18,6 @@ export class JewelrySetting {
     @ApiProperty({ example: true, description: "shell" })
     @IsBoolean()
     IsActive: boolean
-
-    @ApiProperty({ example: 200, description: "Weight of shell" })
-    @IsNumber()
-    Weight: number
     @ApiProperty({ example: '01-10-2023 00:00:00' })
     @ToDatabaseDateTime()
     UpdateTime: Date
@@ -28,8 +27,4 @@ export class JewelrySetting {
 
     @ApiProperty({ example: null, description: " MaterialJewelryID" })
     MaterialJewelryID: number
-
-    @ApiProperty({ example: null, description: " ID of material" })
-    MaterialID: number
-
 }
