@@ -33,5 +33,5 @@ export class UsingImageEntity extends BaseEntity{
     jewelrySetting: JewelrySettingEntity
     @ManyToOne(()=>CertificateEntity, {nullable: true})
     @JoinColumn({name: 'CertificateID', referencedColumnName: 'CertificateID'})
-    certificate: CertificateEntity[]
+    certificate: CertificateEntity
 }
