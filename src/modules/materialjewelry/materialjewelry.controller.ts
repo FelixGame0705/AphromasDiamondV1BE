@@ -31,12 +31,8 @@ export class MaterialJewelryController{
 
     @ApiBearerAuth()
     @Post('/create')
-<<<<<<< HEAD
     @ApiBody({ type:  MaterialJewelryDTO, description: 'The data to create Material Jewelry '})
     @Roles(Role.Manager, Role.Admin, Role.Customer)
-=======
-    @Roles(Role.Manager,Role.Customer, Role.Admin)
->>>>>>> develop
     async create(@Body() materialjewelryDto:  MaterialJewelryDTO): Promise<ResponseData<MaterialJewelry>> {
         try {
             const materialjewelry = await this.materialjewelryService.create(materialjewelryDto);
