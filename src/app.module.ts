@@ -46,11 +46,7 @@ import { DbModule } from 'db/db.module';
 import { CertificateModule } from './modules/certificate/certificate.module';
 import { BillDiscountModule } from './modules/voucher/voucher.module';
 import { ProductModule } from './modules/product/product.module';
-<<<<<<< HEAD
  
-=======
-import { CertificateModule } from './modules/certificate/certificate.module';
->>>>>>> develop
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -70,15 +66,10 @@ import { CertificateModule } from './modules/certificate/certificate.module';
     DbModule,
     AuthModule,
     UserModule,
-<<<<<<< HEAD
 
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule, FeedbackModule, CertificateModule,
     SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule, UsingImageModule, BillDiscountModule, ProductModule
 
-=======
-    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule
->>>>>>> develop
   ],
   controllers: [AppController],
   providers: [
