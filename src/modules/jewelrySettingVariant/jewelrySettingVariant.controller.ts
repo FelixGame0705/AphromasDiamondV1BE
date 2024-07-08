@@ -43,11 +43,7 @@ export class JewelrySettingVariantController {
         }
     }
     @ApiBearerAuth()
-<<<<<<< HEAD
-    @ApiParam({ name: 'id', description: 'ID of the Jewelry Setting Variant to update', type: Number })
-=======
     // @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID for update ', type: Number })
->>>>>>> develop
     @Put('/update/:id')
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() sizeMatchShellDto: JewelrySettingVariantDTO): Promise<ResponseType<JewelrySettingVariant>> {
