@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Res } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CertificateEntity } from "src/entities/certificate.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { ICertificateRepository } from "src/interfaces/ICertificateRepository";
 import { Certificate } from "src/models/certificate.model";
-import { FindOptionsWhere, Repository } from "typeorm";
+import { FindOneOptions, Repository } from "typeorm";
 
 @Injectable()
 export class CertificateRepository extends BaseRepository<CertificateEntity, Repository<CertificateEntity>> implements ICertificateRepository{
@@ -14,12 +14,12 @@ export class CertificateRepository extends BaseRepository<CertificateEntity, Rep
     ){
         super(repository);
     }
-    findRelationById(id: number): Promise<Certificate> {
-        return null;
+    async findRelationById(CertificateID: number): Promise<Certificate> {
+        return await this.repository.findOne({where: {CertificateID}, relations: ['usingImages']} as FindOneOptions);
     }
 
     protected getIdField(): keyof Certificate {
-        return 'CertificateID';
+        return  'CertificateID';
     }
 
     async findAll(): Promise<CertificateEntity[]> {
