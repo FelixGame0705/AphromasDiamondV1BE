@@ -8,14 +8,16 @@ import { MaterialJewelryEntity } from "./marterialJewelry.entity";
 export class JewelrySettingVariantEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     JewelrySettingVariantID: number
-    @Column()
+    @Column({nullable: true})
     SizeID: number
-    @Column()
+    @Column({nullable: true})
     JewelrySettingID: number
-    @Column()
+    @Column({nullable: true})
     MaterialJewelryID: number
     @Column()
     Weight: number
+    @Column({default:0})
+    Amount: number
     @ManyToOne(()=> SizeEntity, {nullable:true})
     @JoinColumn({name:'SizeID', referencedColumnName:'SizeID'})
     size: SizeEntity

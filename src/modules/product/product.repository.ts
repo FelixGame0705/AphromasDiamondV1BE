@@ -25,7 +25,7 @@ export class ProductRepository extends BaseRepository<ProductEntity, Repository<
     }
 
     async findAll(): Promise<ProductEntity[]> {
-        const builder = this.repository.createQueryBuilder('product').leftJoinAndSelect('product.diamonds', 'diamonds').leftJoinAndSelect('product.usingImage','usingImage');
+        const builder = this.repository.createQueryBuilder('product').leftJoinAndSelect('product.diamonds', 'diamonds').leftJoinAndSelect('product.usingImage','usingImage').leftJoinAndSelect('product.jewelrySetting', 'jewelrySetting');
         const data = await builder.getMany();
         
         return data;

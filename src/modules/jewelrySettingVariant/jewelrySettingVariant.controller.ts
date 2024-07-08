@@ -21,6 +21,7 @@ export class JewelrySettingVariantController {
             const sizeMatchShell = await this.jewelrySettingVariantService.findAll();
             return new ResponseData<JewelrySettingVariant[]>(sizeMatchShell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
+            console.log(error)
             return new ResponseData<JewelrySettingVariant[]>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
@@ -37,7 +38,7 @@ export class JewelrySettingVariantController {
         }
     }
     @ApiBearerAuth()
-    @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID for update ', type: Number })
+    // @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID for update ', type: Number })
     @Put('/update/:id')
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() sizeMatchShellDto: JewelrySettingVariantDTO): Promise<ResponseType<JewelrySettingVariant>> {
@@ -45,6 +46,7 @@ export class JewelrySettingVariantController {
             const sizeMatchShell = await this.jewelrySettingVariantService.update(id, sizeMatchShellDto);
             return new ResponseData<JewelrySettingVariant>(sizeMatchShell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
+            console.log(error)
             return new ResponseData<JewelrySettingVariant>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
@@ -56,7 +58,7 @@ export class JewelrySettingVariantController {
     @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID for delete ', type: Number })
     @Delete('/delete/:JewelrySettingVariantID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Param() id: number): Promise<ResponseType<JewelrySettingVariant>> {
+    async delete(@Param('id') id: number): Promise<ResponseType<JewelrySettingVariant>> {
         try {
             const isDeleted = await this.jewelrySettingVariantService.delete(id);
             if (isDeleted) {
