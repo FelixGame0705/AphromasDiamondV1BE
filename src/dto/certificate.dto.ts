@@ -11,6 +11,11 @@ export class CertificateDTO{
 
     @ApiProperty({ example: null , description: 'Certificate' })
     DiamondID: number
+<<<<<<< HEAD
     
     
+=======
+    @ApiProperty({ example: null , description: 'Diamond' })
+    Name: string
+>>>>>>> develop
 }

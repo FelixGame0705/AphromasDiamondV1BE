@@ -33,7 +33,7 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
         filters: any,
         sort: { field: string, order: 'ASC' | 'DESC' }
     ): Promise<{ data: DiamondEntity[], total: number, page: number, last_page: number }> {
-        const builder = this.repository.createQueryBuilder('diamond').leftJoinAndSelect('diamond.usingImage', 'usingImage');;
+        const builder = this.repository.createQueryBuilder('diamond').leftJoinAndSelect('diamond.usingImage', 'usingImage');
 
         // Apply filters
         if (filters.Shape && filters.Shape.length > 0) {

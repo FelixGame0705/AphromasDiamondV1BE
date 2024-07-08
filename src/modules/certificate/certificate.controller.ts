@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CertificateService } from "./certificate.service";
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -16,11 +16,7 @@ export class CertificateController{
     @ApiBearerAuth()
     @Public()
     @Get('/showAll')
-    @ApiOperation({ 
-        summary: 'Get all certificates', 
-        description: 'Retrieve all certificates from the database.' 
-    })
-    // @Roles(Role.Customer, Role.Manager, Role.Admin)
+    @Roles(Role.Customer, Role.Manager, Role.Admin)
     async findAll(): Promise<ResponseData<Certificate[]>> {
         try{
             const certicate = await this.certificateService.findAll();
@@ -30,14 +26,26 @@ export class CertificateController{
         }
     }
 
+    @Public()
+    @Get('/:CertificateID')
+    @ApiParam({ name: 'CertificateID', description: 'ID of the diamond to watch detail', type: Number })
+    async findDetail(@Param('CertificateID')CertificateID: number): Promise<ResponseData<Certificate>> {
+        try{
+            const certificate = await this.certificateService.findRelationById(CertificateID);
+            return new ResponseData<Certificate>(certificate, HttpStatus.SUCCESS, HttpMessage.SUCCESS );
+        }catch(error){
+            console.log(error)
+            return new ResponseData<Certificate>(null, HttpStatus.ERROR, HttpMessage.ERROR );
+        }
+    }
+
     @ApiBearerAuth()
     @Post('/create')
-    @ApiBody({ type: CertificateDTO, description: 'The data to create certificate'})
     @Roles(Role.Manager,Role.Customer)
     async create(@Body() certificateDto:  CertificateDTO): Promise<ResponseData<Certificate>> {
         try {
-            const certicate = await this.certificateService.create(certificateDto);
-            return new ResponseData<Certificate>(certicate, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            const certificate = await this.certificateService.create(certificateDto);
+            return new ResponseData<Certificate>(certificate, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<Certificate>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
@@ -49,8 +57,8 @@ export class CertificateController{
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() certificateDto:  CertificateDTO): Promise<ResponseType<Certificate>> {
         try {
-            const certicate = await this.certificateService.update(id, certificateDto);
-            return new ResponseData<Certificate>(certicate, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            const certificate = await this.certificateService.update(id, certificateDto);
+            return new ResponseData<Certificate>(certificate, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<Certificate>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
@@ -60,10 +68,10 @@ export class CertificateController{
     @ApiParam({ name: 'id', description: 'ID of the certificate to delete', type: Number })
     @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number ): Promise<ResponseType<Certificate>> {
+    async delete(@Param('id') id: number): Promise<ResponseType<Certificate>> {
         try {
-            const certicate = await this.certificateService.delete(id);
-            return new ResponseData<Certificate>(certicate, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            const certificate = await this.certificateService.delete(id);
+            return new ResponseData<Certificate>(certificate, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<Certificate>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }

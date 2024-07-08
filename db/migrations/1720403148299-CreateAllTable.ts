@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateAllTable1720390292644 implements MigrationInterface {
-    name = 'CreateAllTable1720390292644'
+export class CreateAllTable1720403148299 implements MigrationInterface {
+    name = 'CreateAllTable1720403148299'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE \`JewelryType\` (\`JewelryTypeID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NOT NULL, PRIMARY KEY (\`JewelryTypeID\`)) ENGINE=InnoDB`);
