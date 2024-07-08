@@ -1,6 +1,5 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { DiamondEntity } from "./diamond.entity";
-import { UsingImage } from "src/models/usingImage.model";
 import { UsingImageEntity } from "./usingImage.entity";
 
 @Entity('Certificate')
@@ -15,6 +14,6 @@ export class CertificateEntity extends BaseEntity{
     @JoinColumn({name:'DiamondID', referencedColumnName:'DiamondID'})
     Diamond: DiamondEntity
     @OneToMany(()=>UsingImageEntity, usingImage=>usingImage.certificate)
-    certificate: CertificateEntity[]
+    usingImages: UsingImageEntity[]
     //done
 }

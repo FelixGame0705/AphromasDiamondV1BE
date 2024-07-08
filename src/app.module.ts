@@ -47,6 +47,7 @@ import { FeedbackModule } from './modules/feedback/feedback.module';
 import { DataSource } from 'typeorm';
 import { DbModule } from 'db/db.module';
 import { ProductModule } from './modules/product/product.module';
+import { CertificateModule } from './modules/certificate/certificate.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -67,7 +68,7 @@ import { ProductModule } from './modules/product/product.module';
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule
+    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule
   ],
   controllers: [AppController],
   providers: [
