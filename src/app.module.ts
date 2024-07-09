@@ -69,7 +69,7 @@ import { PayPalModule } from './modules/paypal/paypal.module';
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule, PayPalModule
+    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule, PayPalModule, DiscountModule
   ],
   controllers: [AppController],
   providers: [
