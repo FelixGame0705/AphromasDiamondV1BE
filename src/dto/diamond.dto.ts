@@ -50,6 +50,12 @@ export class DiamondDTO{
     @ApiProperty({example: '01-01-2024 00:00:00'})
     @ToDatabaseDateTime()
     UpdateTime: Date
+    // @ApiProperty({ example: null , description: 'Diamond' })
+    // JewelrySettingID: number
     @ApiProperty({ example: null , description: 'Diamond' })
-    JewelrySettingID: number
+    ProductID: number
+    @ApiProperty({ example: null , description: 'Diamond' })
+    CollectionID: number
+    @ApiProperty({ example: null , description: 'Diamond' })
+    DiscountID: number
 }
