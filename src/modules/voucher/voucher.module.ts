@@ -10,9 +10,9 @@ import { VoucherController } from "./voucher.controller";
     controllers: [VoucherController],
     providers: [VoucherService, {
         useClass: VoucherRepository,
-        provide: 'IBillDiscountRepository'
+        provide: 'IVoucherRepository'
     }]
 })
-export class BillDiscountModule{
+export class VoucherModule{
 
 }
