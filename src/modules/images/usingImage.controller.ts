@@ -60,10 +60,7 @@ export class UsingImageController {
       // if (!data) {
       //   return res.status(HttpStatus.NOT_FOUND).json({ message: 'Image not found' });
       // }
-      const filePath1 = path.join(__dirname, '..', '..');
-      console.log('Hello'+filePath1)
       const filePath = path.join(__dirname, '..', data.url, data.Name);
-      console.log('Hello'+filePath)
       fs.unlink(filePath, async (err) => {
         if (err) {
           console.error('Error deleting file:', err);

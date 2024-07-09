@@ -55,9 +55,6 @@ export class ProductController {
         }
     }
 
-
-
-
     @ApiBearerAuth()
     @ApiParam({ name: 'ProductID', description: 'ID of the order to delete', type: Number })
     @Delete('/delete/:ProductID')
