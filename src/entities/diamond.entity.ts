@@ -7,6 +7,7 @@ import { ProductEntity } from "./products.entity";
 import { CollectionEntity } from "./collection.entity";
 import { DiscountEntity } from "./discount.entity";
 import { UsingImageEntity } from "./usingImage.entity";
+import { JewelrySettingVariantEntity } from "./jewlrySettingVariant.entity";
 @Entity('Diamond')
 export class DiamondEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -46,18 +47,24 @@ export class DiamondEntity extends BaseEntity{
     @Column({type: "datetime"})
     UpdateTime: Date
     @Column({nullable: true})
-    JewelrySettingID: number
+    JewelrySettingVariantID: number
     @Column({nullable: true})
     ProductID: number
     @Column({nullable: true})
     CollectionID: number
     @Column({nullable: true})
     DiscountID: number
+    @Column({nullable: true})
+    Designer: string
+    @Column({nullable: true})
+    Cutter: string
+    @Column({nullable: true})// use to group diamond in 1 variant jewelry setting
+    IndexVariantGroup: number
     @OneToMany(()=>CertificateEntity, certificate=>certificate.Diamond)
     certificate: CertificateEntity[]
-    @ManyToOne(()=>JewelrySettingEntity, { nullable: true })
-    @JoinColumn({name:'JewelrySettingID', referencedColumnName:'JewelrySettingID'})
-    jewelrySetting: JewelrySettingEntity
+    @ManyToOne(()=>JewelrySettingVariantEntity, { nullable: true })
+    @JoinColumn({name:'JewelrySettingVariantID', referencedColumnName:'JewelrySettingVariantID'})
+    jewelrySettingVariant: JewelrySettingVariantEntity
     @OneToOne(()=>OrderLineEntity, orderLine=>orderLine.DiamondID, { nullable: true })
     orderLine: OrderLineEntity
     @OneToMany(()=>FeedbackEntity, feedback=>feedback.diamond)

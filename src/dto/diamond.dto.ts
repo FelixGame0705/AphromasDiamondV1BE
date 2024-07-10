@@ -7,9 +7,6 @@ export class DiamondDTO{
     @ApiProperty({ example: "Kim cuong" , description: 'Diamond' })
     @IsString()
     Name: string
-    @ApiProperty({ example: "Square" , description: 'Diamond' })
-    @IsString()
-    Shape: string
     @ApiProperty({ example: "Beautiful" , description: 'Diamond' })
     @IsString()
     Cut: string
@@ -47,6 +44,15 @@ export class DiamondDTO{
     Symmetry: string
     @ApiProperty({ example: 120 , description: 'Diamond' })
     ChargeRate: number
+
+    @ApiProperty({ example: "Cutter" , description: 'cutter' })
+    @IsString()
+    Cutter: string
+    
+    @ApiProperty({ example: "Square" , description: 'Diamond' })
+    @IsString()
+    Shape: string
+    
     @ApiProperty({example: '01-01-2024 00:00:00'})
     @ToDatabaseDateTime()
     UpdateTime: Date
@@ -58,4 +64,6 @@ export class DiamondDTO{
     CollectionID: number
     @ApiProperty({ example: null , description: 'Diamond' })
     DiscountID: number
+    @ApiProperty({example: null, description: 'Jewelry setting variant id dùng để tạo sản phẩm sẵn, nối diamond với vỏ'})
+    JewelrySettingVariantID: number
 }
