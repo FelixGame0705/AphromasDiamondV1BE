@@ -28,10 +28,6 @@ export class JewelrySettingDTO {
     @ApiProperty({ example: 1, description: "ChargeRate" })
     @IsNumber()
     ChargeRate: number
-
-    @ApiProperty({ example: 'Real love titanic', description: "Name of shell" })
-    @IsNumber()
-    Name: string
     
     @ApiProperty({ example: 200, description: "Auxiliary cost of shell" })
     @IsNumber()
