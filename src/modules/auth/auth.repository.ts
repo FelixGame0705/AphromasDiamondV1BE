@@ -138,4 +138,32 @@ export class AuthRepository implements IAuthRepository {
         const idField = this.getIdField();
         return await this.accountRepository.findOne( {where: {Email:email} as FindOptionsWhere<BaseEntity>});
     }
+
+    async findAllAccounts(): Promise<AuthResponseDTO[]> {
+        return await this.accountRepository.find();
+    }
+
+    async deleteAccount(id: number): Promise<boolean> {
+        try {
+            const result = await this.accountRepository.delete(id);
+            return result.affected > 0;
+        } catch (error) {
+            console.error("Error deleting account:", error);
+            return false;
+        }
+    }
+
+    async deleteCustomer(id: number): Promise<boolean> {
+        try {
+            // First delete the customer record associated with the account
+            await this.customerRepository.delete(id);
+
+            // Then delete the account itself
+            const result = await this.accountRepository.delete(id);
+            return result.affected > 0;
+        } catch (error) {
+            console.error("Error deleting customer:", error);
+            return false;
+        }
+    }
 }
