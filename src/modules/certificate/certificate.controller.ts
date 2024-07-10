@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { CertificateService } from "./certificate.service";
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -13,10 +13,13 @@ import { CertificateDTO } from "src/dto/certificate.dto";
 export class CertificateController{
     constructor(private certificateService: CertificateService){
     }
-    @ApiBearerAuth()
-    @Public()
+    @ApiBearerAuth() 
     @Get('/showAll')
-    @Roles(Role.Customer, Role.Manager, Role.Admin)
+    @ApiOperation({ 
+        summary: 'Get all Certificate', 
+        description: 'Retrieve all Certificate from the database.' 
+    })
+    @Public()
     async findAll(): Promise<ResponseData<Certificate[]>> {
         try{
             const certicate = await this.certificateService.findAll();
