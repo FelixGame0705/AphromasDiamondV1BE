@@ -8,8 +8,8 @@ import { ResponseData } from "src/global/globalClass";
 import { ResponseType } from "src/global/globalType";
 import { VoucherService as VoucherService } from './voucher.service';
 
-@ApiTags('BillDisCountApi')
-@Controller('billdiscount')
+@ApiTags('VoucherAPI')
+@Controller('voucher')
 export class VoucherController{
     constructor(private voucherService: VoucherService){
     }

@@ -44,4 +44,28 @@ export class AuthService{
     async findByUsername(username:string){
         return this.authRepository.findByUsername(username)
     }
+
+    async findAllAccounts(): Promise<AuthResponseDTO[]> {
+        return await this.authRepository.findAllAccounts();
+    }
+
+    async deleteAccount(id: number): Promise<boolean> {
+        try {
+            const deleted = await this.authRepository.deleteAccount(id);
+            return deleted;
+        } catch (error) {
+            console.error("Error deleting account:", error);
+            return false;
+        }
+    }
+
+    async deleteCustomer(id: number): Promise<boolean> {
+        try {
+            const deleted = await this.authRepository.deleteCustomer(id);
+            return deleted;
+        } catch (error) {
+            console.error("Error deleting customer:", error);
+            return false;
+        }
+    }
 }

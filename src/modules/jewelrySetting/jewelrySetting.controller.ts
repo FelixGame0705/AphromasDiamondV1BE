@@ -6,7 +6,7 @@ import { ResponseData } from 'src/global/globalClass';
 import {JewelrySettingDTO } from 'src/dto/jewelrySetting.dto';
 import { JewelrySetting, JewelrySettingAll } from 'src/models/jewelrySetting.model';
 import { ResponseType } from 'src/global/globalType';
-import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('JewelrySetting')
 @Controller('jewelrySetting')
@@ -16,6 +16,10 @@ export class JewelrySettingController {
 
     @ApiBearerAuth()
     @Get('/showAll')
+    @ApiOperation({ 
+        summary: 'Get all jewelry setting', 
+        description: 'Retrieve all jewelry setting from the database.' 
+    })
     @Public()
     async findAll(): Promise<ResponseData<JewelrySettingAll[]>> {
         try {
@@ -44,6 +48,8 @@ export class JewelrySettingController {
     @Roles(Role.Manager, Role.Admin)
     @ApiBearerAuth()
     @Post('/create')
+    @ApiBody({ type: JewelrySettingDTO, description: 'The data to create discount'})
+    @Roles(Role.Manager, Role.Admin)
     async create(@Body() jewelrySettingDTO: JewelrySettingDTO): Promise<ResponseData<JewelrySetting>> {
         try {
             const shell = await this.jewelrySettingService.create(jewelrySettingDTO);
@@ -57,9 +63,9 @@ export class JewelrySettingController {
     @Put('/update/:id')
     @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
     @Roles(Role.Admin, Role.Manager)
-    async update(@Param('id') id: number, @Body() JewelrySettingDTO: JewelrySettingDTO): Promise<ResponseType<JewelrySetting>> {
+    async update(@Param('id') id: number, @Body() jewelrySettingDTO: JewelrySettingDTO): Promise<ResponseType<JewelrySetting>> {
         try {
-            const shell = await this.jewelrySettingService.update(id, JewelrySettingDTO);
+            const shell = await this.jewelrySettingService.update(id, jewelrySettingDTO);
             return new ResponseData<JewelrySetting>(shell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             console.log(error)
@@ -68,7 +74,7 @@ export class JewelrySettingController {
     }
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'id', description: 'ID for update ', type: Number })
+    @ApiParam({ name: 'id', description: 'ID for delete ', type: Number })
     @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Param() id: number): Promise<ResponseType<JewelrySetting>> {

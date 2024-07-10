@@ -1,4 +1,4 @@
-import { Body, Controller, Res,Post, UsePipes, ValidationPipe, Param } from "@nestjs/common";
+import { Body, Controller, Res,Post, UsePipes, ValidationPipe, Param, Delete, Get } from "@nestjs/common";
 import { Response } from "express";
 import { AuthPayloadCustomerDTO, AuthPayloadDTO, AuthPermission, AuthResponseDTO } from "src/dto/auth.dto";
 import { ResponseData } from "src/global/globalClass";
@@ -6,7 +6,7 @@ import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseType } from "src/global/globalType";
 import { AuthService } from "./auth.service";
 import { Public, Roles } from "src/constants/decorator";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('Authentication')
 @ApiBearerAuth()
@@ -129,6 +129,64 @@ export class AuthController{
                 new ResponseData(isAuth, HttpStatus.SUCCESS, HttpMessage.SUCCESS)
             )
         }catch(error){
+            return res.json(
+                new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
+            );
+        }
+    }
+
+    @Roles(Role.Admin, Role.Manager)
+    @Get('/accounts')
+    async getAllAccounts(@Res() res: Response): Promise<ResponseType<AuthResponseDTO[]>> {
+        try {
+            const accounts = await this.authService.findAllAccounts();
+            return res.json(
+                new ResponseData(accounts, HttpStatus.SUCCESS, HttpMessage.SUCCESS)
+            );
+        } catch (error) {
+            console.error("Error fetching accounts:", error);
+            return res.json(
+                new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR)
+            );
+        }
+    }
+
+
+    
+    @ApiParam({ name: 'AccountID', description: 'ID of the account to delete', type: Number })
+    @Delete('/delete/:AccountID')
+    @Roles(Role.Admin, Role.Manager)
+    async delete(
+        @Param('AccountID') accountId: number, // Corrected parameter binding
+        @Res() res: Response
+    ): Promise<ResponseType<any>> { // Adjust the type based on your return type
+        try {
+            const result = await this.authService.deleteAccount(accountId); // Assuming authService.deleteAccount exists
+            return res.json(
+                new ResponseData(result, HttpStatus.SUCCESS, HttpMessage.SUCCESS),
+            );
+        } catch (error) {
+            console.error("Error deleting account:", error);
+            return res.json(
+                new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
+            );
+        }
+    }
+
+    @ApiParam({ name: 'AccountID', description: 'ID of the account to delete', type: Number })
+    @Roles(Role.Customer,Role.Admin)
+    @Delete('/deleteCustomer/:AccountID')
+    async deleteCustomer(
+        @Param('AccountID') accountId: number,
+        @Res() res: Response
+    ): Promise<ResponseType<any>> {
+        try {
+            const result = await this.authService.deleteCustomer(accountId);
+            return res.json(
+                new ResponseData(result, HttpStatus.SUCCESS, HttpMessage.SUCCESS),
+            );
+        } catch (error) {
+            console.error("Error deleting customer:", error);
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );

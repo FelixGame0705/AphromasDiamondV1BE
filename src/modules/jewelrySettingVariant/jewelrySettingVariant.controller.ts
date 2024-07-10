@@ -3,7 +3,7 @@ import { Public, Roles } from 'src/constants/decorator';
 import { HttpMessage, HttpStatus, Role } from 'src/global/globalEnum';
 import { ResponseData } from 'src/global/globalClass';
 import { ResponseType } from 'src/global/globalType';
-import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { JewelrySettingVariantService as JewelrySettingVariantService } from './jewelrySettingVariant.service';
 import { JewelrySettingVariant } from 'src/models/jewelrySettingVariant.model';
 import { JewelrySettingVariantDTO } from 'src/dto/jewelrySettingVariant.dto';
@@ -15,6 +15,10 @@ export class JewelrySettingVariantController {
     }
 
     @Get('/showAll')
+    @ApiOperation({ 
+        summary: 'Get all Jewelry Setting Variant', 
+        description: 'Retrieve all Jewelry Setting Variant from the database.' 
+    })
     @Public()
     async findAll(): Promise<ResponseData<JewelrySettingVariant[]>> {
         try {
@@ -28,7 +32,8 @@ export class JewelrySettingVariantController {
 
     @ApiBearerAuth()
     @Post('/create')
-    @Roles(Role.Manager, Role.Customer, Role.Admin)
+    @ApiBody({ type: JewelrySettingVariantDTO, description: 'The data to create Jewelry Setting Variant '})
+    @Roles(Role.Manager, Role.Admin)
     async create(@Body() jewelrySettingVariantDTO: JewelrySettingVariantDTO): Promise<ResponseData<JewelrySettingVariant>> {
         try {
             const sizeMatchShell = await this.jewelrySettingVariantService.create(jewelrySettingVariantDTO);
@@ -55,10 +60,10 @@ export class JewelrySettingVariantController {
 
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID for delete ', type: Number })
+    @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID of the order to delete', type: Number })
     @Delete('/delete/:JewelrySettingVariantID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Param('id') id: number): Promise<ResponseType<JewelrySettingVariant>> {
+    async delete(@Param() id: number): Promise<ResponseType<JewelrySettingVariant>> {
         try {
             const isDeleted = await this.jewelrySettingVariantService.delete(id);
             if (isDeleted) {
@@ -67,6 +72,7 @@ export class JewelrySettingVariantController {
                 return new ResponseData<JewelrySettingVariant>(null, HttpStatus.ERROR, HttpMessage.ERROR);
             }
         } catch (error) {
+            console.log(error)
             return new ResponseData<JewelrySettingVariant>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }

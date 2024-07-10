@@ -8,13 +8,13 @@ export class DiscountDTO{
     @IsString()
     Name: string
 
-    @ApiProperty({example: '' , description: 'Discount'})
+    @ApiProperty({example: 'Giảm giá giành riêng cho sản phẩm đấy' , description: 'Discount'})
     @IsString()
     Description: string
 
     @ApiProperty({example: 'Phần trăm được giảm' , description: 'Discount'})
     @IsNumber()
-    PercentDiscount: number
+    PercentDiscounts: number
 
     @ApiProperty({example: 'Price of product after add discount' , description: 'Discount'})
     @IsNumber()
@@ -22,9 +22,9 @@ export class DiscountDTO{
 
     @ApiProperty({ example: '2023-06-14T14:30:00Z', description: 'The date the discount code expires' })
     @IsDate()
-    StartTime: Date
+    StartDate: Date
 
     @ApiProperty({ example: '2023-06-14T14:30:00Z', description: 'End Date of Discount' })
     @IsDate()                                              
-    EndTime: Date
+    EndDate: Date
 }

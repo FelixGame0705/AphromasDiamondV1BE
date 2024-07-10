@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { CertificateService } from "./certificate.service";
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -13,8 +13,13 @@ import { CertificateDTO } from "src/dto/certificate.dto";
 export class CertificateController{
     constructor(private certificateService: CertificateService){
     }
-    @Public()
+    @ApiBearerAuth() 
     @Get('/showAll')
+    @ApiOperation({ 
+        summary: 'Get all Certificate', 
+        description: 'Retrieve all Certificate from the database.' 
+    })
+    @Public()
     async findAll(): Promise<ResponseData<Certificate[]>> {
         try{
             const certicate = await this.certificateService.findAll();
@@ -39,7 +44,7 @@ export class CertificateController{
 
     @ApiBearerAuth()
     @Post('/create')
-    @Roles(Role.Manager,Role.Customer, Role.Admin)
+    @Roles(Role.Manager,Role.Admin)
     async create(@Body() certificateDto:  CertificateDTO): Promise<ResponseData<Certificate>> {
         try {
             const certificate = await this.certificateService.create(certificateDto);
@@ -50,6 +55,7 @@ export class CertificateController{
     }
 
     @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID of the certificate to update', type: Number })
     @Put('/update/:id')
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() certificateDto:  CertificateDTO): Promise<ResponseType<Certificate>> {
@@ -62,6 +68,7 @@ export class CertificateController{
     }
 
     @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID of the certificate to delete', type: Number })
     @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Param('id') id: number): Promise<ResponseType<Certificate>> {
