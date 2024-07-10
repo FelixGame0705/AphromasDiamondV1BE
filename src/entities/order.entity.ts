@@ -4,6 +4,7 @@ import { OrderLineEntity } from "./orderLine.entity";
 import { CustomerEntity } from "./customer.entity";
 import { AccountsEntity } from "./accounts.entity";
 import { FeedbackEntity } from "./feedback.entity";
+import { text } from "stream/consumers";
 
 @Entity('Order')
 export class OrderEntity extends BaseEntity{
@@ -16,6 +17,15 @@ export class OrderEntity extends BaseEntity{
     @Column({ type: 'datetime' })
     CompleteDate: Date;
 
+    @Column()
+    IsPayed: boolean
+    @Column({nullable:true})
+    Shippingfee: number
+    @Column({type:'text', nullable:true})
+    ReasonReturn: string
+    @Column({type:'text', nullable:true})
+    Note: string
+    
     @Column({ nullable: true })
     CustomerID: number;
 
@@ -30,6 +40,9 @@ export class OrderEntity extends BaseEntity{
 
     @Column({ nullable: true })
     AccountSaleID: number;
+
+    @Column({nullable: true})
+    PaymentID: string
 
     @OneToMany(() => VoucherEntity, voucher => voucher.order)
     voucher: VoucherEntity[];
