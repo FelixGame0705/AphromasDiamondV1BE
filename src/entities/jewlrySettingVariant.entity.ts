@@ -1,8 +1,9 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { SizeEntity } from "./size.entity";
 import { JewelrySettingEntity } from "./jewelrySetting.entity";
 import { MaterialJewelry } from "src/models/materialjewelry.model";
 import { MaterialJewelryEntity } from "./marterialJewelry.entity";
+import { DiamondEntity } from "./diamond.entity";
 
 @Entity('JewelrySettingVariant')
 export class JewelrySettingVariantEntity extends BaseEntity{
@@ -27,4 +28,7 @@ export class JewelrySettingVariantEntity extends BaseEntity{
     @ManyToOne(()=>MaterialJewelryEntity, {nullable: true})
     @JoinColumn({name:'MaterialJewelryID', referencedColumnName:'MaterialJewelryID'})
     materialJewelry: MaterialJewelryEntity
+    
+    @OneToMany(()=>DiamondEntity, diamond => diamond.jewelrySettingVariant)
+    diamond: DiamondEntity[]
 }

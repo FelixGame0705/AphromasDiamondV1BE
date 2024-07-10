@@ -34,7 +34,7 @@ export class AuthRepository implements IAuthRepository {
         return new AuthPermission({
             id: userAuth.AccountID,
             token: await this.jwtService.signAsync(payload),
-            expiredTime: 900000
+            expiredTime: 3000000
         })
     }
     async signUp(body: AuthPayloadDTO): Promise<AuthResponseDTO> {

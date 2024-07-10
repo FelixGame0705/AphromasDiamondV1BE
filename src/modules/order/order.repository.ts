@@ -22,16 +22,16 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
     async payOrder(id: number): Promise<Order> {
         const manager = this.repository.manager
         const order = await this.findRelationOrderLineById(id);
-            const diamondsToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
-            await manager
-                .createQueryBuilder()
-                .update(DiamondEntity)
-                .set({ IsActive: true })
-                .whereInIds(diamondsToUpdate)
-                .execute();
+        const diamondsToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
+        await manager
+            .createQueryBuilder()
+            .update(DiamondEntity)
+            .set({ IsActive: true })
+            .whereInIds(diamondsToUpdate)
+            .execute();
 
-            order.OrderStatus = 'Complete';
-            await manager.save(OrderEntity, order);
+        order.OrderStatus = 'Completed';
+        await manager.save(OrderEntity, order);
         return this.findRelationOrderLineById(id);
         // async (manager: EntityManager) => {
         //     const order = await this.findRelationOrderLineById(id);
@@ -47,7 +47,7 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
         //     order.OrderStatus = 'Complete';
         //     await manager.save(OrderEntity, order);
 
-            
+
         // }
         // return this.findRelationOrderLineById(id);
     }
