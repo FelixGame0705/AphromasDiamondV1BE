@@ -21,6 +21,7 @@ export class JewelrySettingService {
         const jewelrySettings = entities.map(entity => (
             {
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
+            Name: entity.Name,
             ProductID: entity.ProductID,
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
@@ -46,6 +47,7 @@ export class JewelrySettingService {
         let entity = await this.jewelrySettingRepository.findRelationVariantById(id);
         return new JewelrySetting({
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
+            Name: entity.Name,
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
             JewelrySettingVariant: Array.isArray(entity.jewelrySettingVariant) ? entity.jewelrySettingVariant.map(
@@ -63,6 +65,7 @@ export class JewelrySettingService {
         let entity = await this.jewelrySettingRepository.create(shell);
         return new JewelrySetting({
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
+            Name: entity.Name,
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
             JewelrySettingVariant: Array.isArray(entity.jewelrySettingVariant) ? entity.jewelrySettingVariant.map(
@@ -87,6 +90,7 @@ export class JewelrySettingService {
         let entity = await this.jewelrySettingRepository.findRelationById(id);
         return new JewelrySettingAll({
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
+            Name: entity.Name,
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
             JewelrySettingVariant: Array.isArray(entity.jewelrySettingVariant) ? entity.jewelrySettingVariant.map(
