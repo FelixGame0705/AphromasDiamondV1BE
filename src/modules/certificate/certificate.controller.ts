@@ -44,7 +44,7 @@ export class CertificateController{
 
     @ApiBearerAuth()
     @Post('/create')
-    @Roles(Role.Manager,Role.Customer)
+    @Roles(Role.Manager,Role.Admin)
     async create(@Body() certificateDto:  CertificateDTO): Promise<ResponseData<Certificate>> {
         try {
             const certificate = await this.certificateService.create(certificateDto);
