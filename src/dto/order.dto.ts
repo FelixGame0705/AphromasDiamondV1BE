@@ -13,6 +13,14 @@ export class OrderDTO{
     @ToDatabaseDateTime()
     CompleteDate: Date;
 
+    @ApiProperty({ example: null, description: 'Is payed' })
+    IsPayed: boolean;
+    @ApiProperty({ example: null, description: 'Shipping fee' })
+    Shippingfee: number;
+    @ApiProperty({ example: null, description: 'Reason return' })
+    ReasonReturn: string;
+    @ApiProperty({ example: null, description: 'Note' })
+    Note: string;
     @ApiProperty({ example: null, description: 'The ID of the customer' })
     CustomerID: number;
 

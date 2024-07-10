@@ -44,9 +44,9 @@ import { UsingImageEntity } from './entities/usingImage.entity';
 import { FeedbackModule } from './modules/feedback/feedback.module';
 import { DbModule } from 'db/db.module';
 import { CertificateModule } from './modules/certificate/certificate.module';
-import { BillDiscountModule } from './modules/voucher/voucher.module';
+import { PayPalModule } from './modules/paypal/paypal.module';
+import { VoucherModule } from './modules/voucher/voucher.module';
 import { ProductModule } from './modules/product/product.module';
- 
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -66,10 +66,8 @@ import { ProductModule } from './modules/product/product.module';
     DbModule,
     AuthModule,
     UserModule,
-
-    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule, FeedbackModule, CertificateModule,
-    SizeModule, JewelrySettingVariantModule, CollectionModule, DiscountModule, UsingImageModule, BillDiscountModule, ProductModule
-
+    DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
+    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule, PayPalModule, DiscountModule, VoucherModule
   ],
   controllers: [AppController],
   providers: [

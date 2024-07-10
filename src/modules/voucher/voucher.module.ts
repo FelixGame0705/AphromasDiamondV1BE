@@ -13,6 +13,6 @@ import { VoucherController } from "./voucher.controller";
         provide: 'IVoucherRepository'
     }]
 })
-export class BillDiscountModule{
+export class VoucherModule{
 
 }

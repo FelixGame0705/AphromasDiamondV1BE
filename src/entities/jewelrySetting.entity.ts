@@ -24,7 +24,7 @@ export class JewelrySettingEntity extends BaseEntity{
     UpdateTime: Date
     @Column({nullable: true})
     DiamondShape: string
-    @Column({default: 100})
+    @Column({default: 1})
     ChargeRate: number
     @Column({nullable: true})
     JewelryTypeID: number
@@ -33,8 +33,6 @@ export class JewelrySettingEntity extends BaseEntity{
     @ManyToOne(()=>JewelryTypeEntity, { nullable: true })
     @JoinColumn({name:'JewelryTypeID', referencedColumnName:'JewelryTypeID'})
     jewelryType: JewelryTypeEntity
-    @OneToMany(()=>DiamondEntity, diamond => diamond.jewelrySetting)
-    diamond: DiamondEntity[]
     @OneToMany(()=>FeedbackEntity, feedback => feedback.jewelrySetting)
     feedback: FeedbackEntity[]
     @OneToMany(()=>JewelrySettingVariantEntity, jewelrySettingVariant => jewelrySettingVariant.jewelrySettings)
