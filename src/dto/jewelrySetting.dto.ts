@@ -1,9 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsBoolean, IsNumber } from "class-validator"
+import { IsBoolean, IsNumber, IsString } from "class-validator"
 import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class JewelrySettingDTO {
     JewelrySettingID: number
+
+    @ApiProperty({ example: 'Vỏ nhẫn Kim cương Vàng trắng 18K', description: "Name of shell" })
+    @IsString()
+    Name: string
+
     @ApiProperty({ example: 200, description: "Product cost of shell" })
     @IsNumber()
     ProductionCost: number
@@ -23,10 +28,6 @@ export class JewelrySettingDTO {
     @ApiProperty({ example: 1, description: "ChargeRate" })
     @IsNumber()
     ChargeRate: number
-
-    @ApiProperty({ example: 'Real love titanic', description: "Name of shell" })
-    @IsNumber()
-    Name: string
     
     @ApiProperty({ example: 200, description: "Auxiliary cost of shell" })
     @IsNumber()

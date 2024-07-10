@@ -1,5 +1,4 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { PRODUCT_PER_PAGE } from "src/constants/constant";
 import { IDiscountRepository } from "src/interfaces/IDiscountRepository";
 import { Discount } from "src/models/discount.model";
 

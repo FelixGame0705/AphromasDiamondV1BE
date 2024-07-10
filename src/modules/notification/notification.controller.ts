@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res } from "@nestjs/common";
 import { NotificationService } from './notification.service';
 import { Public, Roles } from "src/constants/decorator";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
@@ -6,7 +6,7 @@ import { ResponseType } from "src/global/globalType";
 import { ResponseData } from "src/global/globalClass";
 import { Notification } from "src/models/notification.model";
 import { NotificationDTO } from "src/dto/notification.dto";
-import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('NotificationApi')
 @Controller('notification')
@@ -16,7 +16,11 @@ export class NotificationController{
 
     @Public()
     @Get('/showAll')
-    @Roles(Role.Customer, Role.Manager, Role.Admin)
+    @ApiOperation({ 
+        summary: 'Get all Notification', 
+        description: 'Retrieve all Notification from the database.' 
+    })
+    // @Roles(Role.Customer, Role.Manager, Role.Admin)
     async findAll(): Promise<ResponseData<Notification[]>> {
         try{
             const notification = await this.notificationService.findAll();
@@ -69,6 +73,7 @@ export class NotificationController{
 
     
     @ApiBearerAuth()
+    @ApiBody({ type: NotificationDTO, description: 'The data to create Notification'})
     @Post('/create')
     @Roles(Role.Admin, Role.Manager)
     async create(@Body() notificationDto: NotificationDTO): Promise<ResponseData<Notification>> {
@@ -81,6 +86,7 @@ export class NotificationController{
     }
 
     @ApiBearerAuth()
+    @ApiParam({ name: 'id', description: 'ID of the notificate to update', type: Number })
     @Put('/update/:id')
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() notificationDto: NotificationDTO): Promise<ResponseType<Notification>> {
@@ -93,7 +99,8 @@ export class NotificationController{
     }
 
     @ApiBearerAuth()
-    @Post('/delete')
+    @ApiParam({ name: 'id', description: 'ID of the notificate to delete', type: Number })
+    @Delete('/delete')
     @Roles(Role.Admin, Role.Manager)
     async delete(@Body() id: number ): Promise<ResponseType<Notification>> {
         try {

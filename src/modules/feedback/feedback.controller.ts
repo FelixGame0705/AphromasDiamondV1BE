@@ -6,7 +6,7 @@ import { ResponseData } from "src/global/globalClass";
 import { Feedback } from "src/models/feedback.model";
 import { FeedbackDTO } from "src/dto/feedback.dto";
 import { ResponseType } from "src/global/globalType";
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
  
 @ApiTags('FeedbackApi')
 @Controller('feedback')
@@ -71,6 +71,8 @@ export class FeedbackController{
 
 
     @ApiBearerAuth()
+    @ApiBody({ type: FeedbackDTO, description: 'The data to create feedback'})
+
     @Post('/create')
     @Roles(Role.Manager, Role.Admin, Role.Customer)
     async create(@Body() feedbackDto: FeedbackDTO): Promise<ResponseData<Feedback>> {
