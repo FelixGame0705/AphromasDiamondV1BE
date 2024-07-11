@@ -47,6 +47,7 @@ export class JewelrySettingVariantService {
     async create(sizeMatchShell: JewelrySettingVariantDTO): Promise<JewelrySettingVariant> {
         let item = await this.jewelrySettingVariantRepository.create(sizeMatchShell);
         const sellPrice = item.materialJewelry?.SellPrice ?? 0;
+        console.log(sellPrice)
         const productionCost = item.jewelrySettings?.ProductionCost ?? 0;
         const auxiliaryCost = item.jewelrySettings?.AuxiliaryCost ?? 0;
         return new JewelrySettingVariant({

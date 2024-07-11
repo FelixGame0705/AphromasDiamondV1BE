@@ -15,10 +15,10 @@ export class JewelrySettingVariantEntity extends BaseEntity{
     JewelrySettingID: number
     @Column({nullable: true})
     MaterialJewelryID: number
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 2})
     Weight: number
     @Column({default:0})
-    Amount: number
+    Quantity: number
     @ManyToOne(()=> SizeEntity, {nullable:true})
     @JoinColumn({name:'SizeID', referencedColumnName:'SizeID'})
     size: SizeEntity

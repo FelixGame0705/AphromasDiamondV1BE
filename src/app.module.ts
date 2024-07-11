@@ -67,7 +67,7 @@ import { ProductModule } from './modules/product/product.module';
     AuthModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule, PayPalModule, DiscountModule, VoucherModule
+    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule, PayPalModule, DiscountModule, VoucherModule, FeedbackModule
   ],
   controllers: [AppController],
   providers: [

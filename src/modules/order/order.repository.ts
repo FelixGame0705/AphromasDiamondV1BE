@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { PaymentDTO } from "src/dto/order.dto";
 import { DiamondEntity } from "src/entities/diamond.entity";
+import { JewelrySettingVariantEntity } from "src/entities/jewlrySettingVariant.entity";
 import { OrderEntity } from "src/entities/order.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IOrderRepository } from "src/interfaces/IOrderRepository";
@@ -23,14 +24,24 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
         const manager = this.repository.manager
         const order = await this.findRelationOrderLineById(id);
         const diamondsToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
-        await manager
-            .createQueryBuilder()
-            .update(DiamondEntity)
-            .set({ IsActive: true })
-            .whereInIds(diamondsToUpdate)
-            .execute();
-
-        order.OrderStatus = 'Completed';
+        const jewelrySettingToUpdate = order.OrderLines.map(orderLine => orderLine.product.jewelrySetting.JewelrySettingVariantID);
+        if (diamondsToUpdate != null)
+            await manager
+                .createQueryBuilder()
+                .update(DiamondEntity)
+                .set({ IsActive: false })
+                .whereInIds(diamondsToUpdate)
+                .execute();
+        if (jewelrySettingToUpdate != null)
+            for (const variantId of jewelrySettingToUpdate) {
+                await manager
+                    .createQueryBuilder()
+                    .update(JewelrySettingVariantEntity)
+                    .set({ Amount: () => "Amount - 1" }) // Sử dụng chức năng giảm 1 đơn vị
+                    .where("JewelrySettingVariantID = :id", { id: variantId })
+                    .execute();
+            }
+        order.IsPayed = true;
         await manager.save(OrderEntity, order);
         return this.findRelationOrderLineById(id);
         // async (manager: EntityManager) => {

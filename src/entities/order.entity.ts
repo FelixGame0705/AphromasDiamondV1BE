@@ -19,7 +19,7 @@ export class OrderEntity extends BaseEntity{
 
     @Column()
     IsPayed: boolean
-    @Column({nullable:true})
+    @Column({nullable:true, type: 'decimal', precision: 10, scale: 2})
     Shippingfee: number
     @Column({type:'text', nullable:true})
     ReasonReturn: string
@@ -43,6 +43,9 @@ export class OrderEntity extends BaseEntity{
 
     @Column({nullable: true})
     PaymentID: string
+
+    @Column({nullable: true})
+    Method: string
 
     @OneToMany(() => VoucherEntity, voucher => voucher.order)
     voucher: VoucherEntity[];

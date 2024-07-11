@@ -33,48 +33,66 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
         filters: any,
         sort: { field: string, order: 'ASC' | 'DESC' }
     ): Promise<{ data: DiamondEntity[], total: number, page: number, last_page: number }> {
-        const builder = this.repository.createQueryBuilder('diamond').leftJoinAndSelect('diamond.usingImage', 'usingImage');
-
-        // Apply filters
+        // Bước 1: Lấy danh sách IDs của diamonds
+        const subQuery = this.repository.createQueryBuilder('diamond')
+            .select('diamond.DiamondID');
+        console.log("Hello "+ subQuery.select('diamond.DiamondID'))
+        // Áp dụng bộ lọc
         if (filters.Shape && filters.Shape.length > 0) {
-            builder.andWhere("diamond.shape IN (:...Shape)", { Color: filters.Color });
+            subQuery.andWhere("diamond.shape IN (:...Shape)", { Shape: filters.Shape });
         }
         if (filters.Color && filters.Color.length > 0) {
-            builder.andWhere("diamond.color IN (:...Color)", { Color: filters.Color });
+            subQuery.andWhere("diamond.color IN (:...Color)", { Color: filters.Color });
         }
         if (filters.minPrice) {
-            builder.andWhere("diamond.price >= :minPrice", { minPrice: filters.minPrice });
+            subQuery.andWhere("diamond.price >= :minPrice", { minPrice: filters.minPrice });
         }
         if (filters.maxPrice) {
-            builder.andWhere("diamond.price <= :maxPrice", { maxPrice: filters.maxPrice });
+            subQuery.andWhere("diamond.price <= :maxPrice", { maxPrice: filters.maxPrice });
         }
         if (filters.minCarat) {
-            builder.andWhere("diamond.weightcarat >= :minCarat", { minCarat: filters.minCarat });
+            subQuery.andWhere("diamond.weightcarat >= :minCarat", { minCarat: filters.minCarat });
         }
         if (filters.maxCarat) {
-            builder.andWhere("diamond.weightcarat <= :maxCarat", { maxCarat: filters.maxCarat });
+            subQuery.andWhere("diamond.weightcarat <= :maxCarat", { maxCarat: filters.maxCarat });
         }
         if (filters.Clarity && filters.Clarity.length > 0) {
-            builder.andWhere("diamond.clarity IN (:...Clarity)", { Clarity: filters.Clarity });
+            subQuery.andWhere("diamond.clarity IN (:...Clarity)", { Clarity: filters.Clarity });
         }
         if (filters.Cut && filters.Cut.length > 0) {
-            builder.andWhere("diamond.cut IN (:...Cut)", { Cut: filters.Cut });
+            subQuery.andWhere("diamond.cut IN (:...Cut)", { Cut: filters.Cut });
         }
-
-        // Apply sorting
+    
+        // Áp dụng sắp xếp
         if (sort && sort.field && sort.order) {
-            builder.orderBy(`diamond.${sort.field}`, sort.order);
+            subQuery.orderBy(`diamond.${sort.field}`, sort.order);
         }
-
-        // Get total count
-        const total = await builder.getCount();
-
-        // Apply pagination
-        builder.offset((page - 1) * perPage).limit(perPage);
-
-        // Get data
+    
+        // Lấy tổng số lượng
+        const total = await subQuery.getCount();
+    
+        // Áp dụng phân trang
+        subQuery.offset((page - 1) * perPage).limit(perPage);
+    
+        // Lấy danh sách IDs của diamonds
+        const diamondIds = await subQuery.getRawMany().then(results => results.map(result => result.diamond_DiamondID));
+        console.log("Bye"+diamondIds)
+        if (diamondIds.length === 0) { 
+            return {
+                data: [],
+                total,
+                page,
+                last_page: Math.ceil(total / perPage)
+            };
+        }
+    
+        // Bước 2: Truy vấn dữ liệu thực tế dựa trên danh sách IDs
+        const builder = this.repository.createQueryBuilder('diamond')
+            .leftJoinAndSelect('diamond.usingImage', 'usingImage')
+            .whereInIds(diamondIds);
+    
         const data = await builder.getMany();
-
+    
         return {
             data,
             total,
@@ -82,5 +100,5 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
             last_page: Math.ceil(total / perPage)
         };
     }
-
+    
 }
