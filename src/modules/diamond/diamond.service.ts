@@ -13,9 +13,8 @@ export class DiamondService{
 
     }
     async findAll():Promise<Diamond[]> {
-        let a = (await this.diamondRepository.findAll()).map(item => new Diamond(item));
-        console.log(a)
-        return a;
+        let rs = (await this.diamondRepository.findAll()).map(item => new Diamond(item));
+        return rs;
     }
     async findById(id:number):Promise<Diamond>{
         return await this.diamondRepository.findById(id);
