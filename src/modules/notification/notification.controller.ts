@@ -102,7 +102,7 @@ export class NotificationController{
     @ApiParam({ name: 'id', description: 'ID of the notificate to delete', type: Number })
     @Delete('/delete')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Body() id: number ): Promise<ResponseType<Notification>> {
+    async delete(@Param('id') id: number): Promise<ResponseType<Notification>> {
         try {
             const notification = await this.notificationService.delete(id);
             return new ResponseData<Notification>(notification, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
