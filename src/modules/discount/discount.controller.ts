@@ -77,7 +77,7 @@ export class DiscountController {
     @ApiParam({ name: 'id', description: 'ID of the discount to delete', type: Number })
     @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager, Role.Customer)
-    async delete(@Body() id: number ): Promise<ResponseType<Discount>> {
+    async delete(@Param('id') id: number): Promise<ResponseType<Discount>> {
         try {
             const discount = await this.discountService.delete(id);
             return new ResponseData<Discount>(discount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
