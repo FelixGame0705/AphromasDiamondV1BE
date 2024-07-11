@@ -6,9 +6,9 @@ import { JewelrySettingVariantEntity } from "./jewlrySettingVariant.entity";
 export class MaterialJewelryEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     MaterialJewelryID: number
-    @Column({nullable:true})
+    @Column({nullable:true, type: 'decimal', precision: 10, scale: 2})
     BuyPrice: number
-    @Column({nullable:true})
+    @Column({nullable:true, type: 'decimal', precision: 10, scale: 2})
     SellPrice: number
     @Column({type: "datetime"})
     UpdateTime: Date

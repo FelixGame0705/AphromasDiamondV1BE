@@ -14,9 +14,9 @@ export class JewelrySettingEntity extends BaseEntity{
     JewelrySettingID: number
     @Column()
     Name: string
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 2})
     ProductionCost: number
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 2})
     AuxiliaryCost: number
     @Column()
     IsActive: boolean
@@ -24,7 +24,7 @@ export class JewelrySettingEntity extends BaseEntity{
     UpdateTime: Date
     @Column({nullable: true})
     DiamondShape: string
-    @Column({default: 1})
+    @Column({default: 1, type: 'decimal', precision: 10, scale: 2})
     ChargeRate: number
     @Column({nullable: true})
     JewelryTypeID: number

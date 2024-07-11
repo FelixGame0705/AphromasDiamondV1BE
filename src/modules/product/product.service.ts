@@ -28,7 +28,7 @@ export class ProductService {
                 .map(diamond => diamond.Price);
             const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
                 .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
-                .map(variant => variant.Amount);
+                .map(variant => variant.Quantity);
             // Tính tổng giá trị của các viên kim cương
             const totalPrice = prices.reduce((acc, current) => acc + current, 0);
             const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
@@ -58,7 +58,7 @@ export class ProductService {
             .map(diamond => diamond.Price * diamond.ChargeRate);
         const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
-            .map(variant => variant.Amount);
+            .map(variant => variant.Quantity);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new Product({
@@ -89,7 +89,7 @@ export class ProductService {
             .map(diamond => diamond.Price);
         const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
-            .map(variant => variant.Amount);
+            .map(variant => variant.Quantity);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new Product({
@@ -124,7 +124,7 @@ export class ProductService {
             .map(diamond => diamond.Price);
         const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
-            .map(variant => variant.Amount);
+            .map(variant => variant.Quantity);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new Product({

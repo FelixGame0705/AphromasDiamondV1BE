@@ -19,15 +19,15 @@ export class DiamondEntity extends BaseEntity{
     Shape: string
     @Column({nullable: true})
     Cut: string
-    @Column({nullable: true})
+    @Column({nullable: true, type: 'decimal', precision: 10, scale: 2})
     Price: number
     @Column({nullable: true})
     Color: string
-    @Column({nullable: true})
+    @Column({nullable: true, type: 'decimal', precision: 7, scale: 3})
     WeightCarat: number
-    @Column({nullable: true})
+    @Column({nullable: true, type: 'decimal', precision: 7, scale: 3})
     PercentDepth: number
-    @Column({nullable: true})
+    @Column({nullable: true, type: 'decimal', precision: 7, scale: 2})
     LengthOnWidthRatio: number
     @Column({nullable: true, type:'text'})
     Description: string
@@ -37,13 +37,13 @@ export class DiamondEntity extends BaseEntity{
     Fluorescence: string
     @Column({nullable: true})
     Clarity: string
-    @Column({nullable: true})
+    @Column({nullable: true, type: 'decimal', precision: 7, scale: 2})
     PercentTable: number
     @Column({nullable: true})
     Polish: string
     @Column({nullable: true})
     Symmetry: string
-    @Column({nullable: true})
+    @Column({nullable: true, type: 'decimal', precision: 7, scale: 2})
     ChargeRate: number
     @Column({type: "datetime"})
     UpdateTime: Date
@@ -61,8 +61,8 @@ export class DiamondEntity extends BaseEntity{
     Cutter: string
     @Column({nullable: true})// use to group diamond in 1 variant jewelry setting
     IndexVariantGroup: number
-    @Column({default: 0, })
-    Quantity: number
+    @Column({default: 0})
+    Quantity: number // 0 or 1
     @OneToMany(()=>CertificateEntity, certificate=>certificate.Diamond)
     certificate: CertificateEntity[]
     @ManyToOne(()=>JewelrySettingVariantEntity, { nullable: true })
