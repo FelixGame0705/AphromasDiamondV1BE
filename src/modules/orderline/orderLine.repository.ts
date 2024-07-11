@@ -1,17 +1,18 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { DiamondEntity } from "src/entities/diamond.entity";
 import { OrderLineEntity } from "src/entities/orderLine.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IOrderLineRepository } from "src/interfaces/IOrderLineRepository";
 import { Repository } from "typeorm";
 
 @Injectable()
-export class OrderLineRepository extends BaseRepository<OrderLineEntity, Repository<OrderLineEntity>> implements IOrderLineRepository{
+export class OrderLineRepository extends BaseRepository<OrderLineEntity, Repository<OrderLineEntity>> implements IOrderLineRepository {
 
     constructor(
         @InjectRepository(OrderLineEntity)
         protected readonly repository: Repository<OrderLineEntity>
-    ){
+    ) {
         super(repository);
     }
     async paginateAndFilter(
@@ -54,6 +55,32 @@ export class OrderLineRepository extends BaseRepository<OrderLineEntity, Reposit
     }
     findRelationById(id: number): Promise<OrderLineEntity> {
         return null;
+    }
+
+    async updtae(id: number, data: OrderLineEntity): Promise<OrderLineEntity> {
+        const manager = this.repository.manager
+        const oldDiamondID = (await this.findById(id)).DiamondID
+        // const diamondToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
+        await this.repository.update(id, data);
+        const newDiamondID = (await this.findById(id)).DiamondID
+        if ((await this.findById(id)).OrderID != null) {
+            if (newDiamondID != oldDiamondID) {
+                await manager
+                    .createQueryBuilder()
+                    .update(DiamondEntity)
+                    .set({ IsActive: false }) // Đặt IsActive thành false, đã bán
+                    .where("DiamondID = :id", { id: newDiamondID })
+                    .execute();
+                await manager
+                    .createQueryBuilder()
+                    .update(DiamondEntity)
+                    .set({ IsActive: true }) // Đặt IsActive thành true, trả lại kho
+                    .where("DiamondID = :id", { id: oldDiamondID }) // Cập nhật bản ghi có ID là oldDiamondID
+                    .execute();
+            }
+        }
+
+        return this.findById(id);
     }
 
 }

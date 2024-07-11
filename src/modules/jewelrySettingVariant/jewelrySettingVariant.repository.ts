@@ -22,8 +22,41 @@ export class JewelrySettingVariantRepository extends BaseRepository<JewelrySetti
         return 'JewelrySettingVariantID';
     }
 
+    async findById(id: number): Promise<JewelrySettingVariantEntity> {
+        const builder = this.repository.createQueryBuilder('jewelrySettingVariant')
+        .leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry')
+        .leftJoinAndSelect('jewelrySettingVariant.size', 'size')
+        .leftJoinAndSelect('jewelrySettingVariant.jewelrySettings', 'jewelrySetting')
+        .select([
+            'jewelrySettingVariant',
+            'materialJewelry.SellPrice',
+            'jewelrySetting',
+            'size'
+        ])
+        .where('jewelrySettingVariant.JewelrySettingVariantID = :id', {id})
+        .getOne();
+        //const jewelrySettingVariantBuilder = this.repository.createQueryBuilder('jewelrySettingVariant').leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry');
+        const data = await builder;
+        
+        return data;
+    }
+
     async findAll(): Promise<JewelrySettingVariantEntity[]> {
-        return await this.repository.find();
+        const builder = this.repository.createQueryBuilder('jewelrySettingVariant')
+        .leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry')
+        .leftJoinAndSelect('jewelrySettingVariant.size', 'size')
+        .leftJoinAndSelect('jewelrySettingVariant.jewelrySettings', 'jewelrySetting')
+        .select([
+            'jewelrySettingVariant',
+            'materialJewelry.SellPrice',
+            'jewelrySetting',
+            'size'
+        ])
+        .getMany();
+        //const jewelrySettingVariantBuilder = this.repository.createQueryBuilder('jewelrySettingVariant').leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry');
+        const data = await builder;
+        
+        return data;
     }
 
 }

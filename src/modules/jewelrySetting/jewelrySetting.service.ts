@@ -22,7 +22,7 @@ export class JewelrySettingService {
             {
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
             Name: entity.Name,
-            ProductID: entity.ProductID,
+            // ProductID: entity.ProductID,
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
             JewelrySettingVariant: entity.jewelrySettingVariant.map(

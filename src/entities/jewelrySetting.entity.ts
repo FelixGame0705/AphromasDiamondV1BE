@@ -28,8 +28,6 @@ export class JewelrySettingEntity extends BaseEntity{
     ChargeRate: number
     @Column({nullable: true})
     JewelryTypeID: number
-    @Column({nullable: true})
-    ProductID: number
     @ManyToOne(()=>JewelryTypeEntity, { nullable: true })
     @JoinColumn({name:'JewelryTypeID', referencedColumnName:'JewelryTypeID'})
     jewelryType: JewelryTypeEntity

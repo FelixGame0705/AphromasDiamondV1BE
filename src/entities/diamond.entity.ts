@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, IsNull, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Check, Column, Entity, IsNull, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { CertificateEntity } from "./certificate.entity";
 import { OrderLineEntity } from "./orderLine.entity";
 import { FeedbackEntity } from "./feedback.entity";
@@ -9,6 +9,7 @@ import { DiscountEntity } from "./discount.entity";
 import { UsingImageEntity } from "./usingImage.entity";
 import { JewelrySettingVariantEntity } from "./jewlrySettingVariant.entity";
 @Entity('Diamond')
+@Check(`"Quantity" IN (0, 1)`)
 export class DiamondEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     DiamondID: number;
@@ -60,6 +61,8 @@ export class DiamondEntity extends BaseEntity{
     Cutter: string
     @Column({nullable: true})// use to group diamond in 1 variant jewelry setting
     IndexVariantGroup: number
+    @Column({default: 0, })
+    Quantity: number
     @OneToMany(()=>CertificateEntity, certificate=>certificate.Diamond)
     certificate: CertificateEntity[]
     @ManyToOne(()=>JewelrySettingVariantEntity, { nullable: true })

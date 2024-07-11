@@ -44,6 +44,9 @@ export class OrderEntity extends BaseEntity{
     @Column({nullable: true})
     PaymentID: string
 
+    @Column({nullable: true})
+    Method: string
+
     @OneToMany(() => VoucherEntity, voucher => voucher.order)
     voucher: VoucherEntity[];
 
