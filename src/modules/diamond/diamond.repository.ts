@@ -24,7 +24,14 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
     }
 
     async findAll(): Promise<DiamondEntity[]> {
-        return await this.repository.find({where: { IsActive: true } as FindOptionsWhere<DiamondEntity>});
+        let a =  await this.repository.find({
+            where: { IsActive: true },
+            relations: ['usingImage']
+          });
+          a.forEach(diamond => {
+            console.log('111111111 UsingImage:', diamond.usingImage);
+          });
+          return a;
     }
 
     async paginateAndFilter(

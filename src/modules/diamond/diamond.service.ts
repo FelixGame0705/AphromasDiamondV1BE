@@ -3,6 +3,7 @@ import { Diamond } from "src/models/diamond.model";
 import { DiamondRepository } from "./diamond.repository";
 import { IDiamondRepository } from "src/interfaces/IDiamondRepository";
 import { PRODUCT_PER_PAGE } from "src/constants/constant";
+import { DiamondDTO } from "src/dto/diamond.dto";
 @Injectable()
 export class DiamondService{
     constructor(
@@ -12,17 +13,19 @@ export class DiamondService{
 
     }
     async findAll():Promise<Diamond[]> {
-        return (await this.diamondRepository.findAll()).map(item => new Diamond(item));
+        let a = (await this.diamondRepository.findAll()).map(item => new Diamond(item));
+        console.log(a)
+        return a;
     }
     async findById(id:number):Promise<Diamond>{
         return await this.diamondRepository.findById(id);
     }
-    async create(diamond:Diamond):Promise<Diamond>{
+    async create(diamond:DiamondDTO):Promise<Diamond>{
         return await this.diamondRepository.create(diamond);
     }
-    async update(id: number, Diamond: Diamond): Promise<Diamond>{
+    async update(id: number, Diamond: DiamondDTO): Promise<Diamond>{
         await this.diamondRepository.update(id, Diamond);
-        return this.findById(id);
+        return this.findRelationById(id);
     }
     async delete(id: number):Promise<boolean>{
         return await this.diamondRepository.delete(id);
