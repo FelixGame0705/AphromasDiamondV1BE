@@ -27,6 +27,22 @@ export class ProductController {
         }
     }
 
+    @Get('/detail/:id')
+    @ApiBearerAuth()
+    @Public()
+    //@ApiParam({ name: 'ProductID', description: 'ID of the order to delete', type: Number })
+    // @ApiBody({ type: ProductDTO, description: 'The data to update' })
+    async findDetail(@Param('id') id: number): Promise<ResponseType<Product>> {
+        try {
+            console.log('Hello')
+            const product = await this.productService.findRelationById(id);
+            return new ResponseData<Product>(product, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+        } catch (error) {
+            console.log(error)
+            return new ResponseData<Product>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+        }
+    }
+
     @ApiBearerAuth()
     @Post('/create')
     @ApiBody({ type: ProductDTO, description: 'The data to create' })
@@ -42,7 +58,7 @@ export class ProductController {
     }
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'ProductID', description: 'ID of the order to delete', type: Number })
+    //@ApiParam({ name: 'ProductID', description: 'ID of the order to delete', type: Number })
     @ApiBody({ type: ProductDTO, description: 'The data to update' })
     @Put('/update/:id')
     @Roles(Role.Manager, Role.Admin)

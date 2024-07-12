@@ -17,14 +17,9 @@ export class ProductRepository extends BaseRepository<ProductEntity, Repository<
         super(repository);
     }
     async findRelationById(id: number): Promise<ProductEntity> {
-        const builder = this.repository.createQueryBuilder('product')
-        .leftJoinAndSelect('product.diamonds', 'diamonds')
-        .leftJoinAndSelect('product.usingImage','usingImage')
-        .leftJoinAndSelect('product.jewelrySetting', 'jewelrySetting')
-        .leftJoinAndSelect('jewelrySetting.jewelrySettingVariant','JewelrySettingVariant')
-        .leftJoinAndSelect('jewelrySetting.jewelryType', 'jewelryType')
-        const data = await builder.getOne();
-        return data;
+
+        const rs = await this.repository.findOne({where: {[this.getIdField()]:id}, relations:['diamonds','usingImage','jewelrySetting','jewelrySetting.jewelrySettingVariant','jewelrySetting.jewelryType']})
+        return rs;
         //return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['diamonds']})
     }
 
