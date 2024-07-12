@@ -32,18 +32,21 @@ export class DiscountController {
 
     
      
-
-    // @Get('/:id')
-    // @Public()
-    // @ApiParam({ name: 'id', description: 'Discount detail', type: Number })
-    // async detailDiscount(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Discount>> {
-    //     try {
-    //         const discount = await this.discountService.findById(id);
-    //         return new ResponseData<Discount>(discount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
-    //     }catch (error) {
-    //         return new ResponseData<Discount>(null, HttpStatus.ERROR, HttpMessage.ERROR);
-    //     }
-    // }
+    @ApiOperation({ 
+        summary: 'Get detail discount', 
+        description: 'Retrieve detail discount from the database.' 
+    })
+    @Get('/:id')
+    @Public()
+    @ApiParam({ name: 'id', description: 'Discount detail', type: Number })
+    async detailDiscount(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Discount>> {
+        try {
+            const discount = await this.discountService.findById(id);
+            return new ResponseData<Discount>(discount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+        }catch (error) {
+            return new ResponseData<Discount>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+        }
+    }
 
 
 
@@ -77,7 +80,7 @@ export class DiscountController {
     @ApiParam({ name: 'id', description: 'ID of the discount to delete', type: Number })
     @Delete('/delete/:id')
     @Roles(Role.Admin, Role.Manager, Role.Customer)
-    async delete(@Body() id: number ): Promise<ResponseType<Discount>> {
+    async delete(@Param('id') id: number): Promise<ResponseType<Discount>> {
         try {
             const discount = await this.discountService.delete(id);
             return new ResponseData<Discount>(discount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);

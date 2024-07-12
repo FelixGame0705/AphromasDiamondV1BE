@@ -5,11 +5,11 @@ import { ToDatabaseDateTime } from "src/constants/date-util"
 export class MaterialJewelryDTO{
     MaterialJewelryID: number
 
-    @ApiProperty({ example: '12.000.000', description: 'Buy price' })
+    @ApiProperty({ example: 12000, description: 'Buy price' })
     @IsNumber()
     BuyPrice: number
 
-    @ApiProperty({ example: '12.000.000', description: 'Sell price' })
+    @ApiProperty({ example: 12000, description: 'Sell price' })
     @IsNumber()
     SellPrice: number
 

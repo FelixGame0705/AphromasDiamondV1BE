@@ -22,7 +22,7 @@ export class CollectionRepository extends BaseRepository<CollectionEntity, Repos
     }
 
     async findAll(): Promise<CollectionEntity[]> {
-        return await this.repository.find({where: { IsRead: true } as FindOptionsWhere<CollectionEntity>});
+        return await this.repository.find();
     }
 
 }

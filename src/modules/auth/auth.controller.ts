@@ -6,7 +6,7 @@ import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseType } from "src/global/globalType";
 import { AuthService } from "./auth.service";
 import { Public, Roles } from "src/constants/decorator";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('Authentication')
 @ApiBearerAuth()
@@ -136,7 +136,11 @@ export class AuthController{
     }
 
     @Roles(Role.Admin, Role.Manager)
-    @Get('/accounts')
+    @Get('/ShowAllAccounts')
+    @ApiOperation({ 
+        summary: 'Get all accounts', 
+        description: 'Retrieve all accounts from the database.' 
+    })
     async getAllAccounts(@Res() res: Response): Promise<ResponseType<AuthResponseDTO[]>> {
         try {
             const accounts = await this.authService.findAllAccounts();

@@ -1,4 +1,5 @@
 import { FromDatabaseDateTime } from "src/constants/date-util"
+import { UsingImage } from "./usingImage.model"
 
 export class Diamond{
     DiamondID: number
@@ -22,6 +23,7 @@ export class Diamond{
     ProductID: number
     CollectionID: number
     DiscountID: number
+    usingImage: UsingImage[]
     constructor({
         DiamondID,
         Name,
@@ -42,7 +44,8 @@ export class Diamond{
         UpdateTime,
         ProductID,
         CollectionID,
-        DiscountID
+        DiscountID,
+        usingImage
     }){
             if(Name!= undefined) this.Name = Name;
             if(Cut!= undefined) this.Cut = Cut;
@@ -63,6 +66,7 @@ export class Diamond{
             if(ProductID!= undefined) this.ProductID = ProductID;
             if(CollectionID!= undefined) this.CollectionID = CollectionID;
             if(DiscountID!= undefined) this.DiscountID = DiscountID;
+            if(usingImage!= undefined) this.usingImage = usingImage;
     }
 	
     

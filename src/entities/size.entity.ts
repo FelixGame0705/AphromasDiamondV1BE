@@ -6,7 +6,7 @@ import { JewelrySettingEntity } from "./jewelrySetting.entity";
 export class SizeEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     SizeID: number
-    @Column()
+    @Column({ type: 'decimal', precision: 8, scale: 2})
     SizeValue: number
     @Column()
     UnitOfMeasure: string

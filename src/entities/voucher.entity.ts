@@ -13,7 +13,7 @@ export class VoucherEntity extends BaseEntity{
     StartDate: Date
     @Column({type: 'datetime'})
     EndDate: Date
-    @Column()
+    @Column({type: 'decimal', precision: 8, scale: 2})
     PercentDiscounts: number
     @Column({nullable: true})
     OrderID: number

@@ -7,71 +7,77 @@ import { Feedback } from "src/models/feedback.model";
 import { FeedbackDTO } from "src/dto/feedback.dto";
 import { ResponseType } from "src/global/globalType";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
- 
+
 @ApiTags('FeedbackApi')
 @Controller('feedback')
-export class FeedbackController{
-    constructor(private feedbackService: FeedbackService){
+export class FeedbackController {
+    constructor(private feedbackService: FeedbackService) {
     }
     @ApiBearerAuth()
     @Get('/showAll')
-    @ApiOperation({ 
-        summary: 'Get all feedbacks', 
-        description: 'Retrieve all feedbacks from the database.' 
+    @ApiOperation({
+        summary: 'Get all feedbacks',
+        description: 'Retrieve all feedbacks from the database.'
     })
     @Public()
     async findAll(): Promise<ResponseData<Feedback[]>> {
-        try{
+        try {
             const feedback = await this.feedbackService.findAll();
-            return new ResponseData<Feedback[]>(feedback, HttpStatus.SUCCESS, HttpMessage.SUCCESS );
-        }catch(error){
-            return new ResponseData<Feedback[]>(null, HttpStatus.ERROR, HttpMessage.ERROR );
+            return new ResponseData<Feedback[]>(feedback, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+        } catch (error) {
+            return new ResponseData<Feedback[]>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 
 
     @Get('/showFeedback')
-    @ApiQuery({ 
-        name: 'page', 
-        required: false, 
-        type: Number, 
-        description: 'Page number', 
-        example: 1 
-    })
-    
-    @ApiQuery({ 
-        name: 'Product Name', 
-        required: false, 
-        type: String, 
-        description: 'Name of Product' 
+    @ApiQuery({
+        name: 'page',
+        required: false,
+        type: Number,
+        description: 'Page number',
+        example: 1
     })
 
-    @ApiQuery({ 
-        name: 'Customer Name', 
-        required: false, 
-        type: String, 
-        description: 'Customer Name' 
+    @ApiQuery({
+        name: 'Product Name',
+        required: false,
+        type: String,
+        description: 'Name of Product'
+    })
+
+    @ApiQuery({
+        name: 'Customer Name',
+        required: false,
+        type: String,
+        description: 'Customer Name'
     })
 
     @Public()
     async showFeedback(@Query() query: any) {
-        const page: number = parseInt(query.page as any) || 1;
-        const filters = {
-            ProductName: query.ProductName,
-            CustomerName: query.CustomerName
-        };
-        const sort = {
-            field: query.sortField || 'Name',
-            feedback: query.sortFeedback || 'ASC'
-        };
+        try {
+            const page: number = parseInt(query.page as any) || 1;
+            const filters = {
+                ProductName: query.ProductName,
+                CustomerName: query.CustomerName
+            };
+            const sort = {
+                field: query.sortField || 'Name',
+                feedback: query.sortFeedback || 'ASC'
+            };
 
-        return this.feedbackService.getFeedback(page, filters, sort);
+            return this.feedbackService.getFeedback(page, filters, sort);
+        }
+        catch (error) {
+            console.log(error)
+        }
+
     }
 
 
 
     @ApiBearerAuth()
-    @ApiBody({ type: FeedbackDTO, description: 'The data to create feedback'})
+    @ApiBody({ type: FeedbackDTO, description: 'The data to create feedback' })
 
     @Post('/create')
     @Roles(Role.Manager, Role.Admin, Role.Customer)
@@ -88,7 +94,7 @@ export class FeedbackController{
     @ApiParam({ name: 'id', description: 'ID of the feedback to update', type: Number })
     @Put('/update/:id')
     @Roles(Role.Manager, Role.Admin)
-    async update(@Param('id') id: number, @Body()  feedbackDto: FeedbackDTO): Promise<ResponseType<Feedback>> {
+    async update(@Param('id') id: number, @Body() feedbackDto: FeedbackDTO): Promise<ResponseType<Feedback>> {
         try {
             const feedback = await this.feedbackService.update(id, feedbackDto);
             return new ResponseData<Feedback>(feedback, HttpStatus.SUCCESS, HttpMessage.SUCCESS);

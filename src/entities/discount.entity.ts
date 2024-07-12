@@ -15,9 +15,9 @@ export class DiscountEntity extends BaseEntity{
     StartDate: Date
     @Column({type: 'datetime', nullable: true})
     EndDate: Date
-    @Column({default: 0})
+    @Column({default: 0, type: 'decimal', precision: 10, scale: 2})
     PercentDiscounts: number
-    @Column({nullable:true})
+    @Column({nullable:true, type: 'decimal', precision: 10, scale: 2})
     FinalPrice: number
     @OneToMany(()=>ProductEntity, product=>product.discount)
     product: ProductEntity[]
