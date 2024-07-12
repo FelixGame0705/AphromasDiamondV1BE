@@ -37,7 +37,7 @@ export class JewelrySettingController {
     @Public()
     async findDetail(@Param('id') id:number): Promise<ResponseData<JewelrySettingAll>> {
         try {
-            const jewelrySetting = await this.jewelrySettingService.findById(id);
+            const jewelrySetting = await this.jewelrySettingService.findRelationById(id);
             return new ResponseData<JewelrySettingAll>(jewelrySetting, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             console.log(error)

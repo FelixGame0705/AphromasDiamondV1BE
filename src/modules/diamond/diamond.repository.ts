@@ -16,7 +16,7 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
         super(repository);
     }
     async findRelationById(id: number): Promise<Diamond> {
-        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['usingImage']})
+        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['usingImage', 'certificate']})
     }
 
     protected getIdField(): keyof Diamond {
@@ -40,7 +40,6 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
         // Bước 1: Lấy danh sách IDs của diamonds
         const subQuery = this.repository.createQueryBuilder('diamond')
             .select('diamond.DiamondID');
-        console.log("Hello "+ subQuery.select('diamond.DiamondID'))
         // Áp dụng bộ lọc
         if (filters.Shape && filters.Shape.length > 0) {
             subQuery.andWhere("diamond.shape IN (:...Shape)", { Shape: filters.Shape });
@@ -80,7 +79,6 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
     
         // Lấy danh sách IDs của diamonds
         const diamondIds = await subQuery.getRawMany().then(results => results.map(result => result.diamond_DiamondID));
-        console.log("Bye"+diamondIds)
         if (diamondIds.length === 0) { 
             return {
                 data: [],
