@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsString } from "class-validator"
+import { IsNumber, IsString } from "class-validator"
 
 export class CertificateDTO{
 
@@ -10,6 +10,7 @@ export class CertificateDTO{
     Name: string
 
     @ApiProperty({ example: null , description: 'Certificate' })
+    @IsNumber()
     DiamondID: number
     
     

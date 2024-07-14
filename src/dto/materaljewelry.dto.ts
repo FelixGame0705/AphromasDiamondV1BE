@@ -18,9 +18,7 @@ export class MaterialJewelryDTO{
     @IsDate()
     UpdateTime: Date
 
-    @ApiProperty
-    
-    ({ example: 'Gold 18k', description: 'Name' })
+    @ApiProperty({ example: 'Gold 18k', description: 'Name' })
     @IsString()
     Name: string
 

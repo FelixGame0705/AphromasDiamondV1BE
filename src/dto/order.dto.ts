@@ -1,9 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsTimeZone } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional, IsString, IsTimeZone } from "class-validator";
 import { ToDatabaseDateTime } from "src/constants/date-util";
 import { DiamondDTO } from "./diamond.dto";
 
-export class OrderDTO{
+export class OrderDTO {
     OrderID: number
     @ApiProperty({ example: '2023-06-07T14:30:00Z', description: 'The date the order was placed' })
     @ToDatabaseDateTime()
@@ -13,28 +13,40 @@ export class OrderDTO{
     @ToDatabaseDateTime()
     CompleteDate: Date;
 
-    @ApiProperty({ example: null, description: 'Is payed' })
+    @ApiProperty({ example: false, description: 'Is payed' })
+    @IsBoolean()
     IsPayed: boolean;
     @ApiProperty({ example: null, description: 'Shipping fee' })
+    @IsNumber()
     Shippingfee: number;
     @ApiProperty({ example: null, description: 'Reason return' })
+    @IsString()
     ReasonReturn: string;
     @ApiProperty({ example: null, description: 'Note' })
+    @IsString()
     Note: string;
     @ApiProperty({ example: null, description: 'The ID of the customer' })
-    CustomerID: number;
+    @IsNumber()
+    @IsOptional()
+    CustomerID: number|null;
 
     @ApiProperty({ example: 'Pending', description: 'The status of the order' })
+    @IsString()
     OrderStatus: string;
 
     @ApiProperty({ example: true, description: 'Whether the order is active or not' })
+    @IsBoolean()
     IsActive: boolean;
     @ApiProperty({ example: null, description: 'Whether the order is active or not' })
-    AccountDeliveryID: number
+    @IsNumber()
+    @IsOptional()
+    AccountDeliveryID: number|null
     @ApiProperty({ example: null, description: 'Whether the order is active or not' })
-    AccountSaleID: number
+    @IsNumber()
+    @IsOptional()
+    AccountSaleID: number|null
 }
-export class PaymentDTO{
+export class PaymentDTO {
     @ApiProperty({ example: 'Complete', description: 'The status of the order' })
     Order: OrderDTO;
     @ApiProperty({ example: false, description: 'The status of the order' })

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsDate, IsNumber } from "class-validator"
+import { IsDate, IsNumber, IsOptional } from "class-validator"
 
 export class VoucherDTO{
     VoucherID: number
@@ -12,10 +12,12 @@ export class VoucherDTO{
     @IsDate()
     EndDate: Date
     
-    @ApiProperty({ example: 'Account has been created', description: 'Percent discount apply' })
+    @ApiProperty({ example: 12, description: 'Percent discount apply' })
     @IsNumber()
     PercentDiscounts: number
     
-    @ApiProperty({ example: 'null', description: 'Order ID' })
-    OrderID: number
+    @ApiProperty({ example: null, description: 'Order ID' })
+    @IsNumber()
+    @IsOptional()
+    OrderID: number|null
 }
