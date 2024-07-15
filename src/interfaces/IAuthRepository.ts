@@ -11,6 +11,7 @@ export interface IAuthRepository{
     updateAccount(id: number,body: AuthPayloadDTO): Promise<AuthResponseDTO | boolean>;
     findByID(id:number): Promise<AuthResponseDTO>
     findByUsername(Email: string): Promise<AuthResponseDTO>
+    findByIdCustomer(id: number): Promise<AuthPayloadCustomerDTO>
     updateCustomer(id: number, body: AuthPayloadCustomerDTO): Promise<AuthResponseDTO | boolean>;
     deleteAccount(id: number): Promise<boolean>; // New method for deleting accounts
     deleteCustomer(id: number): Promise<boolean>; // New method for deleting customers

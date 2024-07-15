@@ -2,6 +2,7 @@
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 import { DataSource } from 'typeorm';
 import { CertificateEntity } from 'src/entities/certificate.entity';
+import { AccountsEntity } from 'src/entities/accounts.entity';
 
 export default class UserSeeder implements Seeder {
   public async run(
@@ -11,7 +12,7 @@ export default class UserSeeder implements Seeder {
    // await dataSource.query('TRUNCATE "user" RESTART IDENTITY;');
    try {
     console.log('Starting data seeding...');
-    const repository = dataSource.getRepository(CertificateEntity);
+    const repository = dataSource.getRepository(AccountsEntity);
     await repository.insert({ Name: 'Hello' });
     console.log('Data seeded successfully!');
   } catch (error) {
