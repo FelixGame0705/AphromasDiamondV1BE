@@ -1,4 +1,4 @@
-import { Body, Controller, Res,Post, UsePipes, ValidationPipe, Param, Delete, Get } from "@nestjs/common";
+import { Body, Controller, Res, Post, UsePipes, ValidationPipe, Param, Delete, Get } from "@nestjs/common";
 import { Response } from "express";
 import { AuthPayloadCustomerDTO, AuthPayloadDTO, AuthPermission, AuthResponseDTO } from "src/dto/auth.dto";
 import { ResponseData } from "src/global/globalClass";
@@ -11,19 +11,33 @@ import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger"
 @ApiTags('Authentication')
 @ApiBearerAuth()
 @Controller('auth')
-export class AuthController{
-    constructor(protected readonly authService: AuthService){
+export class AuthController {
+    constructor(protected readonly authService: AuthService) {
 
+    }
+    @Roles(Role.Customer, Role.Admin)
+    @ApiBearerAuth()
+    @Post('/getCustomer/:id')
+    async getCustomer(
+        @Param('id') id: number
+    ): Promise<ResponseType<AuthPayloadCustomerDTO>> {
+        try {
+            const result = await this.authService.findByIdCustomer(id)
+            return new ResponseData<AuthPayloadCustomerDTO>(result, HttpStatus.ERROR, HttpMessage.ERROR)
+        } catch (error) {
+            console.error(error)
+            return new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR)
+        }
     }
     @Public()
     @Post('/signin')
     async signIn(
-        @Body() auth: AuthPayloadDTO, 
+        @Body() auth: AuthPayloadDTO,
         @Res() res: Response
-    ): Promise<ResponseType<AuthPermission | boolean>>{
-        try{
+    ): Promise<ResponseType<AuthPermission | boolean>> {
+        try {
             const isAuth = await this.authService.signIn(auth);
-            if(!isAuth){
+            if (!isAuth) {
                 return res.json(
                     new ResponseData(isAuth, HttpStatus.ERROR, HttpMessage.ERROR)
                 );
@@ -31,7 +45,7 @@ export class AuthController{
             return res.json(
                 new ResponseData(isAuth, HttpStatus.SUCCESS, HttpMessage.SUCCESS)
             )
-        }catch(error){
+        } catch (error) {
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
@@ -39,14 +53,14 @@ export class AuthController{
     }
     @Public()
     @Post('/signup')
-    @UsePipes(new ValidationPipe({transform:true}))
+    @UsePipes(new ValidationPipe({ transform: true }))
     async signUp(
-        @Body() auth: AuthPayloadDTO, 
+        @Body() auth: AuthPayloadDTO,
         @Res() res: Response
-    ): Promise<ResponseType<AuthResponseDTO | boolean>>{
-        try{
+    ): Promise<ResponseType<AuthResponseDTO | boolean>> {
+        try {
             const isAuth = await this.authService.signUp(auth);
-            if(!isAuth){
+            if (!isAuth) {
                 return res.json(
                     new ResponseData(isAuth, HttpStatus.ERROR, HttpMessage.ERROR)
                 );
@@ -54,7 +68,7 @@ export class AuthController{
             return res.json(
                 new ResponseData(isAuth, HttpStatus.SUCCESS, HttpMessage.SUCCESS)
             )
-        }catch(error){
+        } catch (error) {
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
@@ -63,12 +77,12 @@ export class AuthController{
     @Public()
     @Post('/signupCustomer')
     async signUpCustomer(
-        @Body() auth: AuthPayloadCustomerDTO, 
+        @Body() auth: AuthPayloadCustomerDTO,
         @Res() res: Response
-    ): Promise<ResponseType<AuthResponseDTO | boolean>>{
-        try{
+    ): Promise<ResponseType<AuthResponseDTO | boolean>> {
+        try {
             const isAuth = await this.authService.signUpCustomer(auth);
-            if(!isAuth){
+            if (!isAuth) {
                 return res.json(
                     new ResponseData(isAuth, HttpStatus.ERROR, HttpMessage.ERROR)
                 );
@@ -76,7 +90,7 @@ export class AuthController{
             return res.json(
                 new ResponseData(isAuth, HttpStatus.SUCCESS, HttpMessage.SUCCESS)
             )
-        }catch(error){
+        } catch (error) {
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
@@ -87,14 +101,14 @@ export class AuthController{
     @Post('/update/:Username')
     async updateAccount(
         @Param('Username') username: string,
-        @Body() auth: AuthPayloadDTO, 
+        @Body() auth: AuthPayloadDTO,
         @Res() res: Response
-    ): Promise<ResponseType<AuthResponseDTO | boolean>>{
-        try{
+    ): Promise<ResponseType<AuthResponseDTO | boolean>> {
+        try {
             const haveUsername = await this.authService.findByUsername(username)
             console.log("AccountID ", haveUsername.AccountID);
             const isAuth = await this.authService.updateAccount(haveUsername.AccountID, auth);
-            if(!isAuth){
+            if (!isAuth) {
                 return res.json(
                     new ResponseData(isAuth, HttpStatus.ERROR, HttpMessage.ERROR)
                 );
@@ -102,7 +116,7 @@ export class AuthController{
             return res.json(
                 new ResponseData(isAuth, HttpStatus.SUCCESS, HttpMessage.SUCCESS)
             )
-        }catch(error){
+        } catch (error) {
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
@@ -113,14 +127,14 @@ export class AuthController{
     @Post('/updateCustomer/:Username')
     async updateCustomer(
         @Param('Username') username: string,
-        @Body() auth: AuthPayloadCustomerDTO, 
+        @Body() auth: AuthPayloadCustomerDTO,
         @Res() res: Response
-    ): Promise<ResponseType<AuthResponseDTO | boolean>>{
-        try{
+    ): Promise<ResponseType<AuthResponseDTO | boolean>> {
+        try {
             const haveUsername = await this.authService.findByUsername(username)
             console.log("AccountID ", haveUsername.AccountID);
             const isAuth = await this.authService.updateCustomer(haveUsername.AccountID, auth);
-            if(!isAuth){
+            if (!isAuth) {
                 return res.json(
                     new ResponseData(isAuth, HttpStatus.ERROR, HttpMessage.ERROR)
                 );
@@ -128,18 +142,19 @@ export class AuthController{
             return res.json(
                 new ResponseData(isAuth, HttpStatus.SUCCESS, HttpMessage.SUCCESS)
             )
-        }catch(error){
+        } catch (error) {
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
         }
     }
+    
 
-    @Roles(Role.Admin, Role.Manager)
+    @Roles(Role.Admin, Role.Manager, Role.Customer)
     @Get('/ShowAllAccounts')
-    @ApiOperation({ 
-        summary: 'Get all accounts', 
-        description: 'Retrieve all accounts from the database.' 
+    @ApiOperation({
+        summary: 'Get all accounts',
+        description: 'Retrieve all accounts from the database.'
     })
     async getAllAccounts(@Res() res: Response): Promise<ResponseType<AuthResponseDTO[]>> {
         try {
@@ -156,7 +171,7 @@ export class AuthController{
     }
 
 
-    
+
     @ApiParam({ name: 'AccountID', description: 'ID of the account to delete', type: Number })
     @Delete('/delete/:AccountID')
     @Roles(Role.Admin, Role.Manager)
@@ -178,7 +193,7 @@ export class AuthController{
     }
 
     @ApiParam({ name: 'AccountID', description: 'ID of the account to delete', type: Number })
-    @Roles(Role.Customer,Role.Admin)
+    @Roles(Role.Customer, Role.Admin)
     @Delete('/deleteCustomer/:AccountID')
     async deleteCustomer(
         @Param('AccountID') accountId: number,
