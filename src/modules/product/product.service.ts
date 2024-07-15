@@ -119,7 +119,7 @@ export class ProductService {
     }
     async findRelationById(id: number): Promise<Product> {
         let item = await this.productRepository.findRelationById(id);
-        console.log("hello" + item)
+        console.log(item)
         const prices = item.diamonds
             .map(diamond => diamond.Price);
         const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant

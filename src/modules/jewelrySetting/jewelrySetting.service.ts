@@ -5,6 +5,7 @@ import { JewelrySettingEntity } from "src/entities/jewelrySetting.entity";
 import { IJewelrySettingRepository as IJewelrySettingRepository } from "src/interfaces/IJewelrySettingRepository";
 import { JewelrySetting, JewelrySettingAll } from "src/models/jewelrySetting.model";
 import { JewelrySettingVariant } from "src/models/jewelrySettingVariant.model";
+import { UsingImage } from "src/models/usingImage.model";
 
 @Injectable()
 export class JewelrySettingService {
@@ -25,6 +26,7 @@ export class JewelrySettingService {
             // ProductID: entity.ProductID,
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
+            UsingImage: entity.usingImage,
             JewelrySettingVariant: entity.jewelrySettingVariant.map(
                 item => {
                     const sellPrice = item.materialJewelry?.SellPrice ?? 0;
@@ -34,6 +36,7 @@ export class JewelrySettingService {
                         TotalPriceVariant: (sellPrice * item.Weight + entity.ProductionCost) * entity.ChargeRate,
                         Size: item.size,
                         MaterialJewelry: item.materialJewelry
+                        
                     }
                     return modifiedJewelrySetting
                 }
@@ -93,6 +96,7 @@ export class JewelrySettingService {
             Name: entity.Name,
             ProductionCost: entity.ProductionCost,
             IsActive: entity.IsActive,
+            UsingImage: entity.usingImage,
             JewelrySettingVariant: Array.isArray(entity.jewelrySettingVariant) ? entity.jewelrySettingVariant.map(
                 item => {
                     const modifiedJewelrySetting = {

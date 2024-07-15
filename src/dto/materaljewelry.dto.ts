@@ -13,14 +13,12 @@ export class MaterialJewelryDTO{
     @IsNumber()
     SellPrice: number
 
-    @ApiProperty({ example: '2023-06-07T14:30:00', description: 'Date update' })
+    @ApiProperty({ example: '07-02-2024 14:30:00', description: 'Date update' })
     @ToDatabaseDateTime()
     @IsDate()
     UpdateTime: Date
 
-    @ApiProperty
-    
-    ({ example: 'Gold 18k', description: 'Name' })
+    @ApiProperty({ example: 'Gold 18k', description: 'Name' })
     @IsString()
     Name: string
 

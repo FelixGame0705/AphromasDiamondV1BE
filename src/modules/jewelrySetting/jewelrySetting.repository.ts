@@ -43,6 +43,8 @@ export class JewelrySettingRepository extends BaseRepository<JewelrySettingEntit
     }
 
     async findAll(): Promise<JewelrySettingEntity[]> {
+        const rs = this.repository.find({relations: ['jewelrySettingVariant', 'jewelrySettingVariant.materialJewelry','jewelrySettingVariant.size', 'usingImage']})
+        return rs;
         const builder = this.repository.createQueryBuilder('jewelrySetting')
         .leftJoinAndSelect('jewelrySetting.jewelrySettingVariant', 'jewelrySettingVariant')
         .leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry')

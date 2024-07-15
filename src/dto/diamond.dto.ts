@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsBoolean, IsNumber, IsPhoneNumber, IsString } from "class-validator"
+import { IsBoolean, IsDate, IsNumber, IsOptional, IsPhoneNumber, IsString } from "class-validator"
 import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class DiamondDTO{
@@ -35,14 +35,19 @@ export class DiamondDTO{
     @IsString()
     Fluorescence: string
     @ApiProperty({ example: "Vip" , description: 'Diamond' })
+    @IsString()
     Clarity: string
     @ApiProperty({ example: 15 , description: 'Diamond' })
+    @IsNumber()
     PercentTable: number
     @ApiProperty({ example: "no" , description: 'Diamond' })
+    @IsString()
     Polish: string
     @ApiProperty({ example: "no" , description: 'Diamond' })
+    @IsString()
     Symmetry: string
     @ApiProperty({ example: 120 , description: 'Diamond' })
+    @IsNumber()
     ChargeRate: number
 
     @ApiProperty({ example: "Cutter" , description: 'cutter' })
@@ -54,16 +59,25 @@ export class DiamondDTO{
     Shape: string
     
     @ApiProperty({example: '01-01-2024 00:00:00'})
+    @IsDate()
     @ToDatabaseDateTime()
     UpdateTime: Date
     // @ApiProperty({ example: null , description: 'Diamond' })
     // JewelrySettingID: number
     @ApiProperty({ example: null , description: 'Diamond' })
-    ProductID: number
+    @IsOptional()
+    @IsNumber()
+    ProductID: number|null
     @ApiProperty({ example: null , description: 'Diamond' })
-    CollectionID: number
+    @IsOptional()
+    @IsNumber()
+    CollectionID: number|null
     @ApiProperty({ example: null , description: 'Diamond' })
-    DiscountID: number
+    @IsOptional()
+    @IsNumber()
+    DiscountID: number|null
     @ApiProperty({example: null, description: 'Jewelry setting variant id dùng để tạo sản phẩm sẵn, nối diamond với vỏ'})
-    JewelrySettingVariantID: number
+    @IsNumber()
+    @IsOptional()
+    JewelrySettingVariantID: number|null
 }

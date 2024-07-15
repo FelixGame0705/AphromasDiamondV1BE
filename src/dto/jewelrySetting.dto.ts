@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsBoolean, IsNumber, IsString } from "class-validator"
+import { IsBoolean, IsNumber, IsOptional, IsString } from "class-validator"
 import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class JewelrySettingDTO {
@@ -22,7 +22,7 @@ export class JewelrySettingDTO {
     UpdateTime: Date
 
     @ApiProperty({ example: 'Square' })
-    @ToDatabaseDateTime()
+    @IsString()
     DiamondShape: string
 
     @ApiProperty({ example: 1, description: "ChargeRate" })
@@ -34,5 +34,7 @@ export class JewelrySettingDTO {
     AuxiliaryCost: number
 
     @ApiProperty({ example: null, description: "JewelryTypeID" })
-    JewelryTypeID: number
+    @IsNumber()
+    @IsOptional()
+    JewelryTypeID: number|null
 }

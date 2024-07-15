@@ -1,11 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsNumber, IsString } from "class-validator"
+import { IsNumber, IsOptional, IsString } from "class-validator"
 import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class FeedbackDTO{
     FeedbackID: number
 
-    @ApiProperty({ example: 5.0, description: "number of rating stars" })
+    @ApiProperty({ example: 5, description: "number of rating stars" })
     @IsNumber()
     Stars: number
 
@@ -21,19 +21,29 @@ export class FeedbackDTO{
     IsActive: boolean
 
     @ApiProperty({ example: null, description: "Feedback" })
-    DiamondID: number
+    @IsOptional()
+    @IsNumber()
+    DiamondID: number|null
 
     @ApiProperty({ example: null, description: "Feedback" })
-    JewelrySettingID: number
+    @IsOptional()
+    @IsNumber()
+    JewelrySettingID: number|null
 
     @ApiProperty({ example: null, description: "Feedback" })
-    OrderID: number  
+    @IsOptional()
+    @IsNumber()
+    OrderID: number | null 
     
     @ApiProperty({ example: null, description: "Feedback" })
-    AccountID: number
+    @IsOptional()
+    @IsNumber()
+    AccountID: number|null
 
     @ApiProperty({ example: null, description: "Feedback" })
-    ProductID: number
+    @IsOptional()
+    @IsNumber()
+    ProductID: number|null
 
 
 }
