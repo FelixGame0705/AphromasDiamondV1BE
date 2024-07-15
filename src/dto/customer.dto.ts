@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsBoolean } from "class-validator"
+import { IsBoolean, IsString } from "class-validator"
 import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class CustomerDTO{
@@ -11,6 +11,7 @@ export class CustomerDTO{
     @IsBoolean()
     Gender: boolean
     @ApiProperty({ example: "Love Vietnam" , description: 'Hometown' })
+    @IsString()
     Address: string
 
 }

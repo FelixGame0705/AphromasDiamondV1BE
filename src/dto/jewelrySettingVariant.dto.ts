@@ -1,14 +1,23 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { IsNumber, IsOptional } from "class-validator"
 
 export class JewelrySettingVariantDTO{
     @ApiProperty({example:1,description:'Shell ID match to shell'})
-    SizeID: number
+    @IsOptional()
+    @IsNumber()
+    SizeID: number|null
     @ApiProperty({example:1,description:'Size ID match to shell'})
-    JewelrySettingID: number
+    @IsOptional()
+    @IsNumber()
+    JewelrySettingID: number|null
     @ApiProperty({example:1,description:'Material ID match to shell'})
-    MaterialJewelryID: number
+    @IsOptional()
+    @IsNumber()
+    MaterialJewelryID: number|null
     @ApiProperty({example:1,description:'Weight'})
+    @IsNumber()
     Weight: number
     @ApiProperty({example:1,description:'Amount'})
+    @IsNumber()
     Amount: number
 }

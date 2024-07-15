@@ -1,8 +1,10 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { runSeeders, SeederOptions } from 'typeorm-extension';
 import { config } from "dotenv";
+import { from } from 'rxjs';
 config()
 
-export const dataSourceOptions: DataSourceOptions = {
+export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   type: 'mysql',
   host: process.env.TYPEORM_HOST,
   port: parseInt(process.env.TYPEORM_PORT),
@@ -15,7 +17,10 @@ export const dataSourceOptions: DataSourceOptions = {
   synchronize: false,
   migrationsTableName: 'migrations',
   migrationsRun: true,
+  seeds: ['dist/db/seeds/*.js'], // Đảm bảo đúng đường dẫn
+  factories: ['dist/db/factories/*.js'], // Đường dẫn đến factories nếu có
 };
+
 
 const dataSource = new DataSource(dataSourceOptions);
 export default dataSource;
