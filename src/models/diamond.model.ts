@@ -47,6 +47,7 @@ export class Diamond{
         DiscountID,
         usingImage
     }){
+            if(DiamondID!=undefined) this.DiamondID;
             if(Name!= undefined) this.Name = Name;
             if(Cut!= undefined) this.Cut = Cut;
             if(Price!= undefined) this.Price = Price;
