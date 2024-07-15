@@ -1,15 +1,26 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { IsNumber, IsOptional } from "class-validator"
 
 export class OrderLineDTO{
     OrderLineID: number
     @ApiProperty({ example: 1, description: 'Quantity' })    
-    Quantity: number
+    @IsNumber()
+    @IsOptional()
+    Quantity: number|null
     @ApiProperty({ example: 1, description: 'OrderID' })
-    OrderID: number
+    @IsNumber()
+    @IsOptional()
+    OrderID: number|null
     @ApiProperty({ example: null, description: 'DiamondID' })
-    DiamondID: number
+    @IsNumber()
+    @IsOptional()
+    DiamondID: number|null
     @ApiProperty({ example: null, description: 'ProductID' })
-    ProductID: number
+    @IsNumber()
+    @IsOptional()
+    ProductID: number|null
     @ApiProperty({ example: null, description: 'CustomerID' })
-    CustomerID: number
+    @IsNumber()
+    @IsOptional()
+    CustomerID: number|null
 }

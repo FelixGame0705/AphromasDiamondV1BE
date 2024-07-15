@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsDate, IsNumber, IsString } from "class-validator"
+import { IsDate, IsNumber, IsOptional, IsString } from "class-validator"
+import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class DiscountDTO{
     DiscountID: number
@@ -12,19 +13,22 @@ export class DiscountDTO{
     @IsString()
     Description: string
 
-    @ApiProperty({example: 'Phần trăm được giảm' , description: 'Discount'})
+    @ApiProperty({example: 12 , description: 'Discount'})
     @IsNumber()
     PercentDiscounts: number
 
     @ApiProperty({example: 'Price of product after add discount' , description: 'Discount'})
     @IsNumber()
-    FinalPrice: number
+    @IsOptional()
+    FinalPrice: number|null
 
-    @ApiProperty({ example: '2023-06-14T14:30:00Z', description: 'The date the discount code expires' })
+    @ApiProperty({ example: '14-06-2023 14:30:00', description: 'The date the discount code expires' })
+    @ToDatabaseDateTime()
     @IsDate()
     StartDate: Date
 
-    @ApiProperty({ example: '2023-06-14T14:30:00Z', description: 'End Date of Discount' })
+    @ApiProperty({ example: '14-06-2023 14:30:00', description: 'End Date of Discount' })
+    @ToDatabaseDateTime()
     @IsDate()                                              
     EndDate: Date
 }
