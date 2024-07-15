@@ -4,6 +4,7 @@ import { DataSource } from 'typeorm';
  
 import { AccountsEntity } from 'src/entities/accounts.entity';
 import { CustomerEntity } from 'src/entities/customer.entity';
+import { AuthPayloadDTO } from 'src/dto/auth.dto';
 
 export default class UserSeeder implements Seeder {
   public async run(
@@ -26,6 +27,7 @@ export default class UserSeeder implements Seeder {
       // await accountFactory.save(accounts[i]);
       account.CustomerID = cusID[i];
       let a = await accountFactory.save(account[i]);
+      // let c = (await dataSource.getRepository(AccountsEntity).findOne({where: {['CustomerID']: cusID[i]}} )).AccountID
       // (await dataSource.getRepository(AccountsEntity).findOne({where: {['CustomerID']: cusID[i]}} )).AccountID
       // {where: {[idField]:id} as FindOptionsWhere<BaseEntity>}
       dataSource.getRepository(AccountsEntity).update(a.AccountID, {CustomerID: cusID[i]})
