@@ -18,13 +18,16 @@ export class OrderDTO {
     IsPayed: boolean;
     @ApiProperty({ example: null, description: 'Shipping fee' })
     @IsNumber()
-    Shippingfee: number;
+    @IsOptional()
+    Shippingfee: number|null;
     @ApiProperty({ example: null, description: 'Reason return' })
     @IsString()
-    ReasonReturn: string;
+    @IsOptional()
+    ReasonReturn: string|null;
     @ApiProperty({ example: null, description: 'Note' })
     @IsString()
-    Note: string;
+    @IsOptional()
+    Note: string|null;
     @ApiProperty({ example: null, description: 'The ID of the customer' })
     @IsNumber()
     @IsOptional()
