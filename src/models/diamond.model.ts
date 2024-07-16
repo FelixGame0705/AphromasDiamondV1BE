@@ -18,7 +18,6 @@ export class Diamond{
     Polish: string
     Symmetry: string
     ChargeRate: number
-    @FromDatabaseDateTime()
     UpdateTime: Date
     ProductID: number
     CollectionID: number
@@ -47,6 +46,7 @@ export class Diamond{
         DiscountID,
         usingImage
     }){
+            if(DiamondID!=undefined) this.DiamondID;
             if(Name!= undefined) this.Name = Name;
             if(Cut!= undefined) this.Cut = Cut;
             if(Price!= undefined) this.Price = Price;

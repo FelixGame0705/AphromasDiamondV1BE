@@ -58,9 +58,8 @@ export class DiamondDTO{
     @IsString()
     Shape: string
     
-    @ApiProperty({example: '01-01-2024 00:00:00'})
+    @ApiProperty({example: '2024-07-16T08:59:40.483Z'})
     @IsDate()
-    @ToDatabaseDateTime()
     UpdateTime: Date
     // @ApiProperty({ example: null , description: 'Diamond' })
     // JewelrySettingID: number

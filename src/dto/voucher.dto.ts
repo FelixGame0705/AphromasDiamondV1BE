@@ -5,13 +5,11 @@ import { ToDatabaseDateTime } from "src/constants/date-util"
 export class VoucherDTO{
     VoucherID: number
 
-    @ApiProperty({ example: '14-07-2024 14:30:00', description: 'Discount code effective date' })
-    @ToDatabaseDateTime()
+    @ApiProperty({ example: '2024-07-16T08:59:40.483Z', description: 'Discount code effective date' })
     @IsDate()
     StartDate: Date
 
-    @ApiProperty({ example: '14-07-2024 19:00:00', description: 'The date the discount code expires' })
-    @ToDatabaseDateTime()
+    @ApiProperty({ example: '2024-07-16T08:59:40.483Z', description: 'The date the discount code expires' })
     @IsDate()
     EndDate: Date
     

@@ -13,8 +13,7 @@ export class FeedbackDTO{
     @IsString()
     Comment: string
 
-    @ApiProperty({ example: '01-01-2024 00:00:00', description: "date of review" })
-    @ToDatabaseDateTime()
+    @ApiProperty({ example: '2024-07-16T08:59:40.483Z', description: "date of review" })
     CommentTime: Date
 
     @ApiProperty({ example: true, description: "Feedback" })

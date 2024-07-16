@@ -4,8 +4,7 @@ import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class CustomerDTO{
     CustomerID: number
-    @ApiProperty({ example: '14-06-2002', description: 'The birthday' })
-    @ToDatabaseDateTime()
+    @ApiProperty({ example: '2024-07-16T08:59:40.483Z', description: 'The birthday' })
     Birthday: Date
     @ApiProperty({ example: true , description: 'True for man, false for girl' })
     @IsBoolean()
