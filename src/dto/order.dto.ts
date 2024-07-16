@@ -6,11 +6,9 @@ import { DiamondDTO } from "./diamond.dto";
 export class OrderDTO {
     OrderID: number
     @ApiProperty({ example: '2023-06-07T14:30:00Z', description: 'The date the order was placed' })
-    @ToDatabaseDateTime()
     OrderDate: Date;
 
-    @ApiProperty({ example: '2023-06-14T14:30:00Z', description: 'The date the order was completed' })
-    @ToDatabaseDateTime()
+    @ApiProperty({ example: '2023-06-14T14:30:00Z', description: 'The date the order was completed' })    
     CompleteDate: Date;
 
     @ApiProperty({ example: false, description: 'Is payed' })

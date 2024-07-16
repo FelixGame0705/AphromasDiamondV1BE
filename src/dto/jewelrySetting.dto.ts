@@ -17,8 +17,7 @@ export class JewelrySettingDTO {
     @IsBoolean()
     IsActive: boolean
 
-    @ApiProperty({ example: '01-10-2023 00:00:00' })
-    @ToDatabaseDateTime()
+    @ApiProperty({ example: '2024-07-16T08:59:40.483Z' })
     UpdateTime: Date
 
     @ApiProperty({ example: 'Square' })

@@ -4,7 +4,6 @@ import { FromDatabaseDateTime } from "src/constants/date-util"
     MaterialJewelryID: number
     BuyPrice: number
     SellPrice: number
-    @FromDatabaseDateTime()
     UpdateTime: Date
     Name: string
 
