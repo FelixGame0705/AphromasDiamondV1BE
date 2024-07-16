@@ -1,7 +1,6 @@
 import { FromDatabaseDateTime } from "src/constants/date-util";
 
 export class Customer {
-    @FromDatabaseDateTime()
     CustomerID: number
     Birthday: Date
     Gender: boolean

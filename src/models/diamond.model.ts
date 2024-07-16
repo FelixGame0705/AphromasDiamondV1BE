@@ -18,7 +18,6 @@ export class Diamond{
     Polish: string
     Symmetry: string
     ChargeRate: number
-    @FromDatabaseDateTime()
     UpdateTime: Date
     ProductID: number
     CollectionID: number

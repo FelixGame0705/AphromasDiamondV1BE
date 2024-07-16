@@ -22,13 +22,11 @@ export class DiscountDTO{
     @IsOptional()
     FinalPrice: number|null
 
-    @ApiProperty({ example: '14-06-2023 14:30:00', description: 'The date the discount code expires' })
-    @ToDatabaseDateTime()
+    @ApiProperty({ example: '2024-07-16T08:59:40.483Z', description: 'The date the discount code expires' })
     @IsDate()
     StartDate: Date
 
-    @ApiProperty({ example: '14-06-2023 14:30:00', description: 'End Date of Discount' })
-    @ToDatabaseDateTime()
+    @ApiProperty({ example: '2024-07-16T08:59:40.483Z1', description: 'End Date of Discount' })
     @IsDate()                                              
     EndDate: Date
 }

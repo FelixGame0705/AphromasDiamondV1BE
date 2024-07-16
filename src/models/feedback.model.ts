@@ -4,7 +4,6 @@ export class Feedback{
     FeedbackID: number
     Stars: number
     Comment: string
-    @FromDatabaseDateTime()
     CommentTime: Date
     IsActive: boolean
     DiamondID: number
