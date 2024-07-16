@@ -75,40 +75,7 @@ export class JewelrySettingVariantSubscriber implements EntitySubscriberInterfac
         
 
     }
-    async handleAfterInsertOrUpdate(event: UpdateEvent<JewelrySettingVariantEntity>) {
-        // Kiểm tra nếu jewelrySettingVariant đã thay đổi
-        //if (event.updatedColumns.some(column => column.propertyName === 'MaterialJewelryID')) {
-            const jewelryVariantPrice = event.entity;
-            if (!jewelryVariantPrice) return;
-            console.log("Qua met moi"+event.entity)
-            const productRepository = event.manager.getRepository(ProductEntity);
-            const diamondRepository = event.manager.getRepository(DiamondEntity);
-            // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
-            const products = await productRepository.find();
-            const diamonds = await diamondRepository.find();
-            //jewelryVariantPrice.Price = material.filter(material=>material.MaterialJewelryID)[0].SellPrice * jewelryVariantPrice.Weight;
-            for (const product of products) {
-                // Logic cập nhật giá trang sức
-                const diamondsInProduct = diamonds.filter((p) => p.ProductID === product.ProductID).map(diamond => diamond.Price);
-                product.Price = calculateNewPrice(product, jewelryVariantPrice.Price, diamondsInProduct);
-
-                await productRepository.save(product);
-            }
-
-            // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
-
-            //   for (const jewelry of jewelrySettingVariant) {
-            //     // Logic cập nhật giá trang sức
-            //     if (jewelry.Weight) {
-            //       
-            //       jewelry.Price = jewelry.Weight*material.SellPrice;
-            //       await jewelryRepository.save(jewelry);
-            //     }
-            //   }
-            console.log('Cập nhật hoàn tất.');
-        }
-    }
-//}
+}
 
 // Hàm trợ giúp để tính giá trang sức mới
 function calculateNewPrice(jewelry: ProductEntity, jewelryVariantPrice: number, diamonds: number[]): number {

@@ -15,11 +15,47 @@ export class MaterialJewelrySubscriber implements EntitySubscriberInterface<Mate
    * Được gọi sau khi cập nhật thực thể.
    */
   async afterInsert(event: InsertEvent<MaterialJewelryEntity>){
-    this.handleAfterInsertOrUpdate(event);
+    // this.handleAfterInsertOrUpdate(event);
+    // Kiểm tra nếu giá bán đã thay đổi
+    //if (event.updatedColumns.some(column => column.propertyName === 'SellPrice')) {
+      const materialPrice = event.entity;
+      if (!materialPrice) return;
+      const jewelryRepository = event.manager.getRepository(JewelrySettingVariantEntity);
+      const materialRepository = event.manager.getRepository(MaterialJewelryEntity)
+      // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
+      const jewelries = await jewelryRepository.find();
+      let material = null;
+      for (const jewelry of jewelries) {
+        // Logic cập nhật giá trang sức
+        if (jewelry.Weight) {
+          material = await materialRepository.findOne({where: {MaterialJewelryID: jewelry.MaterialJewelryID}})
+          jewelry.Price = calculateNewPrice(jewelry, material.SellPrice);
+          await jewelryRepository.save(jewelry);
+        }
+      }
+      console.log('Cập nhật hoàn tất.');
   }
 
   async afterUpdate(event: UpdateEvent<MaterialJewelryEntity>) {
-    this.handleAfterInsertOrUpdate(event);
+    // this.handleAfterInsertOrUpdate(event);
+    // Kiểm tra nếu giá bán đã thay đổi
+    //if (event.updatedColumns.some(column => column.propertyName === 'SellPrice')) {
+      const materialPrice = event.entity;
+      if (!materialPrice) return;
+      const jewelryRepository = event.manager.getRepository(JewelrySettingVariantEntity);
+      const materialRepository = event.manager.getRepository(MaterialJewelryEntity)
+      // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
+      const jewelries = await jewelryRepository.find();
+      let material = null;
+      for (const jewelry of jewelries) {
+        // Logic cập nhật giá trang sức
+        if (jewelry.Weight) {
+          material = await materialRepository.findOne({where: {MaterialJewelryID: jewelry.MaterialJewelryID}})
+          jewelry.Price = calculateNewPrice(jewelry, material.SellPrice);
+          await jewelryRepository.save(jewelry);
+        }
+      }
+      console.log('Cập nhật hoàn tất.');
   }
 
   async handleAfterInsertOrUpdate(event: InsertEvent<MaterialJewelryEntity> | UpdateEvent<MaterialJewelryEntity>) {
