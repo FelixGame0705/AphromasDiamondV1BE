@@ -2,13 +2,16 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsNumber, IsOptional, IsString, IsTimeZone } from "class-validator";
 import { ToDatabaseDateTime } from "src/constants/date-util";
 import { DiamondDTO } from "./diamond.dto";
+import { Type } from "class-transformer";
 
 export class OrderDTO {
     OrderID: number
     @ApiProperty({ example: '2023-06-07T14:30:00Z', description: 'The date the order was placed' })
+    @Type(() => Date)
     OrderDate: Date;
 
-    @ApiProperty({ example: '2023-06-14T14:30:00Z', description: 'The date the order was completed' })    
+    @ApiProperty({ example: '2023-06-14T14:30:00Z', description: 'The date the order was completed' })
+    @Type(() => Date)    
     CompleteDate: Date;
 
     @ApiProperty({ example: false, description: 'Is payed' })

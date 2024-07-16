@@ -43,7 +43,7 @@ export class PayPalService {
         return response.data;
     }
 
-    async captureOrder(orderID: number) {
+    async captureOrder(orderID: string) {
         const auth = Buffer
         .from(`${this.clientID}:${this.clientSecret}`)
         .toString('base64');

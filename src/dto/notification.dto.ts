@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { Type } from "class-transformer"
 import { IsBoolean, IsDate, IsNumber, IsOptional, IsString } from "class-validator"
 import { ToDatabaseDateTime } from "src/constants/date-util"
 
@@ -10,6 +11,7 @@ import { ToDatabaseDateTime } from "src/constants/date-util"
     IsRead: boolean
 
     @ApiProperty({ example: '2024-07-16T08:59:40.483Z', description: 'The date the noti was push' })
+    @Type(() => Date)
     @IsDate()
     Date: Date
     

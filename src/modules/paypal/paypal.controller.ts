@@ -18,7 +18,7 @@ export class PayPalController {
 
     @Post('/capture-order/:orderID')
     @Public()
-    async captureOrder(@Param('orderID') orderID: number) {
+    async captureOrder(@Param('orderID') orderID: string) {
         return this.paypalService.captureOrder(orderID);
     }
 }

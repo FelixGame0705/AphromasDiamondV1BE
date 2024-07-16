@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { Type } from "class-transformer"
 import { IsBoolean, IsNumber, IsOptional, IsString } from "class-validator"
 import { ToDatabaseDateTime } from "src/constants/date-util"
 
@@ -18,6 +19,7 @@ export class JewelrySettingDTO {
     IsActive: boolean
 
     @ApiProperty({ example: '2024-07-16T08:59:40.483Z' })
+    @Type(() => Date)
     UpdateTime: Date
 
     @ApiProperty({ example: 'Square' })
