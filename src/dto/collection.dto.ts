@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { Type } from "class-transformer"
 import { IsString } from "class-validator"
 import { ToDatabaseDateTime } from "src/constants/date-util"
 
@@ -12,5 +13,6 @@ export class CollectionDTO{
     @IsString()
     Description: string
     @ApiProperty({ example: '2024-07-16T08:59:40.483Z' , description: 'Debut day' })
+    @Type(() => Date)
     DebutTime: Date
 }
