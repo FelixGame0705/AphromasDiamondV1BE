@@ -46,7 +46,6 @@ export class JewelrySettingVariantSubscriber implements EntitySubscriberInterfac
         // this.handleAfterInsertOrUpdate(event);
         const jewelryVariantPrice = event.entity;
             if (!jewelryVariantPrice) return;
-            console.log("Qua met moi"+event.entity)
             const productRepository = event.manager.getRepository(ProductEntity);
             const diamondRepository = event.manager.getRepository(DiamondEntity);
             // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
