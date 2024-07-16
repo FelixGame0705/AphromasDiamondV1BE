@@ -35,6 +35,9 @@ export class OrderEntity extends BaseEntity{
     @Column()
     IsActive: boolean;
 
+    @Column({nullable: true})
+    Price: number
+
     @Column({ nullable: true })
     AccountDeliveryID: number;
 
@@ -47,8 +50,13 @@ export class OrderEntity extends BaseEntity{
     @Column({nullable: true})
     Method: string
 
-    @OneToMany(() => VoucherEntity, voucher => voucher.order)
-    voucher: VoucherEntity[];
+    @Column({nullable: true})
+    VoucherID: number
+    @ManyToOne(()=>VoucherEntity, { nullable: true })
+    @JoinColumn({name:'VoucherID',referencedColumnName:'VoucherID'})
+    voucher: VoucherEntity
+    // @OneToMany(() => VoucherEntity, voucher => voucher.order)
+    // voucher: VoucherEntity[];
 
     @OneToMany(() => OrderLineEntity, orderLine => orderLine.order)
     @JoinColumn()

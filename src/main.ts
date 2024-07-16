@@ -11,6 +11,10 @@ async function bootstrap() {
   configSwagger(app);
 
   await app.listen(3000);
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
   // await dataSource.initialize()
   // .then(async () => {
   //   console.log('Data Source has been initialized!');

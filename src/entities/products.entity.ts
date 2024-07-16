@@ -23,16 +23,23 @@ export class ProductEntity extends BaseEntity{
     @Column({nullable: true})
     JewelrySettingID: number
     @Column({nullable: true})
+    Price: number
+    @Column({nullable: true})
     AccountID: number
     @Column({nullable: true})
     CollectionID: number
     @Column({nullable: true})
     DiscountID: number
+    @Column({nullable: true})
+    JewelrySettingVariantID:number
     @OneToMany(()=>DiamondEntity, diamond=>diamond.products)
     diamonds: DiamondEntity[]
     @ManyToOne(()=>JewelrySettingEntity, {nullable: true})
     @JoinColumn({name:'JewelrySettingID', referencedColumnName:'JewelrySettingID'})
     jewelrySetting: JewelrySettingEntity
+    @ManyToOne(()=>JewelrySettingVariantEntity, {nullable: true})
+    @JoinColumn({name:'JewelrySettingVariantID', referencedColumnName:'JewelrySettingVariantID'})
+    jewelrySettingVariant: JewelrySettingVariantEntity
     @ManyToOne(()=>AccountsEntity, {nullable:true})
     @JoinColumn({name:'AccountID', referencedColumnName:'AccountID'})
     account: AccountsEntity

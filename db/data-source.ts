@@ -12,13 +12,14 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   password: process.env.TYPEORM_PASSWORD,
   database: process.env.TYPEORM_DATABASE,
   logging: true,
-  entities: ['dist/**/*.entity.js'],
-  migrations: ['dist/db/migrations/*.js'],
+  entities: ['dist/**/*.entity.{js,ts}'],
+  migrations: ['dist/db/migrations/*.{js,ts}'],
   synchronize: false,
   migrationsTableName: 'migrations',
   migrationsRun: true,
-  seeds: ['dist/db/seeds/*.js'], // Đảm bảo đúng đường dẫn
-  factories: ['dist/db/factories/*.js'], // Đường dẫn đến factories nếu có
+  seeds: ['dist/db/seeds/*.{js,ts}'], // Đảm bảo đúng đường dẫn
+  factories: ['dist/db/factories/*.{js,ts}'], // Đường dẫn đến factories nếu có
+  subscribers: ['dist/src/subscribers/*.{js,ts}']
 };
 
 

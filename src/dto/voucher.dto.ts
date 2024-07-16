@@ -19,8 +19,8 @@ export class VoucherDTO{
     @IsNumber()
     PercentDiscounts: number
     
-    @ApiProperty({ example: null, description: 'Order ID' })
-    @IsNumber()
-    @IsOptional()
-    OrderID: number|null
+    // @ApiProperty({ example: null, description: 'Order ID' })
+    // @IsNumber()
+    // @IsOptional()
+    // OrderID: number|null
 }

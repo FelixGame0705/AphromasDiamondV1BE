@@ -47,6 +47,7 @@ import { CertificateModule } from './modules/certificate/certificate.module';
 import { PayPalModule } from './modules/paypal/paypal.module';
 import { VoucherModule } from './modules/voucher/voucher.module';
 import { ProductModule } from './modules/product/product.module';
+import { MaterialJewelrySubscriber } from './subscribers/materialSubscriber.subscriber';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -79,7 +80,7 @@ import { ProductModule } from './modules/product/product.module';
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
-    },
+    }
   ],
 })
 export class AppModule {}

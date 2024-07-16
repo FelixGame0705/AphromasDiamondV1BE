@@ -15,10 +15,12 @@ export class VoucherEntity extends BaseEntity{
     EndDate: Date
     @Column({type: 'decimal', precision: 8, scale: 2})
     PercentDiscounts: number
-    @Column({nullable: true})
-    OrderID: number
-    @ManyToOne(()=>OrderEntity, { nullable: true })
-    @JoinColumn({name:'OrderID',referencedColumnName:'OrderID'})
-    order: OrderEntity
+    @OneToMany(() => OrderEntity, order => order.voucher)
+    orders: OrderEntity[];
+    // @Column({nullable: true})
+    // OrderID: number
+    // @ManyToOne(()=>OrderEntity, { nullable: true })
+    // @JoinColumn({name:'OrderID',referencedColumnName:'OrderID'})
+    // order: OrderEntity
     //done
 }

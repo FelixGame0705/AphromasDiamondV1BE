@@ -11,8 +11,9 @@ export class Order{
     IsActive: boolean
     AccountDeliveryID: number
     AccountSaleID: number
+    VoucherID: number
     constructor({OrderID, OrderDate, CompleteDate, CustomerID, OrderStatus, IsActive, AccountDeliveryID,
-        AccountSaleID}
+        AccountSaleID, VoucherID}
     ){
         this.OrderID = OrderID;
         this.OrderDate = OrderDate;
@@ -22,5 +23,6 @@ export class Order{
         this.IsActive = IsActive;
         this.AccountDeliveryID = AccountDeliveryID;
         this.AccountSaleID = AccountSaleID;
+        this.VoucherID = VoucherID;
     }
 }

@@ -21,6 +21,8 @@ export class DiamondEntity extends BaseEntity{
     Cut: string
     @Column({nullable: true, type: 'decimal', precision: 10, scale: 2})
     Price: number
+    @Column({nullable: true, type: 'decimal', precision: 10, scale: 2})
+    DiscountPrice: number
     @Column({nullable: true})
     Color: string
     @Column({nullable: true, type: 'decimal', precision: 7, scale: 3})
