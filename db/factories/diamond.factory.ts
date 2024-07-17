@@ -64,10 +64,11 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
   diamond.CollectionID =  faker.datatype.number({ min: 1, max: 10 });
   diamond.DiscountID = faker.datatype.number({ min: 1, max: 10 });
   
+
   diamond.Designer = faker.person.fullName();
   diamond.Cutter = faker.person.fullName();
   diamond.IndexVariantGroup = null;
-  diamond.Quantity = faker.number.int({ min: 0, max: 20});
+  // diamond.Quantity = faker.number.int({ min: 0, max: 1});
 
   return diamond;
 })
