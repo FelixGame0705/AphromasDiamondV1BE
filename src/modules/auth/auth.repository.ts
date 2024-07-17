@@ -20,16 +20,18 @@ export class AuthRepository implements IAuthRepository {
         private jwtService: JwtService,
         private dataSource: DataSource
     ) { }
-     
+    detailAccount(id: number): Promise<AuthResponseDTO> {
+        throw new Error("Method not implemented.");
+    }
 
     async signIn(body: AuthPayloadDTO): Promise<boolean | AuthPermission> {
-        const {Email: Email, Password} = body;
-        const userAuth = await this.accountRepository.findOne({where: {Email}});
-        if(!userAuth) return false;
+        const { Email: Email, Password } = body;
+        const userAuth = await this.accountRepository.findOne({ where: { Email } });
+        if (!userAuth) return false;
 
         const isMatch = await bcrypt.compare(Password, userAuth.Password);
-        if(!isMatch) return false;
-        const payload = {...new AuthResponseDTO(userAuth)}
+        if (!isMatch) return false;
+        const payload = { ...new AuthResponseDTO(userAuth) }
         return new AuthPermission({
             id: userAuth.AccountID,
             token: await this.jwtService.signAsync(payload),
@@ -38,7 +40,7 @@ export class AuthRepository implements IAuthRepository {
     }
 
     async signUp(body: AuthPayloadDTO): Promise<AuthResponseDTO> {
-        const{Name, PhoneNumber,Email, Password, Role} = body;
+        const { Name, PhoneNumber, Email, Password, Role } = body;
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(Password, salt);
         return this.accountRepository.save({
@@ -62,7 +64,7 @@ export class AuthRepository implements IAuthRepository {
 
         try {
             // Save the account information
-            
+
 
             // Save the customer information
             const customer = this.customerRepository.create({
@@ -96,46 +98,8 @@ export class AuthRepository implements IAuthRepository {
         }
     }
 
-    async detailAccount(id: number): Promise<AuthResponseDTO> {
-        // Tìm tài khoản bằng ID
-        const account = await this.accountRepository.findOne({
-            where: { AccountID: id },
-        });
-    
-        // Kiểm tra nếu tài khoản không tồn tại
-        if (!account) {
-            throw new Error('Account not found');
-        }
-    
-        // Khởi tạo đối tượng AuthResponseDTO với thông tin tài khoản
-        const accountDetail = new AuthResponseDTO({
-            AccountID: account.AccountID,
-            Email: account.Email,
-            Role: account.Role,
-        });
-    
-        // Nếu vai trò của tài khoản là Customer, lấy thông tin khách hàng
-        if (account.Role === Role.Customer) {
-            const customer = await this.customerRepository.findOne({
-                where: { CustomerID: account.CustomerID },
-            });
-    
-            // Nếu tìm thấy thông tin khách hàng, thêm thông tin vào accountDetail
-            if (customer) {
-                accountDetail["Name"] = account.Name;
-                accountDetail["PhoneNumber"] = account.PhoneNumber;
-                accountDetail["Password"] = account.Password;
-                accountDetail["Gender"] = customer.Gender;
-                accountDetail["Address"] = customer.Address;
-                accountDetail["Birthday"] = customer.Birthday;
-            }
-        }
-    
-        return accountDetail;
-    }
-
-    async updateAccount(id:number,body: AuthPayloadDTO): Promise<AuthResponseDTO | boolean>{
-        const{Name, PhoneNumber,Email , Password, Role} = body;
+    async updateAccount(id: number, body: AuthPayloadDTO): Promise<AuthResponseDTO | boolean> {
+        const { Name, PhoneNumber, Email, Password, Role } = body;
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(Password, salt);
         await this.accountRepository.update(id, {
@@ -145,11 +109,11 @@ export class AuthRepository implements IAuthRepository {
             Password: hash,
             Role
         });
-        return await this.findByID(id);
+        return await this.findById(id);
     }
 
-    async updateCustomer(id:number, body: AuthPayloadCustomerDTO): Promise<AuthResponseDTO | boolean>{
-        const{Name, PhoneNumber,Password, Birthday, Address, Gender} = body;
+    async updateCustomer(id: number, body: AuthPayloadCustomerDTO): Promise<AuthResponseDTO | boolean> {
+        const { Name, PhoneNumber, Password, Birthday, Address, Gender } = body;
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(Password, salt);
         await this.accountRepository.update(id, {
@@ -160,21 +124,36 @@ export class AuthRepository implements IAuthRepository {
         await this.customerRepository.update(id, {
             Birthday, Address, Gender
         })
-        return await this.findByID(id);
+        return await this.findById(id);
     }
 
-    getIdField(){
+    getIdField() {
         return "AccountID"
     }
-
-    async findByID(id: number): Promise<AuthResponseDTO>{
+    async findById(id: number): Promise<AuthResponseDTO>{
         const idField = this.getIdField();
         return await this.accountRepository.findOne( {where: {[idField]:id} as FindOptionsWhere<BaseEntity>});
     }
-
-    async findByUsername(email: string){
+    async findByIdCustomer(id: number): Promise<AuthPayloadCustomerDTO> {
         const idField = this.getIdField();
-        return await this.accountRepository.findOne( {where: {Email:email} as FindOptionsWhere<BaseEntity>});
+
+        let account = await this.accountRepository.findOne({ where: { ['AccountID']: id } as FindOptionsWhere<BaseEntity> });
+        let customer = await this.customerRepository.findOne({ where: { ['CustomerID']: account.CustomerID } as FindOptionsWhere<BaseEntity> });
+        return {
+            AccountID: account.AccountID,
+            Name: account.Name,
+            PhoneNumber: account.PhoneNumber,
+            Email: account.Email,
+            Password: account.Password,
+            Birthday: customer.Birthday,
+            Gender: customer.Gender,
+            Address: customer.Address
+        }
+    }
+
+    async findByUsername(email: string) {
+        const idField = this.getIdField();
+        return await this.accountRepository.findOne({ where: { Email: email } as FindOptionsWhere<BaseEntity> });
     }
 
     async findRelationById( id: number): Promise<AuthResponseDTO> {

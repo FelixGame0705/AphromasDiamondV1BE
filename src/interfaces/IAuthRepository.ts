@@ -16,12 +16,14 @@ export interface IAuthRepository{
     detailAccount(id: number): Promise<AuthResponseDTO>;
 
     updateAccount(id: number,body: AuthPayloadDTO): Promise<AuthResponseDTO | boolean>;
-
+    // findByID(id:number): Promise<AuthResponseDTO>
+    findByUsername(Email: string): Promise<AuthResponseDTO>
+    findByIdCustomer(id: number): Promise<AuthPayloadCustomerDTO>
     updateCustomer(id: number, body: AuthPayloadCustomerDTO): Promise<AuthResponseDTO | boolean>;
     
     getIdField(): string;
 
-    findByID(id:number): Promise<AuthResponseDTO>;
+    findById(id:number): Promise<AuthResponseDTO>;
 
     findByUsername(Email: string): Promise<AuthResponseDTO>;
     
