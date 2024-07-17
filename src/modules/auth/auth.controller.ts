@@ -6,7 +6,7 @@ import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseType } from "src/global/globalType";
 import { AuthService } from "./auth.service";
 import { Public, Roles } from "src/constants/decorator";
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiProperty, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('Authentication')
 @ApiBearerAuth()
@@ -16,6 +16,10 @@ export class AuthController {
 
     }
     @Roles(Role.Customer, Role.Admin)
+    @ApiOperation({
+        summary: 'Dùng cho khách hàng',
+         
+    })
     @ApiBearerAuth()
     @Post('/getCustomer/:id')
     async getCustomer(
@@ -96,6 +100,7 @@ export class AuthController {
             );
         }
     }
+    @ApiBearerAuth()
     @Roles(Role.Admin, Role.DeliveryStaff, Role.Manager, Role.SaleStaff)
     @Public()
     @Put('/update/:Username')
@@ -171,12 +176,12 @@ export class AuthController {
     }
 
     @ApiParam({ name: 'AccountID', description: 'AccountID to watch detail', type: Number })
-    @Get('/:AccountID')
+    @Post('/detailAccount/:AccountID')
     @ApiOperation({ 
-        summary: 'Get account detail',      
+        summary: 'Dùng cho account hệ thống ',      
     })
-    @Public()
-    async detailAccount(@Param('AccountID') AccountID: number, @Res() res: Response):  Promise<void>{
+    @Roles(Role.Admin, Role.Manager, Role.DeliveryStaff, Role.SaleStaff)
+    async detailAccount(@Param('AccountID')AccountID: number, @Res() res: Response):  Promise<void>{
         try {
             
             const account = await this.authService.findRelationById(AccountID);

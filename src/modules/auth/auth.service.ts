@@ -45,7 +45,7 @@ export class AuthService {
         return this.authRepository.findByUsername(username)
     }
     async findById(id: number): Promise<AuthResponseDTO> {
-        return this.authRepository.findByID(id);
+        return this.authRepository.findById(id);
     }
 
     async findRelationById(id: number): Promise<AuthResponseDTO> {
