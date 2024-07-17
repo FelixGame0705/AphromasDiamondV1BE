@@ -32,26 +32,42 @@ export class FeedbackRepository extends BaseRepository<FeedbackEntity, Repositor
         filters: any,
         sort: { field: string, feedback: 'ASC' | 'DESC' }
     ): Promise<{ data: FeedbackEntity[], total: number, page: number, last_page: number }> {
-        const builder = this.repository.createQueryBuilder('feedback');
+        const query = this.repository.createQueryBuilder('feedback')
+        .select('feedback');
 
-        // Apply filters
-        // if (filters.isRead) {
-        //     builder.andWhere("notification.isRead LIKE = :IsRead", { isRead: `${filters.isRead}` });
-        // }
+       // Apply filters
+        if (filters.FeedbackID) {
+            query.andWhere("feedback.FeedbackID = :FeedbackID", { FeedbackID: filters.FeedbackID });
+        }
+        if (filters.DiamondID) {
+            query.andWhere("feedback.DiamondID = :DiamondID", { DiamondID: filters.DiamondID });
+        }
+        if (filters.JewelrySettingID) {
+            query.andWhere("feedback.JewelrySettingID = :JewelrySettingID", { JewelrySettingID: filters.JewelrySettingID });
+        }
+        if (filters.OrderID) {
+            query.andWhere("feedback.OrderID = :OrderID", { OrderID: filters.OrderID });
+        }
+        if (filters.AccountID) {
+            query.andWhere("feedback.AccountID = :AccountID", { AccountID: filters.AccountID });
+        }
+        if (filters.ProductID) {
+            query.andWhere("feedback.ProductID = :ProductID", { ProductID: filters.ProductID });
+        }
 
         // Apply sorting
         if (sort && sort.field && sort.feedback) {
-            builder.orderBy(`feedback.${sort.field}`, sort.feedback);
+            query.orderBy(`feedback.${sort.field}`, sort.feedback);
         }
 
         // Get total count
-        const total = await builder.getCount();
+        const total = await query.getCount();
 
         // Apply pagination
-        builder.offset((page - 1) * perPage).limit(perPage);
+        query.offset((page - 1) * perPage).limit(perPage);
 
         // Get data
-        const data = await builder.getMany();
+        const data = await query.getMany();
 
         return {
             data,

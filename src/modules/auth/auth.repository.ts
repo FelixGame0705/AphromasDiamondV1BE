@@ -20,9 +20,10 @@ export class AuthRepository implements IAuthRepository {
         private jwtService: JwtService,
         private dataSource: DataSource
     ) { }
-    findByID(id: number): Promise<AuthResponseDTO> {
+    detailAccount(id: number): Promise<AuthResponseDTO> {
         throw new Error("Method not implemented.");
     }
+
     async signIn(body: AuthPayloadDTO): Promise<boolean | AuthPermission> {
         const { Email: Email, Password } = body;
         const userAuth = await this.accountRepository.findOne({ where: { Email } });
@@ -37,6 +38,7 @@ export class AuthRepository implements IAuthRepository {
             expiredTime: 3000000
         })
     }
+
     async signUp(body: AuthPayloadDTO): Promise<AuthResponseDTO> {
         const { Name, PhoneNumber, Email, Password, Role } = body;
         const salt = await bcrypt.genSalt();
@@ -154,6 +156,11 @@ export class AuthRepository implements IAuthRepository {
         return await this.accountRepository.findOne({ where: { Email: email } as FindOptionsWhere<BaseEntity> });
     }
 
+    async findRelationById( id: number): Promise<AuthResponseDTO> {
+        return await this.accountRepository.findOne( {where: {AccountID: id} as FindOptionsWhere<BaseEntity>});
+    }
+
+     
     async findAllAccounts(): Promise<AuthResponseDTO[]> {
         return await this.accountRepository.find();
     }
