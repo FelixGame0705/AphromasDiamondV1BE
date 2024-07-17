@@ -64,6 +64,7 @@ export class OrderLineController {
     }
 
     @Roles(Role.Customer, Role.Admin)
+    @ApiBearerAuth()
     @Get('/:id')
     @ApiParam({ name: 'id', description: 'ID of the order to watch detail', type: Number })
     async detailProduct(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<OrderLine>> {
