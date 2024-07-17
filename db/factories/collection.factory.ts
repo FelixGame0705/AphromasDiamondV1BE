@@ -11,8 +11,6 @@ export const collectionFactory = setSeederFactory(CollectionEntity, async (faker
     
     collection.Description = faker.commerce.productDescription();
     collection.DebutTime = faker.date.past(1);
-     
-     
-       
+      
     return  collection;
   })

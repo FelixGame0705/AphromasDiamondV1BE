@@ -7,7 +7,6 @@ import { Role } from 'src/global/globalEnum';
  
 export default setSeederFactory(AccountsEntity, async (faker) => {
 
-    
     const user = new AccountsEntity()
     user.Password = 'User123'
     const salt = await bcrypt.genSalt();
