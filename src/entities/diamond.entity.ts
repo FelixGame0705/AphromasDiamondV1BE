@@ -19,9 +19,9 @@ export class DiamondEntity extends BaseEntity{
     Shape: string
     @Column({nullable: true})
     Cut: string
-    @Column({nullable: true, type: 'decimal', precision: 10, scale: 2})
+    @Column({nullable: true, type: 'decimal', precision: 12, scale: 2})
     Price: number
-    @Column({nullable: true, type: 'decimal', precision: 10, scale: 2})
+    @Column({nullable: true, type: 'decimal', precision: 12, scale: 2})
     DiscountPrice: number
     @Column({nullable: true})
     Color: string
@@ -49,6 +49,8 @@ export class DiamondEntity extends BaseEntity{
     ChargeRate: number
     @Column({type: "datetime"})
     UpdateTime: Date
+    @Column({default:0, type: 'decimal', precision: 3, scale: 1})
+    Stars: number
     @Column({nullable: true})
     JewelrySettingVariantID: number
     @Column({nullable: true})
@@ -63,7 +65,7 @@ export class DiamondEntity extends BaseEntity{
     Cutter: string
     @Column({nullable: true})// use to group diamond in 1 variant jewelry setting
     IndexVariantGroup: number
-    @Column({default: 0})
+    @Column({default: 1})
     Quantity: number // 0 or 1
     @OneToMany(()=>CertificateEntity, certificate=>certificate.Diamond)
     certificate: CertificateEntity[]

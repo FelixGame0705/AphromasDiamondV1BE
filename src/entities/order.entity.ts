@@ -35,8 +35,10 @@ export class OrderEntity extends BaseEntity{
     @Column()
     IsActive: boolean;
 
-    @Column({nullable: true})
+    @Column({nullable:true, type: 'decimal', precision: 12, scale: 2})
     Price: number
+    @Column({nullable:true, type: 'decimal', precision: 12, scale: 2})
+    VoucherPrice: number
 
     @Column({ nullable: true })
     AccountDeliveryID: number;

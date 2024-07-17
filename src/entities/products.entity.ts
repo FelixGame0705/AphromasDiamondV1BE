@@ -14,6 +14,8 @@ export class ProductEntity extends BaseEntity{
     ProductID: number
     @Column({nullable: true})
     Name: string
+    @Column({default: 1, nullable: true})
+    Quantity: number
     @Column({nullable: true})
     Inscription: string
     @Column({nullable: true})
@@ -22,8 +24,12 @@ export class ProductEntity extends BaseEntity{
     Brand: string
     @Column({nullable: true})
     JewelrySettingID: number
-    @Column({nullable: true})
+    @Column({nullable:true, type: 'decimal', precision: 12, scale: 2})
     Price: number
+    @Column({nullable:true, type: 'decimal', precision: 12, scale: 2})
+    DiscountPrice: number
+    @Column({default:0, type: 'decimal', precision: 3, scale: 1})
+    Stars: number
     @Column({nullable: true})
     AccountID: number
     @Column({nullable: true})
