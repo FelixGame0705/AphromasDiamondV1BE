@@ -8,6 +8,5 @@ export default setSeederFactory(CustomerEntity, async (faker) => {
     customer.Birthday = faker.date.birthdate();
     customer.Gender = faker.datatype.boolean();
     customer.Address = faker.location.city();
-  
     return customer;
   });
