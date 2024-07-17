@@ -23,11 +23,11 @@ export const orderFactory = setSeederFactory(OrderEntity, async (faker) => {
     
     order.IsActive = faker.datatype.boolean();
     
-    // Set these fields to null or undefined
-    order.AccountDeliveryID = null;
-    order.AccountSaleID = null;
-    order.PaymentID = null;
-    
+    //foreign key
+    order.AccountDeliveryID = faker.datatype.number({ min: 1, max: 10 });
+    order.AccountSaleID = faker.datatype.number({ min: 1, max: 10 });
+
+    order.PaymentID = faker.string.uuid();
     order.Method = faker.lorem.word();
      
   return order;
