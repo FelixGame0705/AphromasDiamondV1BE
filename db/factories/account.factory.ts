@@ -1,6 +1,6 @@
 // src/db/factories/user.factory.ts
 import { setSeederFactory } from 'typeorm-extension';
- import { AccountsEntity } from 'src/entities/accounts.entity';
+import { AccountsEntity } from 'src/entities/accounts.entity';
 import * as bcrypt from 'bcrypt';
 import { Customer } from '../../src/models/customer.model';
 import { Role } from 'src/global/globalEnum';

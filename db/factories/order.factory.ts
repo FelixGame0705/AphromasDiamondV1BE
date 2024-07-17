@@ -16,7 +16,11 @@ export const orderFactory = setSeederFactory(OrderEntity, async (faker) => {
     order.ReasonReturn = faker.lorem.sentence();
     order.Note = faker.lorem.sentence();
     order.CustomerID = faker.datatype.number({ min: 1, max: 10 });
-    order.OrderStatus = faker.lorem.word();
+    
+    //status
+    const statuses = ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+    order.OrderStatus = faker.helpers.arrayElement(statuses);
+    
     order.IsActive = faker.datatype.boolean();
     
     // Set these fields to null or undefined
