@@ -1,4 +1,4 @@
-import { Body, Controller, Res,Post, UsePipes, ValidationPipe, Param, Delete, Get } from "@nestjs/common";
+import { Body, Controller, Res,Post, UsePipes, ValidationPipe, Param, Delete, Get, Put } from "@nestjs/common";
 import { Response } from "express";
 import { AuthPayloadCustomerDTO, AuthPayloadDTO, AuthPermission, AuthResponseDTO } from "src/dto/auth.dto";
 import { ResponseData } from "src/global/globalClass";
@@ -84,7 +84,7 @@ export class AuthController{
     }
     @Roles(Role.Admin, Role.DeliveryStaff, Role.Manager, Role.SaleStaff)
     @Public()
-    @Post('/update/:Username')
+    @Put('/update/:Username')
     async updateAccount(
         @Param('Username') username: string,
         @Body() auth: AuthPayloadDTO, 
@@ -110,7 +110,7 @@ export class AuthController{
     }
 
     @Roles(Role.Customer)
-    @Post('/updateCustomer/:Username')
+    @Put('/updateCustomer/:Username')
     async updateCustomer(
         @Param('Username') username: string,
         @Body() auth: AuthPayloadCustomerDTO, 
@@ -152,6 +152,28 @@ export class AuthController{
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR)
             );
+        }
+    }
+
+    @ApiParam({ name: 'AccountID', description: 'AccountID to watch detail', type: Number })
+    @Get('/:AccountID')
+    @ApiOperation({ 
+        summary: 'Get account detail',      
+    })
+    @Public()
+    async detailAccount(@Param('AccountID') AccountID: number, @Res() res: Response):  Promise<void>{
+        try {
+            
+            const account = await this.authService.findRelationById(AccountID);
+            if (account) {
+                res.json(new ResponseData(account, HttpStatus.SUCCESS, HttpMessage.SUCCESS));
+            } else {
+                res.json(new ResponseData(null, HttpStatus.NOT_FOUND, 'Account not found'));
+            }        
+        } catch (error) {
+            console.error("Error fetching account detail:", error);
+        res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
+    
         }
     }
 

@@ -72,7 +72,7 @@ export class OrderController{
     @Roles(Role.Customer, Role.Admin, Role.DeliveryStaff, Role.Manager, Role.SaleStaff)
     @ApiParam({ name: 'id', description: 'ID of the order to watch detail', type: Number })
     // @Roles(Role.Admin 
-    async detailProduct(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Order>> {
+    async detailOrder(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Order>> {
         try {
             return res.json(new ResponseData(await this.orderService.findById(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
         }

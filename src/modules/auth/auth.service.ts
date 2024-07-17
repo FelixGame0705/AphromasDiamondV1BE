@@ -44,6 +44,14 @@ export class AuthService{
     async findByUsername(username:string){
         return this.authRepository.findByUsername(username)
     }
+    async findById(id: number): Promise<AuthResponseDTO> {
+        return this.authRepository.findByID(id);
+    }
+
+    async findRelationById(id: number): Promise<AuthResponseDTO> {
+        return await this.authRepository. findRelationById(id);
+    }
+    
 
     async findAllAccounts(): Promise<AuthResponseDTO[]> {
         return await this.authRepository.findAllAccounts();
