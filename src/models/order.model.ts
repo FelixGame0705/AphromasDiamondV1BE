@@ -2,9 +2,7 @@ import { FromDatabaseDateTime } from "src/constants/date-util"
 
 export class Order{
     OrderID: number
-    @FromDatabaseDateTime()
     OrderDate: Date
-    @FromDatabaseDateTime()
     CompleteDate: Date
     CustomerID: number
     OrderStatus: string

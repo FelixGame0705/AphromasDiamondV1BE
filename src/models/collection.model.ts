@@ -1,7 +1,10 @@
+import { ToDatabaseDateTime } from "src/constants/date-util";
+
 export class Collection{
     CollectionID: number
     CollectionName: string
     Description: string
+    @ToDatabaseDateTime()
     DebutTime: Date
 
     constructor({CollectionID,CollectionName, Description, DebutTime}){

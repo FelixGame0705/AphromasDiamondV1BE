@@ -1,5 +1,6 @@
 import { FromDatabaseDateTime } from "src/constants/date-util"
 import { UsingImage } from "./usingImage.model"
+import { share } from "rxjs"
 
 export class Diamond{
     DiamondID: number
@@ -18,7 +19,7 @@ export class Diamond{
     Polish: string
     Symmetry: string
     ChargeRate: number
-    @FromDatabaseDateTime()
+    Shape: string
     UpdateTime: Date
     ProductID: number
     CollectionID: number
@@ -41,6 +42,7 @@ export class Diamond{
         Polish,
         Symmetry,
         ChargeRate,
+        Shape,
         UpdateTime,
         ProductID,
         CollectionID,
@@ -63,6 +65,7 @@ export class Diamond{
             if(Polish!= undefined) this.Polish = Polish;
             if(Symmetry!= undefined) this.Symmetry = Symmetry;
             if(ChargeRate!= undefined) this.ChargeRate = ChargeRate;
+            if(Shape!=undefined) this.Shape = Shape;
             if(UpdateTime!=undefined) this.UpdateTime = UpdateTime;
             if(ProductID!= undefined) this.ProductID = ProductID;
             if(CollectionID!= undefined) this.CollectionID = CollectionID;

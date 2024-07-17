@@ -30,8 +30,6 @@ export class ProductController {
     @Get('/detail/:id')
     @ApiBearerAuth()
     @Public()
-    //@ApiParam({ name: 'ProductID', description: 'ID of the order to delete', type: Number })
-    // @ApiBody({ type: ProductDTO, description: 'The data to update' })
     async findDetail(@Param('id') id: number): Promise<ResponseType<Product>> {
         try {
             console.log('Hello')

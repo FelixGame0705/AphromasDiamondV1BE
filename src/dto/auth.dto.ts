@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Type } from "class-transformer";
 import { IsEmail, IsEnum, IsPhoneNumber } from "class-validator";
 import { Role } from "src/global/globalEnum";
 
@@ -76,7 +77,8 @@ export class AuthPayloadCustomerDTO{
     Email: string;
     @ApiProperty({ example: 'duongso14', description: 'password' })
     Password: string;
-    @ApiProperty({example:'20-11-1990',description:'dd/mm/yyyy'})
+    @ApiProperty({example:'2024-07-16',description:'yyyy/mm/dd'})
+    @Type(() => Date)
     Birthday: Date;
     @ApiProperty({example:true, description:'true for man, false for women'})
     Gender: boolean;

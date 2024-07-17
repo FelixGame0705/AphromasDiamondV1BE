@@ -1,3 +1,5 @@
+// import { MigrationInterface, QueryRunner } from "typeorm";
+
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class CreateAllTable1721203348261 implements MigrationInterface {
@@ -114,4 +116,4 @@ export class CreateAllTable1721203348261 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE \`Size\``);
     }
 
-}
+ }
