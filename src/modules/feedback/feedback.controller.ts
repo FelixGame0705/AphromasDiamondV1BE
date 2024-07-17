@@ -38,31 +38,60 @@ export class FeedbackController {
         description: 'Page number',
         example: 1
     })
-
     @ApiQuery({
-        name: 'Product Name',
+        name: 'FeedbackID',
         required: false,
-        type: String,
-        description: 'Name of Product'
+        type: Number,
+        description: 'ID of Feedback'
+    })
+    @ApiQuery({
+        name: 'DiamondID',
+        required: false,
+        type: Number,
+        description: 'ID of Diamond'
+    })
+    @ApiQuery({
+        name: 'JewwelrySettingID',
+        required: false,
+        type: Number,
+        description: 'ID of JewwelrySetting'
+    })
+    @ApiQuery({
+        name: 'OrderID',
+        required: false,
+        type: Number,
+        description: 'ID of Order'
+    })
+    @ApiQuery({
+        name: 'AccountID',
+        required: false,
+        type: Number, 
+        description: 'Account ID' 
+    })
+    @ApiQuery({
+        name: 'ProductID',
+        required: false,
+        type: Number,
+        description: ' ID of Product'
     })
 
-    @ApiQuery({
-        name: 'Customer Name',
-        required: false,
-        type: String,
-        description: 'Customer Name'
-    })
 
     @Public()
     async showFeedback(@Query() query: any) {
         try {
             const page: number = parseInt(query.page as any) || 1;
             const filters = {
-                ProductName: query.ProductName,
-                CustomerName: query.CustomerName
+                FeedbackID: query.FeedbackID,
+                DiamondID: query.DiamondID,
+                JewwelrySettingID: query.JewwelrySettingID,
+                OrderID: query.OrderID,
+                AccountID: query.AccountID,
+                ProductID: query.ProductID,
+                 
+             
             };
             const sort = {
-                field: query.sortField || 'Name',
+                field: query.sortField || 'FeedbackID',
                 feedback: query.sortFeedback || 'ASC'
             };
 

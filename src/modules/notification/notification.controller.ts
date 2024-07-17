@@ -46,19 +46,13 @@ export class NotificationController{
         description: 'Filter Is Read' 
     })
 
-    @ApiQuery({ 
-        name: 'UnRead', 
-        required: false, 
-        type: String, 
-        description: 'Filter Un Read' 
-    })
-
+  
     @Public()
     async showNotificate(@Query() query: any) {
         const page: number = parseInt(query.page as any) || 1;
         const filters = {
             IsRead: query.IsRead,
-            UnRead: query.UnRead
+             
         };
         const sort = {
             field: query.sortField || 'Date',

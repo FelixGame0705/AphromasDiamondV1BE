@@ -32,16 +32,12 @@ export class DiscountController {
 
     
      
-    @ApiOperation({ 
-        summary: 'Get detail discount', 
-        description: 'Retrieve detail discount from the database.' 
-    })
-    @Get('/:id')
     @Public()
-    @ApiParam({ name: 'id', description: 'Discount detail', type: Number })
-    async detailDiscount(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Discount>> {
+    @Get('/:DiscountID')
+    @ApiParam({ name: 'DiscountID', description: 'Discount detail', type: Number })
+    async detailDiscount(@Param('DiscountID')DiscountID: number): Promise<ResponseType<Discount>> {
         try {
-            const discount = await this.discountService.findById(id);
+            const discount = await this.discountService.findRelationById(DiscountID);
             return new ResponseData<Discount>(discount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         }catch (error) {
             return new ResponseData<Discount>(null, HttpStatus.ERROR, HttpMessage.ERROR);
