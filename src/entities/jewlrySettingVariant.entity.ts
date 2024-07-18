@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { AfterInsert, AfterUpdate, BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { SizeEntity } from "./size.entity";
 import { JewelrySettingEntity } from "./jewelrySetting.entity";
 import { MaterialJewelry } from "src/models/materialjewelry.model";
@@ -19,6 +19,8 @@ export class JewelrySettingVariantEntity extends BaseEntity{
     Weight: number
     @Column({default:0})
     Quantity: number
+    @Column({nullable: true})
+    Price: number
     @ManyToOne(()=> SizeEntity, {nullable:true})
     @JoinColumn({name:'SizeID', referencedColumnName:'SizeID'})
     size: SizeEntity
@@ -31,4 +33,11 @@ export class JewelrySettingVariantEntity extends BaseEntity{
     
     @OneToMany(()=>DiamondEntity, diamond => diamond.jewelrySettingVariant)
     diamond: DiamondEntity[]
+
+    // @AfterInsert()
+    // //@AfterUpdate()
+    // initAfterInsert(){
+    //     console.log("hello")
+    //     this.Price = this.Weight * this.materialJewelry.SellPrice + this.jewelrySettings.AuxiliaryCost + this.jewelrySettings.ProductionCost
+    // }
 }

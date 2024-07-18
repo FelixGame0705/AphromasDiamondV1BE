@@ -47,8 +47,13 @@ import { CertificateModule } from './modules/certificate/certificate.module';
 import { PayPalModule } from './modules/paypal/paypal.module';
 import { VoucherModule } from './modules/voucher/voucher.module';
 import { ProductModule } from './modules/product/product.module';
+import { MaterialJewelrySubscriber } from './subscribers/materialSubscriber.subscriber';
+import { ScheduleModule } from '@nestjs/schedule';
+import { DiscountScheduleService } from './modules/schedules/discountSchedule.service';
+import { DiscountScheduleModule } from './modules/schedules/discountSchedule.module';
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -64,7 +69,7 @@ import { ProductModule } from './modules/product/product.module';
       signOptions: { expiresIn: '90m' },
     }),
     DbModule,
-    AuthModule,
+    AuthModule,DiscountScheduleModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
     SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule, PayPalModule, DiscountModule, VoucherModule, FeedbackModule
@@ -79,7 +84,7 @@ import { ProductModule } from './modules/product/product.module';
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
-    },
+    }
   ],
 })
 export class AppModule {}

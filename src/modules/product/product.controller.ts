@@ -65,6 +65,7 @@ export class ProductController {
             const product = await this.productService.update(id, productDto);
             return new ResponseData<Product>(product, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
+            console.log(error)
             return new ResponseData<Product>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }

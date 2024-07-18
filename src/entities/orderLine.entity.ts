@@ -12,6 +12,10 @@ export class OrderLineEntity extends BaseEntity{
     @Column({default: 1})
     Quantity: number
     @Column({nullable: true})
+    Price: number
+    @Column({nullable: true})
+    DiscountPrice: number
+    @Column({nullable: true})
     OrderID: number
     @Column({nullable: true})
     DiamondID: number
@@ -22,7 +26,7 @@ export class OrderLineEntity extends BaseEntity{
     @ManyToOne(()=>OrderEntity, { nullable: true })
     @JoinColumn({name:'OrderID', referencedColumnName:'OrderID'})
     order: OrderEntity
-    @OneToOne(()=>DiamondEntity, { nullable: true })
+    @ManyToOne(()=>DiamondEntity, { nullable: true })
     @JoinColumn({name:'DiamondID', referencedColumnName:'DiamondID'})
     diamond: DiamondEntity
     @ManyToOne(()=>ProductEntity, { nullable: true })

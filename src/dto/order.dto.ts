@@ -49,6 +49,10 @@ export class OrderDTO {
     @IsNumber()
     @IsOptional()
     AccountSaleID: number|null
+    @ApiProperty({ example: null, description: 'Voucher ID' })
+    @IsNumber()
+    @IsOptional()
+    VoucherID: number|null
 }
 export class PaymentDTO {
     @ApiProperty({ example: 'Complete', description: 'The status of the order' })

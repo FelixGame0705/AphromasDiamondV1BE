@@ -59,4 +59,8 @@ export class JewelrySettingVariantRepository extends BaseRepository<JewelrySetti
         return data;
     }
 
+    // async create(data: JewelrySettingVariantEntity): Promise<JewelrySettingVariantEntity> {
+    //     return null
+    // }
+
 }

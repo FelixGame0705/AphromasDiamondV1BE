@@ -1,5 +1,6 @@
 import { Diamond } from "./diamond.model"
 import { JewelrySetting } from "./jewelrySetting.model"
+import { JewelrySettingVariant } from "./jewelrySettingVariant.model"
 import { UsingImage } from "./usingImage.model"
 
 export class Product{
@@ -17,7 +18,8 @@ export class Product{
     UsingImage: UsingImage[]
     Diamond: Diamond[]
     JewelrySetting: JewelrySetting[]
-    constructor({ProductID, Name, Inscription, InscriptionFont, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, Amount}){
+    JewelrySettingVariantID: number
+    constructor({ProductID, Name, Inscription, InscriptionFont, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, Amount, JewelrySettingVariantID}){
         this.ProductID = ProductID
         this.Name = Name
         this.Inscription = Inscription
@@ -32,5 +34,6 @@ export class Product{
         this.Diamond = Diamond
         this.Amount = Amount
         this.JewelrySetting = JewelrySetting
+        this.JewelrySettingVariantID = JewelrySettingVariantID
     }
 }
