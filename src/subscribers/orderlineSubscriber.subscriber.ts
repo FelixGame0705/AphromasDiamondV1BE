@@ -7,11 +7,12 @@ import { reduce } from 'rxjs';
 import { JewelrySettingEntity } from 'src/entities/jewelrySetting.entity';
 import { OrderLineEntity } from 'src/entities/orderLine.entity';
 import { Transactional } from 'typeorm-transactional';
+import { OrderEntity } from 'src/entities/order.entity';
 
 @EventSubscriber()
 export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineEntity> {
     private isHandlingUpdate = false;
-
+    private oldOrderIDinOrderline = null;
     /**
      * Chỉ ra rằng Subscriber này chỉ lắng nghe các sự kiện của MaterialJewelryEntity.
      */
@@ -39,7 +40,6 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
             const orderlineRepository = event.manager.getRepository(OrderLineEntity)
             const orderlineEntity = (await orderlineRepository.findOne({ where: [{ DiamondID: orderline.DiamondID }, { ProductID: orderline.ProductID }] }))
 
-
             if (orderlineEntity.DiamondID != null || orderlineEntity.ProductID != null) {
 
                 // const productRepository = event.manager.getRepository(ProductEntity)
@@ -61,10 +61,10 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                         productEntity.Quantity -= orderlineEntity.Quantity;
                     }
                     else {
-                        productEntity.Quantity += orderlineEntity.Quantity;
+                        //productEntity.Quantity += orderlineEntity.Quantity;
                     }
                     await productRepository.save(productEntity)
-                    
+
                 } else if (orderlineEntity.DiamondID != null) {
                     orderlineEntity.Price = diamondEntity.Price;
                     orderlineEntity.DiscountPrice = diamondEntity.DiscountPrice;
@@ -77,8 +77,8 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     }
                     await diamondRepository.save(diamondEntity)
                 }
-                
-                
+
+
                 await orderlineRepository.save(orderlineEntity);
                 // await jewelrySettingVariantRepository.save(item);
                 // }
@@ -91,6 +91,29 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
 
             }
         } finally {
+            this.isHandlingUpdate = false
+        }
+    }
+
+    async beforeUpdate(event: UpdateEvent<OrderLineEntity>) {
+        if (this.isHandlingUpdate) {
+            return;
+        }
+
+        this.isHandlingUpdate = true;
+        try {
+            // Kiểm tra nếu jewelrySettingVariant đã thay đổi
+            //if (event.updatedColumns.some(column => column.propertyName === 'JewelrySettingID')) {
+            const orderline = event.entity;
+            console.log("orderline: ", orderline)
+            const orderlineRepository = event.manager.getRepository(OrderLineEntity)
+            if (!orderline) return;
+            const orderlineEntity = (await orderlineRepository.findOne({ where: [{ DiamondID: orderline.DiamondID }, { ProductID: orderline.ProductID }] }))
+            if (orderlineEntity.OrderID != null) {
+                this.oldOrderIDinOrderline = orderlineEntity.OrderID
+            }
+        }
+        finally {
             this.isHandlingUpdate = false
         }
     }
@@ -107,12 +130,13 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
             const orderline = event.entity;
             console.log("orderline: ", orderline)
             if (!orderline) return;
+            console.log('Old orderline: ' + event.databaseEntity)
             const orderlineRepository = event.manager.getRepository(OrderLineEntity)
+            const orderRepository = event.manager.getRepository(OrderEntity)
             const orderlineEntity = (await orderlineRepository.findOne({ where: [{ DiamondID: orderline.DiamondID }, { ProductID: orderline.ProductID }] }))
-
+            const orderEntity = await orderRepository.findOne({ where: { OrderID: orderlineEntity.OrderID } })
 
             if (orderlineEntity.DiamondID != null || orderlineEntity.ProductID != null) {
-
                 // const productRepository = event.manager.getRepository(ProductEntity)
                 const productRepository = event.manager.getRepository(ProductEntity);
                 const diamondRepository = event.manager.getRepository(DiamondEntity);
@@ -131,7 +155,7 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     if (orderlineEntity.OrderID != null && orderlineEntity.Quantity <= productEntity.Quantity) {
                         productEntity.Quantity -= orderlineEntity.Quantity;
                     }
-                    else {
+                    else if (this.oldOrderIDinOrderline != null && orderlineEntity.OrderID === null) {
                         productEntity.Quantity += orderlineEntity.Quantity;
                     }
                     await productRepository.save(productEntity)
@@ -139,16 +163,21 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     orderlineEntity.Price = diamondEntity.Price;
                     orderlineEntity.DiscountPrice = diamondEntity.DiscountPrice;
                     orderlineEntity.ProductID = null
-                    if (orderlineEntity.OrderID != null) {
+                    if (orderlineEntity.OrderID != null && orderlineEntity.Quantity <= diamondEntity.Quantity) {
                         diamondEntity.Quantity = 0;
                     }
-                    else {
+                    else if (this.oldOrderIDinOrderline != null && orderlineEntity.OrderID === null) {
                         diamondEntity.Quantity = 1;
                     }
                     await diamondRepository.save(diamondEntity)
                 }
-                
-                
+                const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
+                const totalPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.Price, 0);
+                const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
+                if (orderEntity) {
+                    orderEntity.Price = totalDiscountPrice;
+                    await orderRepository.save(orderEntity);
+                }
                 await orderlineRepository.save(orderlineEntity);
                 // await jewelrySettingVariantRepository.save(item);
                 // }

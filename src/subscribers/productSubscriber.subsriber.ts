@@ -17,15 +17,14 @@ export class ProductSubscriber implements EntitySubscriberInterface<ProductEntit
     return ProductEntity;
   }
 
-
   /**
    * Được gọi sau khi cập nhật thực thể.
    */
   async afterUpdate(event: UpdateEvent<ProductEntity>) {
     // Kiểm tra nếu jewelrySettingVariant đã thay đổi
     //if (event.updatedColumns.some(column => column.propertyName === 'JewelrySettingID')) {
-      if (this.isHandlingUpdate) {
-        return;
+    if (this.isHandlingUpdate) {
+      return;
     }
 
     this.isHandlingUpdate = true;
@@ -42,11 +41,11 @@ export class ProductSubscriber implements EntitySubscriberInterface<ProductEntit
         const jewelrySettingVariantRepository = event.manager.getRepository(JewelrySettingVariantEntity);
         const diamondRepository = event.manager.getRepository(DiamondEntity);
         const discountRepository = event.manager.getRepository(DiscountEntity);
-
+        const oldProductQuantity = event.databaseEntity.Quantity;
         // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
         const jewelrySettingVariant = await jewelrySettingVariantRepository.findOne({ where: { JewelrySettingVariantID: product.JewelrySettingVariantID } });
         const diamonds = await diamondRepository.find({ where: { ProductID: product.ProductID } });
-        const discountEntity = await discountRepository.findOne({where: {DiscountID: product.DiscountID}})
+        const discountEntity = await discountRepository.findOne({ where: { DiscountID: product.DiscountID } })
         // for (const item of jewelrySettingVariants) {
         // Logic cập nhật giá trang sức
         let diamondsInProduct = null
@@ -55,10 +54,22 @@ export class ProductSubscriber implements EntitySubscriberInterface<ProductEntit
           diamondsInProduct = diamonds.map(diamond => diamond.Price * diamond.ChargeRate);
           diamondsPrice = diamondsInProduct.reduce((a, p) => a + p)
         }
+        if (oldProductQuantity >= productEntity.Quantity) {
+          for (const diamond of diamonds) {
+            diamond.Quantity = 0
+          }
+          jewelrySettingVariant.Quantity -= 1;
+        }
+        if (oldProductQuantity <= productEntity.Quantity) {
+          for (const diamond of diamonds) {
+            diamond.Quantity = 1
+            jewelrySettingVariant.Quantity += 1;
+          }
+        }
         console.log("JJJJ: ", product.ProductID);
         let price = calculateNewPrice(jewelrySettingVariant.Price, diamondsPrice);
         productEntity.Price = price;
-        productEntity.DiscountPrice = price * Number(discountEntity.PercentDiscounts)/100
+        productEntity.DiscountPrice = price * Number(discountEntity.PercentDiscounts) / 100
         await productRepository.save(productEntity);
         // await jewelrySettingVariantRepository.save(item);
         // }
@@ -71,10 +82,10 @@ export class ProductSubscriber implements EntitySubscriberInterface<ProductEntit
 
       }
     }
-    finally{
+    finally {
       this.isHandlingUpdate = false
     }
-}
+  }
 }
 //}
 
