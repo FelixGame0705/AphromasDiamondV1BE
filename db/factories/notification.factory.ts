@@ -8,7 +8,7 @@ export const  notificationFactory = setSeederFactory(NotificationEntity, async (
     notification.IsRead = faker.datatype.boolean();
     notification.Date = faker.date.recent();
     notification.Message = faker.lorem.sentence();
-    notification.AccountID = faker.datatype.number({ min: 1, max: 10 });  
+    notification.AccountID = faker.datatype.number({ min: 5, max: 999999 });  
     
     return notification;
   })

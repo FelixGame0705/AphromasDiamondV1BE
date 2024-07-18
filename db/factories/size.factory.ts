@@ -1,41 +1,42 @@
 import { SizeEntity } from 'src/entities/size.entity';
 import { setSeederFactory } from 'typeorm-extension';
 
-// Bảng tra cứu cho kích thước và giá trị mm tương ứng
-const sizeToMmMap = {
-  6: 14.7,
-  7: 15.6,
-  8: 16.5,
-  9: 17.3,
-  10: 18.2,
-  11: 19.0,
-  12: 19.8,
-  13: 20.6,
-  14: 21.3,
-  15: 22.2,
-  16: 23.0,
-  17: 23.8,
-  18: 24.6,
-  19: 25.4,
-  20: 26.2
+// Mapping cố định giữa ID, kích thước và giá trị mm
+const sizeMapping = {
+  1: { size: 6, mm: 14.7 },
+  2: { size: 7, mm: 15.6 },
+  3: { size: 8, mm: 16.5 },
+  4: { size: 9, mm: 17.3 },
+  5: { size: 10, mm: 18.2 },
+  6: { size: 11, mm: 19.0 },
+  7: { size: 12, mm: 19.8 },
+  8: { size: 13, mm: 20.6 },
+  9: { size: 14, mm: 21.3 },
+  10: { size: 15, mm: 22.2 },
+  11: { size: 16, mm: 23.0 },
+  12: { size: 17, mm: 23.8 },
+  13: { size: 18, mm: 24.6 },
+  14: { size: 19, mm: 25.4 },
+  15: { size: 20, mm: 26.2 }
 };
 
 export const sizeFactory = setSeederFactory(SizeEntity, async (faker) => {
   const size = new SizeEntity()
-  
-  // Generate a random size between 6 and 20
-  const sizeNumber = faker.datatype.number({ min: 6, max: 20 });
-  
-  // Get the corresponding mm value from the lookup table
-  const sizeInMm = sizeToMmMap[sizeNumber];
-  
-  // Set SizeValue as the number
-  size.SizeValue = sizeNumber;
-  
-  // Set UnitOfMeasure as the formatted string
-  size.UnitOfMeasure = `(${sizeInMm.toFixed(1)} mm)`;
-  
+
+  // Chọn một ID ngẫu nhiên từ 1 đến 15
+  const sizeID = faker.datatype.number({ min: 1, max: 15 });
+
+  // Gán ID cho size
+  size.SizeID = sizeID;
+
+  // Lấy thông tin kích thước tương ứng với ID
+  const sizeInfo = sizeMapping[sizeID];
+
+  // Set SizeValue là số kích thước
+  size.SizeValue = sizeInfo.size;
+
+  // Set UnitOfMeasure là chuỗi định dạng với giá trị mm
+  size.UnitOfMeasure = `(${sizeInfo.mm.toFixed(1)} mm)`;
+
   return size;
 })
-
-

@@ -34,6 +34,12 @@ export class AuthController {
         }
     }
     @Public()
+    @ApiOperation({
+        summary: 'Dùng cho hệ thống.', 
+        description: 'Mật khẩu mặc định là (role truy cập: Admin, Manager, Sale, Delivery)123'
+        
+         
+    })
     @Post('/signin')
     async signIn(
         @Body() auth: AuthPayloadDTO,
