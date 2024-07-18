@@ -72,7 +72,7 @@ export class DiamondEntity extends BaseEntity{
     @ManyToOne(()=>JewelrySettingVariantEntity, { nullable: true })
     @JoinColumn({name:'JewelrySettingVariantID', referencedColumnName:'JewelrySettingVariantID'})
     jewelrySettingVariant: JewelrySettingVariantEntity
-    @OneToOne(()=>OrderLineEntity, orderLine=>orderLine.DiamondID, { nullable: true })
+    @OneToMany(()=>OrderLineEntity, orderLine=>orderLine.DiamondID, { nullable: true })
     orderLine: OrderLineEntity
     @OneToMany(()=>FeedbackEntity, feedback=>feedback.diamond)
     feedback: FeedbackEntity[]
