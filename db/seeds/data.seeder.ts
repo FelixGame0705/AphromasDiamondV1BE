@@ -164,7 +164,11 @@ export default class DataSeeder implements Seeder {
 
       //Create diamonds
       const diamondFactory = factoryManager.get(DiamondEntity);
-      const diamonds = await diamondFactory.saveMany(5);
+      let diamonds = []; //await diamondFactory.saveMany(5);
+      for(let i = 0; i< 5; i++){
+        diamonds.push(diamondFactory.save())
+      }
+      
 
       //Create certificates for each diamond
       const certificate = insertCertificates(dataSource);

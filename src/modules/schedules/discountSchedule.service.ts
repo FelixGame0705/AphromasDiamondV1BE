@@ -17,7 +17,7 @@ export class DiscountScheduleService {
         private readonly diamondRepository: Repository<DiamondEntity>,
     ) {}
 
-    @Cron('*/5 * * * * *', {
+    @Cron('0 0 * * * *', {
         name: 'schedule',
         //timeZone: 'Europe/Paris',
     })

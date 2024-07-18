@@ -12,6 +12,7 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
 
   // Price 
   diamond.Price = parseFloat(faker.commerce.price(1000, 100000, 2));
+  diamond.DiscountPrice = diamond.Price
 
   // Color: random từ D đến Z
   diamond.Color = String.fromCharCode(faker.datatype.number({ min: 68, max: 90 })); // ASCII cho D-Z
