@@ -5,11 +5,11 @@ export const  orderlineFactory = setSeederFactory(OrderLineEntity, async (faker)
      
       
     const orderline = new  OrderLineEntity()
-    orderline.Quantity = faker.datatype.number();
+    orderline.Quantity = 1
     orderline.OrderID = faker.datatype.number();
     orderline.DiamondID = faker.datatype.number();
     orderline.ProductID = faker.datatype.number();
     orderline.CustomerID = faker.datatype.number();
-      
+
     return orderline;
   })
