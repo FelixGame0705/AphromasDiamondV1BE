@@ -23,13 +23,13 @@ export class JewelrySettingSubscriber implements EntitySubscriberInterface<Jewel
       if (!jewelrySetting) return;
 
       const jewelrySettingVariant = event.manager.getRepository(JewelrySettingVariantEntity);
-      const diamondRepository = event.manager.getRepository(DiamondEntity);
+      //const diamondRepository = event.manager.getRepository(DiamondEntity);
 
       // Cập nhật giá của tất cả trang sức dựa trên giá bán cũ
-      const products = await jewelrySettingVariant.find();
-      const diamonds = await diamondRepository.find();
+      const jewelrySettingVariants = await jewelrySettingVariant.find();
+      //const diamonds = await diamondRepository.find();
       
-      for (const product of products) {
+      for (const product of jewelrySettingVariants) {
         // Logic cập nhật giá trang sức
         //const diamondsInProduct = diamonds.filter((p)=>p.ProductID === product.ProductID).map(diamond => diamond.Price);
           product.Price = calculateOldPrice(product, jewelrySetting.ProductionCost, jewelrySetting.AuxiliaryCost);
@@ -51,11 +51,11 @@ export class JewelrySettingSubscriber implements EntitySubscriberInterface<Jewel
       if (!jewelrySetting) return;
 
       const jewelrySettingVariant = event.manager.getRepository(JewelrySettingVariantEntity);
-      const diamondRepository = event.manager.getRepository(DiamondEntity);
+      //const diamondRepository = event.manager.getRepository(DiamondEntity);
 
       // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
       const jewelrySettingVariants = await jewelrySettingVariant.find();
-      const diamonds = await diamondRepository.find();
+      //const diamonds = await diamondRepository.find();
       
       for (const item of jewelrySettingVariants) {
         // Logic cập nhật giá trang sức
