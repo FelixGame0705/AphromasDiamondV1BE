@@ -26,7 +26,7 @@ export class OrderLineEntity extends BaseEntity{
     @ManyToOne(()=>OrderEntity, { nullable: true })
     @JoinColumn({name:'OrderID', referencedColumnName:'OrderID'})
     order: OrderEntity
-    @OneToOne(()=>DiamondEntity, { nullable: true })
+    @ManyToOne(()=>DiamondEntity, { nullable: true })
     @JoinColumn({name:'DiamondID', referencedColumnName:'DiamondID'})
     diamond: DiamondEntity
     @ManyToOne(()=>ProductEntity, { nullable: true })

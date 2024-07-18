@@ -10,6 +10,8 @@ import { Transactional } from 'typeorm-transactional';
 
 @EventSubscriber()
 export class JewelrySettingVariantSubscriber implements EntitySubscriberInterface<JewelrySettingVariantEntity> {
+
+    private isHandlingUpdate = false;
     /**
      * Chỉ ra rằng Subscriber này chỉ lắng nghe các sự kiện của MaterialJewelryEntity.
      */
@@ -20,46 +22,76 @@ export class JewelrySettingVariantSubscriber implements EntitySubscriberInterfac
     /**
      * Được gọi sau khi cập nhật thực thể.
      */
-    // @Transactional()
+    @Transactional()
     async afterInsert(event: InsertEvent<JewelrySettingVariantEntity>) {
-        //this.handleAfterInsertOrUpdate(event);
-        const jewelryVariantPrice = event.entity;
-        if (!jewelryVariantPrice) return;
-        console.log(jewelryVariantPrice)
-        const jewelryVariant = event.manager.getRepository(JewelrySettingVariantEntity);
-        const jewelrySettingRepository = event.manager.getRepository(JewelrySettingEntity)
-        const materialRepository = event.manager.getRepository(MaterialJewelryEntity);
-        //let jewelry = await jewelryVariant.findOne({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}})
-        const jewelry = await jewelrySettingRepository.findOne({ where: { JewelrySettingID: jewelryVariantPrice.JewelrySettingID } })
-        const jewelryPrice = Number((await materialRepository.findOne({ where: { MaterialJewelryID: jewelryVariantPrice.MaterialJewelryID } })).SellPrice) * Number(jewelryVariantPrice.Weight) + Number(jewelry.AuxiliaryCost) + Number(jewelry.ProductionCost)
-        console.log(jewelryPrice)
-        jewelryVariant.update(jewelryVariantPrice.JewelrySettingVariantID, { Price: jewelryPrice })
-        // const diamondRepository = event.manager.getRepository(DiamondEntity);
-        // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
-        //const jewelrySettingVariant = await jewelrySettingVariantRepository.find();
-        // const diamonds = await diamondRepository.find();
-        //jewelryVariantPrice.Price = material.filter(material=>material.MaterialJewelryID)[0].SellPrice * jewelryVariantPrice.Weight;
-    }
-    // @Transactional()
-    async afterUpdate(event: UpdateEvent<JewelrySettingVariantEntity>) {
-        console.log('Hello', event.entity)
-        // this.handleAfterInsertOrUpdate(event);
-        const jewelryVariantPrice = event.entity;
+        if (this.isHandlingUpdate) {
+            return;
+        }
+
+        this.isHandlingUpdate = true;
+        try {
+            //this.handleAfterInsertOrUpdate(event);
+            const jewelryVariantPrice = event.entity;
             if (!jewelryVariantPrice) return;
+            console.log(jewelryVariantPrice)
+            const jewelryVariant = event.manager.getRepository(JewelrySettingVariantEntity);
+            const jewelrySettingRepository = event.manager.getRepository(JewelrySettingEntity)
+            const materialRepository = event.manager.getRepository(MaterialJewelryEntity);
+            //let jewelry = await jewelryVariant.findOne({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}})
+            const jewelry = await jewelrySettingRepository.findOne({ where: { JewelrySettingID: jewelryVariantPrice.JewelrySettingID } })
+            const jewelryPrice = Number((await materialRepository.findOne({ where: { MaterialJewelryID: jewelryVariantPrice.MaterialJewelryID } })).SellPrice) * Number(jewelryVariantPrice.Weight) + Number(jewelry.AuxiliaryCost) + Number(jewelry.ProductionCost)
+            jewelryVariantPrice.Price = jewelryPrice;
+            jewelryVariant.save(jewelryVariantPrice)
+           // jewelryVariant.update(jewelryVariantPrice.JewelrySettingVariantID, { Price: jewelryPrice })
+            // const diamondRepository = event.manager.getRepository(DiamondEntity);
+            // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
+            //const jewelrySettingVariant = await jewelrySettingVariantRepository.find();
+            // const diamonds = await diamondRepository.find();
+            //jewelryVariantPrice.Price = material.filter(material=>material.MaterialJewelryID)[0].SellPrice * jewelryVariantPrice.Weight;
+        }
+        finally {
+            this.isHandlingUpdate = false;
+        }
+    }
+    @Transactional()
+    async afterUpdate(event: UpdateEvent<JewelrySettingVariantEntity>) {
+        if (this.isHandlingUpdate) {
+            return;
+        }
+
+        this.isHandlingUpdate = true;
+        try {
+            console.log('Hello', event.entity)
+            // this.handleAfterInsertOrUpdate(event);
+            const jewelryVariantPrice = event.entity;
+            if (!jewelryVariantPrice) return;
+            const jewelryVariantRepository = event.manager.getRepository(JewelrySettingVariantEntity)
+            const jewelryRepository = event.manager.getRepository(JewelrySettingEntity)
             const productRepository = event.manager.getRepository(ProductEntity);
             const diamondRepository = event.manager.getRepository(DiamondEntity);
+            const materialRepository = event.manager.getRepository(MaterialJewelryEntity);
+          //  console.log("error: "+ (await productRepository.find()))
             // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
-            const products = await productRepository.find();
-            const diamonds = await diamondRepository.find();
+            const jewelrySetting = await jewelryRepository.findOne({where: {JewelrySettingID: jewelryVariantPrice.JewelrySettingID}})
+            const jewelryVariant = await jewelryVariantRepository.findOne({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}})
+            const products = await productRepository.find({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}});
+            console.log("Hello 123 " + products.map(item=>item.ProductID))
+           // const diamonds = await diamondRepository.find({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}});
             //jewelryVariantPrice.Price = material.filter(material=>material.MaterialJewelryID)[0].SellPrice * jewelryVariantPrice.Weight;
-            for (const product of products) {
+            
+            const jewelryPrice = Number(((await materialRepository.findOne({ where: { MaterialJewelryID: jewelryVariantPrice.MaterialJewelryID } })).SellPrice) * Number(jewelryVariantPrice.Weight) + Number(jewelrySetting.AuxiliaryCost) + Number(jewelrySetting.ProductionCost) * Number(jewelrySetting.ChargeRate))/100
+            for(let i = 0; i < products.length; i++){
                 // Logic cập nhật giá trang sức
-                const diamondsInProduct = diamonds.filter((p) => p.ProductID === product.ProductID).map(diamond => diamond.Price);
-                product.Price = calculateNewPrice(product, jewelryVariantPrice.Price, diamondsInProduct);
-
-                await productRepository.save(product);
+                const diamonds = await diamondRepository.find({where: {ProductID: products[i].ProductID}});
+                jewelryVariant.Price = jewelryPrice
+                //const diamondsInProduct = diamonds.filter((p) => p.ProductID === products[i].ProductID).map(diamond => diamond.Price);
+                products[i].Price = calculateNewPrice(products[i], jewelryVariant.Price, diamonds.map(item=>item.Price));
+                console.log("Value price: ", products[i].Price)
+                await productRepository.save(products[i]);  
             }
-
+            
+            await jewelryVariantRepository.save(jewelryVariant);
+            
             // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
 
             //   for (const jewelry of jewelrySettingVariant) {
@@ -71,13 +103,23 @@ export class JewelrySettingVariantSubscriber implements EntitySubscriberInterfac
             //     }
             //   }
             console.log('Cập nhật hoàn tất.');
-        
 
+
+        }catch(error){
+            console.log(error)
+        }
+        finally {
+            this.isHandlingUpdate = false;
+        }
     }
 }
 
 // Hàm trợ giúp để tính giá trang sức mới
 function calculateNewPrice(jewelry: ProductEntity, jewelryVariantPrice: number, diamonds: number[]): number {
-    // Logic tính giá mới của bạn
-    return jewelryVariantPrice + diamonds.reduce((acc, current) => acc + current, 0);
+    let diamondPrie = 0;
+    if(diamonds.length>0){
+    diamondPrie = diamonds.reduce((acc, current) => acc + current, 0)
+    }
+    const calculatedPrice = jewelryVariantPrice + diamondPrie;
+    return calculatedPrice; // Trả về 0 nếu calculatedPrice là null hoặc undefined
 }

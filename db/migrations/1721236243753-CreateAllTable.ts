@@ -1,22 +1,20 @@
-// import { MigrationInterface, QueryRunner } from "typeorm";
-
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateAllTable1721203348261 implements MigrationInterface {
-    name = 'CreateAllTable1721203348261'
+export class CreateAllTable1721236243753 implements MigrationInterface {
+    name = 'CreateAllTable1721236243753'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE \`Size\` (\`SizeID\` int NOT NULL AUTO_INCREMENT, \`SizeValue\` decimal(8,2) NOT NULL, \`UnitOfMeasure\` varchar(255) NOT NULL, PRIMARY KEY (\`SizeID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`JewelryType\` (\`JewelryTypeID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NOT NULL, PRIMARY KEY (\`JewelryTypeID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Notification\` (\`NotificationID\` int NOT NULL AUTO_INCREMENT, \`IsRead\` tinyint NOT NULL, \`Date\` datetime NULL, \`Message\` text NULL, \`AccountID\` int NULL, PRIMARY KEY (\`NotificationID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Voucher\` (\`VoucherID\` int NOT NULL AUTO_INCREMENT, \`VoucherCode\` varchar(255) NULL, \`Description\` varchar(255) NULL, \`StartDate\` datetime NOT NULL, \`EndDate\` datetime NOT NULL, \`PercentDiscounts\` decimal(8,2) NOT NULL, PRIMARY KEY (\`VoucherID\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`OrderLine\` (\`OrderLineID\` int NOT NULL AUTO_INCREMENT, \`Quantity\` int NOT NULL DEFAULT '1', \`Price\` int NULL, \`DiscountPrice\` int NULL, \`OrderID\` int NULL, \`DiamondID\` int NULL, \`ProductID\` int NULL, \`CustomerID\` int NULL, UNIQUE INDEX \`REL_87d1a0e4fca950091a52e91be4\` (\`DiamondID\`), PRIMARY KEY (\`OrderLineID\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`OrderLine\` (\`OrderLineID\` int NOT NULL AUTO_INCREMENT, \`Quantity\` int NOT NULL DEFAULT '1', \`Price\` int NULL, \`DiscountPrice\` int NULL, \`OrderID\` int NULL, \`DiamondID\` int NULL, \`ProductID\` int NULL, \`CustomerID\` int NULL, PRIMARY KEY (\`OrderLineID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Order\` (\`OrderID\` int NOT NULL AUTO_INCREMENT, \`OrderDate\` datetime NOT NULL, \`CompleteDate\` datetime NOT NULL, \`IsPayed\` tinyint NOT NULL, \`Shippingfee\` decimal(10,2) NULL, \`ReasonReturn\` text NULL, \`Note\` text NULL, \`CustomerID\` int NULL, \`OrderStatus\` varchar(255) NULL, \`IsActive\` tinyint NOT NULL, \`Price\` decimal(12,2) NULL, \`VoucherPrice\` decimal(12,2) NULL, \`AccountDeliveryID\` int NULL, \`AccountSaleID\` int NULL, \`PaymentID\` varchar(255) NULL, \`Method\` varchar(255) NULL, \`VoucherID\` int NULL, PRIMARY KEY (\`OrderID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Customer\` (\`CustomerID\` int NOT NULL AUTO_INCREMENT, \`Birthday\` datetime NULL, \`Gender\` tinyint NULL, \`Address\` varchar(255) NULL, PRIMARY KEY (\`CustomerID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Account\` (\`AccountID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NOT NULL, \`PhoneNumber\` varchar(13) NOT NULL, \`Email\` varchar(255) NOT NULL, \`Password\` varchar(255) NOT NULL, \`Role\` varchar(255) NOT NULL, \`CustomerID\` int NULL, UNIQUE INDEX \`IDX_3c86ef34cc3c239edf499feb7d\` (\`Email\`), UNIQUE INDEX \`REL_1f40b69ab608afc66251c4d11e\` (\`CustomerID\`), PRIMARY KEY (\`AccountID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Collection\` (\`CollectionID\` int NOT NULL AUTO_INCREMENT, \`CollectionName\` varchar(255) NULL, \`Description\` varchar(255) NULL, \`DebutTime\` datetime NULL, PRIMARY KEY (\`CollectionID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Discount\` (\`DiscountID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NULL, \`Description\` varchar(255) NULL, \`StartDate\` datetime NULL, \`EndDate\` datetime NULL, \`PercentDiscounts\` decimal(10,2) NOT NULL DEFAULT '0.00', \`FinalPrice\` decimal(10,2) NULL, PRIMARY KEY (\`DiscountID\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`Product\` (\`ProductID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NULL, \`Quantity\` int NOT NULL DEFAULT '1', \`Inscription\` varchar(255) NULL, \`InscriptionFont\` varchar(255) NULL, \`Brand\` varchar(255) NULL, \`JewelrySettingID\` int NULL, \`Price\` decimal(12,2) NULL, \`DiscountPrice\` decimal(12,2) NULL, \`Stars\` decimal(3,1) NOT NULL DEFAULT '0.0', \`AccountID\` int NULL, \`CollectionID\` int NULL, \`DiscountID\` int NULL, \`JewelrySettingVariantID\` int NULL, PRIMARY KEY (\`ProductID\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`Product\` (\`ProductID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NULL, \`Quantity\` int NULL DEFAULT '1', \`Inscription\` varchar(255) NULL, \`InscriptionFont\` varchar(255) NULL, \`Brand\` varchar(255) NULL, \`JewelrySettingID\` int NULL, \`Price\` decimal(12,2) NULL, \`DiscountPrice\` decimal(12,2) NULL, \`Stars\` decimal(3,1) NOT NULL DEFAULT '0.0', \`AccountID\` int NULL, \`CollectionID\` int NULL, \`DiscountID\` int NULL, \`JewelrySettingVariantID\` int NULL, PRIMARY KEY (\`ProductID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`UsingImage\` (\`UsingImageID\` int NOT NULL AUTO_INCREMENT, \`ProductID\` int NULL, \`DiamondID\` int NULL, \`JewelrySettingID\` int NULL, \`Name\` varchar(255) NULL, \`url\` varchar(255) NULL, \`CertificateID\` int NULL, PRIMARY KEY (\`UsingImageID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Certificate\` (\`CertificateID\` int NOT NULL AUTO_INCREMENT, \`DiamondID\` int NULL, \`Name\` varchar(255) NULL, PRIMARY KEY (\`CertificateID\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`Diamond\` (\`DiamondID\` int NOT NULL AUTO_INCREMENT, \`Name\` varchar(255) NULL, \`Shape\` varchar(255) NULL, \`Cut\` varchar(255) NULL, \`Price\` decimal(12,2) NULL, \`DiscountPrice\` decimal(12,2) NULL, \`Color\` varchar(255) NULL, \`WeightCarat\` decimal(7,3) NULL, \`PercentDepth\` decimal(7,3) NULL, \`LengthOnWidthRatio\` decimal(7,2) NULL, \`Description\` text NULL, \`IsActive\` tinyint NULL, \`Fluorescence\` varchar(255) NULL, \`Clarity\` varchar(255) NULL, \`PercentTable\` decimal(7,2) NULL, \`Polish\` varchar(255) NULL, \`Symmetry\` varchar(255) NULL, \`ChargeRate\` decimal(7,2) NULL, \`UpdateTime\` datetime NOT NULL, \`Stars\` decimal(3,1) NOT NULL DEFAULT '0.0', \`JewelrySettingVariantID\` int NULL, \`ProductID\` int NULL, \`CollectionID\` int NULL, \`DiscountID\` int NULL, \`Designer\` varchar(255) NULL, \`Cutter\` varchar(255) NULL, \`IndexVariantGroup\` int NULL, \`Quantity\` int NOT NULL DEFAULT '1', PRIMARY KEY (\`DiamondID\`)) ENGINE=InnoDB`);
@@ -108,7 +106,6 @@ export class CreateAllTable1721203348261 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE \`Account\``);
         await queryRunner.query(`DROP TABLE \`Customer\``);
         await queryRunner.query(`DROP TABLE \`Order\``);
-        await queryRunner.query(`DROP INDEX \`REL_87d1a0e4fca950091a52e91be4\` ON \`OrderLine\``);
         await queryRunner.query(`DROP TABLE \`OrderLine\``);
         await queryRunner.query(`DROP TABLE \`Voucher\``);
         await queryRunner.query(`DROP TABLE \`Notification\``);
@@ -116,4 +113,4 @@ export class CreateAllTable1721203348261 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE \`Size\``);
     }
 
- }
+}
