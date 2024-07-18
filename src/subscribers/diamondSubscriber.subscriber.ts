@@ -28,8 +28,10 @@ export class DiamondSubscriber implements EntitySubscriberInterface<DiamondEntit
             const diamondEntity = await diamondRepository.findOne({where: {DiamondID: diamond.DiamondID}})
             diamondEntity.DiscountPrice = diamondEntity.Price;
             const productRepository = event.manager.getRepository(ProductEntity)
+            diamondRepository.save(diamondEntity)
             const productEntity = await productRepository.findOne({where:{ProductID: diamondEntity.ProductID}})
-            productEntity.save()
+            if(productEntity != null)
+            productRepository.save(productEntity)
             // Phát sự kiện thông báo cập nhật ProductEntity
             // this.eventBus.publish(new ProductUpdatedEvent(diamond.DiamondID, diamondEntity.DiscountPrice));
         }
