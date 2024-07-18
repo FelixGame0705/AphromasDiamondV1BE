@@ -19,7 +19,7 @@ const certificateMapping = {
     const certificate = new CertificateEntity()
   
     // Chọn một ID ngẫu nhiên từ 1 đến 10
-    const certificateID = faker.datatype.number();
+    const certificateID = faker.datatype.number({ min: 1, max: 1 });
   
     certificate.DiamondID = certificateID;
     

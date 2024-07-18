@@ -14,10 +14,10 @@ export const   productFactory = setSeederFactory(ProductEntity, async (faker) =>
     product.DiscountPrice = faker.datatype.number({ min: 100, max: 9999 });
     product.Stars = faker.datatype.number({ min: 1, max: 5 });
 
-    product.AccountID = faker.datatype.number({ min: 5, max: 99999999 });
-    product.CollectionID = faker.datatype.number({ min: 1, max: 5 });
-    product.DiscountID = faker.datatype.number({ min: 1, max: 5 });
-    product.JewelrySettingVariantID = faker.datatype.number({ min: 1, max: 4 });
+    // product.AccountID = faker.datatype.number({ min: 5, max: 99999999 });
+    // product.CollectionID = faker.datatype.number({ min: 1, max: 5 });
+    // product.DiscountID = faker.datatype.number({ min: 1, max: 5 });
+    // product.JewelrySettingVariantID = faker.datatype.number({ min: 1, max: 4 });
     
      
      

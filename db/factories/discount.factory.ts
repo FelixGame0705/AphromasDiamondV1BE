@@ -6,8 +6,8 @@ import { setSeederFactory } from "typeorm-extension";
 export const discountFactory = setSeederFactory(DiscountEntity, async (faker) => {
   const discount = new DiscountEntity()
 
-  const discounts = ['Summer Sale', 'Winter Clearance', 'New Customer Discount', 'Loyalty Reward', 'Holiday Special'];
-  discount.Name = faker.helpers.arrayElement(discounts);
+  const discounts = ['Summer Sale', 'Christmas', 'Black Friday', 'Valentine\'s Day', 'Cyber Monday', 'Thanksgiving',];
+  discount.Name = `${faker.helpers.arrayElement(discounts)} Discount`;
   discount.Description = faker.lorem.sentence();
   discount.StartDate = faker.date.recent();
   discount.EndDate = faker.date.future();

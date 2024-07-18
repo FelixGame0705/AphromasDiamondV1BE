@@ -1,6 +1,6 @@
 
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
-import { DataSource } from 'typeorm';
+import { DataSource, FindOneOptions } from 'typeorm';
  
 import { AccountsEntity } from 'src/entities/accounts.entity';
 import { CustomerEntity } from 'src/entities/customer.entity';
@@ -29,6 +29,7 @@ import { Diamond } from '../../src/models/diamond.model';
 import { DiamondDTO } from '../../src/dto/diamond.dto';
 import { DiamondEntity } from 'src/entities/diamond.entity';
 import * as bcrypt from 'bcrypt';
+import { CertificateRepository } from 'src/modules/certificate/certificate.repository';
 
 export default class DataSeeder implements Seeder {
   public async run(
@@ -114,28 +115,69 @@ export default class DataSeeder implements Seeder {
       //Create jewelry setting  for each jewelry type
       const jewelryerysettingFactory = factoryManager.get(JewelrySettingEntity);
       // for (const type of jewelrytypes) {
-        await jewelryerysettingFactory.saveMany(5); 
+      await jewelryerysettingFactory.saveMany(5); 
       // }
   
       //Create jewelry setting variant
       const jewellerysettingvariantFactory = factoryManager.get(JewelrySettingVariantEntity);
       await jewellerysettingvariantFactory.saveMany(15);
 
-      //Create products
+      // //Create products
+      // const productFactory = factoryManager.get(ProductEntity);
+      // await productFactory.saveMany(5);
+
+      //v2
+      // Tạo sản phẩm (product)
       const productFactory = factoryManager.get(ProductEntity);
-      await productFactory.saveMany(5);
+
+      // Lấy danh sách tài khoản có vai trò là khách hàng (ROLE_CUSTOMER)
+      const customerAccounts = await accountFactory.saveMany(5, { Role: 'ROLE_CUSTOMER' });
+
+      // Lấy danh sách bộ sưu tập (collection), giảm giá (discount), và biến thể cài đặt trang sức (jewelry setting variant)
+      const collections = await collectionFactory.saveMany(5);
+      const discounts = await discountFactory.saveMany(5);
+      const jewelrySettingVariants = await jewellerysettingvariantFactory.saveMany(5);
+
+      // Tạo sản phẩm với các khóa ngoại
+      const productCount = 5; // Số lượng sản phẩm cần tạo
+      const usedAccountIds = new Set();
+
+      for (let i = 0; i < productCount; i++) {
+        let accountId;
+        do {
+          accountId = customerAccounts[i % customerAccounts.length].AccountID;
+        } while (usedAccountIds.has(accountId));
+
+        usedAccountIds.add(accountId);
+        const collectionId = collections[i % collections.length].CollectionID;
+        const discountId = discounts[i % discounts.length].DiscountID;
+        const jewelrySettingVariantId = jewelrySettingVariants[i % jewelrySettingVariants.length].JewelrySettingVariantID;
+
+        // Tạo sản phẩm và lưu vào cơ sở dữ liệu
+        await productFactory.save({
+          AccountID: accountId,
+          CollectionID: collectionId,
+          DiscountID: discountId,
+          JewelrySettingVariantID: jewelrySettingVariantId,
+        });
+      }
 
       //Create diamonds
       const diamondFactory = factoryManager.get(DiamondEntity);
       const diamonds = await diamondFactory.saveMany(5);
 
       //Create certificates for each diamond
-      const certificateFactory = factoryManager.get(CertificateEntity);
-      for (const diamond of diamonds) {
-        await certificateFactory.save({
-          DiamondID: diamond.DiamondID, 
-        });
-      }
+      const certificate = insertCertificates(dataSource);
+      await certificate;
+
+      // const certificateFactory = factoryManager.get(CertificateEntity);
+      // for (const diamond of diamonds) {
+      //   await certificateFactory.save({
+      //     DiamondID: diamond.DiamondID, 
+      //   });
+      // }
+
+
       //Tạo tay order line
       {
       //Create order lines 
@@ -143,9 +185,23 @@ export default class DataSeeder implements Seeder {
       // await orderLineFactory.saveMany(5);
       }
     
-      //Create feedback
+      // //Create feedback
+      // const feedbackFactory = factoryManager.get(FeedbackEntity);
+      // await feedbackFactory.saveMany(5);
+
       const feedbackFactory = factoryManager.get(FeedbackEntity);
-      await feedbackFactory.saveMany(5);
+      const jewelrySettings = await dataSource.getRepository(JewelrySettingEntity).find();
+      const accountss = await dataSource.getRepository(AccountsEntity).find();
+
+      for (let i = 0; i < 5; i++) {
+        await feedbackFactory.save({
+          DiamondID: diamonds[Math.floor(Math.random() * diamonds.length)].DiamondID,
+          JewelrySettingID: jewelrySettings[Math.floor(Math.random() * jewelrySettings.length)].JewelrySettingID,
+          OrderID: null,
+          AccountID: accountss[Math.floor(Math.random() * accounts.length)].AccountID,
+        });
+      }
+      
 
       console.log('Data seeded successfully!');
     } catch (error) {
@@ -288,5 +344,40 @@ async function insertjewelryType(dataSource: DataSource) {
 
     // Insert account into database
     await accountRepository.insert(newAccount);
+  }
+}
+
+async function insertCertificates(dataSource: DataSource): Promise<void> {
+  const certificatesToInsert = [
+    { Name: 'GIA' },
+    // Thêm các certificate khác nếu cần
+  ];
+
+  const CertificateRepository = dataSource.getRepository(CertificateEntity);
+  const DiamondRepository = dataSource.getRepository(DiamondEntity);
+
+  // Lấy tất cả Diamond đã tồn tại
+  const existingDiamonds = await DiamondRepository.find();
+
+  if (existingDiamonds.length === 0) {
+    console.log("Không có Diamond nào tồn tại. Không thể tạo Certificate.");
+    return;
+  }
+
+  for (const certificateInfo of certificatesToInsert) {
+    // Kiểm tra xem Certificate đã tồn tại chưa
+    const existingCertificate = await CertificateRepository.findOne({ where: { Name: certificateInfo.Name } });
+
+    if (!existingCertificate) {
+      // Chọn ngẫu nhiên một Diamond
+      const randomDiamond = existingDiamonds[Math.floor(Math.random() * existingDiamonds.length)];
+
+      // Tạo Certificate mới và liên kết với Diamond
+      const newCertificate = new CertificateEntity();
+      newCertificate.Name = certificateInfo.Name;
+      newCertificate.DiamondID = randomDiamond.DiamondID;
+
+      await CertificateRepository.save(newCertificate);
+    }
   }
 }
