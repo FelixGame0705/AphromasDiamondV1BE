@@ -25,7 +25,10 @@
     "migration-revert": "npm run typeorm -- migration:revert",
     "typeorm:migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -- db/migrations/CreateAllTable",
     "typeorm:migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
-    "seed": "npm run build && ts-node ./node_modules/typeorm-extension/dist/cli/index.mjs seed -d db/data-source.ts"
+    "seed": "npm run build && ts-node ./node_modules/typeorm-extension/dist/cli/index.mjs seed -d db/data-source.ts",
+
+
+     "full:start": "npm install && npm run migration:run && npm run build && npm run start && npm run start:dev"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.2",

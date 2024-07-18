@@ -11,19 +11,19 @@ async function bootstrap() {
   configSwagger(app);
 
   await app.listen(3000);
-  // await dataSource.initialize()
-  // .then(async () => {
-  //   console.log('Data Source has been initialized!');
+  await dataSource.initialize()
+  .then(async () => {
+    console.log('Data Source has been initialized!');
 
-  //   // Chạy seeders
-  //   await runSeeders(dataSource);
-  //   const entityMetadatas = dataSource.entityMetadatas;
-  //   console.log("Entities: ", entityMetadatas.map(entity => entity.name));
-  //   console.log('Seeders have been executed!');
-  // })
-  // .catch((err) => {
-  //   console.error('Error during Data Source initialization:', err);
-  // });
+    // Chạy seeders
+    await runSeeders(dataSource);
+    const entityMetadatas = dataSource.entityMetadatas;
+    console.log("Entities: ", entityMetadatas.map(entity => entity.name));
+    console.log('Seeders have been executed!');
+  })
+  .catch((err) => {
+    console.error('Error during Data Source initialization:', err);
+  });
 
   if (module.hot) {
     module.hot.accept();
