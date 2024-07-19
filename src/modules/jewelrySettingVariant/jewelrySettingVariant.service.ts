@@ -14,14 +14,11 @@ export class JewelrySettingVariantService {
     }
     async findAll(): Promise<JewelrySettingVariant[]> {
         let data = (await this.jewelrySettingVariantRepository.findAll()).map(item => {
-            const sellPrice = item.materialJewelry?.SellPrice ?? 0;
-            const productionCost = item.jewelrySettings?.ProductionCost ?? 0;
-            const auxiliaryCost = item.jewelrySettings?.AuxiliaryCost ?? 0;
             return new JewelrySettingVariant(
                 {
                     JewelrySettingVariantID: item.JewelrySettingVariantID,
                     JewelrySettingID: item.JewelrySettingID,
-                    TotalPriceVariant: item.Weight * sellPrice + productionCost + auxiliaryCost,
+                    TotalPriceVariant: item.Price,
                     MaterialJewelry: item.materialJewelry,
                     Size: item.size,
                     SizeID: item.SizeID
@@ -32,13 +29,10 @@ export class JewelrySettingVariantService {
     }
     async findById(id: number): Promise<JewelrySettingVariant> {
         let item = await this.jewelrySettingVariantRepository.findById(id);
-        const sellPrice = item.materialJewelry?.SellPrice ?? 0;
-        const productionCost = item.jewelrySettings?.ProductionCost ?? 0;
-        const auxiliaryCost = item.jewelrySettings?.AuxiliaryCost ?? 0;
         return new JewelrySettingVariant({
             JewelrySettingVariantID: item.JewelrySettingVariantID,
             JewelrySettingID: item.JewelrySettingID,
-            TotalPriceVariant: item.Weight * sellPrice + productionCost + auxiliaryCost,
+            TotalPriceVariant: item.Price,
             MaterialJewelry: item.materialJewelry,
             Size: item.size,
             SizeID: item.SizeID
@@ -47,14 +41,11 @@ export class JewelrySettingVariantService {
     async create(sizeMatchShell: JewelrySettingVariantDTO): Promise<JewelrySettingVariant> {
         const variant = await this.jewelrySettingVariantRepository.create(sizeMatchShell);
         const item = await this.jewelrySettingVariantRepository.findById(variant.JewelrySettingVariantID)
-        const sellPrice = item.materialJewelry?.SellPrice ?? 0;
         console.log("Value: ", item)
-        const productionCost = item.jewelrySettings?.ProductionCost ?? 0;
-        const auxiliaryCost = item.jewelrySettings?.AuxiliaryCost ?? 0;
         return new JewelrySettingVariant({
             JewelrySettingVariantID: item.JewelrySettingVariantID,
             JewelrySettingID: item.JewelrySettingID,
-            TotalPriceVariant: item.Weight * sellPrice + productionCost + auxiliaryCost,
+            TotalPriceVariant: item.Price,
             MaterialJewelry: item.materialJewelry,
             Size: item.size,
             SizeID: item.SizeID

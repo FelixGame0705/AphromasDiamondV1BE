@@ -39,7 +39,7 @@ export class JewelrySettingVariantSubscriber implements EntitySubscriberInterfac
             const materialRepository = event.manager.getRepository(MaterialJewelryEntity);
             //let jewelry = await jewelryVariant.findOne({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}})
             const jewelry = await jewelrySettingRepository.findOne({ where: { JewelrySettingID: jewelryVariantPrice.JewelrySettingID } })
-            const jewelryPrice = Number((await materialRepository.findOne({ where: { MaterialJewelryID: jewelryVariantPrice.MaterialJewelryID } })).SellPrice) * Number(jewelryVariantPrice.Weight) + Number(jewelry.AuxiliaryCost) + Number(jewelry.ProductionCost)
+            const jewelryPrice = (Number((await materialRepository.findOne({ where: { MaterialJewelryID: jewelryVariantPrice.MaterialJewelryID } })).SellPrice) * Number(jewelryVariantPrice.Weight) + Number(jewelry.AuxiliaryCost) + Number(jewelry.ProductionCost))*Number(jewelry.ChargeRate)/100
             jewelryVariantPrice.Price = jewelryPrice;
             jewelryVariant.save(jewelryVariantPrice)
            // jewelryVariant.update(jewelryVariantPrice.JewelrySettingVariantID, { Price: jewelryPrice })
@@ -79,17 +79,17 @@ export class JewelrySettingVariantSubscriber implements EntitySubscriberInterfac
            // const diamonds = await diamondRepository.find({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}});
             //jewelryVariantPrice.Price = material.filter(material=>material.MaterialJewelryID)[0].SellPrice * jewelryVariantPrice.Weight;
             
-            const jewelryPrice = Number(((await materialRepository.findOne({ where: { MaterialJewelryID: jewelryVariantPrice.MaterialJewelryID } })).SellPrice) * Number(jewelryVariantPrice.Weight) + Number(jewelrySetting.AuxiliaryCost) + Number(jewelrySetting.ProductionCost) * Number(jewelrySetting.ChargeRate))/100
+            const jewelryPrice = Number(((await materialRepository.findOne({ where: { MaterialJewelryID: jewelryVariantPrice.MaterialJewelryID } })).SellPrice) * Number(jewelryVariantPrice.Weight) + Number(jewelrySetting.AuxiliaryCost) + Number(jewelrySetting.ProductionCost)) * Number(jewelrySetting.ChargeRate)/100
             for(let i = 0; i < products.length; i++){
                 // Logic cập nhật giá trang sức
                 const diamonds = await diamondRepository.find({where: {ProductID: products[i].ProductID}});
-                jewelryVariant.Price = jewelryPrice
                 //const diamondsInProduct = diamonds.filter((p) => p.ProductID === products[i].ProductID).map(diamond => diamond.Price);
                 products[i].Price = calculateNewPrice(products[i], jewelryVariant.Price, diamonds.map(item=>item.Price));
                 console.log("Value price: ", products[i].Price)
                 await productRepository.save(products[i]);  
             }
-            
+            console.log("Jewelry Price: ", jewelryPrice);
+            jewelryVariant.Price = jewelryPrice
             await jewelryVariantRepository.save(jewelryVariant);
             
             // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
