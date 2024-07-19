@@ -49,18 +49,23 @@ export class NotificationController{
   
     @Public()
     async showNotificate(@Query() query: any) {
-        const page: number = parseInt(query.page as any) || 1;
-        const filters = {
-            IsRead: query.IsRead,
-             
-        };
-        const sort = {
-            field: query.sortField || 'Date',
-            notificate : query.sortNotificate || 'ASC'
-        };
+    const page: number = parseInt(query.page as any) || 1;
+    const filters = {} as any;
 
-        return this.notificationService.getNotificate(page, filters, sort);
+    // Kiểm tra nếu IsRead được cung cấp và phân tích nó thành boolean
+    if (query.IsRead !== undefined) {
+        filters.IsRead = query.IsRead.toLowerCase() === 'true';
     }
+
+    // Chuẩn bị đối tượng sort với các giá trị mặc định
+    const sort = {
+        field: query.sortField || 'Date',
+        notificate: (query.sortNotificate || 'ASC').toUpperCase() as 'ASC' | 'DESC'
+    };
+
+    return this.notificationService.getNotificate(page, filters, sort);
+}
+
 
 
      
