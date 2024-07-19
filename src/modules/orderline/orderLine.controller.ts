@@ -102,6 +102,7 @@ export class OrderLineController {
                 new ResponseData(await this.orderService.update(id, order), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
             );
         } catch (error) {
+            console.log(error)
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );

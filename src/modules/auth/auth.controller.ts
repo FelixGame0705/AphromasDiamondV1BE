@@ -27,13 +27,19 @@ export class AuthController {
     ): Promise<ResponseType<AuthPayloadCustomerDTO>> {
         try {
             const result = await this.authService.findByIdCustomer(id)
-            return new ResponseData<AuthPayloadCustomerDTO>(result, HttpStatus.ERROR, HttpMessage.ERROR)
+            return new ResponseData<AuthPayloadCustomerDTO>(result, HttpStatus.SUCCESS, HttpMessage.SUCCESS)
         } catch (error) {
             console.error(error)
             return new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR)
         }
     }
     @Public()
+    @ApiOperation({
+        summary: 'Dùng cho hệ thống.', 
+        description: 'Mật khẩu mặc định là (role truy cập: Admin, Manager, Sale, Delivery)123'
+        
+         
+    })
     @Post('/signin')
     async signIn(
         @Body() auth: AuthPayloadDTO,
@@ -115,7 +121,7 @@ export class AuthController {
             const isAuth = await this.authService.updateAccount(haveUsername.AccountID, auth);
             if (!isAuth) {
                 return res.json(
-                    new ResponseData(isAuth, HttpStatus.ERROR, HttpMessage.ERROR)
+                    new ResponseData(isAuth, HttpStatus.SUCCESS, HttpMessage.SUCCESS)
                 );
             }
             return res.json(

@@ -37,7 +37,7 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
                 await manager
                     .createQueryBuilder()
                     .update(JewelrySettingVariantEntity)
-                    .set({ Amount: () => "Amount - 1" }) // Sử dụng chức năng giảm 1 đơn vị
+                    .set({ Quantity: () => "Quantity - 1" }) // Sử dụng chức năng giảm 1 đơn vị
                     .where("JewelrySettingVariantID = :id", { id: variantId })
                     .execute();
             }

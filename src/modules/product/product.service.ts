@@ -46,7 +46,8 @@ export class ProductService {
                 UsingImage: item.usingImage,
                 Diamond: item.diamonds,
                 JewelrySetting: item.jewelrySetting,
-                Amount: totaljewelrySettingAmount
+                JewelrySettingVariantID: item.JewelrySettingVariantID,
+                TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
             })
         }))
         return modifiedData;
@@ -75,7 +76,8 @@ export class ProductService {
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
-            Amount: totaljewelrySettingAmount
+            JewelrySettingVariantID: item.JewelrySettingVariantID,
+            TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
 
         })
         return modifiedData;
@@ -106,11 +108,13 @@ export class ProductService {
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
-            Amount: totaljewelrySettingAmount
+            JewelrySettingVariantID: item.JewelrySettingVariantID,
+            TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })
         return modifiedData;
     }
     async update(id: number, product: ProductDTO): Promise<Product> {
+        product.ProductID = Number(id);
         await this.productRepository.update(id, product);
         return this.findById(id);
     }
@@ -141,7 +145,8 @@ export class ProductService {
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
-            Amount: totaljewelrySettingAmount
+            JewelrySettingVariantID: item.JewelrySettingVariantID,
+            TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })
         return modifiedData;
     }

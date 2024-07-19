@@ -67,6 +67,7 @@ export class CustomerInforDTO{
 }
 
 export class AuthPayloadCustomerDTO{
+    CustomerID: number
     @ApiProperty({ example: 'Name of account', description: 'Name' })
     Name: string;
     @ApiProperty({ example: '0979969406', description: 'Phone' })

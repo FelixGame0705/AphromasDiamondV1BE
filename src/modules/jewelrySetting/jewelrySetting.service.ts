@@ -32,7 +32,7 @@ export class JewelrySettingService {
                     const sellPrice = item.materialJewelry?.SellPrice ?? 0;
                     const modifiedJewelrySetting = {
                         JewelrySettingVariantID: item.JewelrySettingVariantID,
-                        Amount: item.SizeID,
+                        Quantity: item.SizeID,
                         TotalPriceVariant: (sellPrice * item.Weight + entity.ProductionCost) * entity.ChargeRate,
                         Size: item.size,
                         MaterialJewelry: item.materialJewelry

@@ -140,6 +140,7 @@ export class AuthRepository implements IAuthRepository {
         let account = await this.accountRepository.findOne({ where: { ['AccountID']: id } as FindOptionsWhere<BaseEntity> });
         let customer = await this.customerRepository.findOne({ where: { ['CustomerID']: account.CustomerID } as FindOptionsWhere<BaseEntity> });
         return {
+            CustomerID: customer.CustomerID,
             AccountID: account.AccountID,
             Name: account.Name,
             PhoneNumber: account.PhoneNumber,

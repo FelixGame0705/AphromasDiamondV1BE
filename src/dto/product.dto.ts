@@ -2,10 +2,15 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
 import { IsNumber, IsOptional, IsString } from "class-validator"
 
 export class ProductDTO{
-    @ApiProperty({example:'1', description:'JewelrySettingID of jewelry'})
+    ProductID: number
+    @ApiProperty({example:1, description:'JewelrySettingID of jewelry'})
     @IsNumber()
     @IsOptional()
     JewelrySettingID: number|null
+    @ApiProperty({example:null, description:'JewelrySettingVariantID of jewelry'})
+    @IsNumber()
+    @IsOptional()
+    JewelrySettingVariantID: number|null
     @ApiProperty({example:'ds', description:'Name of jewelry'})
     @IsString()
     Name: string

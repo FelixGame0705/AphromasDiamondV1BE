@@ -48,6 +48,7 @@ export class JewelrySettingVariantController {
     @Roles(Role.Admin, Role.Manager)
     async update(@Param('id') id: number, @Body() sizeMatchShellDto: JewelrySettingVariantDTO): Promise<ResponseType<JewelrySettingVariant>> {
         try {
+            sizeMatchShellDto.JewelrySettingVariantID = Number(id);
             const sizeMatchShell = await this.jewelrySettingVariantService.update(id, sizeMatchShellDto);
             return new ResponseData<JewelrySettingVariant>(sizeMatchShell, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {

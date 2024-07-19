@@ -32,7 +32,6 @@ export class ProductController {
     @Public()
     async findDetail(@Param('id') id: number): Promise<ResponseType<Product>> {
         try {
-            console.log('Hello')
             const product = await this.productService.findRelationById(id);
             return new ResponseData<Product>(product, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
@@ -65,6 +64,7 @@ export class ProductController {
             const product = await this.productService.update(id, productDto);
             return new ResponseData<Product>(product, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
+            console.log(error)
             return new ResponseData<Product>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
