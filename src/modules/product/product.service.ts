@@ -47,7 +47,7 @@ export class ProductService {
                 Diamond: item.diamonds,
                 JewelrySetting: item.jewelrySetting,
                 JewelrySettingVariantID: item.JewelrySettingVariantID,
-                Amount: totaljewelrySettingAmount
+                TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
             })
         }))
         return modifiedData;
@@ -77,7 +77,7 @@ export class ProductService {
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
             JewelrySettingVariantID: item.JewelrySettingVariantID,
-            Amount: totaljewelrySettingAmount
+            TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
 
         })
         return modifiedData;
@@ -109,7 +109,7 @@ export class ProductService {
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
             JewelrySettingVariantID: item.JewelrySettingVariantID,
-            Amount: totaljewelrySettingAmount
+            TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })
         return modifiedData;
     }
@@ -146,7 +146,7 @@ export class ProductService {
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
             JewelrySettingVariantID: item.JewelrySettingVariantID,
-            Amount: totaljewelrySettingAmount
+            TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })
         return modifiedData;
     }

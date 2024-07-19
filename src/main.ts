@@ -13,7 +13,7 @@ async function bootstrap() {
 
   await app.listen(3000);
 
-  runFakeData()
+ // runFakeData()
   
   if (module.hot) {
     module.hot.accept();
