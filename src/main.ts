@@ -13,8 +13,8 @@ async function bootstrap() {
 
   await app.listen(3000);
 
- // runFakeData()
-  
+  // runFakeData();
+
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
@@ -23,18 +23,18 @@ async function bootstrap() {
 }
 bootstrap();
 
-async function runFakeData(){
+async function runFakeData() {
   await dataSource.initialize()
-        .then(async () => {
-          console.log('Data Source has been initialized!');
+    .then(async () => {
+      console.log('Data Source has been initialized!');
 
-          // Chạy seeders
-          await runSeeders(dataSource);
-          const entityMetadatas = dataSource.entityMetadatas;
-          console.log("Entities: ", entityMetadatas.map(entity => entity.name));
-          console.log('Seeders have been executed!');
-        })
-        .catch((err) => {
-          console.error('Error during Data Source initialization:', err);
-        });
+      // Chạy seeders
+      await runSeeders(dataSource);
+      const entityMetadatas = dataSource.entityMetadatas;
+      console.log("Entities: ", entityMetadatas.map(entity => entity.name));
+      console.log('Seeders have been executed!');
+    })
+    .catch((err) => {
+      console.error('Error during Data Source initialization:', err);
+    });
 }
