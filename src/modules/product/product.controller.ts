@@ -32,7 +32,6 @@ export class ProductController {
     @Public()
     async findDetail(@Param('id') id: number): Promise<ResponseType<Product>> {
         try {
-            console.log('Hello')
             const product = await this.productService.findRelationById(id);
             return new ResponseData<Product>(product, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
