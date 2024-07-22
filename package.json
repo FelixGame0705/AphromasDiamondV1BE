@@ -26,9 +26,7 @@
     "typeorm:migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -- db/migrations/CreateAllTable",
     "typeorm:migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
     "seed": "npm run build && ts-node ./node_modules/typeorm-extension/dist/cli/index.mjs seed -d db/data-source.ts",
-
-
-     "full:start": "npm install && npm run migration:run && npm run build && npm run start && npm run start:dev"
+    "full:start": "npm install && npm run migration:run && npm run build && npm run start && npm run start:dev"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.2",
@@ -46,6 +44,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "date-fns": "^3.6.0",
+    "decimal.js": "^10.4.3",
     "dotenv": "^16.4.5",
     "mysql2": "^3.10.0",
     "reflect-metadata": "^0.2.2",
