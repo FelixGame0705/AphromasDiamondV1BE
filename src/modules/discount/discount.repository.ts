@@ -14,8 +14,8 @@ export class DiscountRepository extends BaseRepository<DiscountEntity, Repositor
     ){
         super(repository);
     }
-    findRelationById(id: number): Promise<Discount> {
-        return null;
+    async findRelationById(id: number): Promise<Discount> {
+        return await this.repository.findOne({where:{DiscountID: id}})
     }
 
     protected getIdField(): keyof Discount {
