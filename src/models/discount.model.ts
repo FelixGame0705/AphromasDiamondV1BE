@@ -13,7 +13,7 @@ export class Discount{
         if(Description != undefined)this.Description= Description;
         if(StartDate != undefined)this.StartDate= StartDate;
         if(EndDate != undefined)this.EndDate= EndDate;
-        if(PercentDiscounts !=undefined)this.PercentDiscounts= this.PercentDiscounts;
+        if(PercentDiscounts !=undefined)this.PercentDiscounts = Number(PercentDiscounts);
         if(FinalPrice!=undefined)this.FinalPrice= FinalPrice;
     }
 }
