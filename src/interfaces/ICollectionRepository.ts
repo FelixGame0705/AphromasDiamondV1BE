@@ -1,8 +1,8 @@
 import { AbstractPromise } from "./AbstractRepository";
-import { Collection } from "src/models/collection.model";
+import { Collection, CollectionAll } from "src/models/collection.model";
 
 export interface ICollectionRepository extends AbstractPromise<Collection>{
-    findRelationById(id: number): Promise<Collection>;
+    findRelationById(id: number): Promise<CollectionAll>;
     paginateAndFilter(
         page: number,
         perPage: number,
