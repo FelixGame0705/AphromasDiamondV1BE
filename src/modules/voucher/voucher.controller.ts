@@ -54,10 +54,9 @@ export class VoucherController{
     }
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'VoucherID', description: 'ID of the voucher to delete', type: Number })
     @Delete('/delete/:VoucherID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Param() id: number): Promise<ResponseType<Voucher>> {
+    async delete(@Param('VoucherID') id: number): Promise<ResponseType<Voucher>> {
         try {
             const billdiscount= await this.voucherService.delete(id);
             return new ResponseData<Voucher>(billdiscount, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
