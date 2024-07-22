@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsNumber, IsOptional, IsString, IsTimeZone } from "class-validator";
+import { IsBoolean, IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString, IsTimeZone } from "class-validator";
 import { ToDatabaseDateTime } from "src/constants/date-util";
 import { DiamondDTO } from "./diamond.dto";
 import { Type } from "class-transformer";
@@ -53,6 +53,22 @@ export class OrderDTO {
     @IsNumber()
     @IsOptional()
     VoucherID: number|null
+    @ApiProperty({ example: null, description: 'Name receive order' })
+    @IsString()
+    @IsOptional()
+    NameReceived: string
+    @ApiProperty({ example: null, description: 'Phone number' })
+    @IsPhoneNumber()
+    @IsOptional()
+    PhoneNumber: string
+    @ApiProperty({ example: null, description: 'Email' })
+    @IsEmail()
+    @IsOptional()
+    Email: string
+    @ApiProperty({ example: null, description: 'Address' })
+    @IsString()
+    @IsOptional()
+    Address: string
 }
 export class PaymentDTO {
     @ApiProperty({ example: 'Complete', description: 'The status of the order' })
