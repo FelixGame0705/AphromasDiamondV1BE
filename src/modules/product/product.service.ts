@@ -8,13 +8,15 @@ import { Product } from "src/models/product.model";
 import { JewelrySettingService } from "../jewelrySetting/jewelrySetting.service";
 import { SizeService } from "../size/size.service";
 import { JewelrySetting } from "src/models/jewelrySetting.model";
+import { IDiamondRepository } from "src/interfaces/IDiamondRepository";
 
 @Injectable()
 export class ProductService {
     constructor(
         @Inject('IProductRepository')
         private readonly productRepository: IProductRepository,
-        private jewelrySettingService: JewelrySettingService
+        @Inject('IDiamondRepository')
+        private readonly diamondRepository: IDiamondRepository,
     ) {
 
     }
@@ -42,7 +44,7 @@ export class ProductService {
                 InscriptionFont: item.InscriptionFont,
                 Name: item.Name,
                 JewelrySettingID: item.JewelrySettingID,
-                TotalDiamondPrice: totalPrice,
+                TotalDiamondPrice: Number(totalPrice),
                 UsingImage: item.usingImage,
                 Diamond: item.diamonds,
                 JewelrySetting: item.jewelrySetting,
@@ -54,6 +56,7 @@ export class ProductService {
     }
     async findById(id: number): Promise<Product> {
         let item = await this.productRepository.findRelationById(id);
+        let diamond = await this
         console.log("hello" + item)
         const prices = item.diamonds
             .map(diamond => diamond.Price * diamond.ChargeRate);
@@ -87,6 +90,10 @@ export class ProductService {
     async create(product: ProductDTO): Promise<Product> {
         let itemCreate = await this.productRepository.create(product);
         let item = await this.productRepository.findRelationById(itemCreate.ProductID);
+        for(let i = 0; i < product.diamondArray.length; i++){
+            await this.diamondRepository.update(product.diamondArray[i],{ProductID: item.ProductID})
+        }
+        
         const prices = item.diamonds
             .map(diamond => diamond.Price);
         const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant

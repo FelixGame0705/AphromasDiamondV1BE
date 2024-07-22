@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsNumber, IsOptional, IsString } from "class-validator"
+import { IsArray, IsNumber, IsOptional, IsString } from "class-validator"
 
 export class ProductDTO{
     ProductID: number
@@ -35,4 +35,9 @@ export class ProductDTO{
     @IsNumber()
     @IsOptional()
     DiscountID: number|null
+    @ApiProperty({ example: [1, 2, 3], description: 'Array of diamond number IDs' })
+    @IsArray()
+    @IsNumber({}, { each: true })
+    @IsOptional()
+    diamondArray: number[];
 }
