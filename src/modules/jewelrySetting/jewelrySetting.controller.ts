@@ -74,10 +74,10 @@ export class JewelrySettingController {
     }
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'id', description: 'ID for delete ', type: Number })
-    @Delete('/delete/:id')
+    //@ApiParam({ name: 'JewelrySettingID', description: 'ID for delete ', type: Number })
+    @Delete('/delete/:JewelrySettingID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Param() id: number): Promise<ResponseType<JewelrySetting>> {
+    async delete(@Param('JewelrySettingID') id: number): Promise<ResponseType<JewelrySetting>> {
         try {
             const isDeleted = await this.jewelrySettingService.delete(id);
             if (isDeleted) {
@@ -86,6 +86,7 @@ export class JewelrySettingController {
                 return new ResponseData<JewelrySetting>(null, HttpStatus.ERROR, HttpMessage.ERROR);
             }
         } catch (error) {
+            console.log(error)
             return new ResponseData<JewelrySetting>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }

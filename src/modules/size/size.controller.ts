@@ -57,10 +57,9 @@ export class SizeController {
 
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'SizeID', description: 'ID of the order to delete', type: Number })
     @Delete('/delete/:SizeID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Param() id: number): Promise<ResponseType<Size>> {
+    async delete(@Param('SizeID') id: number): Promise<ResponseType<Size>> {
         try {
             const isDeleted = await this.sizeService.delete(id);
             if (isDeleted) {
