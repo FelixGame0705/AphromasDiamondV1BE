@@ -29,11 +29,11 @@ export class JewelrySettingService {
             UsingImage: entity.usingImage,
             JewelrySettingVariant: entity.jewelrySettingVariant.map(
                 item => {
-                    const sellPrice = item.materialJewelry?.SellPrice ?? 0;
+                    const sellPrice = item.materialJewelry?.SellPrice ?? 0;//
                     const modifiedJewelrySetting = {
                         JewelrySettingVariantID: item.JewelrySettingVariantID,
                         Quantity: item.SizeID,
-                        TotalPriceVariant: (sellPrice * item.Weight + entity.ProductionCost) * entity.ChargeRate,
+                        //TotalPriceVariant: (sellPrice * item.Weight + entity.ProductionCost) * entity.ChargeRate,
                         Size: item.size,
                         MaterialJewelry: item.materialJewelry
                         
@@ -51,13 +51,12 @@ export class JewelrySettingService {
         return new JewelrySetting({
             JewelrySettingID: entity.JewelrySettingID, // Replace with actual properties
             Name: entity.Name,
-            ProductionCost: entity.ProductionCost,
+            ProductionCost: Number(entity.ProductionCost),
             IsActive: entity.IsActive,
             JewelrySettingVariant: Array.isArray(entity.jewelrySettingVariant) ? entity.jewelrySettingVariant.map(
                 item => {
                     const modifiedJewelrySetting = {
                         ...item,
-                        TotalPriceVariant: (item.materialJewelry.SellPrice * item.Weight + entity.ProductionCost) * entity.ChargeRate
                     }
                     return modifiedJewelrySetting
                 }
@@ -75,7 +74,7 @@ export class JewelrySettingService {
                 item => {
                     const modifiedJewelrySetting = {
                         ...item,
-                        TotalPriceVariant: (item.materialJewelry.SellPrice * item.Weight + entity.ProductionCost) * entity.ChargeRate
+                        //TotalPriceVariant: (item.materialJewelry.SellPrice * item.Weight + entity.ProductionCost) * entity.ChargeRate
                     }
                     return modifiedJewelrySetting
                 }

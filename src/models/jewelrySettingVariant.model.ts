@@ -21,11 +21,11 @@ export class JewelrySettingVariantAll{
     JewelrySettingVariantID: number
     Size: Size
     MaterialJewelry: MaterialJewelry
-    TotalPriceVariant: number
-    constructor({JewelrySettingVariantID, Size, MaterialJewelry, TotalPriceVariant}){
+    // TotalPriceVariant: number
+    constructor({JewelrySettingVariantID, Size, MaterialJewelry}){
         if(JewelrySettingVariantID != undefined)this.JewelrySettingVariantID = JewelrySettingVariantID;
         if(Size != undefined) this.Size = Size;
         if(MaterialJewelry != undefined) this.MaterialJewelry = MaterialJewelry;
-        if(TotalPriceVariant != undefined)this.TotalPriceVariant = TotalPriceVariant;
+        // if(TotalPriceVariant != undefined)this.TotalPriceVariant = TotalPriceVariant;
     }
 }
