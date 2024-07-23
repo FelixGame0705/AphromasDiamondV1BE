@@ -9,11 +9,8 @@ import { setSeederFactory } from 'typeorm-extension';
 export const collectionFactory = setSeederFactory(CollectionEntity, async (faker) => {
   const collection = new CollectionEntity()
   const luxuryCollectionNames = [
-    'Celestial Dreams', 'Royal Opulence', 'Ethereal Elegance', 'Timeless Treasures',
-    'Enchanted Garden', 'Midnight Glamour', 'Regal Radiance', 'Whispering Diamonds',
-    'Golden Renaissance', 'Sapphire Serenity', 'Emerald Enigma', 'Ruby Romance',
-    'Platinum Prestige', 'Opal Odyssey', 'Pearl Perfection', 'Diamond Dynasty',
-    'Amethyst Allure', 'Topaz Twilight', 'Crystal Cascade', 'Moonlight Majesty'
+    'Celestial Dreams', 'Royal Opulence', 'Ethereal Elegance', 'Timeless Treasures', 'Midnight Glamour', 'Regal Radiance', 'Whispering Diamonds'
+    ,'Diamond Delight', 'Diamond Dynasty','Topaz Twilight'
   ];
 
   // Chọn ngẫu nhiên một tên từ danh sách và đảm bảo không trùng lặp

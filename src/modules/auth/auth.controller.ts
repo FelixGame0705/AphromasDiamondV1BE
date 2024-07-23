@@ -62,6 +62,12 @@ export class AuthController {
         }
     }
     @Public()
+    @ApiOperation({
+        summary: 'Dùng cho khách hàng.', 
+        description: 'Mật khẩu mặc định là  User123'
+        
+         
+    })
     @Post('/signup')
     @UsePipes(new ValidationPipe({ transform: true }))
     async signUp(

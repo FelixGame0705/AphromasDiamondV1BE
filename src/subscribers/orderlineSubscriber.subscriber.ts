@@ -45,10 +45,12 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                 // const productRepository = event.manager.getRepository(ProductEntity)
                 const productRepository = event.manager.getRepository(ProductEntity);
                 const diamondRepository = event.manager.getRepository(DiamondEntity);
+                const orderRepository = event.manager.getRepository(OrderEntity);
 
                 // Cập nhật giá của tất cả orderline dựa trên giá bán mới
                 const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID } });
                 const diamondEntity = await diamondRepository.findOne({ where: { DiamondID: orderlineEntity.DiamondID } });
+                const orderEntity = await orderRepository.findOne({where: {OrderID: orderlineEntity.OrderID}});
                 // for (const item of jewelrySettingVariants) {
                 // Logic cập nhật giá trang sức
                 //const diamondsInProduct = diamond.map(diamond => diamond.Price*diamond.ChargeRate);
@@ -60,13 +62,10 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     if (orderlineEntity.OrderID != null && orderlineEntity.Quantity <= productEntity.Quantity) {
                         productEntity.Quantity -= orderlineEntity.Quantity;
                     }
-                    else {
-                        //productEntity.Quantity += orderlineEntity.Quantity;
-                    }
                     await productRepository.save(productEntity)
 
                 } else if (orderlineEntity.DiamondID != null) {
-                    orderlineEntity.Price = diamondEntity.Price;
+                    orderlineEntity.Price = diamondEntity.Price * orderline.Quantity;
                     orderlineEntity.DiscountPrice = diamondEntity.DiscountPrice;
                     orderlineEntity.ProductID = null
                     if (orderlineEntity.OrderID != null) {
@@ -76,6 +75,13 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                         diamondEntity.Quantity = 1;
                     }
                     await diamondRepository.save(diamondEntity)
+                }
+
+                const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
+                const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
+                if (orderEntity) {
+                    orderEntity.Price = totalDiscountPrice;
+                    await orderRepository.save(orderEntity);
                 }
 
 
@@ -172,7 +178,6 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     await diamondRepository.save(diamondEntity)
                 }
                 const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
-                const totalPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.Price, 0);
                 const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
                 if (orderEntity) {
                     orderEntity.Price = totalDiscountPrice;

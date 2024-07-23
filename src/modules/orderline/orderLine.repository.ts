@@ -2,16 +2,22 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DiamondEntity } from "src/entities/diamond.entity";
 import { OrderLineEntity } from "src/entities/orderLine.entity";
+import { ProductEntity } from "src/entities/products.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IOrderLineRepository } from "src/interfaces/IOrderLineRepository";
 import { Repository } from "typeorm";
+import { Transactional } from "typeorm-transactional";
 
 @Injectable()
 export class OrderLineRepository extends BaseRepository<OrderLineEntity, Repository<OrderLineEntity>> implements IOrderLineRepository {
 
     constructor(
         @InjectRepository(OrderLineEntity)
-        protected readonly repository: Repository<OrderLineEntity>
+        protected readonly repository: Repository<OrderLineEntity>,
+        @InjectRepository(DiamondEntity)
+        protected readonly diamondRepository: Repository<DiamondEntity>,
+        @InjectRepository(ProductEntity)
+        protected readonly productRepository: Repository<ProductEntity>
     ) {
         super(repository);
     }
@@ -57,28 +63,41 @@ export class OrderLineRepository extends BaseRepository<OrderLineEntity, Reposit
         return null;
     }
 
-    async updtae(id: number, data: OrderLineEntity): Promise<OrderLineEntity> {
-        const manager = this.repository.manager
-        const oldDiamondID = (await this.findById(id)).DiamondID
+    async create(data: OrderLineEntity): Promise<OrderLineEntity | null> {
+        let diamond = null
+        let product = null
+        if (data.DiamondID != null)
+            diamond = (await this.diamondRepository.findOne({where: {DiamondID: data.DiamondID}}))
+        if (data.ProductID != null)
+            product = (await this.productRepository.findOne({where: {ProductID: data.ProductID}}))
         // const diamondToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
-        await this.repository.update(id, data);
-        const newDiamondID = (await this.findById(id)).DiamondID
-        if ((await this.findById(id)).OrderID != null) {
-            if (newDiamondID != oldDiamondID) {
-                await manager
-                    .createQueryBuilder()
-                    .update(DiamondEntity)
-                    .set({ IsActive: false }) // Đặt IsActive thành false, đã bán
-                    .where("DiamondID = :id", { id: newDiamondID })
-                    .execute();
-                await manager
-                    .createQueryBuilder()
-                    .update(DiamondEntity)
-                    .set({ IsActive: true }) // Đặt IsActive thành true, trả lại kho
-                    .where("DiamondID = :id", { id: oldDiamondID }) // Cập nhật bản ghi có ID là oldDiamondID
-                    .execute();
-            }
+        if (diamond != null) {
+            if ((diamond.Quantity > 0 && diamond.IsActive))
+                return this.repository.save(data);
         }
+        else if(product != null){
+            if ((product.Quantity > 0 && product.IsActive))
+                return this.repository.save(data);
+
+        }
+        return null;
+    }
+
+    @Transactional()
+    async update(id: number, data: OrderLineEntity): Promise<OrderLineEntity> {
+        let diamond = null
+        let product = null
+        if (data.DiamondID != null)
+            diamond = (await this.findById(data.DiamondID)).diamond
+        if (data.ProductID != null)
+            product = (await this.findById(data.ProductID)).product
+        // const diamondToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
+        if (diamond.Quantity > 0 && diamond.IsActive || product.Quantity > 0 && product.IsActive)
+            await this.repository.createQueryBuilder()
+                .update(OrderLineEntity)
+                .set(data)
+                .where("id = :id", { id })
+                .execute();
 
         return this.findById(id);
     }
