@@ -86,26 +86,27 @@ export class OrderLineRepository extends BaseRepository<OrderLineEntity, Reposit
 
     @Transactional()
     async update(id: number, data: OrderLineEntity): Promise<OrderLineEntity> {
-        let diamond = null
-        let product = null
-        if(data.OrderLineID != null) return null
+        let diamond = null;
+        let product = null;
+        //Nếu orderline đã được thêm vào order rồi thì không cho thay đổi gì nữa
+        if((await this.findById(id)).OrderID != null) return null;
         if (data.DiamondID != null)
             diamond = (await this.diamondRepository.findOne({where: {DiamondID: data.DiamondID}}))
         if (data.ProductID != null)
             product = (await this.productRepository.findOne({where: {ProductID: data.ProductID}}))
         // const diamondToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
-       
-        if (data.DiamondID != null) {
+        if (diamond != null) {
+            
             if ((diamond.Quantity - data.Quantity >= 0 && diamond.IsActive)){
                 await this.repository.update({OrderLineID:id},data)
             }
         }
-        else if (data.ProductID != null) {
+        else if (product != null) {
             if ((product.Quantity - data.Quantity >= 0)){
                 await this.repository.update({OrderLineID:id},data)
             }
         }
-        return this.findById(id);
+        return await this.findById(id);
     }
 
 }
