@@ -10,6 +10,7 @@ import { DiscountEntity } from 'src/entities/discount.entity';
 @EventSubscriber()
 export class ProductSubscriber implements EntitySubscriberInterface<ProductEntity> {
   private isHandlingUpdate = false;
+  private oldProductQuantity = null;
   /**
    * Chỉ ra rằng Subscriber này chỉ lắng nghe các sự kiện của MaterialJewelryEntity.
    */
@@ -20,6 +21,28 @@ export class ProductSubscriber implements EntitySubscriberInterface<ProductEntit
   /**
    * Được gọi sau khi cập nhật thực thể.
    */
+  async beforeUpdate(event: UpdateEvent<ProductEntity>) {
+    if (this.isHandlingUpdate) {
+      return;
+  }
+
+  this.isHandlingUpdate = true;
+  try {
+      // Kiểm tra nếu jewelrySettingVariant đã thay đổi
+      //if (event.updatedColumns.some(column => column.propertyName === 'JewelrySettingID')) {
+      const product = event.entity;
+      console.log("product before update: ", product)
+      const productRepository = event.manager.getRepository(ProductEntity)
+      if (!product) return;
+      const productEntity = (await productRepository.findOne({ where: [{ProductID:product.ProductID}] }))
+      if (productEntity?.Quantity != null) {
+          this.oldProductQuantity = productEntity.Quantity
+      }
+  }
+  finally {
+      this.isHandlingUpdate = false
+  }
+  }
   async afterUpdate(event: UpdateEvent<ProductEntity>) {
     // Kiểm tra nếu jewelrySettingVariant đã thay đổi
     //if (event.updatedColumns.some(column => column.propertyName === 'JewelrySettingID')) {
@@ -41,7 +64,7 @@ export class ProductSubscriber implements EntitySubscriberInterface<ProductEntit
         const jewelrySettingVariantRepository = event.manager.getRepository(JewelrySettingVariantEntity);
         const diamondRepository = event.manager.getRepository(DiamondEntity);
         const discountRepository = event.manager.getRepository(DiscountEntity);
-        const oldProductQuantity = event.databaseEntity.Quantity;
+        const oldProductQuantity = this.oldProductQuantity;
         // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
         const jewelrySettingVariant = await jewelrySettingVariantRepository.findOne({ where: { JewelrySettingVariantID: product.JewelrySettingVariantID } });
         const diamonds = await diamondRepository.find({ where: { ProductID: product.ProductID } });

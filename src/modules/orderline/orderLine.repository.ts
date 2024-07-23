@@ -77,7 +77,7 @@ export class OrderLineRepository extends BaseRepository<OrderLineEntity, Reposit
                 return this.repository.save(data);
         }
         else if(product != null){
-            if ((product.Quantity -data.Quantity >=0 && product.IsActive))
+            if ((product.Quantity -data.Quantity >=0))
                 return this.repository.save(data);
 
         }
@@ -97,11 +97,10 @@ export class OrderLineRepository extends BaseRepository<OrderLineEntity, Reposit
         if (diamond != null) {
             if ((diamond.Quantity - data.Quantity >= 0 && diamond.IsActive)){
                 await this.repository.update({OrderLineID:id},data)
-                console.log("OrderlineEntity:() ",(await this.repository.findOne({where:{OrderLineID: data.OrderLineID}})))
             }
         }
         else if (product != null) {
-            if ((product.Quantity - data.Quantity >= 0 && product.IsActive)){
+            if ((product.Quantity - data.Quantity >= 0)){
                 await this.repository.update({OrderLineID:id},data)
             }
         }
