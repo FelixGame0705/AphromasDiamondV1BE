@@ -43,7 +43,6 @@ export class CustomerInforDTO{
     @ApiProperty({ example: 'Name of account', description: 'Name' })
     Name: string;
     @ApiProperty({ example: '0979969406', description: 'Phone' })
-    @IsPhoneNumber()
     PhoneNumber: string;
     @ApiProperty({ example: 'tientran@gmail.com', description: 'Username is uniqe' })
     @IsEmail()
@@ -71,7 +70,6 @@ export class AuthPayloadCustomerDTO{
     @ApiProperty({ example: 'Name of account', description: 'Name' })
     Name: string;
     @ApiProperty({ example: '0979969406', description: 'Phone' })
-    @IsPhoneNumber()
     PhoneNumber: string;
     @ApiProperty({ example: 'InputUsername', description: 'Username is uniqe' })
     @IsEmail()
