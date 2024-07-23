@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Notification } from 'src/models/notification.model';
 import { INotificationRepository } from 'src/interfaces/INotificationRepository';  
 import { PRODUCT_PER_PAGE } from 'src/constants/constant';
+import { NotificationGateway } from './notificationGateway';
 
 @Injectable()
 export class NotificationService {

@@ -68,6 +68,9 @@ export class OrderDTO {
     @IsString()
     @IsOptional()
     Address: string
+
+    @ApiProperty({example: null, description:'Clientid socket'})
+    ClientId: string
 }
 export class PaymentDTO {
     @ApiProperty({ example: 'Complete', description: 'The status of the order' })
