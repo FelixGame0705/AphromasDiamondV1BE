@@ -52,14 +52,17 @@ export class OrderSubscriber implements EntitySubscriberInterface<OrderEntity> {
             const orderlineProductID = orderlineEntity.map(item => item.ProductID)
             const productEntity = await productRepository.find({ where: { ProductID: In(orderlineProductID) } })
             const diamondEntity = await diamondRepository.find({ where: { DiamondID: In(orderlineDiamondID) } })
-            const voucherEntity = await voucherRepository.findOne({where: {VoucherID: orderEntity.VoucherID}})
-            const orderVoucherPrice = orderlineEntity.reduce((total, orderline) => {
+            console.log('Voucherid: ', orderEntity.VoucherID)
+            const voucherEntity = await voucherRepository.findOne({ where: { VoucherID: orderEntity.VoucherID } })
+            const orderPrice = orderlineEntity.reduce((total, orderline) => {
                 // Nếu orderline hoặc orderline.Price là null hoặc undefined, sử dụng giá trị 0
                 const price = orderline?.DiscountPrice ?? 0;
                 return total + price;
             }, 0);
-            orderEntity.Price = orderVoucherPrice;
-            orderEntity.VoucherPrice = (Number(voucherEntity.PercentDiscounts) * Number(orderVoucherPrice))/100
+            orderEntity.Price = orderPrice;
+            orderEntity.VoucherPrice = orderPrice;
+            if (orderEntity.VoucherID != null)
+                orderEntity.VoucherPrice = orderPrice - (Number(voucherEntity.PercentDiscounts) * Number(orderPrice)) / 100
             if (orderEntity.OrderStatus === 'Cancel') {
                 for (const orderline of orderlineEntity) {
                     const product = productEntity.find(p => p.ProductID === orderline.ProductID);

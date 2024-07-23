@@ -86,6 +86,7 @@ export class OrderLineController {
             );
         } catch (error) {
             return res.json(
+                
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
         }
@@ -98,6 +99,7 @@ export class OrderLineController {
     @ApiBody({ type: OrderLineDTO, description: 'The data to update' })
     async update(@Param('id') id: number, @Body(new ValidationPipe()) order: OrderLineDTO, @Res() res: Response): Promise<ResponseType<OrderLine>> {
         try {
+            order.OrderLineID = id;
             return res.json(
                 new ResponseData(await this.orderService.update(id, order), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
             );
