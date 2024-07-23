@@ -5,15 +5,16 @@ import * as bcrypt from 'bcrypt';
 import { Customer } from '../../src/models/customer.model';
 import { Role } from 'src/global/globalEnum';
  
-export default setSeederFactory(AccountsEntity, async (faker) => {
+export const accountFactory = setSeederFactory(AccountsEntity, async (faker) => {
 
     const user = new AccountsEntity()
-    user.Password = 'User123'
+    user.Password = 'User1234'
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(user.Password, salt);
 
     user.Name = faker.person.firstName();
     user.PhoneNumber = faker.phone.number();
+    
     user.Email = faker.internet.email();
     user.Password = hash;
     user.Role = Role.Customer;
