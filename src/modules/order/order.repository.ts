@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { PaymentDTO } from "src/dto/order.dto";
+import { OrderDTO, PaymentDTO } from "src/dto/order.dto";
 import { DiamondEntity } from "src/entities/diamond.entity";
 import { JewelrySettingVariantEntity } from "src/entities/jewlrySettingVariant.entity";
 import { OrderEntity } from "src/entities/order.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IOrderRepository } from "src/interfaces/IOrderRepository";
 import { Order } from "src/models/order.model";
-import { DataSource, EntityManager, FindOptionsWhere, Repository, getManager } from "typeorm";
+import { DataSource, EntityManager, FindOptionsWhere, ObjectLiteral, Repository, getManager } from "typeorm";
 import { Transactional } from "typeorm-transactional";
 
 @Injectable()
@@ -99,6 +99,27 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
 
     protected getIdField(): keyof OrderEntity {
         return "OrderID";
+    }
+    async update(id: number, data: OrderDTO): Promise<OrderEntity> {
+        await this.repository.update(id, {
+            OrderDate : data.OrderDate,
+            CompleteDate: data.CompleteDate,
+            IsPayed: data.IsPayed,
+            Shippingfee: data.Shippingfee,
+            ReasonReturn: data.ReasonReturn,
+            Note: data.Note,
+            CustomerID: data.CustomerID,
+            OrderStatus: data.OrderStatus,
+            IsActive: data.IsActive,
+            AccountDeliveryID: data.AccountDeliveryID,
+            AccountSaleID: data.AccountSaleID,
+            VoucherID: data.VoucherID,
+            NameReceived: data.NameReceived,
+            PhoneNumber: data.PhoneNumber,
+            Email: data.Email,
+            Address: data.Address
+        })
+        return this.findById(id);
     }
     async findRelationOrderLineById(id: number): Promise<any> {
         // const [orderWithOrderLine, orderWithAccountDelivery] = await Promise.all([
