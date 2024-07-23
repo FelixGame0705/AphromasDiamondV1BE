@@ -23,6 +23,7 @@ import { OrderLineEntity } from 'src/entities/orderLine.entity';
  
 
 // import { CertificateRepository } from 'src/modules/certificate/certificate.repository';
+import { collectionFactory } from '../factories/collection.factory';
 
 export default class DataSeeder implements Seeder {
   public async run(
@@ -37,16 +38,17 @@ export default class DataSeeder implements Seeder {
       const jewelrytypes = insertjewelryType(dataSource);
       const sizes = insertSizes(dataSource);
       const acc = insertAccounts(dataSource);
-      //collection cho Như Nguyên yêu cầu
-      const collect = insertCollectionbyNN(dataSource);
-
       await materials;
       await jewelrytypes;
       await sizes;
       await acc;
-  
+
+      //Create collection cho Như Nguyên yêu cầu
+      // const collect = insertCollectionbyNN(dataSource);
+      // await collect;
+
       //Create collection
-      await collect;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
       const collectionFactory = factoryManager.get(CollectionEntity);
       await collectionFactory.saveMany(2);
 
@@ -154,16 +156,12 @@ export default class DataSeeder implements Seeder {
       //v3
       // Tạo sản phẩm (product)
       const productFactory = factoryManager.get(ProductEntity);
-
-       
-
+      //lấy từ repo lên 
       const accountRepository = dataSource.getRepository(AccountsEntity);
       const collectionRepository = dataSource.getRepository(CollectionEntity);
       const discountRepository = dataSource.getRepository(DiscountEntity);
       const jewelrySettingVariantRepository = dataSource.getRepository(JewelrySettingVariantEntity);
-      
-
-       // Lấy dữ liệu từ cơ sở dữ liệu
+    
        const customer = await accountRepository.find({ where: { Role: 'ROLE_CUSTOMER' } });
        const collections = await collectionRepository.find();
        const discounts = await discountRepository.find();
@@ -188,42 +186,7 @@ export default class DataSeeder implements Seeder {
         });
       }
       
-      //v2
-      // // Tạo sản phẩm (product)
-      // const productFactory = factoryManager.get(ProductEntity);
-
-      // // Lấy danh sách tài khoản có vai trò là khách hàng (ROLE_CUSTOMER)
-      // const customerAccounts = await accountFactory.saveMany(5, { Role: 'ROLE_CUSTOMER' });
-
-      // // Lấy danh sách bộ sưu tập (collection), giảm giá (discount), và biến thể cài đặt trang sức (jewelry setting variant)
-      // const collections = await collectionFactory.saveMany(5);
-      // const discounts = await discountFactory.saveMany(5);
-      // const jewelrySettingVariants = await jewellerysettingvariantFactory.saveMany(5);
-
-      // // Tạo sản phẩm với các khóa ngoại
-      // const productCount = 5; // Số lượng sản phẩm cần tạo
-      // const usedAccountIds = new Set();
-
-      // for (let i = 0; i < productCount; i++) {
-      //   let accountId;
-      //   do {
-      //     accountId = customerAccounts[i % customerAccounts.length].AccountID;
-      //   } while (usedAccountIds.has(accountId));
-
-      //   usedAccountIds.add(accountId);
-      //   const collectionId = collections[i % collections.length].CollectionID;
-      //   const discountId = discounts[i % discounts.length].DiscountID;
-      //   const jewelrySettingVariantId = jewelrySettingVariants[i % jewelrySettingVariants.length].JewelrySettingVariantID;
-
-      //   // Tạo sản phẩm và lưu vào cơ sở dữ liệu
-      //   await productFactory.save({
-      //     AccountID: accountId,
-      //     CollectionID: collectionId,
-      //     DiscountID: discountId,
-      //     JewelrySettingVariantID: jewelrySettingVariantId,
-      //   });
-      // }
-
+       
       //Create diamonds
       const numDiamonds = 50; 
       const diamondFactory = factoryManager.get(DiamondEntity);
@@ -330,17 +293,17 @@ async function insertSizes(dataSource: DataSource) {
   const sizeMapping = {
     // 1: { size: 6, mm: 14.7 },
     // 2: { size: 7, mm: 15.6 },
-    3: { size: 8, mm: 16.5 },
+    1: { size: 8, mm: 16.5 },
     // 4: { size: 9, mm: 17.3 },
-    5: { size: 10, mm: 18.2 },
+    2: { size: 10, mm: 18.2 },
     // 6: { size: 11, mm: 19.0 },
-    7: { size: 12, mm: 19.8 },
+    3: { size: 12, mm: 19.8 },
     // 8: { size: 13, mm: 20.6 },
-    9: { size: 14, mm: 21.3 },
+    4: { size: 14, mm: 21.3 },
     // 10: { size: 15, mm: 22.2 },
-    11: { size: 16, mm: 23.0 },
+    5: { size: 16, mm: 23.0 },
     // 12: { size: 17, mm: 23.8 },
-    13: { size: 18, mm: 24.6 },
+    6: { size: 18, mm: 24.6 },
     // 14: { size: 19, mm: 25.4 },
     // 15: { size: 20, mm: 26.2 }
   };
@@ -398,31 +361,33 @@ async function insertjewelryType(dataSource: DataSource) {
   }
 }
 
-async function insertCollectionbyNN(dataSource: DataSource): Promise<void> {
-  const collectionRepository = dataSource.getRepository(CollectionEntity);
-  const collecttionsInsert = [
-    { Name: 'EDEN REFORESTATION PROJECT - ZAZA COLLECTION', 
-      Description: 
-      'The launch of the Zaza collection in 2020 was a nod to the people-nature relationship. We have done its bit in restoring forests and reducing extreme poverty by employing local villagers from around the world to plant thousands of trees every year. For every jewel purchased from the Zaza Collection, a tree was planted in collaboration with the Eden Reforestation Project\.* In addition, this project helped generate 494 days of employment for members of impoverished communities.' 
-    },
-    {
-      Name: 'INTERNATIONAL\'S WOMEN\'S DAY 2021', 
-      Description: 'In 2021, on the occasion of International Women\'s Day, we designed 1,000 limited edition jewels to collaborate with the NGO WPlan\. We want to show our commitment to authentic equality for girls and young women. The project seeks to ensure that each girl has decision-making power over the problems that affects her and the ability to access leadership positions to build a world free of discrimination, harassment and violence.' 
-    },
-    {
-      Name: 'VALENTINE\'S DAY!', 
-      Description: 'On the occasion of Valentine\'s Day, we designed 1,000 limited edition jewels\. Our mission is to not only celebrate love but also to empower women around the world. This special project seeks to support initiatives that promote self-love, confidence, and independence for women and girls\. By choosing our Valentine \'s Day collection, you are not just giving a gift of love, but also supporting a movement towards equality and empowerment for all women.'
-    },
-  ]
+// async function insertCollectionbyNN(dataSource: DataSource): Promise<void> {
 
-  for (const collection of collecttionsInsert) {
-    const newCollection = new CollectionEntity();
-    newCollection.CollectionName = collection.Name;
-    newCollection.Description = collection.Description;
-    await collectionRepository.insert(newCollection);
-  }
+//   const collecttionsInsert = [
 
-}
+//     { CollectionID: 1 ,Name: 'EDEN REFORESTATION PROJECT - ZAZA COLLECTION', 
+//       Description: 
+//       'The launch of the Zaza collection in 2020 was a nod to the people-nature relationship. We have done its bit in restoring forests and reducing extreme poverty by employing local villagers from around the world to plant thousands of trees every year. For every jewel purchased from the Zaza Collection, a tree was planted in collaboration with the Eden Reforestation Project\.* In addition, this project helped generate 494 days of employment for members of impoverished communities.' 
+//     },
+//     { CollectionID: 2 , Name: 'INTERNATIONAL\'S WOMEN\'S DAY 2021', 
+//       Description: 'In 2021, on the occasion of International Women\'s Day, we designed 1,000 limited edition jewels to collaborate with the NGO WPlan\. We want to show our commitment to authentic equality for girls and young women. The project seeks to ensure that each girl has decision-making power over the problems that affects her and the ability to access leadership positions to build a world free of discrimination, harassment and violence.' 
+//     },
+//     { CollectionID: 3 ,Name: 'VALENTINE\'S DAY!', 
+//       Description: 'On the occasion of Valentine\'s Day, we designed 1,000 limited edition jewels\. Our mission is to not only celebrate love but also to empower women around the world. This special project seeks to support initiatives that promote self-love, confidence, and independence for women and girls\. By choosing our Valentine \'s Day collection, you are not just giving a gift of love, but also supporting a movement towards equality and empowerment for all women.'
+//     },
+//   ]
+//   const collectionRepository = dataSource.getRepository(CollectionEntity);
+
+//       for (const collection of collecttionsInsert) {
+//         const newCollection = new CollectionEntity();
+//         newCollection.CollectionID = 1;
+//         newCollection.CollectionName = collection.Name;
+//         newCollection.Description = collection.Description;
+//         await collectionRepository.insert(newCollection);
+//       }
+    
+//   }
+
 
  async function insertAccounts(dataSource: DataSource): Promise<void> {
   const accountsToInsert = [
@@ -475,4 +440,5 @@ async function insertCertificates(dataSource: DataSource): Promise<void> {
 
   console.log(`Đã tạo ${existingDiamonds.length} chứng chỉ GIA cho ${existingDiamonds.length} viên kim cương.`);
 }
+
 

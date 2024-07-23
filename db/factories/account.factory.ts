@@ -13,7 +13,7 @@ export const accountFactory = setSeederFactory(AccountsEntity, async (faker) => 
 
     user.Name = faker.person.firstName();
      
-    user.PhoneNumber = faker.phone.number('/^(0|\+?84)(3|5|7|8|9)[0-9]{8}$/');  
+    user.PhoneNumber = faker.phone.number('##########');  
     user.Email = faker.internet.email();
     user.Password = hash;
     user.Role = Role.Customer;
