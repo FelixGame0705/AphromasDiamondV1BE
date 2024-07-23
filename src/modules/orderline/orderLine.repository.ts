@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { error } from "console";
 import { DiamondEntity } from "src/entities/diamond.entity";
 import { OrderLineEntity } from "src/entities/orderLine.entity";
 import { ProductEntity } from "src/entities/products.entity";
@@ -63,7 +64,7 @@ export class OrderLineRepository extends BaseRepository<OrderLineEntity, Reposit
         return null;
     }
 
-    async create(data: OrderLineEntity): Promise<OrderLineEntity | null> {
+    async create(data: OrderLineEntity): Promise<OrderLineEntity> {
         let diamond = null
         let product = null
         if (data.DiamondID != null)
@@ -72,15 +73,15 @@ export class OrderLineRepository extends BaseRepository<OrderLineEntity, Reposit
             product = (await this.productRepository.findOne({where: {ProductID: data.ProductID}}))
         // const diamondToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
         if (diamond != null) {
-            if ((diamond.Quantity > 0 && diamond.IsActive))
+            if ((diamond.Quantity - data.Quantity >= 0 && diamond.IsActive))
                 return this.repository.save(data);
         }
         else if(product != null){
-            if ((product.Quantity > 0 && product.IsActive))
+            if ((product.Quantity -data.Quantity >=0 && product.IsActive))
                 return this.repository.save(data);
 
         }
-        return null;
+        throw error
     }
 
     @Transactional()
@@ -88,17 +89,22 @@ export class OrderLineRepository extends BaseRepository<OrderLineEntity, Reposit
         let diamond = null
         let product = null
         if (data.DiamondID != null)
-            diamond = (await this.findById(data.DiamondID)).diamond
+            diamond = (await this.diamondRepository.findOne({where: {DiamondID: data.DiamondID}}))
         if (data.ProductID != null)
-            product = (await this.findById(data.ProductID)).product
+            product = (await this.productRepository.findOne({where: {ProductID: data.ProductID}}))
         // const diamondToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
-        if (diamond.Quantity > 0 && diamond.IsActive || product.Quantity > 0 && product.IsActive)
-            await this.repository.createQueryBuilder()
-                .update(OrderLineEntity)
-                .set(data)
-                .where("id = :id", { id })
-                .execute();
-
+       
+        if (diamond != null) {
+            if ((diamond.Quantity - data.Quantity >= 0 && diamond.IsActive)){
+                await this.repository.update({OrderLineID:id},data)
+                console.log("OrderlineEntity:() ",(await this.repository.findOne({where:{OrderLineID: data.OrderLineID}})))
+            }
+        }
+        else if (product != null) {
+            if ((product.Quantity - data.Quantity >= 0 && product.IsActive)){
+                await this.repository.update({OrderLineID:id},data)
+            }
+        }
         return this.findById(id);
     }
 
