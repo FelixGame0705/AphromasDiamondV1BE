@@ -58,7 +58,6 @@ export class OrderDTO {
     @IsOptional()
     NameReceived: string
     @ApiProperty({ example: null, description: 'Phone number' })
-    @IsPhoneNumber()
     @IsOptional()
     PhoneNumber: string
     @ApiProperty({ example: null, description: 'Email' })
