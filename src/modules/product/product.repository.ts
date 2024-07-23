@@ -18,7 +18,7 @@ export class ProductRepository extends BaseRepository<ProductEntity, Repository<
     }
     async findRelationById(id: number): Promise<ProductEntity> {
 
-        const rs = await this.repository.findOne({where: {[this.getIdField()]:id}, relations:['diamonds','usingImage','jewelrySetting','jewelrySetting.jewelrySettingVariant','jewelrySetting.jewelryType', 'diamonds.certificate', 'discount']})
+        const rs = await this.repository.findOne({where: {[this.getIdField()]:id}, relations:['diamonds','usingImage','jewelrySetting','jewelrySetting.jewelrySettingVariant','jewelrySetting.jewelryType', 'diamonds.certificate', 'discount', 'diamonds.usingImage','jewelrySetting.usingImage']})
         return rs;
         //return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['diamonds']})
     }

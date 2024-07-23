@@ -13,8 +13,8 @@ export class CollectionRepository extends BaseRepository<CollectionEntity, Repos
     ){
         super(repository);
     }
-    findRelationById(id: number): Promise<Collection> {
-        return null;
+    async findRelationById(id: number): Promise<CollectionEntity> {
+        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations:['diamond', 'product', 'product.usingImage', 'diamond.usingImage']});
     }
 
     protected getIdField(): keyof Collection {

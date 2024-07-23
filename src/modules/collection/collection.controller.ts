@@ -3,7 +3,7 @@ import { CollectionService } from "./collection.service";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { Public, Roles } from "src/constants/decorator";
 import { ResponseData } from "src/global/globalClass";
-import { Collection } from "src/models/collection.model";
+import { Collection, CollectionAll } from "src/models/collection.model";
 import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { CollectionDTO } from "src/dto/collection.dto";
 import { ResponseType } from "src/global/globalType";
@@ -32,7 +32,21 @@ export class CollectionController{
         }
     
         
-         
+        @ApiBearerAuth()
+        @Get('/detail/:id')
+        @ApiOperation({ 
+            summary: 'Get detail collection', 
+            description: 'Retrieve detail collection from the database.' 
+        })
+        @Public()
+        async findDetail(@Param('id') id: number): Promise<ResponseData<CollectionAll>> {
+            try{
+                const collection = await this.collectionService.findRelationById(id);
+                return new ResponseData<CollectionAll>(collection, HttpStatus.SUCCESS, HttpMessage.SUCCESS );
+            }catch(error){
+                return new ResponseData<CollectionAll>(null, HttpStatus.ERROR, HttpMessage.ERROR );
+            }
+        }
      
     
     
