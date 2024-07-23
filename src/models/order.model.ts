@@ -10,8 +10,12 @@ export class Order{
     AccountDeliveryID: number
     AccountSaleID: number
     VoucherID: number
+    NameReceived: string
+    PhoneNumber: string
+    Email: string
+    Address: string
     constructor({OrderID, OrderDate, CompleteDate, CustomerID, OrderStatus, IsActive, AccountDeliveryID,
-        AccountSaleID, VoucherID}
+        AccountSaleID, VoucherID, NameReceived, PhoneNumber, Email, Address}
     ){
         this.OrderID = OrderID;
         this.OrderDate = OrderDate;
@@ -22,5 +26,9 @@ export class Order{
         this.AccountDeliveryID = AccountDeliveryID;
         this.AccountSaleID = AccountSaleID;
         this.VoucherID = VoucherID;
+        this.NameReceived = NameReceived;
+        this.PhoneNumber = PhoneNumber;
+        this.Email = Email;
+        this.Address = Address;
     }
 }

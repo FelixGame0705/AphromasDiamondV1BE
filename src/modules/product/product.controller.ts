@@ -70,10 +70,9 @@ export class ProductController {
     }
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'ProductID', description: 'ID of the order to delete', type: Number })
     @Delete('/delete/:ProductID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Param() id: number): Promise<ResponseType<Product>> {
+    async delete(@Param('ProductID') id: number): Promise<ResponseType<Product>> {
         try {
             const isDeleted = await this.productService.delete(id);
             if (isDeleted) {

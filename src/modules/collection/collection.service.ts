@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { Collection } from "src/models/collection.model";
+import { Collection, CollectionAll } from "src/models/collection.model";
 import { ICollectionRepository } from "src/interfaces/ICollectionRepository";
 import { CollectionDTO } from "src/dto/collection.dto";
 
@@ -17,6 +17,10 @@ export class  CollectionService {
 
   async findById(id: number): Promise<Collection> {
     return await this.collectionRepository.findById(id);
+  }
+
+  async findRelationById(id: number): Promise<CollectionAll>{
+    return await this.collectionRepository.findRelationById(id);
   }
 
   async create(collection: CollectionDTO): Promise<Collection> {

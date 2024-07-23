@@ -18,6 +18,6 @@ export enum Role{
     Manager = 'ROLE_MANAGER',
     SaleStaff = 'ROLE_SALE_STAFF',
     DeliveryStaff = 'ROLE_DELIVERY_STAFF',
-    Customer = 'ROLE_CUSTOMER'
-    
+    Customer = 'ROLE_CUSTOMER',
+    Ban = 'ROLE_BAN'
 }

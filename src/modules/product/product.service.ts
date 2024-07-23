@@ -8,13 +8,17 @@ import { Product } from "src/models/product.model";
 import { JewelrySettingService } from "../jewelrySetting/jewelrySetting.service";
 import { SizeService } from "../size/size.service";
 import { JewelrySetting } from "src/models/jewelrySetting.model";
+import { IDiamondRepository } from "src/interfaces/IDiamondRepository";
+import Decimal from "decimal.js";
+import { Discount } from "src/models/discount.model";
 
 @Injectable()
 export class ProductService {
     constructor(
         @Inject('IProductRepository')
         private readonly productRepository: IProductRepository,
-        private jewelrySettingService: JewelrySettingService
+        @Inject('IDiamondRepository')
+        private readonly diamondRepository: IDiamondRepository,
     ) {
 
     }
@@ -25,12 +29,12 @@ export class ProductService {
             // Lấy giá của từng viên kim cương trong `item.diamonds` có cùng `ProductID`
             const prices = item.diamonds
                 .filter(diamond => diamond.ProductID === item.ProductID)
-                .map(diamond => diamond.Price);
+                .map(diamond => Number(diamond.Price));
             const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
                 .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
                 .map(variant => variant.Quantity);
             // Tính tổng giá trị của các viên kim cương
-            const totalPrice = prices.reduce((acc, current) => acc + current, 0);
+            const totalPrice = Number(prices.reduce((acc, current) => acc + current, 0));
             const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
             return new Product({
                 ProductID: item.ProductID,
@@ -38,11 +42,12 @@ export class ProductService {
                 Brand: item.Brand,
                 CollectionID: item.CollectionID,
                 DiscountID: item.DiscountID,
+                Discount: item.discount ? new Discount(item.discount as Discount) : null,
                 Inscription: item.Inscription,
                 InscriptionFont: item.InscriptionFont,
                 Name: item.Name,
                 JewelrySettingID: item.JewelrySettingID,
-                TotalDiamondPrice: totalPrice,
+                TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
                 UsingImage: item.usingImage,
                 Diamond: item.diamonds,
                 JewelrySetting: item.jewelrySetting,
@@ -54,9 +59,10 @@ export class ProductService {
     }
     async findById(id: number): Promise<Product> {
         let item = await this.productRepository.findRelationById(id);
+        let diamond = await this
         console.log("hello" + item)
         const prices = item.diamonds
-            .map(diamond => diamond.Price * diamond.ChargeRate);
+            .map(diamond => Number(diamond.Price));
         const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
@@ -68,11 +74,12 @@ export class ProductService {
             Brand: item.Brand,
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
+            Discount: item.discount ? new Discount(item.discount as Discount) : null,
             Inscription: item.Inscription,
             InscriptionFont: item.InscriptionFont,
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
-            TotalDiamondPrice: totalPrice,
+            TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
@@ -87,8 +94,12 @@ export class ProductService {
     async create(product: ProductDTO): Promise<Product> {
         let itemCreate = await this.productRepository.create(product);
         let item = await this.productRepository.findRelationById(itemCreate.ProductID);
+        for (let i = 0; i < product.diamondArray.length; i++) {
+            await this.diamondRepository.update(product.diamondArray[i], { ProductID: item.ProductID })
+        }
+
         const prices = item.diamonds
-            .map(diamond => diamond.Price);
+            .map(diamond => Number(diamond.Price));
         const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
@@ -100,11 +111,12 @@ export class ProductService {
             Brand: item.Brand,
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
+            Discount: item.discount ? new Discount(item.discount as Discount) : null,
             Inscription: item.Inscription,
             InscriptionFont: item.InscriptionFont,
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
-            TotalDiamondPrice: totalPrice,
+            TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
@@ -125,7 +137,7 @@ export class ProductService {
         let item = await this.productRepository.findRelationById(id);
         console.log(item)
         const prices = item.diamonds
-            .map(diamond => diamond.Price);
+            .map(diamond => Number(diamond.Price));
         const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
@@ -137,11 +149,12 @@ export class ProductService {
             Brand: item.Brand,
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
+            Discount: item.discount ? new Discount(item.discount as Discount) : null,
             Inscription: item.Inscription,
             InscriptionFont: item.InscriptionFont,
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
-            TotalDiamondPrice: totalPrice,
+            TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,

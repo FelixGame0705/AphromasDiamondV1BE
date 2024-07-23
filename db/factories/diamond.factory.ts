@@ -7,18 +7,22 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
 
   
   // Shape 
-  const shapes = ['Round', 'Princess', 'Emerald', 'Marquise', 'Oval', 'Heart', 'Cushion', 'Radiant', 'Pear'];
+  const shapes = ['Round', 'Princess', 'Emerald', 'Marquise', 'Oval', 
+                  'Heart', 'Cushion', 'Radiant', 'Pear', 'Asscher'];
   diamond.Shape = faker.helpers.arrayElement(shapes);
 
-  // Price 
-  diamond.Price = parseFloat(faker.commerce.price(1000, 100000, 2));
-  diamond.DiscountPrice = diamond.Price
-
   // Color: random từ D đến Z
-  diamond.Color = String.fromCharCode(faker.datatype.number({ min: 68, max: 90 })); // ASCII cho D-Z
+  const colors = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
+  diamond.Color = faker.helpers.arrayElement(colors);
 
   //WeightCarat 
-  diamond.WeightCarat = parseFloat(faker.datatype.number({ min: 0.30, max: 9.50, precision: 0.01 }).toFixed(2));
+  // const WeightCarat = parseFloat(faker.datatype.number({ min: 0.30, max: 9.50, precision: 0.01 }).toFixed(2));
+  const WeightCarat = parseFloat(faker.datatype.number({ min: 0.05, max: 30.00, precision: 0.01 }).toFixed(2));
+  diamond.WeightCarat = WeightCarat;
+
+  
+
+   
 
   //PercentDepth 
   diamond.PercentDepth = parseFloat(faker.datatype.number({ min: 59, max: 63, precision: 0.1 }).toFixed(1));
@@ -34,7 +38,7 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
   diamond.Fluorescence = faker.helpers.arrayElement(fluorescence);
 
   //Clarity 
-  const clarity = ['IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'I1', 'I2', 'I3'];
+  const clarity = ['IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2'];
   diamond.Clarity = faker.helpers.arrayElement(clarity);
 
   //PercentTable
@@ -53,10 +57,13 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
   diamond.Symmetry = faker.helpers.arrayElement(symmetry);
 
   //Charge rate
-   diamond.ChargeRate = faker.datatype.number({ min: 0, max: 60, precision: 0.1 }); 
+   diamond.ChargeRate = faker.datatype.number({ min: 20, max: 60, precision: 0.1 }); 
 
   //UpdateTime
   diamond.UpdateTime = faker.date.recent();
+
+  //Stars
+  diamond.Stars = faker.datatype.number({ min: 3, max: 5, precision: 0.1 });
 
   //Name
   diamond.Name = `${diamond.WeightCarat} Carat ${diamond.Color}-${diamond.Clarity} ${diamond.Cut} Cut ${diamond.Shape} Diamond`;
@@ -70,16 +77,66 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
   Whether set in a stunning piece of jewelry or appreciated on its own, this diamond is sure to captivate with its timeless elegance and unparalleled beauty. It's not just a gemstone; it's a testament to the wonders of nature and the skill of master cutters.`;
 
   //foreign key
-  diamond.JewelrySettingVariantID =  faker.datatype.number({ min: 1, max: 5 });
-  diamond.ProductID =faker.datatype.number({ min: 1, max: 5 });
-  diamond.CollectionID =  faker.datatype.number({ min: 1, max: 5 });
-  diamond.DiscountID = faker.datatype.number({ min: 1, max: 5 });
+  // diamond.JewelrySettingVariantID =  faker.datatype.number({ min: 1, max: 5 });
+  // diamond.ProductID =faker.datatype.number({ min: 1, max: 5 });
+  // diamond.CollectionID =  faker.datatype.number({ min: 1, max: 5 });
+  // diamond.DiscountID = faker.datatype.number({ min: 1, max: 5 });
   
 
   diamond.Designer = faker.person.fullName();
   diamond.Cutter = faker.person.fullName();
   diamond.IndexVariantGroup = null;
   diamond.Quantity = 1;
+  
+  
+  // Price 
+  let basePrice;
+  if (WeightCarat < 0.5) {
+    // Dưới 0.5 Carat
+    if (diamond.Color <= 'F' && diamond.Clarity.includes('VS')) {
+      basePrice = parseFloat(faker.datatype.number({ min: 1500, max: 4000 }).toFixed(2));
+    } else {
+      basePrice = parseFloat(faker.datatype.number({ min: 500, max: 2000 }).toFixed(2));
+    }
+  } else if (WeightCarat >= 0.5 && WeightCarat < 1) {
+    // Từ 0.5 đến 1 Carat
+    if (diamond.Color <= 'F' && diamond.Clarity.includes('VS')) {
+      basePrice = parseFloat(faker.datatype.number({ min: 4000, max: 10000 }).toFixed(2));
+    } else {
+      basePrice = parseFloat(faker.datatype.number({ min: 2000, max: 5000 }).toFixed(2));
+    }
+  } else if (WeightCarat >= 1 && WeightCarat < 2) {
+    // Từ 1 đến 2 Carat
+    if (diamond.Color <= 'F' && diamond.Clarity.includes('VS')) {
+      basePrice = parseFloat(faker.datatype.number({ min: 5000, max: 12000 }).toFixed(2));
+    } else {
+      basePrice = parseFloat(faker.datatype.number({ min: 3000, max: 8000 }).toFixed(2));
+    }
+  } else {
+    // Trên 2 Carat
+    if (diamond.Color <= 'F' && diamond.Clarity.includes('VS')) {
+      basePrice = parseFloat(faker.datatype.number({ min: 12000, max: 30000 }).toFixed(2));
+    } else {
+      basePrice = parseFloat(faker.datatype.number({ min: 8000, max: 20000 }).toFixed(2));
+    }
+  }
+
+  diamond.Price = basePrice;
+  //DiscountPrice  
+  let discountPercent;
+
+  if (basePrice < 2000) {
+    discountPercent = faker.datatype.number({ min: 5, max: 7 });
+  } else if (basePrice >= 2000 && basePrice < 5000) {
+    discountPercent = faker.datatype.number({ min: 7, max: 15 });
+  } else if (basePrice >= 5000 && basePrice < 12000) {
+    discountPercent = faker.datatype.number({ min: 10, max: 20 });
+  } else {
+    discountPercent = faker.datatype.number({ min: 15, max: 25 });
+  }
+
+  diamond.DiscountPrice = parseFloat((basePrice * (1 - discountPercent / 100)).toFixed(2));
+
 
   return diamond;
 })

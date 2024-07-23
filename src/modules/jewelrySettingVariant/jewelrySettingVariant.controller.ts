@@ -61,10 +61,9 @@ export class JewelrySettingVariantController {
 
 
     @ApiBearerAuth()
-    @ApiParam({ name: 'JewelrySettingVariantID', description: 'ID of the order to delete', type: Number })
     @Delete('/delete/:JewelrySettingVariantID')
     @Roles(Role.Admin, Role.Manager)
-    async delete(@Param() id: number): Promise<ResponseType<JewelrySettingVariant>> {
+    async delete(@Param('JewelrySettingVariantID') id: number): Promise<ResponseType<JewelrySettingVariant>> {
         try {
             const isDeleted = await this.jewelrySettingVariantService.delete(id);
             if (isDeleted) {

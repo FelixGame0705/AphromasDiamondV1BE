@@ -35,7 +35,7 @@ export class JewelrySettingRepository extends BaseRepository<JewelrySettingEntit
         return data;
     }
     async findRelationById(id: number): Promise<JewelrySettingEntity> {
-        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['product']})
+        return await this.repository.findOne({where: {[this.getIdField()]: id},relations:['jewelrySettingVariant','jewelryType','jewelrySettingVariant.materialJewelry', 'jewelrySettingVariant.size']})
     }
 
     protected getIdField(): keyof JewelrySettingEntity {

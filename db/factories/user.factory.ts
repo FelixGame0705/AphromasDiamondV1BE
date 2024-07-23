@@ -2,7 +2,7 @@
 import { setSeederFactory } from 'typeorm-extension';
 import { CertificateEntity } from 'src/entities/certificate.entity';
 
-export default setSeederFactory(CertificateEntity, (faker) => {
+export const userFactory = setSeederFactory(CertificateEntity, (faker) => {
   const user = new CertificateEntity();
 
   const sexFlag = faker.number.int(1);

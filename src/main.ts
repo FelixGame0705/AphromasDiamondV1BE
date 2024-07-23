@@ -13,7 +13,7 @@ async function bootstrap() {
 
   await app.listen(3000);
 
- //runFakeData()
+   runFakeData()
   
   if (module.hot) {
     module.hot.accept();
@@ -29,7 +29,7 @@ async function runFakeData(){
           console.log('Data Source has been initialized!');
 
           // Chạy seeders
-          // await runSeeders(dataSource);
+          await runSeeders(dataSource);
           const entityMetadatas = dataSource.entityMetadatas;
           console.log("Entities: ", entityMetadatas.map(entity => entity.name));
           console.log('Seeders have been executed!');

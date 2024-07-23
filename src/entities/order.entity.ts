@@ -54,6 +54,14 @@ export class OrderEntity extends BaseEntity{
 
     @Column({nullable: true})
     VoucherID: number
+    @Column({nullable: true})
+    NameReceived: string
+    @Column({nullable: true})
+    PhoneNumber: string
+    @Column({nullable: true})
+    Email: string
+    @Column({nullable: true})
+    Address: string
     @ManyToOne(()=>VoucherEntity, { nullable: true })
     @JoinColumn({name:'VoucherID',referencedColumnName:'VoucherID'})
     voucher: VoucherEntity
