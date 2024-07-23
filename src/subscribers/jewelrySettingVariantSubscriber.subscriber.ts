@@ -41,7 +41,7 @@ export class JewelrySettingVariantSubscriber implements EntitySubscriberInterfac
             const jewelry = await jewelrySettingRepository.findOne({ where: { JewelrySettingID: jewelryVariantPrice.JewelrySettingID } })
             const jewelryPrice = (Number((await materialRepository.findOne({ where: { MaterialJewelryID: jewelryVariantPrice.MaterialJewelryID } })).SellPrice) * Number(jewelryVariantPrice.Weight) + Number(jewelry.AuxiliaryCost) + Number(jewelry.ProductionCost))*Number(jewelry.ChargeRate)/100
             jewelryVariantPrice.Price = jewelryPrice;
-            jewelryVariant.save(jewelryVariantPrice)
+            await jewelryVariant.save(jewelryVariantPrice)
            // jewelryVariant.update(jewelryVariantPrice.JewelrySettingVariantID, { Price: jewelryPrice })
             // const diamondRepository = event.manager.getRepository(DiamondEntity);
             // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
