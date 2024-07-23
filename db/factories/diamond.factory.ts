@@ -38,14 +38,15 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
   diamond.Fluorescence = faker.helpers.arrayElement(fluorescence);
 
   //Clarity 
-  const clarity = ['IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2'];
+  const clarity = ['FL','IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2'];
   diamond.Clarity = faker.helpers.arrayElement(clarity);
 
   //PercentTable
   diamond.PercentTable = parseFloat(faker.datatype.number({ min: 53, max: 58, precision: 0.1 }).toFixed(1));
 
   //Cut 
-  const cut = ['Good', 'Very Good', 'Excellent', 'Superior', 'Flawless', 'Very Flawless'];
+  // const cut = ['Good', 'Very Good', 'Excellent', 'Superior', 'Flawless', 'Very Flawless'];
+  const cut = ['Good', 'Very Good', 'Ideal', 'Astor Ideal'];
   diamond.Cut = faker.helpers.arrayElement(cut);
 
   //polish
@@ -83,44 +84,47 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
   // diamond.DiscountID = faker.datatype.number({ min: 1, max: 5 });
   
 
-  diamond.Designer = faker.person.fullName();
-  diamond.Cutter = faker.person.fullName();
-  diamond.IndexVariantGroup = null;
+  // diamond.Designer = faker.person.fullName();
+  // diamond.Cutter = faker.person.fullName();
+  // diamond.IndexVariantGroup = null;
   diamond.Quantity = 1;
   
   
   // Price 
-  let basePrice;
+  let basePrice: number;
+
   if (WeightCarat < 0.5) {
     // Dưới 0.5 Carat
-    if (diamond.Color <= 'F' && diamond.Clarity.includes('VS')) {
-      basePrice = parseFloat(faker.datatype.number({ min: 1500, max: 4000 }).toFixed(2));
+    if (diamond.Color <= 'F' && ['FL', 'IF', 'VVS1', 'VVS2'].includes(diamond.Clarity)) {
+      basePrice = parseFloat(faker.datatype.number({ min: 1500, max: 5000 }).toFixed(2));
     } else {
       basePrice = parseFloat(faker.datatype.number({ min: 500, max: 2000 }).toFixed(2));
     }
   } else if (WeightCarat >= 0.5 && WeightCarat < 1) {
     // Từ 0.5 đến 1 Carat
-    if (diamond.Color <= 'F' && diamond.Clarity.includes('VS')) {
-      basePrice = parseFloat(faker.datatype.number({ min: 4000, max: 10000 }).toFixed(2));
+    if (diamond.Color <= 'F' && ['FL', 'IF', 'VVS1', 'VVS2'].includes(diamond.Clarity)) {
+      basePrice = parseFloat(faker.datatype.number({ min: 5000, max: 15000 }).toFixed(2));
     } else {
-      basePrice = parseFloat(faker.datatype.number({ min: 2000, max: 5000 }).toFixed(2));
+      basePrice = parseFloat(faker.datatype.number({ min: 2000, max: 7000 }).toFixed(2));
     }
   } else if (WeightCarat >= 1 && WeightCarat < 2) {
     // Từ 1 đến 2 Carat
-    if (diamond.Color <= 'F' && diamond.Clarity.includes('VS')) {
-      basePrice = parseFloat(faker.datatype.number({ min: 5000, max: 12000 }).toFixed(2));
+    if (diamond.Color <= 'F' && ['FL', 'IF', 'VVS1', 'VVS2'].includes(diamond.Clarity)) {
+      basePrice = parseFloat(faker.datatype.number({ min: 15000, max: 40000 }).toFixed(2));
     } else {
-      basePrice = parseFloat(faker.datatype.number({ min: 3000, max: 8000 }).toFixed(2));
+      basePrice = parseFloat(faker.datatype.number({ min: 7000, max: 20000 }).toFixed(2));
     }
   } else {
     // Trên 2 Carat
-    if (diamond.Color <= 'F' && diamond.Clarity.includes('VS')) {
-      basePrice = parseFloat(faker.datatype.number({ min: 12000, max: 30000 }).toFixed(2));
+    if (diamond.Color <= 'F' && ['FL', 'IF', 'VVS1', 'VVS2'].includes(diamond.Clarity)) {
+      basePrice = parseFloat(faker.datatype.number({ min: 40000, max: 100000 }).toFixed(2));
     } else {
-      basePrice = parseFloat(faker.datatype.number({ min: 8000, max: 20000 }).toFixed(2));
+      basePrice = parseFloat(faker.datatype.number({ min: 20000, max: 60000 }).toFixed(2));
     }
   }
 
+  // Ensure that basePrice does not exceed $200,000
+  basePrice = Math.min(basePrice, 200000);
   diamond.Price = basePrice;
   //DiscountPrice  
   let discountPercent;

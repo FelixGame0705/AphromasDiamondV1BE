@@ -37,6 +37,8 @@ export default class DataSeeder implements Seeder {
       const jewelrytypes = insertjewelryType(dataSource);
       const sizes = insertSizes(dataSource);
       const acc = insertAccounts(dataSource);
+      //collection cho Như Nguyên yêu cầu
+      const collect = insertCollectionbyNN(dataSource);
 
       await materials;
       await jewelrytypes;
@@ -44,8 +46,9 @@ export default class DataSeeder implements Seeder {
       await acc;
   
       //Create collection
+      await collect;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
       const collectionFactory = factoryManager.get(CollectionEntity);
-      await collectionFactory.saveMany(9);
+      await collectionFactory.saveMany(2);
 
       //Create discount
       const discountFactory = factoryManager.get(DiscountEntity);
@@ -325,21 +328,21 @@ function randomInt(min, max) {
 
 async function insertSizes(dataSource: DataSource) {
   const sizeMapping = {
-    1: { size: 6, mm: 14.7 },
-    2: { size: 7, mm: 15.6 },
+    // 1: { size: 6, mm: 14.7 },
+    // 2: { size: 7, mm: 15.6 },
     3: { size: 8, mm: 16.5 },
-    4: { size: 9, mm: 17.3 },
+    // 4: { size: 9, mm: 17.3 },
     5: { size: 10, mm: 18.2 },
-    6: { size: 11, mm: 19.0 },
+    // 6: { size: 11, mm: 19.0 },
     7: { size: 12, mm: 19.8 },
-    8: { size: 13, mm: 20.6 },
+    // 8: { size: 13, mm: 20.6 },
     9: { size: 14, mm: 21.3 },
-    10: { size: 15, mm: 22.2 },
+    // 10: { size: 15, mm: 22.2 },
     11: { size: 16, mm: 23.0 },
-    12: { size: 17, mm: 23.8 },
+    // 12: { size: 17, mm: 23.8 },
     13: { size: 18, mm: 24.6 },
-    14: { size: 19, mm: 25.4 },
-    15: { size: 20, mm: 26.2 }
+    // 14: { size: 19, mm: 25.4 },
+    // 15: { size: 20, mm: 26.2 }
   };
 
   const sizeRepository = dataSource.getRepository(SizeEntity);
@@ -368,7 +371,11 @@ async function insertjewelryType(dataSource: DataSource) {
     1: 'Rings',
     2: 'Necklace',
     3: 'Bracelet',
-    4: 'Earring'
+    4: 'Earring',
+    5: 'Wedding Ring',
+    6: 'Engagement Ring',
+    7: 'Men Engagement Ring',
+    8: 'Men Wedding Ring',
   };
 
   const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
@@ -391,12 +398,38 @@ async function insertjewelryType(dataSource: DataSource) {
   }
 }
 
+async function insertCollectionbyNN(dataSource: DataSource): Promise<void> {
+  const collectionRepository = dataSource.getRepository(CollectionEntity);
+  const collecttionsInsert = [
+    { Name: 'EDEN REFORESTATION PROJECT - ZAZA COLLECTION', 
+      Description: 
+      'The launch of the Zaza collection in 2020 was a nod to the people-nature relationship. We have done its bit in restoring forests and reducing extreme poverty by employing local villagers from around the world to plant thousands of trees every year. For every jewel purchased from the Zaza Collection, a tree was planted in collaboration with the Eden Reforestation Project\.* In addition, this project helped generate 494 days of employment for members of impoverished communities.' 
+    },
+    {
+      Name: 'INTERNATIONAL\'S WOMEN\'S DAY 2021', 
+      Description: 'In 2021, on the occasion of International Women\'s Day, we designed 1,000 limited edition jewels to collaborate with the NGO WPlan\. We want to show our commitment to authentic equality for girls and young women. The project seeks to ensure that each girl has decision-making power over the problems that affects her and the ability to access leadership positions to build a world free of discrimination, harassment and violence.' 
+    },
+    {
+      Name: 'VALENTINE\'S DAY!', 
+      Description: 'On the occasion of Valentine\'s Day, we designed 1,000 limited edition jewels\. Our mission is to not only celebrate love but also to empower women around the world. This special project seeks to support initiatives that promote self-love, confidence, and independence for women and girls\. By choosing our Valentine \'s Day collection, you are not just giving a gift of love, but also supporting a movement towards equality and empowerment for all women.'
+    },
+  ]
+
+  for (const collection of collecttionsInsert) {
+    const newCollection = new CollectionEntity();
+    newCollection.CollectionName = collection.Name;
+    newCollection.Description = collection.Description;
+    await collectionRepository.insert(newCollection);
+  }
+
+}
+
  async function insertAccounts(dataSource: DataSource): Promise<void> {
   const accountsToInsert = [
-    { Name: 'Admin', Password: 'Admin123', Role: 'ROLE_ADMIN' },
-    { Name: 'Manager', Password: 'Manager123', Role: 'ROLE_MANAGER' },
-    { Name: 'SaleStaff', Password: 'Sale123', Role: 'ROLE_SALE_STAFF' },
-    { Name: 'DeliveryStaff', Password: 'Delivery123', Role: 'ROLE_DELIVERY_STAFF' },
+    { Name: 'Admin', Password: 'Admin1234', Role: 'ROLE_ADMIN' },
+    { Name: 'Manager', Password: 'Manager1234', Role: 'ROLE_MANAGER' },
+    { Name: 'SaleStaff', Password: 'Sale1234', Role: 'ROLE_SALE_STAFF' },
+    { Name: 'DeliveryStaff', Password: 'Delivery1234', Role: 'ROLE_DELIVERY_STAFF' },
   ];
 
   const accountRepository = dataSource.getRepository(AccountsEntity);

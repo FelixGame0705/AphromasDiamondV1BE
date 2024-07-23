@@ -5,8 +5,7 @@ export const jewelrysettingFactory = setSeederFactory(JewelrySettingEntity, asyn
      
       
     const  jewelrysetting = new JewelrySettingEntity()
-    const shape = ['Round', 'Princess', 'Emerald', 'Marquise', 'Oval', 'Heart', 'Cushion', 'Radiant', 'Pear'];
-    jewelrysetting.Name = faker.commerce.productName();
+ 
     jewelrysetting.ProductionCost = faker.datatype.number({ min: 50, max: 200 });
     
     
@@ -15,11 +14,20 @@ export const jewelrysettingFactory = setSeederFactory(JewelrySettingEntity, asyn
     
     jewelrysetting.IsActive = faker.datatype.boolean();
     jewelrysetting.UpdateTime = faker.date.recent();
-    jewelrysetting.DiamondShape = faker.helpers.arrayElement(shape);
     jewelrysetting.ChargeRate = faker.number.int({ min: 15, max: 25 });
 
-    // jewelrysetting.JewelryTypeID = faker.datatype.number({ min: 1, max: 4 });
-
+    //Thêm điều kiện nếu typeID = 7 và 8 thì null shape
+    jewelrysetting.JewelryTypeID = faker.datatype.number({ min: 1, max: 8 });
+    const shape = ['Round', 'Princess', 'Emerald', 'Marquise', 'Oval', 'Heart', 'Cushion', 'Radiant', 'Pear'];
+    if (jewelrysetting.JewelryTypeID === 7 || jewelrysetting.JewelryTypeID === 8) {
+      jewelrysetting.DiamondShape = null; 
+    } else {
+      jewelrysetting.DiamondShape =  faker.helpers.arrayElement(shape);
+      
+    }
+    
+    jewelrysetting.Name = faker.commerce.productName();
+    
 
 
      

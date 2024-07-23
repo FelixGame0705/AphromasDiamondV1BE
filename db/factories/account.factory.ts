@@ -2,7 +2,6 @@
 import { setSeederFactory } from 'typeorm-extension';
 import { AccountsEntity } from 'src/entities/accounts.entity';
 import * as bcrypt from 'bcrypt';
-import { Customer } from '../../src/models/customer.model';
 import { Role } from 'src/global/globalEnum';
  
 export const accountFactory = setSeederFactory(AccountsEntity, async (faker) => {
@@ -13,8 +12,8 @@ export const accountFactory = setSeederFactory(AccountsEntity, async (faker) => 
     const hash = await bcrypt.hash(user.Password, salt);
 
     user.Name = faker.person.firstName();
-    user.PhoneNumber = faker.phone.number();
-    
+     
+    user.PhoneNumber = faker.phone.number('/^(0|\+?84)(3|5|7|8|9)[0-9]{8}$/');  
     user.Email = faker.internet.email();
     user.Password = hash;
     user.Role = Role.Customer;
