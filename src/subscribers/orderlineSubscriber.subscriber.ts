@@ -122,6 +122,26 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
         }
         finally {
             this.isHandlingUpdate = false
+        }if (this.isHandlingUpdate) {
+            return;
+        }
+
+        this.isHandlingUpdate = true;
+        try {
+            // Kiểm tra nếu jewelrySettingVariant đã thay đổi
+            //if (event.updatedColumns.some(column => column.propertyName === 'JewelrySettingID')) {
+            const orderline = event.entity;
+            console.log("orderline before update: ", orderline)
+            const orderlineRepository = event.manager.getRepository(OrderLineEntity)
+            if (!orderline) return;
+            const orderlineEntity = (await orderlineRepository.findOne({ where: [{OrderLineID:orderline.OrderLineID}] }))
+            console.log('orderline entity: ', orderlineEntity)
+            if (orderlineEntity?.OrderID != null) {
+                this.oldOrderIDinOrderline = orderlineEntity.OrderID
+            }
+        }
+        finally {
+            this.isHandlingUpdate = false
         }
     }
     @Transactional()
