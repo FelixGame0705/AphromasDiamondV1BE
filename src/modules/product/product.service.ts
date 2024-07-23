@@ -126,9 +126,48 @@ export class ProductService {
         return modifiedData;
     }
     async update(id: number, product: ProductDTO): Promise<Product> {
-        product.ProductID = Number(id);
-        await this.productRepository.update(id, product);
-        return this.findById(id);
+        let itemCreate = await this.productRepository.update(id,{
+            JewelrySettingID: product.JewelrySettingID,
+            JewelrySettingVariantID: product.JewelrySettingVariantID,
+            Name: product.Name,
+            Inscription: product.Inscription,
+            InscriptionFont: product.InscriptionFont,
+            Brand: product.Brand,
+            AccountID: product.AccountID,
+            CollectionID: product.CollectionID,
+            DiscountID: product.DiscountID
+        });
+        let item = await this.productRepository.findRelationById(itemCreate.ProductID);
+        for (let i = 0; i < product.diamondArray.length; i++) {
+            await this.diamondRepository.update(product.diamondArray[i], { ProductID: item.ProductID })
+        }
+
+        const prices = item.diamonds
+            .map(diamond => Number(diamond.Price));
+        const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
+            .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
+            .map(variant => variant.Quantity);
+        const totalPrice = prices.reduce((acc, current) => acc + current, 0);
+        const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
+        const modifiedData = new Product({
+            ProductID: item.ProductID,
+            AccountID: item.AccountID,
+            Brand: item.Brand,
+            CollectionID: item.CollectionID,
+            DiscountID: item.DiscountID,
+            Discount: item.discount ? new Discount(item.discount as Discount) : null,
+            Inscription: item.Inscription,
+            InscriptionFont: item.InscriptionFont,
+            Name: item.Name,
+            JewelrySettingID: item.JewelrySettingID,
+            TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
+            UsingImage: item.usingImage,
+            Diamond: item.diamonds,
+            JewelrySetting: item.jewelrySetting,
+            JewelrySettingVariantID: item.JewelrySettingVariantID,
+            TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
+        })
+        return modifiedData;
     }
     async delete(id: number): Promise<boolean> {
         return await this.productRepository.delete(id);
