@@ -1,4 +1,5 @@
 import { JewelrySettingEntity } from "src/entities/jewelrySetting.entity";
+
 import { setSeederFactory } from "typeorm-extension";
 
 export const jewelrysettingFactory = setSeederFactory(JewelrySettingEntity, async (faker) => {
@@ -26,8 +27,10 @@ export const jewelrysettingFactory = setSeederFactory(JewelrySettingEntity, asyn
       
     }
     
-    jewelrysetting.Name = faker.commerce.productName();
-    
+    // jewelrysetting.Name = faker.commerce.productName();
+  //    // Lấy tên loại trang sức từ repository
+  // const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
+  // const jewelryType = await jewelryTypeRepository.findOneBy(jewelrysetting.JewelryTypeID);
 
 
      
