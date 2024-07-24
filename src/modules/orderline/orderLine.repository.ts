@@ -68,19 +68,23 @@ export class OrderLineRepository extends BaseRepository<OrderLineEntity, Reposit
         let diamond = null
         let product = null
         if (data.DiamondID != null)
-            diamond = (await this.diamondRepository.findOne({where: {DiamondID: data.DiamondID}}))
+            diamond = (await this.diamondRepository.findOne({ where: { DiamondID: data.DiamondID } }))
         if (data.ProductID != null)
-            product = (await this.productRepository.findOne({where: {ProductID: data.ProductID}}))
+            product = (await this.productRepository.findOne({ where: { ProductID: data.ProductID } }))
         // const diamondToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
         if (diamond != null) {
-            if ((diamond.Quantity - data.Quantity >= 0 && diamond.IsActive))
-                return this.repository.save(data);
+            if ((diamond.Quantity - data.Quantity >= 0 && diamond.IsActive)) {
+                await this.repository.save(data);
+                return this.findById(data.OrderLineID)
+            }
         }
-        else if(product != null){
-            if ((product.Quantity -data.Quantity >=0))
-                return this.repository.save(data);
+        else if (product != null) {
+            if ((product.Quantity - data.Quantity >= 0)) {
+                await this.repository.save(data);
+                return this.findById(data.OrderLineID)
+            }
+        }
 
-        }
         throw error;
     }
 
@@ -89,21 +93,21 @@ export class OrderLineRepository extends BaseRepository<OrderLineEntity, Reposit
         let diamond = null;
         let product = null;
         //Nếu orderline đã được thêm vào order rồi thì không cho thay đổi gì nữa
-        if((await this.findById(id)).OrderID != null) return null;
+        if ((await this.findById(id)).OrderID != null) return null;
         if (data.DiamondID != null)
-            diamond = (await this.diamondRepository.findOne({where: {DiamondID: data.DiamondID}}))
+            diamond = (await this.diamondRepository.findOne({ where: { DiamondID: data.DiamondID } }))
         if (data.ProductID != null)
-            product = (await this.productRepository.findOne({where: {ProductID: data.ProductID}}))
+            product = (await this.productRepository.findOne({ where: { ProductID: data.ProductID } }))
         // const diamondToUpdate = order.OrderLines.map(orderLine => orderLine.DiamondID);
         if (diamond != null) {
-            
-            if ((diamond.Quantity - data.Quantity >= 0 && diamond.IsActive)){
-                await this.repository.update({OrderLineID:id},data)
+
+            if ((diamond.Quantity - data.Quantity >= 0 && diamond.IsActive)) {
+                await this.repository.update({ OrderLineID: id }, data)
             }
         }
         else if (product != null) {
-            if ((product.Quantity - data.Quantity >= 0)){
-                await this.repository.update({OrderLineID:id},data)
+            if ((product.Quantity - data.Quantity >= 0)) {
+                await this.repository.update({ OrderLineID: id }, data)
             }
         }
         return await this.findById(id);
