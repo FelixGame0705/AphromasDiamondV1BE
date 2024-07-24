@@ -30,12 +30,16 @@ export class ProductService {
             const prices = item.diamonds
                 .filter(diamond => diamond.ProductID === item.ProductID)
                 .map(diamond => Number(diamond.Price));
-            const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
-                .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
-                .map(variant => variant.Quantity);
+            let jewelrySettingAmount = null
+            if (item.jewelrySetting != null) {
+                jewelrySettingAmount = item.jewelrySetting?.jewelrySettingVariant
+                    .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
+                    .map(variant => variant.Quantity);
+            }
+
             // Tính tổng giá trị của các viên kim cương
             const totalPrice = Number(prices.reduce((acc, current) => acc + current, 0));
-            const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
+            const totaljewelrySettingAmount = jewelrySettingAmount?.reduce((acc, current) => acc + current, 0);
             return new Product({
                 ProductID: item.ProductID,
                 AccountID: item.AccountID,
@@ -126,7 +130,7 @@ export class ProductService {
         return modifiedData;
     }
     async update(id: number, product: ProductDTO): Promise<Product> {
-        let itemCreate = await this.productRepository.update(id,{
+        let itemCreate = await this.productRepository.update(id, {
             JewelrySettingID: product.JewelrySettingID,
             JewelrySettingVariantID: product.JewelrySettingVariantID,
             Name: product.Name,
