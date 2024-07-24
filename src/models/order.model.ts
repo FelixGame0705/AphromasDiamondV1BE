@@ -16,8 +16,9 @@ export class Order{
     Address: string
     Price: number
     VoucherPrice: number
+    PaymentID: string
     constructor({OrderID, OrderDate, CompleteDate, CustomerID, OrderStatus, IsActive, AccountDeliveryID,
-        AccountSaleID, VoucherID, NameReceived, PhoneNumber, Email, Address, Price, VoucherPrice}
+        AccountSaleID, VoucherID, NameReceived, PhoneNumber, Email, Address, Price, VoucherPrice, PaymentID}
     ){
         this.OrderID = OrderID;
         this.OrderDate = OrderDate;
@@ -34,5 +35,6 @@ export class Order{
         this.Address = Address;
         this.Price = Number(Price);
         this.VoucherPrice = Number(VoucherPrice);
+        this.PaymentID = PaymentID;
     }
 }

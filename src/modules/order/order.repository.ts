@@ -144,6 +144,8 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
                 'order.OrderDate',
                 'order.CompleteDate',
                 'order.OrderStatus',
+                'order.NameReceived',
+                'order.PaymentID',
                 'account.Name',
                 'account.PhoneNumber',
                 'orderline.OrderLineID',
@@ -173,6 +175,8 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
             CompleteDate: order[0].order_CompleteDate,
             OrderStatus: order[0].order_OrderStatus,
             AccountName: order[0].account_Name,
+            NameReceived: order[0].order_NameReceived,
+            PaymentID: order[0].order_PaymentID,
             AccountPhoneNumber: order[0].account_PhoneNumber,
             OrderLines: order.map(item => ({
                 OrderLineID: item.orderline_OrderLineID,
