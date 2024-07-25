@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { PRODUCT_PER_PAGE } from "src/constants/constant";
 import { OrderDTO, PaymentDTO } from "src/dto/order.dto";
 import { IOrderRepository } from "src/interfaces/IOrderRepository";
-import { Order } from "src/models/order.model";
+import { Order, OrderDetail } from "src/models/order.model";
 import { NotificationGateway } from "../notification/notificationGateway";
 
 @Injectable()
@@ -40,7 +40,7 @@ export class OrderService {
     async delete(id: number): Promise<boolean> {
         return await this.orderRepository.delete(id);
     }
-    async findRelationById(id: number): Promise<Order> {
+    async findRelationById(id: number): Promise<OrderDetail> {
         return await this.orderRepository.findRelationOrderLineById(id);
     }
     async getOrders(page: number, filters: any, sort: { field: string, order: 'ASC' | 'DESC' }) {
