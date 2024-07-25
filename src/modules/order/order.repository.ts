@@ -102,7 +102,7 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
     }
     async update(id: number, data: OrderDTO): Promise<OrderEntity> {
         await this.repository.update(id, {
-            OrderDate : data.OrderDate,
+            OrderDate: data.OrderDate,
             CompleteDate: data.CompleteDate,
             IsPayed: data.IsPayed,
             Shippingfee: data.Shippingfee,
@@ -135,57 +135,74 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
         // }
 
         //return orderWithOrderLine || orderWithAccountDelivery;
-        const order = await this.repository.createQueryBuilder('order')
-            .leftJoinAndSelect('order.accountDelivery', 'account')
-            .leftJoinAndSelect('order.orderLine', 'orderline')
-            .leftJoinAndSelect('orderline.diamond', 'diamond')
-            .select([
-                'order.OrderID',
-                'order.OrderDate',
-                'order.CompleteDate',
-                'order.OrderStatus',
-                'order.NameReceived',
-                'order.PaymentID',
-                'account.Name',
-                'account.PhoneNumber',
-                'orderline.OrderLineID',
-                'diamond.Price'
-            ])
-            .where('order.OrderID = :id', { id })
-            .getRawMany();
 
-        if (order.length === 0) {
-            return null; // or throw an error if the order is not found
-        }
+        const orderDetail = await this.repository.findOne({ where: { OrderID: id }, relations: ['orderLine', 'customer', 'orderLine.diamond','orderLine.product'] })
+        // const order = await this.repository.createQueryBuilder('order')
+        //     .leftJoinAndSelect('order.accountDelivery', 'account')
+        //     .leftJoinAndSelect('order.orderLine', 'orderline')
+        //     .leftJoinAndSelect('orderline.diamond', 'diamond')
+        //     .select([
+        //         'order.OrderID',
+        //         'order.OrderDate',
+        //         'order.CompleteDate',
+        //         'order.OrderStatus',
+        //         'order.NameReceived',
+        //         'order.PaymentID',
+        //         'order.Address',
+        //         'order.PhoneNumber',
+        //         'order.Email',
+        //         'account.Name',
+        //         'account.PhoneNumber',
+        //         'orderline.OrderLineID',
+        //         'diamond.Price'
+        //     ])
+        //     .where('order.OrderID = :id', { id })
+        //     .getRawMany();
+
+        // if (order.length === 0) {
+        //     return null; // or throw an error if the order is not found
+        // }
 
         // Truy vấn phụ để tính tổng giá trị của các viên kim cương
-        const totalPriceResult = await this.repository.createQueryBuilder('order')
-            .leftJoin('order.orderLine', 'orderline')
-            .leftJoin('orderline.diamond', 'diamond')
-            .select('SUM(diamond.Price)', 'totalPrice')
-            .where('order.OrderID = :id', { id })
-            .getRawOne();
-
-        const totalPrice = totalPriceResult.totalPrice;
+        // const totalPriceResult = await this.repository.createQueryBuilder('order')
+        //     .leftJoin('order.orderLine', 'orderline')
+        //     .leftJoin('orderline.diamond', 'diamond')
+        //     .select('SUM(diamond.Price)', 'totalPrice')
+        //     .where('order.OrderID = :id', { id })
+        //     .getRawOne();
+        // const totalPriceProductResult = await this.repository.createQueryBuilder('order')
+        //     .leftJoin('order.orderLine', 'orderline')
+        //     .leftJoin('orderline.product', 'product')
+        //     .select('SUM(product.Price)', 'totalPrice')
+        //     .where('order.OrderID = :id', { id })
+        //     .getRawOne();
+        //const totalPrice = totalPriceResult.totalPrice + totalPriceProductResult;
 
         // Chuẩn bị dữ liệu trả về
-        const response = {
-            OrderID: order[0].order_OrderID,
-            OrderDate: order[0].order_OrderDate,
-            CompleteDate: order[0].order_CompleteDate,
-            OrderStatus: order[0].order_OrderStatus,
-            AccountName: order[0].account_Name,
-            NameReceived: order[0].order_NameReceived,
-            PaymentID: order[0].order_PaymentID,
-            AccountPhoneNumber: order[0].account_PhoneNumber,
-            OrderLines: order.map(item => ({
-                OrderLineID: item.orderline_OrderLineID,
-                DiamondPrice: item.diamond_Price
-            })),
-            TotalPrice: totalPrice
-        };
+        // const response = {
+        //     OrderID: order[0].order_OrderID,
+        //     OrderDate: order[0].order_OrderDate,
+        //     CompleteDate: order[0].order_CompleteDate,
+        //     OrderStatus: order[0].order_OrderStatus,
+        //     AccountName: order[0].account_Name,
+        //     NameReceived: order[0].order_NameReceived,
+        //     PaymentID: order[0].order_PaymentID,
+        //     Address: order[0].order_Address,
+        //     PhoneNumber: order[0].order_PhoneNumber,
+        //     Email: order[0].order_Email,
+        //     AccountPhoneNumber: order[0].account_PhoneNumber,
+        //     OrderLines: order.map(item => ({
+        //         OrderLineID: item.orderline_OrderLineID,
+        //         DiamondPrice: item.diamond_Price,
+        //         ProductPrice: item.product_Price
+        //     })),
+        //     TotalPrice: totalPrice
+        // };
 
-        return response;
+        return {
+            ...orderDetail,
+            TotalPrice: orderDetail.Price
+        }
     }
 
 }
