@@ -85,6 +85,7 @@ export class OrderLineController {
                 new ResponseData(await this.orderService.create(order), HttpStatus.SUCCESS, HttpMessage.SUCCESS),
             );
         } catch (error) {
+            console.error(error)
             return res.json(
                 
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
