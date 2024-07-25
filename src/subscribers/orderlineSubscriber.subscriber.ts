@@ -50,7 +50,7 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                 // Cập nhật giá của tất cả orderline dựa trên giá bán mới
                 const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID } });
                 const diamondEntity = await diamondRepository.findOne({ where: { DiamondID: orderlineEntity.DiamondID } });
-                const orderEntity = await orderRepository.findOne({where: {OrderID: orderlineEntity.OrderID}});
+                //const orderEntity = await orderRepository.findOne({where: {OrderID: orderlineEntity.OrderID}});
                 // for (const item of jewelrySettingVariants) {
                 // Logic cập nhật giá trang sức
                 //const diamondsInProduct = diamond.map(diamond => diamond.Price*diamond.ChargeRate);
@@ -77,12 +77,12 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     await diamondRepository.save(diamondEntity)
                 }
 
-                const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
-                const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
-                if (orderEntity) {
-                    orderEntity.Price = totalDiscountPrice;
-                    await orderRepository.save(orderEntity);
-                }
+                // const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
+                // const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
+                // if (orderEntity) {
+                //     orderEntity.Price = totalDiscountPrice;
+                //     await orderRepository.save(orderEntity);
+                // }
                 console.log('order entity price: ', orderlineEntity)
 
                 await orderlineRepository.save(orderlineEntity);
