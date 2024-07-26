@@ -8,8 +8,6 @@ import { UsingImage } from "./usingImage.model"
 export class Product{
     ProductID: number
     Name: string
-    Inscription: string
-    InscriptionFont: string
     Brand: string
     Stars: number
     Quantity: number
@@ -22,13 +20,10 @@ export class Product{
     Discount: Discount
     UsingImage: UsingImage[]
     Diamond: Diamond[]
-    JewelrySetting: JewelrySetting
-    JewelrySettingVariantID: number
-    constructor({ProductID, Name, Inscription, InscriptionFont, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, JewelrySettingVariantID, Discount, Stars, Quantity}){
+    JewelrySetting: JewelrySetting    
+    constructor({ProductID, Name, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity}){
         this.ProductID = ProductID
         this.Name = Name
-        this.Inscription = Inscription
-        this.InscriptionFont = InscriptionFont
         this.Brand = Brand
         this.JewelrySettingID = JewelrySettingID
         this.AccountID = AccountID
@@ -40,7 +35,6 @@ export class Product{
         this.Diamond = Diamond
         this.TotalQuantityJewelrySettingVariants = TotalQuantityJewelrySettingVariants
         this.JewelrySetting = JewelrySetting
-        this.JewelrySettingVariantID = JewelrySettingVariantID
         this.Stars = Stars
         this.Quantity = Quantity
     }

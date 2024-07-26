@@ -4,6 +4,7 @@ import { JewelrySettingEntity } from "./jewelrySetting.entity";
 import { MaterialJewelry } from "src/models/materialjewelry.model";
 import { MaterialJewelryEntity } from "./marterialJewelry.entity";
 import { DiamondEntity } from "./diamond.entity";
+import { OrderLineEntity } from "./orderLine.entity";
 
 @Entity('JewelrySettingVariant')
 export class JewelrySettingVariantEntity extends BaseEntity{
@@ -21,9 +22,9 @@ export class JewelrySettingVariantEntity extends BaseEntity{
     Quantity: number
     @Column({nullable: true})
     Price: number
-    @ManyToOne(()=> SizeEntity, {nullable:true})
-    @JoinColumn({name:'SizeID', referencedColumnName:'SizeID'})
-    size: SizeEntity
+    // @ManyToOne(()=> SizeEntity, {nullable:true})
+    // @JoinColumn({name:'SizeID', referencedColumnName:'SizeID'})
+    // size: SizeEntity
     @ManyToOne(()=>JewelrySettingEntity, {nullable:true})
     @JoinColumn({name: 'JewelrySettingID', referencedColumnName:'JewelrySettingID'})
     jewelrySettings: JewelrySettingEntity
@@ -31,8 +32,8 @@ export class JewelrySettingVariantEntity extends BaseEntity{
     @JoinColumn({name:'MaterialJewelryID', referencedColumnName:'MaterialJewelryID'})
     materialJewelry: MaterialJewelryEntity
     
-    @OneToMany(()=>DiamondEntity, diamond => diamond.jewelrySettingVariant)
-    diamond: DiamondEntity[]
+    @OneToMany(()=>OrderLineEntity, orderLine => orderLine.jewelrySettingVariants)
+    orderLine: OrderLineEntity[]
 
     // @AfterInsert()
     // //@AfterUpdate()

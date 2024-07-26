@@ -4,6 +4,8 @@ import { DiamondEntity } from "./diamond.entity";
 import { JewelrySettingEntity } from "./jewelrySetting.entity";
 import { ProductEntity } from "./products.entity";
 import { CustomerEntity } from "./customer.entity";
+import { JewelrySettingVariantEntity } from "./jewlrySettingVariant.entity";
+import { SizeEntity } from "./size.entity";
 
 @Entity('OrderLine')
 export class OrderLineEntity extends BaseEntity{
@@ -23,6 +25,17 @@ export class OrderLineEntity extends BaseEntity{
     ProductID: number
     @Column({nullable: true})
     CustomerID: number
+    @Column({nullable: true})
+    Inscription: string
+    @Column({nullable: true})
+    InscriptionFont: string
+    @Column({nullable: true})
+    JewelrySettingVariantID: number
+    @Column({nullable: true})
+    SizeID: number
+    @ManyToOne(()=>JewelrySettingVariantEntity, { nullable: true })
+    @JoinColumn({name:'JewelrySettingVariantID', referencedColumnName:'JewelrySettingVariantID'})
+    jewelrySettingVariants: JewelrySettingVariantEntity
     @ManyToOne(()=>OrderEntity, { nullable: true })
     @JoinColumn({name:'OrderID', referencedColumnName:'OrderID'})
     order: OrderEntity
@@ -35,4 +48,7 @@ export class OrderLineEntity extends BaseEntity{
     @ManyToOne(()=>CustomerEntity, { nullable: true })
     @JoinColumn({name:'CustomerID', referencedColumnName:'CustomerID'})
     customer: CustomerEntity
+    @ManyToOne(()=> SizeEntity, {nullable:true})
+    @JoinColumn({name:'SizeID', referencedColumnName:'SizeID'})
+    size: SizeEntity
 }

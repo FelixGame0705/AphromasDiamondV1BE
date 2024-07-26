@@ -50,8 +50,6 @@ export class ProductService {
                 CollectionID: item.CollectionID,
                 DiscountID: item.DiscountID,
                 Discount: item.discount ? new Discount(item.discount as Discount) : null,
-                Inscription: item.Inscription,
-                InscriptionFont: item.InscriptionFont,
                 Name: item.Name,
                 JewelrySettingID: item.JewelrySettingID,
                 TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
@@ -59,7 +57,6 @@ export class ProductService {
                 Diamond: item.diamonds,
                 Quantity: item.Quantity,
                 JewelrySetting: item.jewelrySetting,
-                JewelrySettingVariantID: item.JewelrySettingVariantID,
                 TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
             })
         }))
@@ -84,8 +81,6 @@ export class ProductService {
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
             Discount: item.discount ? new Discount(item.discount as Discount) : null,
-            Inscription: item.Inscription,
-            InscriptionFont: item.InscriptionFont,
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
             TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
@@ -93,7 +88,6 @@ export class ProductService {
             Diamond: item.diamonds,
             Quantity: item.Quantity,
             JewelrySetting: item.jewelrySetting || null,
-            JewelrySettingVariantID: item.JewelrySettingVariantID,
             TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
 
         })
@@ -123,8 +117,6 @@ export class ProductService {
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
             Discount: item.discount ? new Discount(item.discount as Discount) : null,
-            Inscription: item.Inscription,
-            InscriptionFont: item.InscriptionFont,
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
             TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
@@ -132,7 +124,6 @@ export class ProductService {
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
             Quantity: item.Quantity,
-            JewelrySettingVariantID: item.JewelrySettingVariantID,
             TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })
         return modifiedData;
@@ -140,10 +131,7 @@ export class ProductService {
     async update(id: number, product: ProductDTO): Promise<Product> {
         let itemCreate = await this.productRepository.update(id, {
             JewelrySettingID: product.JewelrySettingID,
-            JewelrySettingVariantID: product.JewelrySettingVariantID,
             Name: product.Name,
-            Inscription: product.Inscription,
-            InscriptionFont: product.InscriptionFont,
             Brand: product.Brand,
             AccountID: product.AccountID,
             CollectionID: product.CollectionID,
@@ -169,8 +157,6 @@ export class ProductService {
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
             Discount: item.discount ? new Discount(item.discount as Discount) : null,
-            Inscription: item.Inscription,
-            InscriptionFont: item.InscriptionFont,
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
             TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
@@ -178,7 +164,6 @@ export class ProductService {
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
             Quantity: item.Quantity,
-            JewelrySettingVariantID: item.JewelrySettingVariantID,
             TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })
         return modifiedData;
@@ -204,15 +189,12 @@ export class ProductService {
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
             Discount: item.discount ? new Discount(item.discount as Discount) : null,
-            Inscription: item.Inscription,
-            InscriptionFont: item.InscriptionFont,
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
             TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
-            JewelrySettingVariantID: item.JewelrySettingVariantID,
             Quantity: item.Quantity,
             TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })

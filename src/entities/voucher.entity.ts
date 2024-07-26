@@ -6,6 +6,8 @@ export class VoucherEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     VoucherID:number
     @Column({nullable: true})
+    VoucherName
+    @Column({nullable: true})
     VoucherCode: string
     @Column({nullable:true})
     Description: string
