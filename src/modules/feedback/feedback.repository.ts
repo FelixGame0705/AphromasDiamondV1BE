@@ -33,7 +33,7 @@ export class FeedbackRepository extends BaseRepository<FeedbackEntity, Repositor
         sort: { field: string, feedback: 'ASC' | 'DESC' }
     ): Promise<{ data: FeedbackEntity[], total: number, page: number, last_page: number }> {
         const query = this.repository.createQueryBuilder('feedback')
-        .select('feedback');
+        .select('feedback')
 
        // Apply filters
         if (filters.FeedbackID) {
@@ -54,20 +54,38 @@ export class FeedbackRepository extends BaseRepository<FeedbackEntity, Repositor
         if (filters.ProductID) {
             query.andWhere("feedback.ProductID = :ProductID", { ProductID: filters.ProductID });
         }
-
+        const total = await query.getCount();
         // Apply sorting
         if (sort && sort.field && sort.feedback) {
             query.orderBy(`feedback.${sort.field}`, sort.feedback);
         }
-
+        const feedbackIDs = await query.getRawMany().then(results => results.map(result => result.feedback_FeedbackID));
+        if (feedbackIDs.length === 0) { 
+            return {
+                data: [],
+                total,
+                page,
+                last_page: Math.ceil(total / perPage)
+            };
+        }
         // Get total count
-        const total = await query.getCount();
+        // const total = await query.getCount();
 
         // Apply pagination
         query.offset((page - 1) * perPage).limit(perPage);
 
+        const builder = this.repository.createQueryBuilder('feedback')
+            .leftJoinAndSelect('feedback.account', 'account')
+            .select([
+                'feedback',
+                'account.AccountID',
+                'account.Name',
+                'account.PhoneNumber',
+                'account.Email'
+            ])
+            .whereInIds(feedbackIDs);
         // Get data
-        const data = await query.getMany();
+        const data = await builder.getMany();
 
         return {
             data,
