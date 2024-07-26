@@ -4,7 +4,7 @@ import { ProductEntity } from "src/entities/products.entity";
 import { IJewelrySettingRepository } from "src/interfaces/IJewelrySettingRepository";
 import { IProductRepository } from "src/interfaces/IProductRepository"
 import { Diamond } from "src/models/diamond.model";
-import { Product } from "src/models/product.model";
+import { Product, ProductDetail } from "src/models/product.model";
 import { JewelrySettingService } from "../jewelrySetting/jewelrySetting.service";
 import { SizeService } from "../size/size.service";
 import { JewelrySetting } from "src/models/jewelrySetting.model";
@@ -62,9 +62,8 @@ export class ProductService {
         }))
         return modifiedData;
     }
-    async findById(id: number): Promise<Product> {
+    async findById(id: number): Promise<ProductDetail> {
         let item = await this.productRepository.findRelationById(id);
-        let diamond = await this
         console.log("hello" + item)
         const prices = item.diamonds
             .map(diamond => Number(diamond.Price));
@@ -73,7 +72,7 @@ export class ProductService {
             .map(variant => variant.Quantity);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
-        const modifiedData = new Product({
+        const modifiedData = new ProductDetail({
             ProductID: item.ProductID,
             AccountID: item.AccountID,
             Brand: item.Brand,
@@ -87,6 +86,13 @@ export class ProductService {
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             Quantity: item.Quantity,
+            JewelrySettingVariant: item.jewelrySetting.jewelrySettingVariant.map((item) => {
+                return {
+                    Material: item.materialJewelry,
+                    Quantity: item.Quantity
+                };
+            }
+            ),
             JewelrySetting: item.jewelrySetting || null,
             TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
 
@@ -171,7 +177,7 @@ export class ProductService {
     async delete(id: number): Promise<boolean> {
         return await this.productRepository.delete(id);
     }
-    async findRelationById(id: number): Promise<Product> {
+    async findRelationById(id: number): Promise<ProductDetail> {
         let item = await this.productRepository.findRelationById(id);
         console.log(item)
         const prices = item.diamonds
@@ -181,7 +187,7 @@ export class ProductService {
             .map(variant => variant.Quantity);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
-        const modifiedData = new Product({
+        const modifiedData = new ProductDetail({
             ProductID: item.ProductID,
             AccountID: item.AccountID,
             Brand: item.Brand,
@@ -195,6 +201,13 @@ export class ProductService {
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
+            JewelrySettingVariant: item.jewelrySetting.jewelrySettingVariant.map((item) => {
+                return {
+                    Material: item.materialJewelry,
+                    Quantity: item.Quantity
+                };
+            }
+            ),
             Quantity: item.Quantity,
             TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })

@@ -11,8 +11,6 @@ export class JewelrySettingVariantEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     JewelrySettingVariantID: number
     @Column({nullable: true})
-    SizeID: number
-    @Column({nullable: true})
     JewelrySettingID: number
     @Column({nullable: true})
     MaterialJewelryID: number
