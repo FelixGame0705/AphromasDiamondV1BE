@@ -11,6 +11,8 @@ export class Product{
     Inscription: string
     InscriptionFont: string
     Brand: string
+    Stars: number
+    Quantity: number
     JewelrySettingID: number
     AccountID: number
     TotalDiamondPrice: number
@@ -20,9 +22,9 @@ export class Product{
     Discount: Discount
     UsingImage: UsingImage[]
     Diamond: Diamond[]
-    JewelrySetting: JewelrySetting[]
+    JewelrySetting: JewelrySetting
     JewelrySettingVariantID: number
-    constructor({ProductID, Name, Inscription, InscriptionFont, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, JewelrySettingVariantID, Discount}){
+    constructor({ProductID, Name, Inscription, InscriptionFont, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, JewelrySettingVariantID, Discount, Stars, Quantity}){
         this.ProductID = ProductID
         this.Name = Name
         this.Inscription = Inscription
@@ -39,5 +41,7 @@ export class Product{
         this.TotalQuantityJewelrySettingVariants = TotalQuantityJewelrySettingVariants
         this.JewelrySetting = JewelrySetting
         this.JewelrySettingVariantID = JewelrySettingVariantID
+        this.Stars = Stars
+        this.Quantity = Quantity
     }
 }

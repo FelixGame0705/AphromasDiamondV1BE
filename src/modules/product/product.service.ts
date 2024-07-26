@@ -37,6 +37,8 @@ export class ProductService {
                     .map(variant => variant.Quantity);
             }
 
+            console.log(item)
+
             // Tính tổng giá trị của các viên kim cương
             const totalPrice = Number(prices.reduce((acc, current) => acc + current, 0));
             const totaljewelrySettingAmount = jewelrySettingAmount?.reduce((acc, current) => acc + current, 0);
@@ -44,6 +46,7 @@ export class ProductService {
                 ProductID: item.ProductID,
                 AccountID: item.AccountID,
                 Brand: item.Brand,
+                Stars: item.Stars,
                 CollectionID: item.CollectionID,
                 DiscountID: item.DiscountID,
                 Discount: item.discount ? new Discount(item.discount as Discount) : null,
@@ -54,6 +57,7 @@ export class ProductService {
                 TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
                 UsingImage: item.usingImage,
                 Diamond: item.diamonds,
+                Quantity: item.Quantity,
                 JewelrySetting: item.jewelrySetting,
                 JewelrySettingVariantID: item.JewelrySettingVariantID,
                 TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
@@ -67,7 +71,7 @@ export class ProductService {
         console.log("hello" + item)
         const prices = item.diamonds
             .map(diamond => Number(diamond.Price));
-        const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
+        const jewelrySettingAmount = item.jewelrySetting?.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
@@ -76,6 +80,7 @@ export class ProductService {
             ProductID: item.ProductID,
             AccountID: item.AccountID,
             Brand: item.Brand,
+            Stars: item.Stars,
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
             Discount: item.discount ? new Discount(item.discount as Discount) : null,
@@ -86,7 +91,8 @@ export class ProductService {
             TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
-            JewelrySetting: item.jewelrySetting,
+            Quantity: item.Quantity,
+            JewelrySetting: item.jewelrySetting || null,
             JewelrySettingVariantID: item.JewelrySettingVariantID,
             TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
 
@@ -104,7 +110,7 @@ export class ProductService {
 
         const prices = item.diamonds
             .map(diamond => Number(diamond.Price));
-        const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
+        const jewelrySettingAmount = item.jewelrySetting?.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
@@ -113,6 +119,7 @@ export class ProductService {
             ProductID: item.ProductID,
             AccountID: item.AccountID,
             Brand: item.Brand,
+            Stars: item.Stars,
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
             Discount: item.discount ? new Discount(item.discount as Discount) : null,
@@ -124,6 +131,7 @@ export class ProductService {
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
+            Quantity: item.Quantity,
             JewelrySettingVariantID: item.JewelrySettingVariantID,
             TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })
@@ -148,7 +156,7 @@ export class ProductService {
 
         const prices = item.diamonds
             .map(diamond => Number(diamond.Price));
-        const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
+        const jewelrySettingAmount = item.jewelrySetting?.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
@@ -157,6 +165,7 @@ export class ProductService {
             ProductID: item.ProductID,
             AccountID: item.AccountID,
             Brand: item.Brand,
+            Stars: item.Stars,
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
             Discount: item.discount ? new Discount(item.discount as Discount) : null,
@@ -168,6 +177,7 @@ export class ProductService {
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
+            Quantity: item.Quantity,
             JewelrySettingVariantID: item.JewelrySettingVariantID,
             TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })
@@ -181,7 +191,7 @@ export class ProductService {
         console.log(item)
         const prices = item.diamonds
             .map(diamond => Number(diamond.Price));
-        const jewelrySettingAmount = item.jewelrySetting.jewelrySettingVariant
+        const jewelrySettingAmount = item.jewelrySetting?.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
@@ -190,6 +200,7 @@ export class ProductService {
             ProductID: item.ProductID,
             AccountID: item.AccountID,
             Brand: item.Brand,
+            Stars: item.Stars,
             CollectionID: item.CollectionID,
             DiscountID: item.DiscountID,
             Discount: item.discount ? new Discount(item.discount as Discount) : null,
@@ -202,6 +213,7 @@ export class ProductService {
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
             JewelrySettingVariantID: item.JewelrySettingVariantID,
+            Quantity: item.Quantity,
             TotalQuantityJewelrySettingVariants: totaljewelrySettingAmount
         })
         return modifiedData;
