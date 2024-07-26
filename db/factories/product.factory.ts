@@ -6,8 +6,8 @@ export const   productFactory = setSeederFactory(ProductEntity, async (faker) =>
     const product = new ProductEntity()
     product.Name = faker.commerce.productName();
     product.Quantity = 1;
-    product.Inscription = faker.commerce.productDescription();
-    product.InscriptionFont = faker.commerce.productDescription();
+    // product.Inscription = faker.commerce.productDescription();
+    // product.InscriptionFont = faker.commerce.productDescription();
     product.Brand = faker.company.name();
     product.JewelrySettingID = faker.datatype.number({ min: 1, max: 5 }); 
     product.Stars = faker.datatype.number({ min: 1, max: 5 });

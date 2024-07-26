@@ -20,8 +20,8 @@ export class JewelrySettingVariantService {
                     JewelrySettingID: item.JewelrySettingID,
                     TotalPriceVariant: item.Price,
                     MaterialJewelry: item.materialJewelry,
-                    Size: item.size,
-                    SizeID: item.SizeID
+                    // Size: item.size,
+                    // SizeID: item.SizeID
 
                 });
         });
@@ -34,8 +34,8 @@ export class JewelrySettingVariantService {
             JewelrySettingID: item.JewelrySettingID,
             TotalPriceVariant: item.Price,
             MaterialJewelry: item.materialJewelry,
-            Size: item.size,
-            SizeID: item.SizeID
+            // Size: item.size,
+            // SizeID: item.SizeID
         })
     }
     async create(sizeMatchShell: JewelrySettingVariantDTO): Promise<JewelrySettingVariant> {
@@ -47,8 +47,8 @@ export class JewelrySettingVariantService {
             JewelrySettingID: item.JewelrySettingID,
             TotalPriceVariant: item.Price,
             MaterialJewelry: item.materialJewelry,
-            Size: item.size,
-            SizeID: item.SizeID
+            // Size: item.size,
+            // SizeID: item.SizeID
         })
     }
     async update(id: number, sizeMatchShell: JewelrySettingVariantDTO): Promise<JewelrySettingVariant> {

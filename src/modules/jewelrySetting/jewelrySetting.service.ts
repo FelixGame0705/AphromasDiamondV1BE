@@ -34,7 +34,7 @@ export class JewelrySettingService {
                         JewelrySettingVariantID: item.JewelrySettingVariantID,
                         Quantity: item.SizeID,
                         //TotalPriceVariant: (sellPrice * item.Weight + entity.ProductionCost) * entity.ChargeRate,
-                        Size: item.size,
+                        // Size: item.size,
                         MaterialJewelry: item.materialJewelry
                         
                     }
