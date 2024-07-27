@@ -18,7 +18,7 @@ export class ProductRepository extends BaseRepository<ProductEntity, Repository<
     }
     async findRelationById(id: number): Promise<ProductEntity> {
 
-        const rs = await this.repository.findOne({where: {[this.getIdField()]:id}, relations:['diamonds','usingImage','jewelrySetting','jewelrySetting.jewelrySettingVariant','jewelrySetting.jewelryType', 'diamonds.certificate', 'discount', 'diamonds.usingImage','jewelrySetting.usingImage']})
+        const rs = await this.repository.findOne({where: {[this.getIdField()]:id}, relations:['diamonds','usingImage','jewelrySetting','jewelrySetting.jewelrySettingVariant','jewelrySetting.jewelryType', 'diamonds.certificate', 'discount', 'diamonds.usingImage','jewelrySetting.usingImage', 'jewelrySetting.jewelrySettingVariant.materialJewelry']})
         return rs;
         //return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['diamonds']})
     }
@@ -28,16 +28,18 @@ export class ProductRepository extends BaseRepository<ProductEntity, Repository<
     }
 
     async findAll(): Promise<ProductEntity[]> {
-        const builder = this.repository.createQueryBuilder('product')
-        .leftJoinAndSelect('product.diamonds', 'diamonds')
-        .leftJoinAndSelect('product.discount', 'discount')
-        .leftJoinAndSelect('product.usingImage','usingImage')
-        .leftJoinAndSelect('product.jewelrySetting', 'jewelrySetting')
-        .leftJoinAndSelect('jewelrySetting.jewelrySettingVariant','JewelrySettingVariant')
-        .leftJoinAndSelect('jewelrySetting.jewelryType', 'jewelryType')
-        const data = await builder.getMany();
+
+        const dataRs = await this.repository.find({relations: ['diamonds', 'usingImage', 'discount', 'jewelrySetting', 'jewelrySetting.jewelrySettingVariant', 'jewelrySetting.jewelryType']})
+        // const builder = this.repository.createQueryBuilder('product')
+        // .leftJoinAndSelect('product.diamonds', 'diamonds')
+        // .leftJoinAndSelect('product.discount', 'discount')
+        // .leftJoinAndSelect('product.usingImage','usingImage')
+        // .leftJoinAndSelect('product.jewelrySetting', 'jewelrySetting')
+        // .leftJoinAndSelect('jewelrySetting.jewelrySettingVariant','JewelrySettingVariant')
+        // .leftJoinAndSelect('jewelrySetting.jewelryType', 'jewelryType')
+        // const data = await builder.getMany();
         
-        return data;
+        return dataRs;
     }
 
     // async findById(id: number): Promise<ProductEntity> {

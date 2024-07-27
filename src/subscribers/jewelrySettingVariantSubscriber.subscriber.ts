@@ -74,20 +74,20 @@ export class JewelrySettingVariantSubscriber implements EntitySubscriberInterfac
             // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
             const jewelrySetting = await jewelryRepository.findOne({where: {JewelrySettingID: jewelryVariantPrice.JewelrySettingID}})
             const jewelryVariant = await jewelryVariantRepository.findOne({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}})
-            const products = await productRepository.find({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}});
-            console.log("Hello 123 " + products.map(item=>item.ProductID))
+           // const products = await productRepository.find({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}});
+            //console.log("Hello 123 " + products.map(item=>item.ProductID))
            // const diamonds = await diamondRepository.find({where: {JewelrySettingVariantID: jewelryVariantPrice.JewelrySettingVariantID}});
             //jewelryVariantPrice.Price = material.filter(material=>material.MaterialJewelryID)[0].SellPrice * jewelryVariantPrice.Weight;
             
             const jewelryPrice = Number(((await materialRepository.findOne({ where: { MaterialJewelryID: jewelryVariantPrice.MaterialJewelryID } })).SellPrice) * Number(jewelryVariantPrice.Weight) + Number(jewelrySetting.AuxiliaryCost) + Number(jewelrySetting.ProductionCost)) * Number(jewelrySetting.ChargeRate)/100
-            for(let i = 0; i < products.length; i++){
-                // Logic cập nhật giá trang sức
-                const diamonds = await diamondRepository.find({where: {ProductID: products[i].ProductID}});
-                //const diamondsInProduct = diamonds.filter((p) => p.ProductID === products[i].ProductID).map(diamond => diamond.Price);
-                products[i].Price = calculateNewPrice(products[i], jewelryVariant.Price, diamonds.map(item=>item.Price));
-                console.log("Value price: ", products[i].Price)
-                await productRepository.save(products[i]);  
-            }
+            // for(let i = 0; i < products.length; i++){
+            //     // Logic cập nhật giá trang sức
+            //     const diamonds = await diamondRepository.find({where: {ProductID: products[i].ProductID}});
+            //     //const diamondsInProduct = diamonds.filter((p) => p.ProductID === products[i].ProductID).map(diamond => diamond.Price);
+            //     products[i].Price = calculateNewPrice(products[i], jewelryVariant.Price, diamonds.map(item=>item.Price));
+            //     console.log("Value price: ", products[i].Price)
+            //     await productRepository.save(products[i]);  
+            // }
             console.log("Jewelry Price: ", jewelryPrice);
             jewelryVariant.Price = jewelryPrice
             await jewelryVariantRepository.save(jewelryVariant);

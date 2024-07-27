@@ -181,7 +181,7 @@ export default class DataSeeder implements Seeder {
           AccountID: customers.CustomerID,
           CollectionID: collection.CollectionID,
           DiscountID: discount.DiscountID,
-          JewelrySettingVariantID: jewelrySettingVariant.JewelrySettingVariantID,
+          // JewelrySettingVariantID: jewelrySettingVariant.JewelrySettingVariantID,
         });
       }
       

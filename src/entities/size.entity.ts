@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { JewelrySettingVariantEntity } from "./jewlrySettingVariant.entity";
 import { JewelrySettingEntity } from "./jewelrySetting.entity";
+import { OrderLineEntity } from "./orderLine.entity";
 
 @Entity('Size')
 export class SizeEntity extends BaseEntity{
@@ -10,6 +11,6 @@ export class SizeEntity extends BaseEntity{
     SizeValue: number
     @Column()
     UnitOfMeasure: string
-    @OneToMany(()=>JewelrySettingVariantEntity, JewelrySettingVariant=>JewelrySettingVariant.size)
-    jewelrySettingVariants: JewelrySettingVariantEntity[]
+    @OneToMany(()=>OrderLineEntity, orderline=>orderline.size)
+    orderlines: OrderLineEntity[]
 }
