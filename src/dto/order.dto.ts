@@ -78,3 +78,10 @@ export class PaymentDTO {
     @ApiProperty({ example: false, description: 'The status of the order' })
     Diamond: DiamondDTO;
 }
+
+export class OrderSummarizeDTO{
+    @ApiProperty({ example: null , description: 'Start date to collect orders' })
+    StartDate: Date
+    @ApiProperty({ example: null , description: 'End date to collect orders' })
+    EndDate: Date
+}

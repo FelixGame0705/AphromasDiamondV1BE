@@ -6,14 +6,15 @@ export const   productFactory = setSeederFactory(ProductEntity, async (faker) =>
     const product = new ProductEntity()
     product.Name = faker.commerce.productName();
     product.Quantity = 1;
-    // product.Inscription = faker.commerce.productDescription();
-    // product.InscriptionFont = faker.commerce.productDescription();
-    product.Brand = faker.company.name();
-    product.JewelrySettingID = faker.datatype.number({ min: 1, max: 5 }); 
-    product.Stars = faker.datatype.number({ min: 1, max: 5 });
+    // product.Inscription = null;
+    // product.InscriptionFont = null;
+    const Brandname =  ['Zac Zac Posen','Bella Vaughan', 'Blue Nile Studio', 'The Gallery Collection'];
+    product.Brand =  faker.helpers.arrayElement(Brandname);
+   
+    product.Stars = faker.datatype.number({ min: 3, max: 5 });
 
 
-
+ // product.JewelrySettingID = faker.datatype.number({ min: 1, max: 5 }); 
 
     // Giá cơ bản cho trang sức có kim cương
   let basePrice;

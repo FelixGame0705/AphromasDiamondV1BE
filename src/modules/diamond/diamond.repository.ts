@@ -16,7 +16,7 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
         super(repository);
     }
     async findRelationById(id: number): Promise<Diamond> {
-        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['usingImage', 'certificate']})
+        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['usingImage', 'certificate', 'certificate.usingImages']})
     }
 
     protected getIdField(): keyof Diamond {
@@ -63,6 +63,22 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
         }
         if (filters.Cut && filters.Cut.length > 0) {
             subQuery.andWhere("diamond.cut IN (:...Cut)", { Cut: filters.Cut });
+        }
+        if (filters.Quantity ) {
+            subQuery.andWhere("diamond.quantity = :Quantity", { Quantity: filters.Quantity });
+        }
+        // if (filters.IsActive) {
+        //     subQuery.andWhere("diamond.IsActive = :IsActive", { IsActive: filters.IsActive });
+        // }
+        if (filters.IsActive !== undefined) {
+            // Chuyển đổi giá trị `IsActive` nếu cần
+            const isActive = filters.IsActive === 'true' ? true : filters.IsActive === 'false' ? false : undefined;
+            if (isActive !== undefined) {
+                subQuery.andWhere("diamond.IsActive = :IsActive", { IsActive: isActive });
+            } else {
+                // Nếu không có điều kiện lọc cho `IsActive`, không áp dụng điều kiện lọc này
+                subQuery.andWhere("diamond.IsActive IS NOT NULL");
+            }
         }
     
         // Áp dụng sắp xếp

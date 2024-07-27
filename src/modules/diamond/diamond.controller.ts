@@ -90,11 +90,23 @@ export class DiamondController {
         description: 'Diamond clarity'
     })
     @ApiQuery({
+        name: 'IsActive',
+        required: false,
+        type: Boolean,
+        description: 'Is diamond active'
+    })
+    @ApiQuery({
         name: 'Cut',
         required: false,
         isArray: true,
         type: String,
         description: 'Diamond clarity'
+    })
+    @ApiQuery({
+        name: 'Quantity',
+        required: false,
+        type: Number,
+        description: 'Quantity'
     })
     @ApiQuery({
         name: 'sortField',
@@ -119,7 +131,10 @@ export class DiamondController {
             minPrice: query.minPrice,
             maxPrice: query.maxPrice,
             minCarat: query.minCarat,
-            maxCarat: query.maxCarat
+            maxCarat: query.maxCarat,
+            Quantity: query.Quantity,
+            IsActive: query.IsActive
+            
         };
         const sort = {
             field: query.sortField || 'Name',
@@ -127,6 +142,18 @@ export class DiamondController {
         };
 
         return this.diamondService.getDiamonds(page, filters, sort);
+    }
+
+    @Post('/purchase/:id')
+    @Public()
+    @ApiParam({ name: 'id', description: 'ID của viên kim cương để mua', type: Number })
+    async purchaseDiamond(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
+        try {
+           const IsAcitve  =await this.diamondService.updateDiamondStatusAfterPurchase(id);
+            return res.json(new ResponseData(IsAcitve, HttpStatus.SUCCESS, HttpMessage.SUCCESS));
+        } catch (error) {
+            return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
+        }
     }
 
     @Get('/:id')

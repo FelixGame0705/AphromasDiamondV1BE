@@ -1,12 +1,13 @@
 import { Notification } from "src/models/notification.model";
 import { AbstractPromise } from "./AbstractRepository";
 import { OrderLineEntity } from "src/entities/orderLine.entity";
-import { Order, OrderDetail } from "src/models/order.model";
+import { Order, OrderDetail, OrderSummarize } from "src/models/order.model";
 import { OrderEntity } from "src/entities/order.entity";
-import { PaymentDTO } from "src/dto/order.dto";
+import { OrderSummarizeDTO, PaymentDTO } from "src/dto/order.dto";
 
  export interface IOrderRepository extends AbstractPromise<Order>{
     findRelationOrderLineById(id: number): Promise<OrderDetail>;
+    summarizeOrder(orderSummarize: OrderSummarizeDTO): Promise<OrderSummarize>;
     paginateAndFilter(
         page: number,
         perPage: number,

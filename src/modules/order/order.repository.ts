@@ -1,14 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { OrderDTO, PaymentDTO } from "src/dto/order.dto";
+import { OrderDTO, OrderSummarizeDTO, PaymentDTO } from "src/dto/order.dto";
 import { DiamondEntity } from "src/entities/diamond.entity";
 import { JewelrySettingVariantEntity } from "src/entities/jewlrySettingVariant.entity";
 import { OrderEntity } from "src/entities/order.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IOrderRepository } from "src/interfaces/IOrderRepository";
-import { Order } from "src/models/order.model";
-import { DataSource, EntityManager, FindOptionsWhere, ObjectLiteral, Repository, getManager } from "typeorm";
+import { Order, OrderSummarize } from "src/models/order.model";
+import { Between, DataSource, EntityManager, FindOptionsWhere, LessThanOrEqual, MoreThanOrEqual, ObjectLiteral, Repository, getManager } from "typeorm";
 import { Transactional } from "typeorm-transactional";
+import * as moment from 'moment';
 
 @Injectable()
 export class OrderRepository extends BaseRepository<OrderEntity, Repository<OrderEntity>> implements IOrderRepository {
@@ -18,6 +19,40 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
         protected readonly repository: Repository<OrderEntity>
     ) {
         super(repository);
+    }
+    async summarizeOrder(orderSummarize: OrderSummarizeDTO): Promise<OrderSummarize> {
+            const whereConditions: any = {};
+            if (orderSummarize.StartDate && orderSummarize.EndDate) {
+                whereConditions['CompleteDate'] = Between(orderSummarize.StartDate, orderSummarize.EndDate);
+            }
+        
+            // Truy vấn dữ liệu từ repository
+            const data = await this.repository.find({ where: whereConditions });
+        
+            const monthlyData: { [month: string]: { revenue: number, orderQuantity: number } } = {};
+        
+            // Duyệt qua dữ liệu và tính tổng doanh thu và số lượng đơn hàng theo từng tháng
+            data.forEach(order => {
+                const month = moment(order.CompleteDate).format('YYYY-MM'); // Định dạng tháng (năm-tháng)
+                if (!monthlyData[month]) {
+                    monthlyData[month] = { revenue: 0, orderQuantity: 0 };
+                }
+                monthlyData[month].revenue += order.VoucherPrice || order.Price; // Giả sử `order.Revenue` là trường chứa doanh thu của đơn hàng
+                monthlyData[month].orderQuantity += 1;
+            });
+        
+            // Chuyển đổi đối tượng thành mảng kết quả
+            const result = new OrderSummarize({
+                StartDate: orderSummarize.StartDate,
+                EndDate: orderSummarize.EndDate,
+                OrderResults: Object.keys(monthlyData).map(month => ({
+                month,
+                revenue: monthlyData[month].revenue,
+                orderQuantity: monthlyData[month].orderQuantity
+            }))
+     } );
+        
+            return result;
     }
     @Transactional()
     async payOrder(id: number): Promise<Order> {
@@ -136,7 +171,7 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
 
         //return orderWithOrderLine || orderWithAccountDelivery;
 
-        const orderDetail = await this.repository.findOne({ where: { OrderID: id }, relations: ['orderLine', 'customer', 'orderLine.diamond','orderLine.product'] })
+        const orderDetail = await this.repository.findOne({ where: { OrderID: id }, relations: ['orderLine', 'customer', 'orderLine.diamond', 'orderLine.product'] })
         // const order = await this.repository.createQueryBuilder('order')
         //     .leftJoinAndSelect('order.accountDelivery', 'account')
         //     .leftJoinAndSelect('order.orderLine', 'orderline')
