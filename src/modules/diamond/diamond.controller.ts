@@ -91,7 +91,7 @@ export class DiamondController {
     })
     @ApiQuery({
         name: 'IsActive',
-        required: true,
+        required: false,
         type: Boolean,
         description: 'Is diamond active'
     })
@@ -101,6 +101,12 @@ export class DiamondController {
         isArray: true,
         type: String,
         description: 'Diamond clarity'
+    })
+    @ApiQuery({
+        name: 'Quantity',
+        required: false,
+        type: Number,
+        description: 'Quantity'
     })
     @ApiQuery({
         name: 'sortField',
@@ -126,6 +132,7 @@ export class DiamondController {
             maxPrice: query.maxPrice,
             minCarat: query.minCarat,
             maxCarat: query.maxCarat,
+            Quantity: query.Quantity,
             IsActive: query.IsActive
             
         };
