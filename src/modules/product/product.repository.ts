@@ -72,8 +72,6 @@ export class ProductRepository extends BaseRepository<ProductEntity, Repository<
 
         // Apply filters
         const whereConditions: any = {};
-
-        console.log('1979 FUCK ' + filters.DiamondShape[0]);
         if (filters.Brand && filters.Brand.length > 0) {
             whereConditions['Brand'] = In(filters.Brand);
         }

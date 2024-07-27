@@ -6,7 +6,7 @@ import { HttpMessage, HttpStatus, Role } from "src/global/globalEnum";
 import { ResponseType } from "src/global/globalType";
 import { Order } from "src/models/order.model";
 import { OrderService } from "./order.service";
-import { OrderDTO, PaymentDTO } from "src/dto/order.dto";
+import { OrderDTO, OrderSummarizeDTO, PaymentDTO } from "src/dto/order.dto";
 import { Response } from "express";
 
 @ApiTags('OrderApi')
@@ -54,7 +54,7 @@ export class OrderController{
     })
 
     @Public()
-    async showProducts(@Query() query: any) {
+    async showOrder(@Query() query: any) {
         const page: number = parseInt(query.page as any) || 1;
         const filters = {
             Status: query.Status
@@ -80,6 +80,18 @@ export class OrderController{
     //         return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
     //     }
     // }
+
+    @Public()
+    @Post("/summarize")
+    async getSummarizeOrder(@Body() orderSummarize: OrderSummarizeDTO,
+        @Res()res: Response){
+        try {
+            return res.json(new ResponseData(await this.orderService.getSummarizeOrders(orderSummarize), HttpStatus.SUCCESS, HttpMessage.SUCCESS));
+        }
+        catch (error) {
+            return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
+        }
+    }
 
     @ApiBearerAuth()
     @Get("/detail/:id")
