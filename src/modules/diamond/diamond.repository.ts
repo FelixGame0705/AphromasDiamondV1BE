@@ -16,7 +16,7 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
         super(repository);
     }
     async findRelationById(id: number): Promise<Diamond> {
-        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['usingImage', 'certificate']})
+        return await this.repository.findOne({where: {[this.getIdField()]:id}, relations: ['usingImage', 'certificate', 'certificate.usingImages']})
     }
 
     protected getIdField(): keyof Diamond {
