@@ -114,7 +114,6 @@ export class AuthController {
     }
     @ApiBearerAuth()
     @Roles(Role.Admin, Role.DeliveryStaff, Role.Manager, Role.SaleStaff)
-    @Public()
     @Put('/update/:Username')
     async updateAccount(
         @Param('Username') username: string,

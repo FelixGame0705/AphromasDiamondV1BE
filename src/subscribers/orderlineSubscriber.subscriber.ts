@@ -79,15 +79,16 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     }
                     await diamondRepository.save(diamondEntity)
                 }
-                if (orderEntity) {
-                    const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
-                    const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
-                    orderEntity.Price = totalDiscountPrice;
-                    await orderRepository.save(orderEntity);
-                }
+                
                 console.log('order entity price: ', orderlineEntity)
 
                 await orderlineRepository.save(orderlineEntity);
+                if (orderEntity) {
+                    const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
+                    const totalDiscountPrice = orderlinesEntity.map((item)=> item.DiscountPrice).reduce((total, current) => Number(total) + Number(current), 0);
+                    orderEntity.Price = totalDiscountPrice;
+                    await orderRepository.save(orderEntity);
+                }
                 // await jewelrySettingVariantRepository.save(item);
                 // }
                 console.log('Cập nhật hoàn tất.');
@@ -204,15 +205,16 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     }
                     await diamondRepository.save(diamondEntity)
                 }
+                
+                await orderlineRepository.save(orderlineEntity);
+                // await jewelrySettingVariantRepository.save(item);
+                // }
                 const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
                 const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
                 if (orderEntity) {
                     orderEntity.Price = totalDiscountPrice;
                     await orderRepository.save(orderEntity);
                 }
-                await orderlineRepository.save(orderlineEntity);
-                // await jewelrySettingVariantRepository.save(item);
-                // }
                 console.log('Cập nhật hoàn tất.');
             }
             else {
