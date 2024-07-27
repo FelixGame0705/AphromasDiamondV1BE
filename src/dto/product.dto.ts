@@ -7,10 +7,6 @@ export class ProductDTO{
     @IsNumber()
     @IsOptional()
     JewelrySettingID: number|null
-    @ApiProperty({example:null, description:'JewelrySettingVariantID of jewelry'})
-    @IsNumber()
-    @IsOptional()
-    JewelrySettingVariantID: number|null
     @ApiProperty({example:'ds', description:'Name of jewelry'})
     @IsString()
     Name: string

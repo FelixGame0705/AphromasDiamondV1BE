@@ -38,7 +38,7 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
             console.log("orderline: ", orderline)
             if (!orderline) return;
             const orderlineRepository = event.manager.getRepository(OrderLineEntity)
-            const orderlineEntity = (await orderlineRepository.findOne({ where: [{OrderLineID:orderline.OrderLineID}] }))
+            const orderlineEntity = (await orderlineRepository.findOne({ where: [{ OrderLineID: orderline.OrderLineID }] }))
 
             if (orderlineEntity.DiamondID != null || orderlineEntity.ProductID != null) {
 
@@ -46,18 +46,21 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                 const productRepository = event.manager.getRepository(ProductEntity);
                 const diamondRepository = event.manager.getRepository(DiamondEntity);
                 const orderRepository = event.manager.getRepository(OrderEntity);
+                const jewelrySettingVariantRepository = event.manager.getRepository(JewelrySettingVariantEntity);
 
                 // Cập nhật giá của tất cả orderline dựa trên giá bán mới
-                const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID } });
+                const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID }, relations: ['discount','diamonds'] });
                 const diamondEntity = await diamondRepository.findOne({ where: { DiamondID: orderlineEntity.DiamondID } });
-                //const orderEntity = await orderRepository.findOne({where: {OrderID: orderlineEntity.OrderID}});
+                const orderEntity = await orderRepository.findOne({ where: { OrderID: orderlineEntity.OrderID } });
                 // for (const item of jewelrySettingVariants) {
                 // Logic cập nhật giá trang sức
                 //const diamondsInProduct = diamond.map(diamond => diamond.Price*diamond.ChargeRate);
                 //const diamondsPrice = diamondsInProduct.reduce((a, p) => a + p)
-                if (orderlineEntity.ProductID != null) {
-                    orderlineEntity.Price = productEntity.Price* orderline.Quantity;
-                    orderlineEntity.DiscountPrice = productEntity.DiscountPrice* orderline.Quantity;
+                if (orderlineEntity.ProductID != null || orderlineEntity.JewelrySettingVariantID != null) {
+                    const jewelrySettingVariantEntity = await jewelrySettingVariantRepository.findOne({where: {JewelrySettingVariantID: orderlineEntity.JewelrySettingVariantID}})
+                   console.log('Jewelry setting variant price is: ',productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current)=>result+current,0))
+                    orderlineEntity.Price = (jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current)=>Number(result)+Number(current),0)) * orderlineEntity.Quantity;
+                    orderlineEntity.DiscountPrice = orderlineEntity.Quantity * (jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current)=>Number(result)+Number(current),0)) * (100-productEntity.discount.PercentDiscounts)/100;
                     orderlineEntity.DiamondID = null
                     if (orderlineEntity.OrderID != null && orderlineEntity.Quantity <= productEntity.Quantity) {
                         productEntity.Quantity -= orderlineEntity.Quantity;
@@ -66,7 +69,7 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
 
                 } else if (orderlineEntity.DiamondID != null) {
                     orderlineEntity.Price = diamondEntity.Price * orderline.Quantity;
-                    orderlineEntity.DiscountPrice = diamondEntity.DiscountPrice* orderline.Quantity;
+                    orderlineEntity.DiscountPrice = diamondEntity.DiscountPrice * orderline.Quantity;
                     orderlineEntity.ProductID = null
                     if (orderlineEntity.OrderID != null) {
                         diamondEntity.Quantity = 0;
@@ -76,13 +79,12 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     }
                     await diamondRepository.save(diamondEntity)
                 }
-
-                // const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
-                // const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
-                // if (orderEntity) {
-                //     orderEntity.Price = totalDiscountPrice;
-                //     await orderRepository.save(orderEntity);
-                // }
+                if (orderEntity) {
+                    const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
+                    const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
+                    orderEntity.Price = totalDiscountPrice;
+                    await orderRepository.save(orderEntity);
+                }
                 console.log('order entity price: ', orderlineEntity)
 
                 await orderlineRepository.save(orderlineEntity);
@@ -114,7 +116,7 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
             console.log("orderline before update: ", orderline)
             const orderlineRepository = event.manager.getRepository(OrderLineEntity)
             if (!orderline) return;
-            const orderlineEntity = (await orderlineRepository.findOne({ where: [{OrderLineID:orderline.OrderLineID}] }))
+            const orderlineEntity = (await orderlineRepository.findOne({ where: [{ OrderLineID: orderline.OrderLineID }] }))
             console.log('orderline entity: ', orderlineEntity)
             if (orderlineEntity?.OrderID != null) {
                 this.oldOrderIDinOrderline = orderlineEntity.OrderID
@@ -122,7 +124,7 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
         }
         finally {
             this.isHandlingUpdate = false
-        }if (this.isHandlingUpdate) {
+        } if (this.isHandlingUpdate) {
             return;
         }
 
@@ -134,7 +136,7 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
             console.log("orderline before update: ", orderline)
             const orderlineRepository = event.manager.getRepository(OrderLineEntity)
             if (!orderline) return;
-            const orderlineEntity = (await orderlineRepository.findOne({ where: [{OrderLineID:orderline.OrderLineID}] }))
+            const orderlineEntity = (await orderlineRepository.findOne({ where: [{ OrderLineID: orderline.OrderLineID }] }))
             console.log('orderline entity: ', orderlineEntity)
             if (orderlineEntity?.OrderID != null) {
                 this.oldOrderIDinOrderline = orderlineEntity.OrderID
@@ -160,24 +162,28 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
             console.log('Old orderline: ' + event.databaseEntity)
             const orderlineRepository = event.manager.getRepository(OrderLineEntity)
             const orderRepository = event.manager.getRepository(OrderEntity)
-            const orderlineEntity = (await orderlineRepository.findOne({ where: {OrderLineID: orderline.OrderLineID} }))
+            const orderlineEntity = (await orderlineRepository.findOne({ where: { OrderLineID: orderline.OrderLineID } }))
             const orderEntity = await orderRepository.findOne({ where: { OrderID: orderlineEntity.OrderID } })
 
             if (orderlineEntity.DiamondID != null || orderlineEntity.ProductID != null) {
                 // const productRepository = event.manager.getRepository(ProductEntity)
                 const productRepository = event.manager.getRepository(ProductEntity);
                 const diamondRepository = event.manager.getRepository(DiamondEntity);
-
+                const jewelrySettingVariantRepository = event.manager.getRepository(JewelrySettingVariantEntity)
                 // Cập nhật giá của tất cả orderline dựa trên giá bán mới
-                const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID } });
+                const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID }, relations:['discount','diamonds'] });
                 const diamondEntity = await diamondRepository.findOne({ where: { DiamondID: orderlineEntity.DiamondID } });
+                
                 // for (const item of jewelrySettingVariants) {
                 // Logic cập nhật giá trang sức
                 //const diamondsInProduct = diamond.map(diamond => diamond.Price*diamond.ChargeRate);
                 //const diamondsPrice = diamondsInProduct.reduce((a, p) => a + p)
-                if (orderlineEntity.ProductID != null) {
-                    orderlineEntity.Price = productEntity.Price;
-                    orderlineEntity.DiscountPrice = productEntity.DiscountPrice;
+                if (orderlineEntity.ProductID != null && orderlineEntity.JewelrySettingVariantID != null) {
+                    const jewelrySettingVariantEntity = await jewelrySettingVariantRepository.findOne({ where: { JewelrySettingVariantID: orderlineEntity.JewelrySettingVariantID }})
+                    
+                    console.log('Jewelry setting variant price ', jewelrySettingVariantEntity.Price)
+                    orderlineEntity.Price = jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current)=>Number(result)+Number(current),0)
+                    orderlineEntity.DiscountPrice = (jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current)=>Number(result)+Number(current),0)) * (100-productEntity.discount.PercentDiscounts)/100;
                     orderlineEntity.DiamondID = null
                     if (orderlineEntity.OrderID != null && orderlineEntity.Quantity <= productEntity.Quantity) {
                         productEntity.Quantity -= orderlineEntity.Quantity;

@@ -37,14 +37,30 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
                 if (!monthlyData[month]) {
                     monthlyData[month] = { revenue: 0, orderQuantity: 0 };
                 }
-                monthlyData[month].revenue += order.VoucherPrice || order.Price; // Giả sử `order.Revenue` là trường chứa doanh thu của đơn hàng
+                monthlyData[month].revenue += Number(order.VoucherPrice) || Number(order.Price); // Giả sử `order.Revenue` là trường chứa doanh thu của đơn hàng
                 monthlyData[month].orderQuantity += 1;
             });
+            const monthlyArray = Object.keys(monthlyData).map(month => ({
+                month,
+                revenue: monthlyData[month].revenue,
+                orderQuantity: monthlyData[month].orderQuantity
+            }));
+            
+            const mostRevenueInTime = monthlyArray.reduce((max, current) => {
+                return current.revenue > max.revenue ? current : max;
+            }, { month: '', revenue: 0, orderQuantity: 0 });
+
+            const mostQuantityInTime = monthlyArray.reduce((max, current) => {
+                return current.orderQuantity > max.orderQuantity ? current : max;
+            }, { month: '', revenue: 0, orderQuantity: 0 });
+        
         
             // Chuyển đổi đối tượng thành mảng kết quả
             const result = new OrderSummarize({
                 StartDate: orderSummarize.StartDate,
                 EndDate: orderSummarize.EndDate,
+                MostRevenueInTime: mostRevenueInTime,
+                MostQuantiyInTime: mostQuantityInTime,
                 OrderResults: Object.keys(monthlyData).map(month => ({
                 month,
                 revenue: monthlyData[month].revenue,
