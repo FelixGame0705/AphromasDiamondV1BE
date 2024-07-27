@@ -11,6 +11,7 @@ import { JewelrySetting } from "src/models/jewelrySetting.model";
 import { IDiamondRepository } from "src/interfaces/IDiamondRepository";
 import Decimal from "decimal.js";
 import { Discount } from "src/models/discount.model";
+import { PRODUCT_PER_PAGE } from "src/constants/constant";
 
 @Injectable()
 export class ProductService {
@@ -62,6 +63,12 @@ export class ProductService {
         }))
         return modifiedData;
     }
+
+    async getProducts(page: number, filters: any, sort: { field: any; order: any; }){
+        const perPage = PRODUCT_PER_PAGE;
+        return this.productRepository.paginateAndFilter(page, perPage, filters, sort);
+    }
+
     async findById(id: number): Promise<ProductDetail> {
         let item = await this.productRepository.findRelationById(id);
         console.log("hello" + item)
