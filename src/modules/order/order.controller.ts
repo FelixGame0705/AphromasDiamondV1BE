@@ -83,7 +83,7 @@ export class OrderController{
 
     @ApiBearerAuth()
     @Get("/detail/:id")
-    @Roles(Role.Customer, Role.Admin)
+    @Roles(Role.Customer, Role.Admin, Role.SaleStaff, Role.DeliveryStaff)
     @ApiParam({ name: 'id', description: 'ID of the order to watch relation', type: Number })
     async findRelationById(
         @Param('id') id: number, 
