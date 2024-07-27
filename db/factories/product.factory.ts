@@ -6,21 +6,12 @@ export const   productFactory = setSeederFactory(ProductEntity, async (faker) =>
     const product = new ProductEntity()
     product.Name = faker.commerce.productName();
     product.Quantity = 1;
-<<<<<<< HEAD
-    product.Inscription = null;
-    product.InscriptionFont = null;
+    // product.Inscription = null;
+    // product.InscriptionFont = null;
     const Brandname =  ['Zac Zac Posen','Bella Vaughan', 'Blue Nile Studio', 'The Gallery Collection'];
     product.Brand =  faker.helpers.arrayElement(Brandname);
    
     product.Stars = faker.datatype.number({ min: 3, max: 5 });
-=======
-    // product.Inscription = faker.commerce.productDescription();
-    // product.InscriptionFont = faker.commerce.productDescription();
-    product.Brand = faker.company.name();
-    product.JewelrySettingID = faker.datatype.number({ min: 1, max: 5 }); 
-    product.Stars = faker.datatype.number({ min: 1, max: 5 });
-
->>>>>>> develop
 
 
  // product.JewelrySettingID = faker.datatype.number({ min: 1, max: 5 }); 
