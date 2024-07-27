@@ -23,7 +23,7 @@ export class FeedbackRepository extends BaseRepository<FeedbackEntity, Repositor
     }
 
     async findAll(): Promise<FeedbackEntity[]> {
-        return await this.repository.find({where: { IsActive: true } as FindOptionsWhere<FeedbackEntity>});
+        return await this.repository.find({where: { IsActive: true }, relations:['account']});
     }
 
     async paginateAndFilter(
