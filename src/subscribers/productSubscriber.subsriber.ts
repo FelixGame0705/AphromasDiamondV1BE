@@ -58,52 +58,52 @@ export class ProductSubscriber implements EntitySubscriberInterface<ProductEntit
       const productRepository = event.manager.getRepository(ProductEntity)
       const productEntity = (await productRepository.findOne({ where: { ProductID: product.ProductID } }))
 
-      if (productEntity.JewelrySettingVariantID != null) {
+      // if (productEntity.JewelrySettingVariantID != null) {
 
-        // const productRepository = event.manager.getRepository(ProductEntity)
-        const jewelrySettingVariantRepository = event.manager.getRepository(JewelrySettingVariantEntity);
-        const diamondRepository = event.manager.getRepository(DiamondEntity);
-        const discountRepository = event.manager.getRepository(DiscountEntity);
-        const oldProductQuantity = this.oldProductQuantity;
-        // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
-        const jewelrySettingVariant = await jewelrySettingVariantRepository.findOne({ where: { JewelrySettingVariantID: product.JewelrySettingVariantID } });
-        const diamonds = await diamondRepository.find({ where: { ProductID: product.ProductID } });
-        const discountEntity = await discountRepository.findOne({ where: { DiscountID: product.DiscountID } })
-        // for (const item of jewelrySettingVariants) {
-        // Logic cập nhật giá trang sức
-        let diamondsInProduct = null
-        let diamondsPrice = null
-        if (diamonds.length > 0) {
-          diamondsInProduct = diamonds.map(diamond => diamond.Price * diamond.ChargeRate);
-          diamondsPrice = diamondsInProduct.reduce((a, p) => a + p)
-        }
-        if (oldProductQuantity >= productEntity.Quantity) {
-          for (const diamond of diamonds) {
-            diamond.Quantity = 0
-          }
-          jewelrySettingVariant.Quantity -= 1;
-        }
-        if (oldProductQuantity <= productEntity.Quantity) {
-          for (const diamond of diamonds) {
-            diamond.Quantity = 1
-            jewelrySettingVariant.Quantity += 1;
-          }
-        }
-        console.log("JJJJ: ", product.ProductID);
-        let price = calculateNewPrice(jewelrySettingVariant.Price, diamondsPrice);
-        productEntity.Price = price;
-        productEntity.DiscountPrice = price * Number(discountEntity.PercentDiscounts) / 100
-        await productRepository.save(productEntity);
-        // await jewelrySettingVariantRepository.save(item);
-        // }
-        console.log('Cập nhật hoàn tất.');
-      }
-      else {
-        const productRepository = event.manager.getRepository(ProductEntity)
-        productEntity.Price = null;
-        await productRepository.save(productEntity);
+      //   // const productRepository = event.manager.getRepository(ProductEntity)
+      //   const jewelrySettingVariantRepository = event.manager.getRepository(JewelrySettingVariantEntity);
+      //   const diamondRepository = event.manager.getRepository(DiamondEntity);
+      //   const discountRepository = event.manager.getRepository(DiscountEntity);
+      //   const oldProductQuantity = this.oldProductQuantity;
+      //   // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
+      //   const jewelrySettingVariant = await jewelrySettingVariantRepository.findOne({ where: { JewelrySettingVariantID: product.JewelrySettingVariantID } });
+      //   const diamonds = await diamondRepository.find({ where: { ProductID: product.ProductID } });
+      //   const discountEntity = await discountRepository.findOne({ where: { DiscountID: product.DiscountID } })
+      //   // for (const item of jewelrySettingVariants) {
+      //   // Logic cập nhật giá trang sức
+      //   let diamondsInProduct = null
+      //   let diamondsPrice = null
+      //   if (diamonds.length > 0) {
+      //     diamondsInProduct = diamonds.map(diamond => diamond.Price * diamond.ChargeRate);
+      //     diamondsPrice = diamondsInProduct.reduce((a, p) => a + p)
+      //   }
+      //   if (oldProductQuantity >= productEntity.Quantity) {
+      //     for (const diamond of diamonds) {
+      //       diamond.Quantity = 0
+      //     }
+      //     jewelrySettingVariant.Quantity -= 1;
+      //   }
+      //   if (oldProductQuantity <= productEntity.Quantity) {
+      //     for (const diamond of diamonds) {
+      //       diamond.Quantity = 1
+      //       jewelrySettingVariant.Quantity += 1;
+      //     }
+      //   }
+      //   console.log("JJJJ: ", product.ProductID);
+      //   let price = calculateNewPrice(jewelrySettingVariant.Price, diamondsPrice);
+      //   productEntity.Price = price;
+      //   productEntity.DiscountPrice = price * Number(discountEntity.PercentDiscounts) / 100
+      //   await productRepository.save(productEntity);
+      //   // await jewelrySettingVariantRepository.save(item);
+      //   // }
+      //   console.log('Cập nhật hoàn tất.');
+      // }
+      // else {
+      //   const productRepository = event.manager.getRepository(ProductEntity)
+      //   productEntity.Price = null;
+      //   await productRepository.save(productEntity);
 
-      }
+      // }
     }
     finally {
       this.isHandlingUpdate = false

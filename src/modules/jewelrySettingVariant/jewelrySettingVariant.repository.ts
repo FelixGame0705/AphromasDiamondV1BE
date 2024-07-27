@@ -25,13 +25,11 @@ export class JewelrySettingVariantRepository extends BaseRepository<JewelrySetti
     async findById(id: number): Promise<JewelrySettingVariantEntity> {
         const builder = this.repository.createQueryBuilder('jewelrySettingVariant')
         .leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry')
-        .leftJoinAndSelect('jewelrySettingVariant.size', 'size')
         .leftJoinAndSelect('jewelrySettingVariant.jewelrySettings', 'jewelrySetting')
         .select([
             'jewelrySettingVariant',
             'materialJewelry.SellPrice',
-            'jewelrySetting',
-            'size'
+            'jewelrySetting'
         ])
         .where('jewelrySettingVariant.JewelrySettingVariantID = :id', {id})
         .getOne();

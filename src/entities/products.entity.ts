@@ -16,10 +16,10 @@ export class ProductEntity extends BaseEntity{
     Name: string
     @Column({default: 1, nullable: true})
     Quantity: number
-    @Column({nullable: true})
-    Inscription: string
-    @Column({nullable: true})
-    InscriptionFont: string
+    // @Column({nullable: true})
+    // Inscription: string
+    // @Column({nullable: true})
+    // InscriptionFont: string
     @Column({nullable: true})
     Brand: string
     @Column({nullable: true})
@@ -36,16 +36,16 @@ export class ProductEntity extends BaseEntity{
     CollectionID: number
     @Column({nullable: true})
     DiscountID: number
-    @Column({nullable: true})
-    JewelrySettingVariantID:number
+    // @Column({nullable: true})
+    // JewelrySettingVariantID:number
     @OneToMany(()=>DiamondEntity, diamond=>diamond.products)
     diamonds: DiamondEntity[]
     @ManyToOne(()=>JewelrySettingEntity, {nullable: true})
     @JoinColumn({name:'JewelrySettingID', referencedColumnName:'JewelrySettingID'})
     jewelrySetting: JewelrySettingEntity
-    @ManyToOne(()=>JewelrySettingVariantEntity, {nullable: true})
-    @JoinColumn({name:'JewelrySettingVariantID', referencedColumnName:'JewelrySettingVariantID'})
-    jewelrySettingVariant: JewelrySettingVariantEntity
+    // @ManyToOne(()=>JewelrySettingVariantEntity, {nullable: true})
+    // @JoinColumn({name:'JewelrySettingVariantID', referencedColumnName:'JewelrySettingVariantID'})
+    // jewelrySettingVariant: JewelrySettingVariantEntity
     @ManyToOne(()=>AccountsEntity, {nullable:true})
     @JoinColumn({name:'AccountID', referencedColumnName:'AccountID'})
     account: AccountsEntity
