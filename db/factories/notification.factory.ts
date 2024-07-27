@@ -16,6 +16,7 @@ export const  notificationFactory = setSeederFactory(NotificationEntity, async (
     ];
     notification.Message = faker.helpers.arrayElement(messages);
 
+    //foreign key
     // notification.AccountID = faker.datatype.number({ min: 5, max: 999999 });  
     
     return notification;
