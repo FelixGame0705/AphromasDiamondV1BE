@@ -166,7 +166,7 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                 // const productRepository = event.manager.getRepository(ProductEntity)
                 const productRepository = event.manager.getRepository(ProductEntity);
                 const diamondRepository = event.manager.getRepository(DiamondEntity);
-
+                // const jewelrySettingVariant = event.manager.getRepository()
                 // Cập nhật giá của tất cả orderline dựa trên giá bán mới
                 const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID } });
                 const diamondEntity = await diamondRepository.findOne({ where: { DiamondID: orderlineEntity.DiamondID } });
