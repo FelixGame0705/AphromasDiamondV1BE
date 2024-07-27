@@ -49,7 +49,7 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                 const jewelrySettingVariantRepository = event.manager.getRepository(JewelrySettingVariantEntity);
 
                 // Cập nhật giá của tất cả orderline dựa trên giá bán mới
-                const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID }, relations: ['discount','diamonds'] });
+                const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID }, relations: ['discount', 'diamonds'] });
                 const diamondEntity = await diamondRepository.findOne({ where: { DiamondID: orderlineEntity.DiamondID } });
                 const orderEntity = await orderRepository.findOne({ where: { OrderID: orderlineEntity.OrderID } });
                 // for (const item of jewelrySettingVariants) {
@@ -57,10 +57,10 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                 //const diamondsInProduct = diamond.map(diamond => diamond.Price*diamond.ChargeRate);
                 //const diamondsPrice = diamondsInProduct.reduce((a, p) => a + p)
                 if (orderlineEntity.ProductID != null || orderlineEntity.JewelrySettingVariantID != null) {
-                    const jewelrySettingVariantEntity = await jewelrySettingVariantRepository.findOne({where: {JewelrySettingVariantID: orderlineEntity.JewelrySettingVariantID}})
-                   console.log('Jewelry setting variant price is: ',productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current)=>result+current,0))
-                    orderlineEntity.Price = (jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current)=>Number(result)+Number(current),0)) * orderlineEntity.Quantity;
-                    orderlineEntity.DiscountPrice = orderlineEntity.Quantity * (jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current)=>Number(result)+Number(current),0)) * (100-productEntity.discount.PercentDiscounts)/100;
+                    const jewelrySettingVariantEntity = await jewelrySettingVariantRepository.findOne({ where: { JewelrySettingVariantID: orderlineEntity.JewelrySettingVariantID } })
+                    console.log('Jewelry setting variant price is: ', productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current) => result + current, 0))
+                    orderlineEntity.Price = (jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current) => Number(result) + Number(current), 0)) * orderlineEntity.Quantity;
+                    orderlineEntity.DiscountPrice = orderlineEntity.Quantity * (jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current) => Number(result) + Number(current), 0)) * (100 - productEntity.discount.PercentDiscounts) / 100;
                     orderlineEntity.DiamondID = null
                     if (orderlineEntity.OrderID != null && orderlineEntity.Quantity <= productEntity.Quantity) {
                         productEntity.Quantity -= orderlineEntity.Quantity;
@@ -79,15 +79,16 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     }
                     await diamondRepository.save(diamondEntity)
                 }
-                if (orderEntity) {
-                    const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
-                    const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
-                    orderEntity.Price = totalDiscountPrice;
-                    await orderRepository.save(orderEntity);
-                }
+
                 console.log('order entity price: ', orderlineEntity)
 
                 await orderlineRepository.save(orderlineEntity);
+                if (orderEntity) {
+                    const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
+                    const totalDiscountPrice = orderlinesEntity.map((item) => item.DiscountPrice).reduce((total, current) => Number(total) + Number(current), 0);
+                    orderEntity.Price = totalDiscountPrice;
+                    await orderRepository.save(orderEntity);
+                }
                 // await jewelrySettingVariantRepository.save(item);
                 // }
                 console.log('Cập nhật hoàn tất.');
@@ -171,19 +172,19 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                 const diamondRepository = event.manager.getRepository(DiamondEntity);
                 const jewelrySettingVariantRepository = event.manager.getRepository(JewelrySettingVariantEntity)
                 // Cập nhật giá của tất cả orderline dựa trên giá bán mới
-                const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID }, relations:['discount','diamonds'] });
+                const productEntity = await productRepository.findOne({ where: { ProductID: orderlineEntity.ProductID }, relations: ['discount', 'diamonds'] });
                 const diamondEntity = await diamondRepository.findOne({ where: { DiamondID: orderlineEntity.DiamondID } });
-                
+
                 // for (const item of jewelrySettingVariants) {
                 // Logic cập nhật giá trang sức
                 //const diamondsInProduct = diamond.map(diamond => diamond.Price*diamond.ChargeRate);
                 //const diamondsPrice = diamondsInProduct.reduce((a, p) => a + p)
                 if (orderlineEntity.ProductID != null && orderlineEntity.JewelrySettingVariantID != null) {
-                    const jewelrySettingVariantEntity = await jewelrySettingVariantRepository.findOne({ where: { JewelrySettingVariantID: orderlineEntity.JewelrySettingVariantID }})
-                    
+                    const jewelrySettingVariantEntity = await jewelrySettingVariantRepository.findOne({ where: { JewelrySettingVariantID: orderlineEntity.JewelrySettingVariantID } })
+
                     console.log('Jewelry setting variant price ', jewelrySettingVariantEntity.Price)
-                    orderlineEntity.Price = jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current)=>Number(result)+Number(current),0)
-                    orderlineEntity.DiscountPrice = (jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current)=>Number(result)+Number(current),0)) * (100-productEntity.discount.PercentDiscounts)/100;
+                    orderlineEntity.Price = jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current) => Number(result) + Number(current), 0)
+                    orderlineEntity.DiscountPrice = (jewelrySettingVariantEntity.Price + productEntity.diamonds.map((item) => item.DiscountPrice).reduce((result, current) => Number(result) + Number(current), 0)) * (100 - productEntity.discount.PercentDiscounts) / 100;
                     orderlineEntity.DiamondID = null
                     if (orderlineEntity.OrderID != null && orderlineEntity.Quantity <= productEntity.Quantity) {
                         productEntity.Quantity -= orderlineEntity.Quantity;
@@ -204,15 +205,16 @@ export class OrderlineSubscriber implements EntitySubscriberInterface<OrderLineE
                     }
                     await diamondRepository.save(diamondEntity)
                 }
+
+                await orderlineRepository.save(orderlineEntity);
+                // await jewelrySettingVariantRepository.save(item);
+                // }
                 const orderlinesEntity = await orderlineRepository.find({ where: { OrderID: orderEntity.OrderID } });
                 const totalDiscountPrice = orderlinesEntity.reduce((total, orderline) => total + orderline.DiscountPrice, 0);
                 if (orderEntity) {
                     orderEntity.Price = totalDiscountPrice;
                     await orderRepository.save(orderEntity);
                 }
-                await orderlineRepository.save(orderlineEntity);
-                // await jewelrySettingVariantRepository.save(item);
-                // }
                 console.log('Cập nhật hoàn tất.');
             }
             else {

@@ -31,11 +31,11 @@ export class AuthPayloadDTO{
     @IsEnum(Role)
     Role: Role;
     constructor(Name:string, PhoneNumber:string, Email: string, Password:string, Role:Role){
-        this.Name = Name;
-        this.PhoneNumber = PhoneNumber;
-        this.Email = Email;
-        this.Password = Password;
-        this.Role = Role;
+        if(this.Name != undefined) this.Name = Name;
+        if(this.PhoneNumber != undefined) this.PhoneNumber = PhoneNumber;
+        if(this.Email != undefined) this.Email = Email;
+        if(this.Password != undefined) this.Password = Password;
+        if(this.Role != undefined) this.Role = Role;
     }
 }
 
