@@ -23,4 +23,8 @@ export class OrderLineDTO{
     @IsNumber()
     @IsOptional()
     CustomerID: number|null
+    @ApiProperty({ example: null, description: 'JewelrySettingVariantID' })
+    @IsNumber()
+    @IsOptional()
+    JewelrySettingVariantID: number|null
 }
