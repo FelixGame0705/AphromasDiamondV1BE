@@ -19,12 +19,10 @@ export class JewelrySettingRepository extends BaseRepository<JewelrySettingEntit
         const builder = this.repository.createQueryBuilder('jewelrySetting')
         .leftJoinAndSelect('jewelrySetting.jewelrySettingVariant', 'jewelrySettingVariant')
         .leftJoinAndSelect('jewelrySettingVariant.materialJewelry', 'materialJewelry')
-        .leftJoinAndSelect('jewelrySettingVariant.size', 'size')
         .select([
             'jewelrySetting',
             'jewelrySettingVariant',
-            'materialJewelry.SellPrice',
-            'size'
+            'materialJewelry.SellPrice'
         ]).where('jewelrySetting.JewelrySettingID = :id', {id})
         .getOne();
         const data = await builder;
@@ -35,7 +33,7 @@ export class JewelrySettingRepository extends BaseRepository<JewelrySettingEntit
         return data;
     }
     async findRelationById(id: number): Promise<JewelrySettingEntity> {
-        return await this.repository.findOne({where: {[this.getIdField()]: id},relations:['jewelrySettingVariant','jewelryType','jewelrySettingVariant.materialJewelry', 'jewelrySettingVariant.size']})
+        return await this.repository.findOne({where: {[this.getIdField()]: id},relations:['jewelrySettingVariant','jewelryType','jewelrySettingVariant.materialJewelry']})
     }
 
     protected getIdField(): keyof JewelrySettingEntity {
@@ -43,7 +41,7 @@ export class JewelrySettingRepository extends BaseRepository<JewelrySettingEntit
     }
 
     async findAll(): Promise<JewelrySettingEntity[]> {
-        const rs = this.repository.find({relations: ['jewelrySettingVariant', 'jewelrySettingVariant.materialJewelry','jewelrySettingVariant.size', 'usingImage']})
+        const rs = this.repository.find({relations: ['jewelrySettingVariant', 'jewelrySettingVariant.materialJewelry', 'usingImage']})
         return rs;
     }
 
