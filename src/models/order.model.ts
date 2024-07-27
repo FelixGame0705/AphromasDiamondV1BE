@@ -82,3 +82,14 @@ export class OrderDetail{
         this.TotalPrice = TotalPrice    
     }
 }
+
+export class OrderSummarize{
+    StartDate: Date
+    EndDate: Date
+    OrderResults: any
+    constructor({StartDate, EndDate, OrderResults}){
+        this.StartDate = StartDate;
+        this.EndDate = EndDate;
+        this.OrderResults = OrderResults;
+    }
+}
