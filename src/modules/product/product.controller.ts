@@ -5,7 +5,7 @@ import { ResponseData } from 'src/global/globalClass';
 import { ProductDTO } from 'src/dto/product.dto';
 import { ResponseType } from 'src/global/globalType';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { Product } from 'src/models/product.model';
+import { Product, ProductDetail } from 'src/models/product.model';
 import { ProductService } from './product.service';
 
 @ApiTags('ProductApi')
@@ -118,13 +118,13 @@ export class ProductController {
     @Get('/detail/:id')
     @ApiBearerAuth()
     @Public()
-    async findDetail(@Param('id') id: number): Promise<ResponseType<Product>> {
+    async findDetail(@Param('id') id: number): Promise<ResponseType<ProductDetail>> {
         try {
             const product = await this.productService.findRelationById(id);
-            return new ResponseData<Product>(product, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            return new ResponseData<ProductDetail>(product, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             console.log(error)
-            return new ResponseData<Product>(null, HttpStatus.ERROR, HttpMessage.ERROR);
+            return new ResponseData<ProductDetail>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 
