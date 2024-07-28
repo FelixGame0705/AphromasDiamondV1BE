@@ -32,11 +32,20 @@ export class ProductService {
                 .filter(diamond => diamond.ProductID === item.ProductID)
                 .map(diamond => Number(diamond.Price));
             let jewelrySettingAmount = null
+            let minPriceVariant = null
             if (item.jewelrySetting != null) {
                 jewelrySettingAmount = item.jewelrySetting?.jewelrySettingVariant
                     .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
                     .map(variant => variant.Quantity);
+                minPriceVariant = Math.min(
+                    ...item.jewelrySetting?.jewelrySettingVariant
+                        .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
+                        .map(variant => variant.Price)
+                );
+
             }
+
+
 
             console.log(item)
 
@@ -54,6 +63,7 @@ export class ProductService {
                 Name: item.Name,
                 JewelrySettingID: item.JewelrySettingID,
                 TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
+                FirstPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber() + minPriceVariant,
                 UsingImage: item.usingImage,
                 Diamond: item.diamonds,
                 Quantity: item.Quantity,
@@ -64,7 +74,7 @@ export class ProductService {
         return modifiedData;
     }
 
-    async getProducts(page: number, filters: any, sort: { field: any; order: any; }){
+    async getProducts(page: number, filters: any, sort: { field: any; order: any; }) {
         const perPage = PRODUCT_PER_PAGE;
         return this.productRepository.paginateAndFilter(page, perPage, filters, sort);
     }
@@ -77,6 +87,11 @@ export class ProductService {
         const jewelrySettingAmount = item.jewelrySetting?.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
+        const minPriceVariant = Math.min(
+            ...item.jewelrySetting?.jewelrySettingVariant
+                .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
+                .map(variant => variant.Price)
+        );
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new ProductDetail({
@@ -90,6 +105,7 @@ export class ProductService {
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
             TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
+            FirstPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber() + minPriceVariant,
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             Quantity: item.Quantity,
@@ -120,6 +136,11 @@ export class ProductService {
         const jewelrySettingAmount = item.jewelrySetting?.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
+        const minPriceVariant = Math.min(
+            ...item.jewelrySetting?.jewelrySettingVariant
+                .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
+                .map(variant => variant.Price)
+        );
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new Product({
@@ -133,6 +154,7 @@ export class ProductService {
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
             TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
+            FirstPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber() + minPriceVariant,
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
@@ -160,6 +182,11 @@ export class ProductService {
         const jewelrySettingAmount = item.jewelrySetting?.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
+        const minPriceVariant = Math.min(
+            ...item.jewelrySetting?.jewelrySettingVariant
+                .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
+                .map(variant => variant.Price)
+        );
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new Product({
@@ -173,6 +200,7 @@ export class ProductService {
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
             TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
+            FirstPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber() + minPriceVariant,
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
@@ -192,6 +220,11 @@ export class ProductService {
         const jewelrySettingAmount = item.jewelrySetting?.jewelrySettingVariant
             .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
             .map(variant => variant.Quantity);
+        const minPriceVariant = Math.min(
+            ...item.jewelrySetting?.jewelrySettingVariant
+                .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
+                .map(variant => variant.Price),
+        );
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new ProductDetail({
@@ -205,6 +238,7 @@ export class ProductService {
             Name: item.Name,
             JewelrySettingID: item.JewelrySettingID,
             TotalDiamondPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber(),
+            FirstPrice: (new Decimal(totalPrice)).toDecimalPlaces(2).toNumber() + minPriceVariant,
             UsingImage: item.usingImage,
             Diamond: item.diamonds,
             JewelrySetting: item.jewelrySetting,
