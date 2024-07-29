@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { Type } from "class-transformer"
-import { IsDate, IsNumber, IsOptional, IsString } from "class-validator"
+import { IsArray, IsDate, IsNumber, IsOptional, IsString } from "class-validator"
 import { ToDatabaseDateTime } from "src/constants/date-util"
 
 export class DiscountDTO{
@@ -32,4 +32,15 @@ export class DiscountDTO{
     @Type(() => Date)
     @IsDate()                                              
     EndDate: Date
+
+    @ApiProperty({ example: [1, 2, 3], description: 'Array of product number IDs' })
+    @IsArray()
+    @IsNumber({}, { each: true })
+    @IsOptional()
+    Products: number[]
+    @ApiProperty({ example: [1, 2, 3], description: 'Array of diamond number IDs' })
+    @IsArray()
+    @IsNumber({}, { each: true })
+    @IsOptional()
+    Diamonds: number[]
 }
