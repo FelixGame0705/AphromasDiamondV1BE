@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { DiscountDTO } from "src/dto/discount.dto";
 import { DiscountEntity } from "src/entities/discount.entity";
 import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IDiscountRepository } from "src/interfaces/IDiscountRepository";
@@ -25,7 +26,6 @@ export class DiscountRepository extends BaseRepository<DiscountEntity, Repositor
     async findAll(): Promise<DiscountEntity[]> {
         return await this.repository.find();
     }
-
     
 
 }
