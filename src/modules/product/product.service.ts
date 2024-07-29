@@ -176,7 +176,7 @@ export class ProductService {
             DiscountID: product.DiscountID
         });
         let item = await this.productRepository.findRelationById(itemCreate.ProductID);
-        for (let i = 0; i < product.diamondArray.length; i++) {
+        for (let i = 0; i < product.diamondArray?.length || 0; i++) {
             await this.diamondRepository.update(product.diamondArray[i], { ProductID: item.ProductID })
         }
 
