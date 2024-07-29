@@ -5,7 +5,7 @@ import { BaseRepository } from "src/interfaces/BaseRepository";
 import { IDiamondRepository } from "src/interfaces/IDiamondRepository";
 import { Diamond } from "src/models/diamond.model";
 import { UsingImage } from "src/models/usingImage.model";
-import { FindOptionsWhere, Repository } from "typeorm";
+import { FindOptionsWhere, IsNull, Repository } from "typeorm";
 
 @Injectable()
 export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<DiamondEntity>> implements IDiamondRepository{
@@ -24,8 +24,8 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
     }
 
     async findAll(): Promise<DiamondEntity[]> {
-        let rs =  await this.repository.find({
-            where: {ProductID: null},
+        const rs =  await this.repository.find({
+            where: {ProductID: IsNull()},
             relations: ['usingImage']
           });
           return rs;
