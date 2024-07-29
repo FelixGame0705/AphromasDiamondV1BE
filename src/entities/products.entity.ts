@@ -7,13 +7,14 @@ import { AccountsEntity } from "./accounts.entity";
 import { CollectionEntity } from "./collection.entity";
 import { DiscountEntity } from "./discount.entity";
 import { UsingImageEntity } from "./usingImage.entity";
-
 @Entity('Product')
 export class ProductEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     ProductID: number
     @Column({nullable: true})
     Name: string
+    @Column({type: 'text',nullable: true})
+    Description: string
     @Column({default: 1, nullable: true})
     Quantity: number
     // @Column({nullable: true})

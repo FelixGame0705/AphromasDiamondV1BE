@@ -10,6 +10,8 @@ export class ProductDTO{
     @ApiProperty({example:'ds', description:'Name of jewelry'})
     @IsString()
     Name: string
+    @ApiProperty({example:'It is a beautiful jewelry', description:'Description of jewelry'})
+    Description: string
     @ApiProperty({example:'dsd', description:'Inscription of jewelry'})
     @IsString()
     Inscription: string

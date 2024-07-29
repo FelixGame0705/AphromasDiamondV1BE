@@ -33,13 +33,12 @@ export class AuthController {
             return new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR)
         }
     }
-    @Public()
+    
     @ApiOperation({
         summary: 'Dùng cho hệ thống.', 
         description: 'Mật khẩu mặc định là (role truy cập: Admin, Manager, Sale, Delivery)123'
-        
-         
     })
+    @Public()
     @Post('/signin')
     async signIn(
         @Body() auth: AuthPayloadDTO,
@@ -65,7 +64,6 @@ export class AuthController {
     @ApiOperation({
         summary: 'Dùng cho khách hàng.', 
         description: 'Mật khẩu mặc định là  User123'
-        
          
     })
     @Post('/signup')
@@ -114,7 +112,6 @@ export class AuthController {
     }
     @ApiBearerAuth()
     @Roles(Role.Admin, Role.DeliveryStaff, Role.Manager, Role.SaleStaff)
-    @Public()
     @Put('/update/:Username')
     async updateAccount(
         @Param('Username') username: string,

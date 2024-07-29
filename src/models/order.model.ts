@@ -86,15 +86,20 @@ export class OrderDetail{
 export class OrderSummarize{
     StartDate: Date
     EndDate: Date
+    TotalRevenueInTime: number
+    TotalCanceledInTime: number
+    TotalQuantityInTime: number
     MostRevenueInTime: any
     MostQuantiyInTime: any
     OrderResults: any
-    constructor({StartDate, EndDate, OrderResults,MostRevenueInTime,MostQuantiyInTime}){
+    constructor({StartDate, EndDate, OrderResults,MostRevenueInTime,MostQuantiyInTime, TotalCanceledInTime, TotalRevenueInTime, TotalQuantityInTime}){
         this.StartDate = StartDate;
         this.EndDate = EndDate;
         this.MostRevenueInTime = MostRevenueInTime;
         this.MostQuantiyInTime = MostQuantiyInTime;
         this.OrderResults = OrderResults;
-        
+        this.TotalCanceledInTime = TotalCanceledInTime;
+        this.TotalRevenueInTime = TotalRevenueInTime;
+        this.TotalQuantityInTime = TotalQuantityInTime;
     }
 }
