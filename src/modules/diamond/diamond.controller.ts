@@ -144,17 +144,17 @@ export class DiamondController {
         return this.diamondService.getDiamonds(page, filters, sort);
     }
 
-    // @Post('/purchase/:id')
-    // @Public()
-    // @ApiParam({ name: 'id', description: 'ID của viên kim cương để mua', type: Number })
-    // async purchaseDiamond(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
-    //     try {
-    //        const IsAcitve  =await this.diamondService.updateDiamondStatusAfterPurchase(id);
-    //         return res.json(new ResponseData(IsAcitve, HttpStatus.SUCCESS, HttpMessage.SUCCESS));
-    //     } catch (error) {
-    //         return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
-    //     }
-    // }
+    @Post('/purchase/:id')
+    @Public()
+    @ApiParam({ name: 'id', description: 'ID của viên kim cương để mua', type: Number })
+    async purchaseDiamond(@Param('id') id: number, @Res() res: Response): Promise<ResponseType<Diamond>> {
+        try {
+           const IsAcitve  =await this.diamondService.updateDiamondStatusAfterPurchase(id);
+            return res.json(new ResponseData(IsAcitve, HttpStatus.SUCCESS, HttpMessage.SUCCESS));
+        } catch (error) {
+            return res.json(new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR));
+        }
+    }
 
     @Get('/:id')
     @Public()
