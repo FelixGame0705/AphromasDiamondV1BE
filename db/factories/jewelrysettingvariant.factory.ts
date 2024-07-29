@@ -35,7 +35,6 @@ export const jewelrysettingvariantsFactory = setSeederFactory(JewelrySettingVari
     const noSizeTypes = [2, 3, 4];
     const limitedMaterialTypes = [7, 8];
 
-    // Lấy JewelryTypeID từ JewelrySettingID
     const jewelrySetting = jewelrySettings.find(setting => setting.JewelrySettingID === jewelrysettingvariants.JewelrySettingID);
     const jewelryType = jewelrytype.find(type => type.JewelryTypeID === jewelrySetting?.JewelryTypeID);
 

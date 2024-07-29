@@ -138,14 +138,17 @@ export default class DataSeeder implements Seeder {
 
         
 
-      // //Create jewelry setting   
+      // //Create jewelry setting  
+      
+      // // //v1
       // const jewelryerysettingFactory = factoryManager.get(JewelrySettingEntity);   
-      // const jewelrySettings =  await jewelryerysettingFactory.saveMany(60); 
+      // // const jewelrySettings =  
+      // await jewelryerysettingFactory.saveMany(100); 
       // // Lấy tên loại trang sức từ repository
       // const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
       // const jewelrytype = await jewelryTypeRepository.find();
 
-      // const suffixMap: { [key: string]: string } = {
+      // // const suffixMap: { [key: string]: string } = {
       //   'Rings': 'Elegance',
       //   'Necklace': 'Charm',
       //   'Bracelet': 'Grace',
@@ -154,26 +157,81 @@ export default class DataSeeder implements Seeder {
       //   'Engagement Ring': 'Promise',
       //   'Men Engagement Ring': 'Valor',
       //   'Men Wedding Ring': 'Bond'
+
+
+         
       // };
 
-      // for (const jewelrysetting of  jewelrySettings) {
+      // for (const jewelrysetting of  jewelrysetting) {
       //   const jewelryType = jewelrytype.find(type => type.JewelryTypeID === jewelrysetting.JewelryTypeID);
       //   if (jewelryType) {
-      //     const typeName = jewelryType.Name;
-      //     const suffix = suffixMap[typeName] || 'Luxury';
-      //     jewelrysetting.Name = `${typeName} ${suffix}`;
+      //     // const typeName = jewelryType.Name;
+      //     // const suffix = suffixMap[typeName] || 'Luxury';
+      //     // jewelrysetting.Name = `${typeName} ${suffix}`;
       //     await dataSource.getRepository(JewelrySettingEntity).save(jewelrysetting);
       //   }
       // }
 
 
+    //   //v2
+        // Tạo các JewelrySettingEntity
+        const jewelrySettingFactory = factoryManager.get(JewelrySettingEntity);
+        const jewelrySettings = await jewelrySettingFactory.saveMany(100);
+
+        // Lấy tên loại trang sức từ repository
+        const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
+        const jewelryTypes = await jewelryTypeRepository.find();
+
+        const suffixMap: { [key: string]: string[] } = {
+          'Rings': ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union'],
+          'Necklace': ['Charm'],
+          'Bracelet': ['Grace'],
+          'Earring': ['Radiance'],
+          'Wedding Ring': ['Union'],
+          'Engagement Ring': ['Promise'],
+          'Men Engagement Ring': ['Valor'],
+          'Men Wedding Ring': ['Bond']
+        };
+
+        const usedNames = new Set<string>();
+
+        // Sinh tên duy nhất cho từng JewelrySettingEntity
+        for (let i = 0; i < 100; i++) {
+          const jewelrySetting = jewelrySettings[i];
+          const jewelryType = jewelryTypes[i % jewelryTypes.length];
+
+          if (jewelryType) {
+            const typeName = jewelryType.Name;
+            const suffixes = suffixMap[typeName] || ['Luxury'];
+            const suffix = suffixes[i % suffixes.length];
+            let name = `${typeName} ${suffix}`;
+
+            // Đảm bảo tên là duy nhất
+            let counter = 1;
+            let uniqueName = name;
+            while (usedNames.has(uniqueName)) {
+              uniqueName = `${name} ${counter}`;
+              counter++;
+            }
+
+            usedNames.add(uniqueName);
+            jewelrySetting.Name = uniqueName;
+          }
+        }
+
+        // Lưu các JewelrySettingEntity với tên duy nhất
+        await dataSource.getRepository(JewelrySettingEntity).save(jewelrySettings);
+
+      
+
+
 
      
   
-      // //Create jewelry setting variant
+      //Create jewelry setting variant
       
-      // const jewelryerysettingvariantFactory = factoryManager.get(JewelrySettingVariantEntity);   
-      // await jewelryerysettingvariantFactory.saveMany(200); 
+      const jewelryerysettingvariantFactory = factoryManager.get(JewelrySettingVariantEntity);   
+      await jewelryerysettingvariantFactory.saveMany(200); 
 
        
 
@@ -197,7 +255,7 @@ export default class DataSeeder implements Seeder {
        const customer = await accountRepository.find({ where: { Role: 'ROLE_CUSTOMER' } });
        const collections = await collectionRepository.find();
        const discounts = await discountRepository.find();
-       const jewelrySettingVariants = await jewelrySettingVariantRepository.find();
+      //  const jewelrySettingVariants = await jewelrySettingVariantRepository.find();
  
 
       // Đặt số lượng sản phẩm bạn muốn tạo
@@ -208,7 +266,7 @@ export default class DataSeeder implements Seeder {
         const customers = customer[i % customer.length];
         const collection = collections[i % collections.length];
         const discount = discounts[i % discounts.length];
-        const jewelrySettingVariant = jewelrySettingVariants[i % jewelrySettingVariants.length];
+        // const jewelrySettingVariant = jewelrySettingVariants[i % jewelrySettingVariants.length];
 
         await productFactory.save({
           AccountID: customers.CustomerID,
