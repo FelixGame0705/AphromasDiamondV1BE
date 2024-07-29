@@ -25,6 +25,7 @@ export class DiamondRepository extends BaseRepository<DiamondEntity, Repository<
 
     async findAll(): Promise<DiamondEntity[]> {
         let rs =  await this.repository.find({
+            where: {ProductID: null},
             relations: ['usingImage']
           });
           return rs;

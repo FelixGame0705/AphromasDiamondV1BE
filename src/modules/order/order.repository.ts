@@ -29,27 +29,32 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
             // Truy vấn dữ liệu từ repository
             const data = await this.repository.find({ where: whereConditions });
         
-            const monthlyData: { [month: string]: { revenue: number, orderQuantity: number } } = {};
+            const monthlyData: { [month: string]: { revenue: number, orderQuantity: number, canceledOrders: number } } = {};
         
             // Duyệt qua dữ liệu và tính tổng doanh thu và số lượng đơn hàng theo từng tháng
             data.forEach(order => {
                 const month = moment(order.CompleteDate).format('YYYY-MM'); // Định dạng tháng (năm-tháng)
                 if (!monthlyData[month]) {
-                    monthlyData[month] = { revenue: 0, orderQuantity: 0 };
+                    monthlyData[month] = { revenue: 0, orderQuantity: 0, canceledOrders: 0 };
                 }
                 monthlyData[month].revenue += Number(order.VoucherPrice) || Number(order.Price); // Giả sử `order.Revenue` là trường chứa doanh thu của đơn hàng
                 monthlyData[month].orderQuantity += 1;
+                if(order.OrderStatus==="Canceled") monthlyData[month].canceledOrders+=1;
             });
             const monthlyArray = Object.keys(monthlyData).map(month => ({
                 month,
                 revenue: monthlyData[month].revenue,
-                orderQuantity: monthlyData[month].orderQuantity
+                orderQuantity: monthlyData[month].orderQuantity,
+                canceledOrders: monthlyData[month].canceledOrders
             }));
             
             const mostRevenueInTime = monthlyArray.reduce((max, current) => {
                 return current.revenue > max.revenue ? current : max;
             }, { month: '', revenue: 0, orderQuantity: 0 });
 
+            const totalRevenueInTime = monthlyArray.map((item)=>item.revenue).reduce((acc, cur)=>Number(acc)+Number(cur), 0)
+            const totalQuantityInTime = monthlyArray.map((item)=>item.orderQuantity).reduce((acc, cur)=>Number(acc)+Number(cur), 0)
+            const totalCancelInTime = monthlyArray.map((item)=>item.canceledOrders).reduce((acc, cur)=>Number(acc)+Number(cur), 0)
             const mostQuantityInTime = monthlyArray.reduce((max, current) => {
                 return current.orderQuantity > max.orderQuantity ? current : max;
             }, { month: '', revenue: 0, orderQuantity: 0 });
@@ -59,6 +64,9 @@ export class OrderRepository extends BaseRepository<OrderEntity, Repository<Orde
             const result = new OrderSummarize({
                 StartDate: orderSummarize.StartDate,
                 EndDate: orderSummarize.EndDate,
+                TotalRevenueInTime: totalRevenueInTime,
+                TotalCanceledInTime: totalCancelInTime,
+                TotalQuantityInTime: totalQuantityInTime,
                 MostRevenueInTime: mostRevenueInTime,
                 MostQuantiyInTime: mostQuantityInTime,
                 OrderResults: Object.keys(monthlyData).map(month => ({

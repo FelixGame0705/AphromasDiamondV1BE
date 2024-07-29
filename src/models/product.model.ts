@@ -8,6 +8,7 @@ import { UsingImage } from "./usingImage.model"
 export class Product{
     ProductID: number
     Name: string
+    Description: string
     Brand: string
     Stars: number
     Quantity: number
@@ -22,9 +23,10 @@ export class Product{
     UsingImage: UsingImage[]
     Diamond: Diamond[]
     JewelrySetting: JewelrySetting    
-    constructor({ProductID, Name, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity}){
+    constructor({ProductID, Name, Description,Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity}){
         this.ProductID = ProductID
         this.Name = Name
+        this.Description = Description
         this.Brand = Brand
         this.JewelrySettingID = JewelrySettingID
         this.AccountID = AccountID
@@ -45,6 +47,7 @@ export class Product{
 export class ProductDetail{
     ProductID: number
     Name: string
+    Description: string
     Brand: string
     Stars: number
     Quantity: number
@@ -60,9 +63,10 @@ export class ProductDetail{
     Diamond: Diamond[]
     JewelrySetting: JewelrySetting    
     JewelrySettingVariant: any[]
-    constructor({ProductID, Name, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity, JewelrySettingVariant}){
+    constructor({ProductID, Name, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity, JewelrySettingVariant, Description}){
         this.ProductID = ProductID
         this.Name = Name
+        this.Description = Description
         this.Brand = Brand
         this.JewelrySettingID = JewelrySettingID
         this.AccountID = AccountID
