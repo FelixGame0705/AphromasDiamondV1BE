@@ -203,7 +203,7 @@ export default class DataSeeder implements Seeder {
  
 
       // Đặt số lượng sản phẩm bạn muốn tạo
-      const productCount = 30;  
+      const productCount = 300;  
 
       // Tạo sản phẩm mới
       for (let i = 0; i < productCount; i++) {
