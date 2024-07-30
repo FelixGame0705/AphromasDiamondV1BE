@@ -14,7 +14,7 @@ import { OrderLine } from "src/models/orderline.model";
 export class OrderLineController {
     constructor(private orderService: OrderLineService) {}
 
-    @Roles(Role.Customer, Role.Admin)
+    @Public()
     @ApiBearerAuth()
     @Get('/showAll')
     @ApiOperation({
