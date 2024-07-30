@@ -30,7 +30,11 @@ export class PayPalService {
                             value: amount.toString(),
                         }
                     }
-                ]
+                ],
+                application_context: {
+                    return_url: `${process.env.VITE_URL}/success`,
+                    cancel_url: `${process.env.VITE_URL}/fail`
+                }
             },
             {
                 headers: {
