@@ -38,103 +38,104 @@ export default class DataSeeder implements Seeder {
       console.log('Starting data seeding...');  
 
 
-      // const materials = insertMaterials(dataSource);
-      // const jewelrytypes = insertjewelryType(dataSource);
-      // const sizes = insertSizes(dataSource);
-      // const acc = insertAccounts(dataSource);
-      // await materials;
-      // await jewelrytypes;
-      // await sizes;
-      // await acc;
+      const materials = insertMaterials(dataSource);
+      const jewelrytypes = insertjewelryType(dataSource);
+      const sizes = insertSizes(dataSource);
+      const acc = insertAccounts(dataSource);
+      await materials;
+      await jewelrytypes;
+      await sizes;
+      await acc;
 
-      // //Create collection cho Như Nguyên yêu cầu
-      // const collect = insertCollectionbyNN(dataSource);
-      // await collect;
+      //Create collection cho Như Nguyên yêu cầu
+      const collect = insertCollectionbyNN(dataSource);
+      await collect;
 
       // //Create collection
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-      // const collectionFactory = factoryManager.get(CollectionEntity);
-      // await collectionFactory.saveMany(2);
+      const collectionFactory = factoryManager.get(CollectionEntity);
+      await collectionFactory.saveMany(2);
 
       // //Create discount
-      // const discountFactory = factoryManager.get(DiscountEntity);
-      // await discountFactory.saveMany(10);
+      const discountFactory = factoryManager.get(DiscountEntity);
+      await discountFactory.saveMany(10);
          
       // //Create customers
-      // const customerFactory = factoryManager.get(CustomerEntity);
-      // const customers = await customerFactory.saveMany(6);
+      const customerFactory = factoryManager.get(CustomerEntity);
+      const customers = await customerFactory.saveMany(6);
 
       // //Create accounts for each customer
-      // const accountFactory = factoryManager.get(AccountsEntity);
-      // const accounts = [];
+      const accountFactory = factoryManager.get(AccountsEntity);
+      const accounts = [];
+      for (const customer of customers) {
+        const account = await accountFactory.save({
+          CustomerID: customer.CustomerID,
+        });
+        accounts.push(account);
+      }
+
+      //Create notificate for each account
+      
+      //v1
+      // const notificationFactory = factoryManager.get(NotificationEntity);
+      // for (const account of accounts) {
+      //   await notificationFactory.save({
+      //     AccountID: account.AccountID,  
+      //   }); 
+      // }
+
+
+
+      //v2
+      const notificationFactory = factoryManager.get(NotificationEntity);
+
+      // Hàm helper để tạo số ngẫu nhiên trong khoảng
+      function getRandomInt(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      // Tạo thông báo cho mỗi tài khoản
+      for (const account of accounts) {
+        // Số lượng thông báo cho mỗi tài khoản (ít nhất 1, tối đa 5)
+        const notificationCount = getRandomInt(1, 5);
+        for (let i = 0; i < notificationCount; i++) {
+          await notificationFactory.save({
+            AccountID: account.AccountID,
+            // Các trường khác sẽ được tạo tự động bởi factory
+          });
+        }
+      }
+      
+
+
+      //Create vouchers
+      const voucherFactory = factoryManager.get(VoucherEntity);
+      await voucherFactory.saveMany(20);
+
+
+
+      //TạoOrder
+      
+      //Create orders for each customer
+
+      //v1
+      // const orderFactory = factoryManager.get(OrderEntity);
       // for (const customer of customers) {
-      //   const account = await accountFactory.save({
+      //   await orderFactory.save({
       //     CustomerID: customer.CustomerID,
       //   });
-      //   accounts.push(account);
-      // }
-
-      // //Create notificate for each account
-      // //v1
-      // // const notificationFactory = factoryManager.get(NotificationEntity);
-      // // for (const account of accounts) {
-      // //   await notificationFactory.save({
-      // //     AccountID: account.AccountID,  
-      // //   }); 
-      // // }
-
-
-
-      // //v2
-      // const notificationFactory = factoryManager.get(NotificationEntity);
-
-      // // Hàm helper để tạo số ngẫu nhiên trong khoảng
-      // function getRandomInt(min: number, max: number): number {
-      //   return Math.floor(Math.random() * (max - min + 1)) + min;
-      // }
-
-      // // Tạo thông báo cho mỗi tài khoản
-      // for (const account of accounts) {
-      //   // Số lượng thông báo cho mỗi tài khoản (ít nhất 1, tối đa 5)
-      //   const notificationCount = getRandomInt(1, 5);
-      //   for (let i = 0; i < notificationCount; i++) {
-      //     await notificationFactory.save({
-      //       AccountID: account.AccountID,
-      //       // Các trường khác sẽ được tạo tự động bởi factory
-      //     });
-      //   }
       // }
       
-
-
-      // //Create vouchers
-      // const voucherFactory = factoryManager.get(VoucherEntity);
-      // await voucherFactory.saveMany(20);
-
-
-
-      // //TạoOrder
-      
-      // //Create orders for each customer
-
-      // //v1
-      // // const orderFactory = factoryManager.get(OrderEntity);
-      // // for (const customer of customers) {
-      // //   await orderFactory.save({
-      // //     CustomerID: customer.CustomerID,
-      // //   });
-      // // }
-      
-      // //v2
-      // // const orderFactory = factoryManager.get(OrderEntity);
-      // // for (let i = 0; i < customers.length; i++) {
-      // //   const customer = customers[i];
-      // //   const voucher = vouchers[i % vouchers.length];  
-      // //   await orderFactory.save({
-      // //     CustomerID: customer.CustomerID,
-      // //     VoucherID: voucher.VoucherID,
-      // // });
-      // // }
+      //v2
+      // const orderFactory = factoryManager.get(OrderEntity);
+      // for (let i = 0; i < customers.length; i++) {
+      //   const customer = customers[i];
+      //   const voucher = vouchers[i % vouchers.length];  
+      //   await orderFactory.save({
+      //     CustomerID: customer.CustomerID,
+      //     VoucherID: voucher.VoucherID,
+      // });
+      // }
 
         
 
@@ -277,28 +278,28 @@ export default class DataSeeder implements Seeder {
       }
       
        
-      // //Create diamonds
-      // const numDiamonds = 50; 
-      // const diamondFactory = factoryManager.get(DiamondEntity);
-      // let diamonds = []; 
-      // for(let i = 0; i<  numDiamonds; i++){
-      //   const diamond = await diamondFactory.save(); 
-      //   diamonds.push(diamond);
+      //Create diamonds
+      const numDiamonds = 50; 
+      const diamondFactory = factoryManager.get(DiamondEntity);
+      let diamonds = []; 
+      for(let i = 0; i<  numDiamonds; i++){
+        const diamond = await diamondFactory.save(); 
+        diamonds.push(diamond);
+      }
+      
+
+      //Create certificates for each diamond
+      const certificate = insertCertificates(dataSource);
+      await certificate;
+      
+      
+
+      // const certificateFactory = factoryManager.get(CertificateEntity);
+      // for (const diamond of diamonds) {
+      //   await certificateFactory.save({
+      //     DiamondID: diamond.DiamondID, 
+      //   });
       // }
-      
-
-      // //Create certificates for each diamond
-      // const certificate = insertCertificates(dataSource);
-      // await certificate;
-      
-      
-
-      // // const certificateFactory = factoryManager.get(CertificateEntity);
-      // // for (const diamond of diamonds) {
-      // //   await certificateFactory.save({
-      // //     DiamondID: diamond.DiamondID, 
-      // //   });
-      // // }
 
 
       // //Tạo  order line
@@ -308,27 +309,27 @@ export default class DataSeeder implements Seeder {
       // // await orderLineFactory.saveMany(5);
       
     
-      // // //Create feedback
+      // //Create feedback
 
-      // //v1
-      // // const feedbackFactory = factoryManager.get(FeedbackEntity);
-      // // await feedbackFactory.saveMany(5);
-
-      // //v2
+      //v1
       // const feedbackFactory = factoryManager.get(FeedbackEntity);
-      // //lấy từ repository lên 
-      // const jewelrySettingss = await dataSource.getRepository(JewelrySettingEntity).find();
-      // const accountss = await dataSource.getRepository(AccountsEntity).find();
+      // await feedbackFactory.saveMany(5);
 
-      // const numFeedback = 50;
-      // for (let i = 0; i < numFeedback; i++) {
-      //   await feedbackFactory.save({
-      //     DiamondID: diamonds[Math.floor(Math.random() * diamonds.length)].DiamondID,
-      //     JewelrySettingID: jewelrySettingss[Math.floor(Math.random() * jewelrySettingss.length)].JewelrySettingID,
-      //     OrderID: null,
-      //     AccountID: accountss[Math.floor(Math.random() * accounts.length)].AccountID,
-      //   });
-      // }
+      //v2
+      const feedbackFactory = factoryManager.get(FeedbackEntity);
+      //lấy từ repository lên 
+      const jewelrySettingss = await dataSource.getRepository(JewelrySettingEntity).find();
+      const accountss = await dataSource.getRepository(AccountsEntity).find();
+
+      const numFeedback = 50;
+      for (let i = 0; i < numFeedback; i++) {
+        await feedbackFactory.save({
+          DiamondID: diamonds[Math.floor(Math.random() * diamonds.length)].DiamondID,
+          JewelrySettingID: jewelrySettingss[Math.floor(Math.random() * jewelrySettingss.length)].JewelrySettingID,
+          OrderID: null,
+          AccountID: accountss[Math.floor(Math.random() * accounts.length)].AccountID,
+        });
+      }
       
 
       console.log('Data seeded successfully!');
