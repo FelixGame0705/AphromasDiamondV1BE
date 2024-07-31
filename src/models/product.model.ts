@@ -16,6 +16,7 @@ export class Product{
     AccountID: number
     TotalDiamondPrice: number
     FirstPrice: number
+    DiscountFirstPrice: number
     CollectionID: number
     DiscountID: number
     TotalQuantityJewelrySettingVariants: number
@@ -23,7 +24,7 @@ export class Product{
     UsingImage: UsingImage[]
     Diamond: Diamond[]
     JewelrySetting: JewelrySetting    
-    constructor({ProductID, Name, Description,Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity}){
+    constructor({ProductID, Name, Description,Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, DiscountFirstPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity}){
         this.ProductID = ProductID
         this.Name = Name
         this.Description = Description
@@ -32,6 +33,7 @@ export class Product{
         this.AccountID = AccountID
         this.TotalDiamondPrice = TotalDiamondPrice
         this.FirstPrice = FirstPrice
+        this.DiscountFirstPrice = DiscountFirstPrice
         this.CollectionID = CollectionID
         this.DiscountID = DiscountID
         this.Discount = Discount
@@ -55,6 +57,7 @@ export class ProductDetail{
     AccountID: number
     TotalDiamondPrice: number
     FirstPrice: number
+    DiscountFirstPrice:number
     CollectionID: number
     DiscountID: number
     TotalQuantityJewelrySettingVariants: number
@@ -63,7 +66,7 @@ export class ProductDetail{
     Diamond: Diamond[]
     JewelrySetting: JewelrySetting    
     JewelrySettingVariant: any[]
-    constructor({ProductID, Name, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity, JewelrySettingVariant, Description}){
+    constructor({ProductID, Name, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, DiscountFirstPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity, JewelrySettingVariant, Description}){
         this.ProductID = ProductID
         this.Name = Name
         this.Description = Description
@@ -78,6 +81,7 @@ export class ProductDetail{
         this.Diamond = Diamond
         this.TotalQuantityJewelrySettingVariants = TotalQuantityJewelrySettingVariants
         this.FirstPrice = FirstPrice
+        this.DiscountFirstPrice = DiscountFirstPrice
         this.JewelrySetting = JewelrySetting
         this.Stars = Stars
         this.Quantity = Quantity
