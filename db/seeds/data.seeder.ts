@@ -17,16 +17,16 @@ import { VoucherEntity } from 'src/entities/voucher.entity';
 import { FeedbackEntity } from 'src/entities/feedback.entity';
 import { DiamondEntity } from 'src/entities/diamond.entity';
 import * as bcrypt from 'bcrypt';
-import { OrderEntity } from 'src/entities/order.entity';
-import { OrderLineEntity } from 'src/entities/orderLine.entity';
+// import { OrderEntity } from 'src/entities/order.entity';
+// import { OrderLineEntity } from 'src/entities/orderLine.entity';
  
  
 
 // import { CertificateRepository } from 'src/modules/certificate/certificate.repository';
-import { collectionFactory } from '../factories/collection.factory';
-import { Size } from '../../src/models/size.model';
+// import { collectionFactory } from '../factories/collection.factory';
+// import { Size } from '../../src/models/size.model';
 // import { jewelrytypeFactory } from '../factories/jewelrytype.factory';
-import { JewelryTypeRepository } from '../../src/modules/jewelryType/jewelryType.repository';
+// import { JewelryTypeRepository } from '../../src/modules/jewelryType/jewelryType.repository';
  
 
 export default class DataSeeder implements Seeder {
@@ -57,7 +57,7 @@ export default class DataSeeder implements Seeder {
 
       // //Create discount
       const discountFactory = factoryManager.get(DiscountEntity);
-      await discountFactory.saveMany(10);
+      await discountFactory.saveMany(15);
          
       // //Create customers
       const customerFactory = factoryManager.get(CustomerEntity);
@@ -96,7 +96,7 @@ export default class DataSeeder implements Seeder {
       // Tạo thông báo cho mỗi tài khoản
       for (const account of accounts) {
         // Số lượng thông báo cho mỗi tài khoản (ít nhất 1, tối đa 5)
-        const notificationCount = getRandomInt(1, 8);
+        const notificationCount = getRandomInt(1, 5);
         for (let i = 0; i < notificationCount; i++) {
           await notificationFactory.save({
             AccountID: account.AccountID,
@@ -138,7 +138,7 @@ export default class DataSeeder implements Seeder {
 
         
 
-      // //Create jewelry setting  
+      //Create jewelry setting  
       
       // // //v1
       // const jewelryerysettingFactory = factoryManager.get(JewelrySettingEntity);   
@@ -148,7 +148,7 @@ export default class DataSeeder implements Seeder {
       // const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
       // const jewelrytype = await jewelryTypeRepository.find();
 
-      // // const suffixMap: { [key: string]: string } = {
+      //  const suffixMap: { [key: string]: string } = {
       //   'Rings': 'Elegance',
       //   'Necklace': 'Charm',
       //   'Bracelet': 'Grace',
@@ -165,15 +165,15 @@ export default class DataSeeder implements Seeder {
       // for (const jewelrysetting of  jewelrysetting) {
       //   const jewelryType = jewelrytype.find(type => type.JewelryTypeID === jewelrysetting.JewelryTypeID);
       //   if (jewelryType) {
-      //     // const typeName = jewelryType.Name;
-      //     // const suffix = suffixMap[typeName] || 'Luxury';
-      //     // jewelrysetting.Name = `${typeName} ${suffix}`;
+      //     const typeName = jewelryType.Name;
+      //     const suffix = suffixMap[typeName] || 'Luxury';
+      //     jewelrysetting.Name = `${typeName} ${suffix}`;
       //     await dataSource.getRepository(JewelrySettingEntity).save(jewelrysetting);
       //   }
       // }
 
 
-    //   //v2
+       //v2
         // Tạo các JewelrySettingEntity
         const jewelrySettingFactory = factoryManager.get(JewelrySettingEntity);
         const jewelrySettings = await jewelrySettingFactory.saveMany(100);
