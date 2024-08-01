@@ -290,20 +290,61 @@ export default class DataSeeder implements Seeder {
 
      
   
-      // //Create jewelry setting variant
-      {
-      //   const jewelryerysettingvariantFactory = factoryManager.get(JewelrySettingVariantEntity);  
+      //Create jewelry setting variant
+      
+        // const jewelryerysettingvariantFactory = factoryManager.get(JewelrySettingVariantEntity);  
 
-      //   // Nhập số lượng bạn muốn tạo
-      //   const numberOfVariants = 28;
+        // // Nhập số lượng bạn muốn tạo
+        // const numberOfVariants = 192;
 
-      //   // Sử dụng createMany để tạo nhiều bản sao
-      //   const variants = await jewelryerysettingvariantFactory.saveMany(numberOfVariants);
+        // // Sử dụng createMany để tạo nhiều bản sao
+        // const variants = await jewelryerysettingvariantFactory.saveMany(numberOfVariants);
 
-      //   // Lưu tất cả các đối tượng vào cơ sở dữ liệu
-      //   await dataSource.getRepository(JewelrySettingVariantEntity).save(variants);
+        // // Lưu tất cả các đối tượng vào cơ sở dữ liệu
+        // await dataSource.getRepository(JewelrySettingVariantEntity).save(variants);
+
+
+        const jewelrySettingVariantRepository = dataSource.getRepository(JewelrySettingVariantEntity);
+    const jewelrySettingRepository = dataSource.getRepository(JewelrySettingEntity);
+    const materialRepository = dataSource.getRepository(MaterialJewelryEntity);
+
+    // Lấy factory cho JewelrySettingVariantEntity
+    const jewelrySettingVariantFactory = factoryManager.get(JewelrySettingVariantEntity);
+
+    // Lấy danh sách tất cả JewelrySettings và Materials
+    const jewelrySettings = await jewelrySettingRepository.find();
+    const materialss = await materialRepository.find();
+
+    for (const jewelrySetting of jewelrySettings) {
+      // Lấy các variants đã tồn tại cho JewelrySettingID hiện tại
+      const existingVariants = await jewelrySettingVariantRepository.find({
+        where: { JewelrySettingID: jewelrySetting.JewelrySettingID },
+        select: ['MaterialJewelryID']
+      });
+
+      const existingMaterialIds = new Set(existingVariants.map(v => v.MaterialJewelryID));
+
+      // Nếu đã có đủ 4 variants, bỏ qua
+      if (existingMaterialIds.size >= 4) {
+        continue;
       }
-      await createJewelrySettingVariants(dataSource, 4, 192); 
+
+      // Lấy các chất liệu còn thiếu để đủ 4 loại
+      const availableMaterials = materialss.filter(m => !existingMaterialIds.has(m.MaterialJewelryID));
+      const neededMaterials = availableMaterials.slice(0, 4 - existingMaterialIds.size);
+
+      // Tạo các variants mới cho JewelrySettingID hiện tại
+      const variantsToCreate = await Promise.all(neededMaterials.map(async material => {
+        const variant = await jewelrySettingVariantFactory.make();
+        variant.JewelrySettingID = jewelrySetting.JewelrySettingID;
+        variant.MaterialJewelryID = material.MaterialJewelryID;
+        return variant;
+      }));
+
+      // Lưu tất cả các đối tượng vào cơ sở dữ liệu
+      await jewelrySettingVariantRepository.save(variantsToCreate);
+    }
+      
                   
 
          
@@ -450,76 +491,7 @@ async function createJewelrySettings(
 }
 
 
-export async function createJewelrySettingVariants(
-  dataSource: DataSource,
-  numberOfVariantsPerMaterial: number,
-  batchSize: number // Kích thước lô
-): Promise<void> {
-  try {
-    const jewelrySettingRepository = dataSource.getRepository(JewelrySettingEntity);
-    const materialRepository = dataSource.getRepository(MaterialJewelryEntity);
-    const jewelrySettingVariantRepository = dataSource.getRepository(JewelrySettingVariantEntity);
-
-    const jewelrySettings = await jewelrySettingRepository.find();
-    const materials = await materialRepository.find();
-
-    const totalVariants = jewelrySettings.length * 4 * numberOfVariantsPerMaterial;
-    let createdCount = 0;
-
-    while (createdCount < totalVariants) {
-      await dataSource.transaction(async (transactionalEntityManager: EntityManager) => {
-        const variantEntities: JewelrySettingVariantEntity[] = [];
-
-        for (const jewelrySetting of jewelrySettings) {
-          // Tìm các MaterialJewelryID đã tồn tại cho JewelrySettingID hiện tại
-          const existingVariants = await jewelrySettingVariantRepository.find({
-            where: { JewelrySettingID: jewelrySetting.JewelrySettingID },
-            select: ['MaterialJewelryID']
-          });
-          const existingMaterialIds = new Set(existingVariants.map(v => v.MaterialJewelryID));
-
-          // Lấy những chất liệu còn thiếu để đủ 4 loại
-          const availableMaterials = materials
-            .filter(m => !existingMaterialIds.has(m.MaterialJewelryID))
-            .slice(0, 4 - existingMaterialIds.size);
-
-          for (const material of availableMaterials) {
-            for (let i = 0; i < numberOfVariantsPerMaterial; i++) {
-              if (createdCount >= totalVariants) break;
-
-              const variant = jewelrySettingVariantRepository.create({
-                JewelrySettingID: jewelrySetting.JewelrySettingID,
-                MaterialJewelryID: material.MaterialJewelryID,
-                // Các thuộc tính khác đã được xử lý trong factory
-              });
-
-              variantEntities.push(variant);
-              createdCount++;
-
-              if (variantEntities.length >= batchSize) {
-                await transactionalEntityManager.save(variantEntities);
-                variantEntities.length = 0; // Clear the array for the next batch
-              }
-            }
-
-            if (createdCount >= totalVariants) break;
-          }
-
-          if (createdCount >= totalVariants) break;
-        }
-
-        // Save remaining variants in case there are any left
-        if (variantEntities.length > 0) {
-          await transactionalEntityManager.save(variantEntities);
-        }
-      });
-    }
-
-    console.log('All variants have been created successfully');
-  } catch (error) {
-    console.error('Error creating jewelry setting variants:', error);
-  }
-}
+ 
 
 async function insertMaterials(dataSource: DataSource) {
   const materialMapping = {
