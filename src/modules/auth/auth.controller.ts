@@ -165,7 +165,7 @@ export class AuthController {
     }
     
 
-    @Roles(Role.Admin, Role.Manager, Role.Customer)
+    @Roles(Role.Admin, Role.Manager, Role.Customer, Role.DeliveryStaff, Role.SaleStaff)
     @Get('/ShowAllAccounts')
     @ApiOperation({
         summary: 'Get all accounts',
