@@ -7,6 +7,7 @@ export class MaterialJewelrySubscriber implements EntitySubscriberInterface<Mate
   /**
    * Chỉ ra rằng Subscriber này chỉ lắng nghe các sự kiện của MaterialJewelryEntity.
    */
+  private isHandlingUpdate = false;
   listenTo() {
     return MaterialJewelryEntity;
   }
@@ -15,6 +16,12 @@ export class MaterialJewelrySubscriber implements EntitySubscriberInterface<Mate
    * Được gọi sau khi cập nhật thực thể.
    */
   async afterInsert(event: InsertEvent<MaterialJewelryEntity>){
+    if (this.isHandlingUpdate) {
+      return;
+  }
+
+  this.isHandlingUpdate = true;
+  try{
     // this.handleAfterInsertOrUpdate(event);
     // Kiểm tra nếu giá bán đã thay đổi
     //if (event.updatedColumns.some(column => column.propertyName === 'SellPrice')) {
@@ -34,6 +41,9 @@ export class MaterialJewelrySubscriber implements EntitySubscriberInterface<Mate
         }
       }
       console.log('Cập nhật hoàn tất.');
+    }finally{
+      this.isHandlingUpdate = false;
+    }
   }
 
   async afterUpdate(event: UpdateEvent<MaterialJewelryEntity>) {

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsNumber, IsOptional } from "class-validator"
+import { IsNumber, IsOptional, IsString } from "class-validator"
 
 export class OrderLineDTO{
     OrderLineID: number
@@ -7,6 +7,15 @@ export class OrderLineDTO{
     @IsNumber()
     @IsOptional()
     Quantity: number|null
+    
+    @ApiProperty({ example: null, description: 'Inscription' })
+    @IsString()
+    @IsOptional()
+    Inscription: string|null
+    @ApiProperty({ example: null, description: 'InscriptionFont' })
+    @IsString()
+    @IsOptional()
+    InscriptionFont: string|null
     @ApiProperty({ example: 1, description: 'OrderID' })
     @IsNumber()
     @IsOptional()
@@ -27,4 +36,8 @@ export class OrderLineDTO{
     @IsNumber()
     @IsOptional()
     JewelrySettingVariantID: number|null
+    @ApiProperty({ example: null, description: 'SizeID' })
+    @IsNumber()
+    @IsOptional()
+    SizeID: number|null
 }
