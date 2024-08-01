@@ -173,36 +173,89 @@ export default class DataSeeder implements Seeder {
       // }
 
 
-       //v2
-        // Tạo các JewelrySettingEntity
-        const jewelrySettingFactory = factoryManager.get(JewelrySettingEntity);
-        const jewelrySettings = await jewelrySettingFactory.saveMany(100);
+      //  //v2
+      //   // Tạo các JewelrySettingEntity
+      //   const jewelrySettingFactory = factoryManager.get(JewelrySettingEntity);
+      //   const jewelrySettings = await jewelrySettingFactory.saveMany(100);
 
-        // Lấy tên loại trang sức từ repository
-        const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
-        const jewelryTypes = await jewelryTypeRepository.find();
+      //   // Lấy tên loại trang sức từ repository
+      //   const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
+      //   const jewelryTypes = await jewelryTypeRepository.find();
 
-        const suffixMap: { [key: string]: string[] } = {
-          'Rings': ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union'],
-          'Necklace': ['Charm'],
-          'Bracelet': ['Grace'],
-          'Earring': ['Radiance'],
-          'Wedding Ring': ['Union'],
-          'Engagement Ring': ['Promise'],
-          'Men Engagement Ring': ['Valor'],
-          'Men Wedding Ring': ['Bond']
-        };
+      //   const suffixMap: { [key: string]: string[] } = {
+      //     'Rings': ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union'],
+      //     'Necklace': ['Charm'],
+      //     'Bracelet': ['Grace'],
+      //     'Earring': ['Radiance'],
+      //     'Wedding Ring': ['Union'],
+      //     'Engagement Ring': ['Promise'],
+      //     'Men Engagement Ring': ['Valor'],
+      //     'Men Wedding Ring': ['Bond']
+      //   };
+
+      //   const usedNames = new Set<string>();
+
+      //   // Sinh tên duy nhất cho từng JewelrySettingEntity
+      //   for (let i = 0; i < 100; i++) {
+      //     const jewelrySetting = jewelrySettings[i];
+      //     const jewelryType = jewelryTypes[i % jewelryTypes.length];
+
+      //     if (jewelryType) {
+      //       const typeName = jewelryType.Name;
+      //       const suffixes = suffixMap[typeName] || ['Luxury'];
+      //       const suffix = suffixes[i % suffixes.length];
+      //       let name = `${typeName} ${suffix}`;
+
+      //       // Đảm bảo tên là duy nhất
+      //       let counter = 1;
+      //       let uniqueName = name;
+      //       while (usedNames.has(uniqueName)) {
+      //         uniqueName = `${name} ${counter}`;
+      //         counter++;
+      //       }
+
+      //       usedNames.add(uniqueName);
+      //       jewelrySetting.Name = uniqueName;
+      //     }
+      //   }
+
+      //   // Lưu các JewelrySettingEntity với tên duy nhất
+      //   await dataSource.getRepository(JewelrySettingEntity).save(jewelrySettings);
+
+
+
+      //V3
+      // Tạo JewelrySettingEntity
+      const createJewelrySettings = async (numSettings: number, numActive: number) => {
+      const jewelrySettingFactory = factoryManager.get(JewelrySettingEntity);
+      const jewelrySettings = await jewelrySettingFactory.saveMany(numSettings);
+
+      // Lấy tên loại trang sức từ repository
+      const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
+      const jewelryTypes = await jewelryTypeRepository.find();
+
+      const suffixMapById: { [key: number]: string[] } = {
+          1: ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union', 'Sophistication', 'Splendor'], // Rings
+          2: ['Charm', 'Allure', 'Elegance', 'Glamour'],                                       // Necklace
+          3: ['Grace', 'Elegance', 'Poise'],                                                   // Bracelet
+          4: ['Radiance', 'Sparkle', 'Glow'],                                                  // Earring
+          5: ['Union', 'Bond', 'Eternal'],                                                     // Wedding Ring
+          6: ['Promise', 'Commitment', 'Vow'],                                                 // Engagement Ring
+          7: ['Valor', 'Strength', 'Courage'],                                                 // Men Engagement Ring
+          8: ['Bond', 'Union', 'Togetherness']                                                 // Men Wedding Ring
+      };
 
         const usedNames = new Set<string>();
 
         // Sinh tên duy nhất cho từng JewelrySettingEntity
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < numSettings; i++) {
           const jewelrySetting = jewelrySettings[i];
           const jewelryType = jewelryTypes[i % jewelryTypes.length];
 
           if (jewelryType) {
+            const typeId = jewelryType.JewelryTypeID;   
             const typeName = jewelryType.Name;
-            const suffixes = suffixMap[typeName] || ['Luxury'];
+            const suffixes = suffixMapById[typeId] || ['Luxury'];
             const suffix = suffixes[i % suffixes.length];
             let name = `${typeName} ${suffix}`;
 
@@ -216,11 +269,18 @@ export default class DataSeeder implements Seeder {
 
             usedNames.add(uniqueName);
             jewelrySetting.Name = uniqueName;
+
+            // Gán giá trị isActive
+            jewelrySetting.IsActive = i < numActive;
           }
         }
 
         // Lưu các JewelrySettingEntity với tên duy nhất
         await dataSource.getRepository(JewelrySettingEntity).save(jewelrySettings);
+      };
+
+      // Sử dụng hàm với số lượng và số lượng isActive mong muốn
+      await createJewelrySettings(100, 50);
 
       
 
