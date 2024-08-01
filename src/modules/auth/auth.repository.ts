@@ -101,14 +101,24 @@ export class AuthRepository implements IAuthRepository {
     async updateAccount(id: number, body: AuthPayloadDTO): Promise<AuthResponseDTO | boolean> {
         const { Name, PhoneNumber, Email, Password, Role } = body;
         const salt = await bcrypt.genSalt();
-        const hash = await bcrypt.hash(Password, salt);
-        await this.accountRepository.update(id, {
-            Name,
-            PhoneNumber,
-            Email,
-            Password: hash,
-            Role
-        });
+        let hash = null
+        if(Password!=null)
+        hash = await bcrypt.hash(Password, salt);
+
+        if (Name === null && PhoneNumber === null && Email === null && Password === null && Role !== null) {
+            await this.accountRepository.update(id, {
+                Role
+            });
+        }
+        else if (Role !== null) {
+            await this.accountRepository.update(id, {
+                Name,
+                PhoneNumber,
+                Email,
+                Password: hash,
+                Role
+            });
+        }
         return await this.findById(id);
     }
 
@@ -130,9 +140,9 @@ export class AuthRepository implements IAuthRepository {
     getIdField() {
         return "AccountID"
     }
-    async findById(id: number): Promise<AuthResponseDTO>{
+    async findById(id: number): Promise<AuthResponseDTO> {
         const idField = this.getIdField();
-        return await this.accountRepository.findOne( {where: {[idField]:id} as FindOptionsWhere<BaseEntity>});
+        return await this.accountRepository.findOne({ where: { [idField]: id } as FindOptionsWhere<BaseEntity> });
     }
     async findByIdCustomer(id: number): Promise<AuthPayloadCustomerDTO> {
         const idField = this.getIdField();
@@ -157,11 +167,11 @@ export class AuthRepository implements IAuthRepository {
         return await this.accountRepository.findOne({ where: { Email: email } as FindOptionsWhere<BaseEntity> });
     }
 
-    async findRelationById( id: number): Promise<AuthResponseDTO> {
-        return await this.accountRepository.findOne( {where: {AccountID: id} as FindOptionsWhere<BaseEntity>});
+    async findRelationById(id: number): Promise<AuthResponseDTO> {
+        return await this.accountRepository.findOne({ where: { AccountID: id } as FindOptionsWhere<BaseEntity> });
     }
 
-     
+
     async findAllAccounts(): Promise<AuthResponseDTO[]> {
         return await this.accountRepository.find();
     }

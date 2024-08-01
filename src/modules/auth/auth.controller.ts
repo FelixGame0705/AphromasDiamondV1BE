@@ -131,6 +131,7 @@ export class AuthController {
                 new ResponseData(isAuth, HttpStatus.SUCCESS, HttpMessage.SUCCESS)
             )
         } catch (error) {
+            console.log(error)
             return res.json(
                 new ResponseData(null, HttpStatus.ERROR, HttpMessage.ERROR),
             );
