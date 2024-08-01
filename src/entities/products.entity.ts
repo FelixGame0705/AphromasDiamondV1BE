@@ -25,16 +25,16 @@ export class ProductEntity extends BaseEntity{
     Brand: string
     @Column({nullable: true})
     JewelrySettingID: number
-    @Column({nullable:true, type: 'decimal', precision: 12, scale: 2})
-    Price: number
-    @Column({nullable:true, type: 'decimal', precision: 12, scale: 2})
-    DiscountPrice: number
+    // @Column({nullable:true, type: 'decimal', precision: 12, scale: 2})
+    // Price: number
+    // @Column({nullable:true, type: 'decimal', precision: 12, scale: 2})
+    // DiscountPrice: number
     @Column({default:0, type: 'decimal', precision: 3, scale: 1})
     Stars: number
     @Column({nullable: true})
     AccountID: number
-    @Column({nullable: true})
-    CollectionID: number
+    // @Column({nullable: true})
+    // CollectionID: number
     @Column({nullable: true})
     DiscountID: number
     // @Column({nullable: true})
@@ -50,9 +50,9 @@ export class ProductEntity extends BaseEntity{
     @ManyToOne(()=>AccountsEntity, {nullable:true})
     @JoinColumn({name:'AccountID', referencedColumnName:'AccountID'})
     account: AccountsEntity
-    @ManyToOne(()=>CollectionEntity, {nullable: true})
-    @JoinColumn({name: 'CollectionID', referencedColumnName:'CollectionID'})
-    collection: CollectionEntity
+    // @ManyToOne(()=>CollectionEntity, {nullable: true})
+    // @JoinColumn({name: 'CollectionID', referencedColumnName:'CollectionID'})
+    // collection: CollectionEntity
     @ManyToOne(()=>DiscountEntity, {nullable: true})
     @JoinColumn({name: 'DiscountID', referencedColumnName:'DiscountID'})
     discount: DiscountEntity

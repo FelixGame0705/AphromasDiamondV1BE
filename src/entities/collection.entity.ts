@@ -12,9 +12,9 @@ export class CollectionEntity extends BaseEntity{
     Description: string
     @Column({nullable: true})
     DebutTime: Date
-    @OneToMany(()=>DiamondEntity, diamond=>diamond.collection)
-    diamond: DiamondEntity[]
-    @OneToMany(()=>ProductEntity, product=>product.collection)
-    product: ProductEntity[]
+    // @OneToMany(()=>DiamondEntity, diamond=>diamond.collection)
+    // diamond: DiamondEntity[]
+    // @OneToMany(()=>ProductEntity, product=>product.collection)
+    // product: ProductEntity[]
     //done
 }
