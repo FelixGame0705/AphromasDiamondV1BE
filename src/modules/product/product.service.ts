@@ -44,6 +44,10 @@ export class ProductService {
                 );
 
             }
+            let percentDiscount = 0;
+            if(item.discount != null && item.discount?.PercentDiscounts != null){
+                percentDiscount = item.discount.PercentDiscounts;
+            }
 
 
 
@@ -94,6 +98,10 @@ export class ProductService {
                 .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
                 .map(variant => variant.Price)
         );
+        let percentDiscount = 0;
+            if(item.discount != null && item.discount?.PercentDiscounts != null){
+                percentDiscount = item.discount.PercentDiscounts;
+            }
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new ProductDetail({
@@ -145,6 +153,10 @@ export class ProductService {
                 .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
                 .map(variant => variant.Price)
         );
+        let percentDiscount = 0;
+            if(item.discount != null && item.discount?.PercentDiscounts != null){
+                percentDiscount = item.discount.PercentDiscounts;
+            }
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new Product({
@@ -193,6 +205,10 @@ export class ProductService {
                 .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
                 .map(variant => variant.Price)
         );
+        let percentDiscount = 0;
+            if(item.discount != null && item.discount?.PercentDiscounts != null){
+                percentDiscount = item.discount.PercentDiscounts;
+            }
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new Product({
@@ -233,6 +249,10 @@ export class ProductService {
                 .filter(variant => variant.JewelrySettingID === item.jewelrySetting.JewelrySettingID)
                 .map(variant => variant.Price),
         );
+        let percentDiscount = 0;
+            if(item.discount != null && item.discount?.PercentDiscounts != null){
+                percentDiscount = item.discount.PercentDiscounts;
+            }
         const totalPrice = prices.reduce((acc, current) => acc + current, 0);
         const totaljewelrySettingAmount = jewelrySettingAmount.reduce((acc, current) => acc + current, 0);
         const modifiedData = new ProductDetail({
