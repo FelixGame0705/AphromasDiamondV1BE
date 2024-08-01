@@ -22,7 +22,7 @@ export class Diamond{
     Shape: string
     UpdateTime: Date
     ProductID: number
-    CollectionID: number
+    // CollectionID: number
     DiscountID: number
     usingImage: UsingImage[]
     constructor({
@@ -45,7 +45,7 @@ export class Diamond{
         Shape,
         UpdateTime,
         ProductID,
-        CollectionID,
+        // CollectionID,
         DiscountID,
         usingImage
     }){
@@ -68,7 +68,7 @@ export class Diamond{
             if(Shape!=undefined) this.Shape = Shape;
             if(UpdateTime!=undefined) this.UpdateTime = UpdateTime;
             if(ProductID!= undefined) this.ProductID = ProductID;
-            if(CollectionID!= undefined) this.CollectionID = CollectionID;
+            // if(CollectionID!= undefined) this.CollectionID = CollectionID;
             if(DiscountID!= undefined) this.DiscountID = DiscountID;
             if(usingImage!= undefined) this.usingImage = usingImage;
     }

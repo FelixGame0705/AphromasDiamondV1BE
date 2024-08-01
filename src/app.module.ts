@@ -60,7 +60,7 @@ import { DiscountScheduleModule } from './modules/schedules/discountSchedule.mod
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
       entities: [DiamondEntity, AccountsEntity, VoucherEntity, CertificateEntity,CustomerEntity, JewelryTypeEntity,MaterialJewelryEntity,
-        NotificationEntity,OrderEntity,OrderLineEntity, JewelrySettingEntity, FeedbackEntity, SizeEntity, JewelrySettingVariantEntity, ProductEntity,CollectionEntity, DiscountEntity, UsingImageEntity
+        NotificationEntity,OrderEntity,OrderLineEntity, JewelrySettingEntity, FeedbackEntity, SizeEntity, JewelrySettingVariantEntity, ProductEntity,/*CollectionEntity,*/ DiscountEntity, UsingImageEntity
       ]
     }),
     JwtModule.register({
@@ -72,7 +72,7 @@ import { DiscountScheduleModule } from './modules/schedules/discountSchedule.mod
     AuthModule,DiscountScheduleModule,
     UserModule,
     DiamondModule, NotificationModule, OrderModule, OrderLineModule, JewelryTypeModule, MaterialJewelryModule, JewelrySettingModule,
-    SizeModule, JewelrySettingVariantModule, CollectionModule, UsingImageModule, ProductModule, CertificateModule, PayPalModule, DiscountModule, VoucherModule, FeedbackModule
+    SizeModule, JewelrySettingVariantModule, /*CollectionModule,*/ UsingImageModule, ProductModule, CertificateModule, PayPalModule, DiscountModule, VoucherModule, FeedbackModule
   ],
   controllers: [AppController],
   providers: [

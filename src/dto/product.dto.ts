@@ -25,10 +25,10 @@ export class ProductDTO{
     @IsNumber()
     @IsOptional()
     AccountID: number|null
-    @ApiProperty({example:1, description:'CollectionID of jewelry'})
-    @IsNumber()
-    @IsOptional()
-    CollectionID: number|null
+    // @ApiProperty({example:1, description:'CollectionID of jewelry'})
+    // @IsNumber()
+    // @IsOptional()
+    // CollectionID: number|null
     @ApiProperty({example:1, description:'DiscountID of jewelry'})
     @IsNumber()
     @IsOptional()

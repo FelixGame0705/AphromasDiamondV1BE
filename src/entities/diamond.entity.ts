@@ -51,27 +51,27 @@ export class DiamondEntity extends BaseEntity{
     UpdateTime: Date
     @Column({default:0, type: 'decimal', precision: 3, scale: 1})
     Stars: number
-    @Column({nullable: true})
-    JewelrySettingVariantID: number
+    // @Column({nullable: true})
+    // JewelrySettingVariantID: number
     @Column({nullable: true})
     ProductID: number
     @Column({nullable: true})
-    CollectionID: number
-    @Column({nullable: true})
+    // CollectionID: number
+    // @Column({nullable: true})
     DiscountID: number
     @Column({nullable: true})
     Designer: string
     @Column({nullable: true})
     Cutter: string
-    @Column({nullable: true})// use to group diamond in 1 variant jewelry setting
-    IndexVariantGroup: number
+    // @Column({nullable: true})// use to group diamond in 1 variant jewelry setting
+    // IndexVariantGroup: number
     @Column({default: 1})
     Quantity: number // 0 or 1
     @OneToMany(()=>CertificateEntity, certificate=>certificate.Diamond)
     certificate: CertificateEntity[]
-    @ManyToOne(()=>JewelrySettingVariantEntity, { nullable: true })
-    @JoinColumn({name:'JewelrySettingVariantID', referencedColumnName:'JewelrySettingVariantID'})
-    jewelrySettingVariant: JewelrySettingVariantEntity
+    // @ManyToOne(()=>JewelrySettingVariantEntity, { nullable: true })
+    // @JoinColumn({name:'JewelrySettingVariantID', referencedColumnName:'JewelrySettingVariantID'})
+    // jewelrySettingVariant: JewelrySettingVariantEntity
     @OneToMany(()=>OrderLineEntity, orderLine=>orderLine.DiamondID, { nullable: true })
     orderLine: OrderLineEntity
     @OneToMany(()=>FeedbackEntity, feedback=>feedback.diamond)
@@ -79,9 +79,9 @@ export class DiamondEntity extends BaseEntity{
     @ManyToOne(()=>ProductEntity, {nullable: true})
     @JoinColumn({name:'ProductID', referencedColumnName: 'ProductID'})
     products: ProductEntity
-    @ManyToOne(()=>CollectionEntity,{nullable: true})
-    @JoinColumn({name:'CollectionID', referencedColumnName:'CollectionID'})
-    collection: CollectionEntity
+    // @ManyToOne(()=>CollectionEntity,{nullable: true})
+    // @JoinColumn({name:'CollectionID', referencedColumnName:'CollectionID'})
+    // collection: CollectionEntity
     @ManyToOne(()=>DiscountEntity,{nullable: true})
     @JoinColumn({name:'DiscountID', referencedColumnName: 'DiscountID'})
     discount: DiscountEntity

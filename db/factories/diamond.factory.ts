@@ -85,7 +85,7 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
 
   diamond.Designer = faker.person.fullName();
   diamond.Cutter = faker.person.fullName();
-  diamond.IndexVariantGroup = null;
+  // diamond.IndexVariantGroup = null;
   diamond.Quantity = 1;
   
   

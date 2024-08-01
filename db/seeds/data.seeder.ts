@@ -179,7 +179,7 @@ export default class DataSeeder implements Seeder {
 
         await productFactory.save({
           AccountID: customers.CustomerID,
-          CollectionID: collection.CollectionID,
+          // CollectionID: collection.CollectionID,
           DiscountID: discount.DiscountID,
           // JewelrySettingVariantID: jewelrySettingVariant.JewelrySettingVariantID,
         });
