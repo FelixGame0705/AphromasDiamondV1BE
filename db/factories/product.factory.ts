@@ -91,6 +91,7 @@ export const   productFactory = setSeederFactory(ProductEntity, async (faker) =>
      product.JewelrySettingID = randomJewelrySetting.JewelrySettingID;
    }
 
+   product.Description = faker.commerce.productDescription();
 
 
     // product.AccountID = faker.datatype.number({ min: 5, max: 99999999 });
