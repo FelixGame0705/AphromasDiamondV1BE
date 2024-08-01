@@ -234,15 +234,17 @@ export default class DataSeeder implements Seeder {
       const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
       const jewelryTypes = await jewelryTypeRepository.find();
 
-      const suffixMapById: { [key: number]: string[] } = {
-          1: ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union', 'Sophistication', 'Splendor'], // Rings
-          2: ['Charm', 'Allure', 'Elegance', 'Glamour'],                                       // Necklace
-          3: ['Grace', 'Elegance', 'Poise'],                                                   // Bracelet
-          4: ['Radiance', 'Sparkle', 'Glow'],                                                  // Earring
-          5: ['Union', 'Bond', 'Eternal'],                                                     // Wedding Ring
-          6: ['Promise', 'Commitment', 'Vow'],                                                 // Engagement Ring
-          7: ['Valor', 'Strength', 'Courage'],                                                 // Men Engagement Ring
-          8: ['Bond', 'Union', 'Togetherness']                                                 // Men Wedding Ring
+      const suffixMapById: { [key: string]: string[] } = {
+        'Rings': ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union', 'Sophistication', 'Splendor'], // 1: Rings
+        'Necklace': ['Charm', 'Allure', 'Elegance', 'Glamour'],                                     // 2: Necklace
+        'Bracelet': ['Grace', 'Elegance', 'Poise'],                                                 // 3: Bracelet
+        'Earring': ['Radiance', 'Sparkle', 'Glow'],                                                 // 4: Earring
+        'Wedding Ring': ['Union', 'Bond', 'Eternal'],                                               // 5: Wedding Ring
+        'Engagement Ring': ['Promise', 'Commitment', 'Vow'],                                        // 6: Engagement Ring
+        'Men Engagement Ring': ['Valor', 'Strength', 'Courage'],                                    // 7: Men Engagement Ring
+        'Men Wedding Ring': ['Bond', 'Union', 'Togetherness']  
+          
+         
       };
 
         const usedNames = new Set<string>();
