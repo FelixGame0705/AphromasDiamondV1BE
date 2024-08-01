@@ -17,7 +17,7 @@ export class DiscountScheduleService {
         private readonly orderLineRepository: Repository<OrderLineEntity>,
     ) { }
 
-    @Cron('*/30 * * * * *', {
+    @Cron('0 * * * * *', {
         name: 'schedule',
         //timeZone: 'Europe/Paris',
     })
