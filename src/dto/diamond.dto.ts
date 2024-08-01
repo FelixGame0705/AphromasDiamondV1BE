@@ -69,16 +69,16 @@ export class DiamondDTO{
     @IsOptional()
     @IsNumber()
     ProductID: number|null
-    @ApiProperty({ example: null , description: 'Diamond' })
-    @IsOptional()
-    @IsNumber()
-    CollectionID: number|null
+    // @ApiProperty({ example: null , description: 'Diamond' })
+    // @IsOptional()
+    // @IsNumber()
+    // CollectionID: number|null
     @ApiProperty({ example: null , description: 'Diamond' })
     @IsOptional()
     @IsNumber()
     DiscountID: number|null
-    @ApiProperty({example: null, description: 'Jewelry setting variant id dùng để tạo sản phẩm sẵn, nối diamond với vỏ'})
-    @IsNumber()
-    @IsOptional()
-    JewelrySettingVariantID: number|null
+    // @ApiProperty({example: null, description: 'Jewelry setting variant id dùng để tạo sản phẩm sẵn, nối diamond với vỏ'})
+    // @IsNumber()
+    // @IsOptional()
+    // JewelrySettingVariantID: number|null
 }

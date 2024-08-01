@@ -17,14 +17,14 @@ export class Product{
     TotalDiamondPrice: number
     FirstPrice: number
     DiscountFirstPrice: number
-    CollectionID: number
+    // CollectionID: number
     DiscountID: number
     TotalQuantityJewelrySettingVariants: number
     Discount: Discount
     UsingImage: UsingImage[]
     Diamond: Diamond[]
     JewelrySetting: JewelrySetting    
-    constructor({ProductID, Name, Description,Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, DiscountFirstPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity}){
+    constructor({ProductID, Name, Description,Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, DiscountFirstPrice, /*CollectionID,*/ DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity}){
         this.ProductID = ProductID
         this.Name = Name
         this.Description = Description
@@ -34,7 +34,7 @@ export class Product{
         this.TotalDiamondPrice = TotalDiamondPrice
         this.FirstPrice = FirstPrice
         this.DiscountFirstPrice = DiscountFirstPrice
-        this.CollectionID = CollectionID
+        // this.CollectionID = CollectionID
         this.DiscountID = DiscountID
         this.Discount = Discount
         this.UsingImage = UsingImage
@@ -58,7 +58,7 @@ export class ProductDetail{
     TotalDiamondPrice: number
     FirstPrice: number
     DiscountFirstPrice:number
-    CollectionID: number
+    // CollectionID: number
     DiscountID: number
     TotalQuantityJewelrySettingVariants: number
     Discount: Discount
@@ -66,7 +66,7 @@ export class ProductDetail{
     Diamond: Diamond[]
     JewelrySetting: JewelrySetting    
     JewelrySettingVariant: any[]
-    constructor({ProductID, Name, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, DiscountFirstPrice, CollectionID, DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity, JewelrySettingVariant, Description}){
+    constructor({ProductID, Name, Brand,JewelrySettingID, AccountID, TotalDiamondPrice, FirstPrice, DiscountFirstPrice, /*CollectionID,*/ DiscountID, UsingImage, Diamond, JewelrySetting, TotalQuantityJewelrySettingVariants, Discount, Stars, Quantity, JewelrySettingVariant, Description}){
         this.ProductID = ProductID
         this.Name = Name
         this.Description = Description
@@ -74,7 +74,7 @@ export class ProductDetail{
         this.JewelrySettingID = JewelrySettingID
         this.AccountID = AccountID
         this.TotalDiamondPrice = TotalDiamondPrice
-        this.CollectionID = CollectionID
+        // this.CollectionID = CollectionID
         this.DiscountID = DiscountID
         this.Discount = Discount
         this.UsingImage = UsingImage

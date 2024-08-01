@@ -49,31 +49,9 @@ export const   productFactory = setSeederFactory(ProductEntity, async (faker) =>
         discountPercent = faker.datatype.number({ min: 25, max: 35 });
       }
     }
-  
-    product.Price = basePrice;
-    product.DiscountPrice = parseFloat((basePrice * (1 - discountPercent / 100)).toFixed(2));
 
-    product.JewelrySettingID = faker.datatype.number({ min: 1, max: 5 });
-  
-
-
-
-
-
-
-
-
-    // if (basePrice < 1000) {
-    //   discountPercent = faker.datatype.number({ min: 10, max: 20 });
-    // } else if (basePrice >= 1000 && basePrice < 5000) {
-    //   discountPercent = faker.datatype.number({ min: 15, max: 25 });
-    // } else if (basePrice >= 5000 && basePrice < 15000) {
-    //   discountPercent = faker.datatype.number({ min: 20, max: 30 });
-    // } else {
-    //   discountPercent = faker.datatype.number({ min: 25, max: 35 });
-    // }
-  // product.DiscountPrice = parseFloat((basePrice * (1 - discountPercent / 100)).toFixed(2));
-
+    // product.Price = basePrice;
+    // product.DiscountPrice = parseFloat((basePrice * (1 - discountPercent / 100)).toFixed(2));
   // } else {
     // Trang sức không có kim cương
     // product.Price = faker.datatype.number({ min: 200, max: 1000 });

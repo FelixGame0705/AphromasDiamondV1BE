@@ -77,7 +77,16 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
 
   Whether set in a stunning piece of jewelry or appreciated on its own, this diamond is sure to captivate with its timeless elegance and unparalleled beauty. It's not just a gemstone; it's a testament to the wonders of nature and the skill of master cutters.`;
 
- 
+  //foreign key
+  // diamond.JewelrySettingVariantID =  faker.datatype.number({ min: 1, max: 5 });
+  // diamond.ProductID =faker.datatype.number({ min: 1, max: 5 });
+  // diamond.CollectionID =  faker.datatype.number({ min: 1, max: 5 });
+  // diamond.DiscountID = faker.datatype.number({ min: 1, max: 5 });
+  
+
+  diamond.Designer = faker.person.fullName();
+  diamond.Cutter = faker.person.fullName();
+  // diamond.IndexVariantGroup = null;
   diamond.Quantity = 1;
   
   

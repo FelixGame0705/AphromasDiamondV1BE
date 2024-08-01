@@ -29,7 +29,7 @@ export class DiscountScheduleService {
             if (new Date(discount.StartDate).getTime() <= Date.now() && new Date(discount.EndDate).getTime() >= Date.now()) {
                 for (const product of productEntities) {
                     if (product.DiscountID === discount.DiscountID) {
-                        product.DiscountPrice = (product.Price * (1 - discount.PercentDiscounts / 100));
+                        // product.DiscountPrice = (product.Price * (1 - discount.PercentDiscounts / 100));
                         await this.productRepository.save(product);
                     }
                 }
@@ -42,7 +42,7 @@ export class DiscountScheduleService {
             } else if (new Date(discount.EndDate).getTime() >= Date.now()) {
                 for (const product of productEntities) {
                     if (product.DiscountID === discount.DiscountID) {
-                        product.DiscountPrice = null; // Assuming you want to remove the discount price
+                        // product.DiscountPrice = null; // Assuming you want to remove the discount price
                         await this.productRepository.save(product);
                     }
                 }
