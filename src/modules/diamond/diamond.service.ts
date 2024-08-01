@@ -36,4 +36,9 @@ export class DiamondService{
         const perPage = PRODUCT_PER_PAGE;
         return this.diamondRepository.paginateAndFilter(page, perPage, filters, sort);
     }
+
+    async updateDiamondStatusAfterPurchase(diamondId: number): Promise<void> {
+        await this.diamondRepository.update(diamondId, { IsActive: false });
+    }
+
 }
