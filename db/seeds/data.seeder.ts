@@ -97,7 +97,7 @@ export default class DataSeeder implements Seeder {
       // Tạo thông báo cho mỗi tài khoản
       for (const account of accounts) {
         // Số lượng thông báo cho mỗi tài khoản (ít nhất 1, tối đa 5)
-        const notificationCount = getRandomInt(1, 5);
+        const notificationCount = getRandomInt(1, 8);
         for (let i = 0; i < notificationCount; i++) {
           await notificationFactory.save({
             AccountID: account.AccountID,
@@ -110,7 +110,7 @@ export default class DataSeeder implements Seeder {
 
       //Create vouchers
       const voucherFactory = factoryManager.get(VoucherEntity);
-      await voucherFactory.saveMany(20);
+      await voucherFactory.saveMany(25);
 
 
 
