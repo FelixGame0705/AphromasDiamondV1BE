@@ -47,14 +47,13 @@ export default class DataSeeder implements Seeder {
       await sizes;
       await acc;
 
-      //Create collection cho Như Nguyên yêu cầu
-      const collect = insertCollectionbyNN(dataSource);
-      await collect;
+      // //Create collection cho Như Nguyên yêu cầu
+      // const collect = insertCollectionbyNN(dataSource);
+      // await collect;
 
-      // //Create collection
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-      const collectionFactory = factoryManager.get(CollectionEntity);
-      await collectionFactory.saveMany(2);
+      // // //Create collection                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+      // const collectionFactory = factoryManager.get(CollectionEntity);
+      // await collectionFactory.saveMany(2);
 
       // //Create discount
       const discountFactory = factoryManager.get(DiscountEntity);

@@ -19,41 +19,41 @@ export const   productFactory = setSeederFactory(ProductEntity, async (faker) =>
 
 
 
-    // Giá cơ bản cho trang sức có kim cương
-  let basePrice;
-  // let discountPercent;
+  //   // Giá cơ bản cho trang sức có kim cương
+  // let basePrice;
+  // // let discountPercent;
 
-  // if (faker.datatype.number({ min: 1, max: 100 }) <= 30) { // Giả định 30% là giá trị có kim cương (cái này sẽ điều chỉnh sau)
-    basePrice = faker.datatype.number({ min: 1000, max: 15000 });
+  // // if (faker.datatype.number({ min: 1, max: 100 }) <= 30) { // Giả định 30% là giá trị có kim cương (cái này sẽ điều chỉnh sau)
+  //   basePrice = faker.datatype.number({ min: 1000, max: 15000 });
    
 
-    const discountRepository =dataSource.getRepository(DiscountEntity);
-    const discounts = await discountRepository.find();
+  //   const discountRepository =dataSource.getRepository(DiscountEntity);
+  //   const discounts = await discountRepository.find();
 
-    const discount = discounts.find(d => d.DiscountID === product.DiscountID);
-    const percent = discounts.find(percent => percent.PercentDiscounts === discount?.PercentDiscounts);
+  //   const discount = discounts.find(d => d.DiscountID === product.DiscountID);
+  //   const percent = discounts.find(percent => percent.PercentDiscounts === discount?.PercentDiscounts);
 
 
-    let discountPercent = 0;
-    if (percent) {
-      discountPercent = percent.PercentDiscounts;  
-    } else {
-      // Nếu không tìm thấy discount, áp dụng logic giảm giá mặc định
-      if (basePrice < 1000) {
-        discountPercent = faker.datatype.number({ min: 10, max: 20 });
-      } else if (basePrice >= 1000 && basePrice < 5000) {
-        discountPercent = faker.datatype.number({ min: 15, max: 25 });
-      } else if (basePrice >= 5000 && basePrice < 15000) {
-        discountPercent = faker.datatype.number({ min: 20, max: 30 });
-      } else {
-        discountPercent = faker.datatype.number({ min: 25, max: 35 });
-      }
-    }
+  //   let discountPercent = 0;
+  //   if (percent) {
+  //     discountPercent = percent.PercentDiscounts;  
+  //   } else {
+  //     // Nếu không tìm thấy discount, áp dụng logic giảm giá mặc định
+  //     if (basePrice < 1000) {
+  //       discountPercent = faker.datatype.number({ min: 10, max: 20 });
+  //     } else if (basePrice >= 1000 && basePrice < 5000) {
+  //       discountPercent = faker.datatype.number({ min: 15, max: 25 });
+  //     } else if (basePrice >= 5000 && basePrice < 15000) {
+  //       discountPercent = faker.datatype.number({ min: 20, max: 30 });
+  //     } else {
+  //       discountPercent = faker.datatype.number({ min: 25, max: 35 });
+  //     }
+  //   }
   
-    product.Price = basePrice;
-    product.DiscountPrice = parseFloat((basePrice * (1 - discountPercent / 100)).toFixed(2));
+  //   product.Price = basePrice;
+  //   product.DiscountPrice = parseFloat((basePrice * (1 - discountPercent / 100)).toFixed(2));
 
-    product.JewelrySettingID = faker.datatype.number({ min: 1, max: 5 });
+    // product.JewelrySettingID = faker.datatype.number({ min: 1, max: 5 });
   
 
 

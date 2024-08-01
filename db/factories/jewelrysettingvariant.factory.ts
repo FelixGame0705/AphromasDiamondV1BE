@@ -27,7 +27,8 @@ export const jewelrysettingvariantsFactory = setSeederFactory(JewelrySettingVari
     
     jewelrysettingvariants.Weight = faker.datatype.number({min: 1, max: 5});
     jewelrysettingvariants.Quantity = faker.datatype.number({min: 1, max: 5});
-    jewelrysettingvariants.Price = faker.datatype.number({min: 1, max: 5}); 
+
+    // jewelrysettingvariants.Price = faker.datatype.number({min: 1, max: 5}); 
 
  
   
