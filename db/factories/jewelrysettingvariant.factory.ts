@@ -57,17 +57,7 @@
 //     return jewelrysettingvariants;
 // });
 
-
-import { setSeederFactory } from "typeorm-extension";
-import { JewelrySettingVariantEntity } from "src/entities/jewlrySettingVariant.entity";
-import dataSource from "db/data-source";
-import { JewelryTypeEntity } from "src/entities/jewelryType.entity";
-import { MaterialJewelryEntity } from "src/entities/marterialJewelry.entity";
-import { JewelrySettingEntity } from "src/entities/jewelrySetting.entity";
-
-export const jewelrysettingvariantsFactory = setSeederFactory(JewelrySettingVariantEntity, async (faker) => {
-    const jewelrysettingvariant = new JewelrySettingVariantEntity();
-
+{
     // const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
     // const jewelrytype = await jewelryTypeRepository.find();
     
@@ -108,15 +98,60 @@ export const jewelrysettingvariantsFactory = setSeederFactory(JewelrySettingVari
     //             jewelrysettingvariant.MaterialJewelryID = null;
     //         }
     //     }
+}
 
-        // Thiết lập các thuộc tính khác
-        // jewelrysettingvariant.Price = faker.datatype.number({ min: 1, max: 5 });
-        jewelrysettingvariant.Weight = faker.datatype.number({ min: 1, max: 5 });
-        jewelrysettingvariant.Quantity = faker.datatype.number({ min: 1, max: 5 });
+import { setSeederFactory } from "typeorm-extension";
+import { JewelrySettingVariantEntity } from "src/entities/jewlrySettingVariant.entity";
+import dataSource from "db/data-source";
+import { JewelrySettingEntity } from "src/entities/jewelrySetting.entity";
+import { MaterialJewelryEntity } from "src/entities/marterialJewelry.entity";
+ 
 
-    // }
-        
+export const jewelrysettingvariantsFactory = setSeederFactory(JewelrySettingVariantEntity, async (faker) => {
+   
 
-    return jewelrysettingvariant;
+
+   // Lấy các repository cần thiết
+   const jewelrySettingRepository = dataSource.getRepository(JewelrySettingEntity);
+   const materialRepository = dataSource.getRepository(MaterialJewelryEntity);
+
+   // Lấy danh sách JewelrySettings và Materials
+   const jewelrySettings = await jewelrySettingRepository.find();
+   const materials = await materialRepository.find();
+
+   // Chọn một JewelrySetting ngẫu nhiên
+   const jewelrySetting = faker.helpers.arrayElement(jewelrySettings);
+
+   // Lấy các Material đã tồn tại cho JewelrySettingID hiện tại
+   const existingVariants = await dataSource.getRepository(JewelrySettingVariantEntity).find({
+       where: { JewelrySettingID: jewelrySetting.JewelrySettingID },
+       select: ['MaterialJewelryID']
+   });
+
+   const existingMaterialIds = new Set(existingVariants.map(v => v.MaterialJewelryID));
+   
+   // Lấy các chất liệu còn thiếu để đủ 4 loại
+   const availableMaterials = materials
+       .filter(m => !existingMaterialIds.has(m.MaterialJewelryID))
+       .slice(0, 4 - existingMaterialIds.size);
+
+   // Nếu chưa đủ 4 chất liệu, chọn thêm từ danh sách material
+   const selectedMaterials = [
+       ...Array.from(existingMaterialIds).map(id => materials.find(m => m.MaterialJewelryID === id)!),
+       ...availableMaterials
+   ];
+
+   // Chọn một chất liệu ngẫu nhiên từ danh sách đã chọn
+   const material = faker.helpers.arrayElement(selectedMaterials);
+
+   // Tạo JewelrySettingVariantEntity
+   const jewelrysettingvariant = new JewelrySettingVariantEntity();
+   jewelrysettingvariant.JewelrySettingID = jewelrySetting.JewelrySettingID;
+   jewelrysettingvariant.MaterialJewelryID = material.MaterialJewelryID;
+   jewelrysettingvariant.Weight = faker.datatype.number({ min: 1, max: 5 });
+   jewelrysettingvariant.Quantity = faker.datatype.number({ min: 1, max: 5 });
+
+   return jewelrysettingvariant;
+     
 });
 
