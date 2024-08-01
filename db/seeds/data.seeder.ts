@@ -1,6 +1,6 @@
 
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
-import { DataSource, FindOneOptions } from 'typeorm';
+import { DataSource, EntityManager, FindOneOptions } from 'typeorm';
 import { AccountsEntity } from 'src/entities/accounts.entity';
 import { CustomerEntity } from 'src/entities/customer.entity';
 import { MaterialJewelryEntity } from 'src/entities/marterialJewelry.entity';
@@ -17,6 +17,7 @@ import { VoucherEntity } from 'src/entities/voucher.entity';
 import { FeedbackEntity } from 'src/entities/feedback.entity';
 import { DiamondEntity } from 'src/entities/diamond.entity';
 import * as bcrypt from 'bcrypt';
+import { faker } from '@faker-js/faker';
 
 
 
@@ -33,6 +34,7 @@ export default class DataSeeder implements Seeder {
   public async run(
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,
+    
   ): Promise<void> {
     try {
       console.log('Starting data seeding...');  
@@ -281,29 +283,43 @@ export default class DataSeeder implements Seeder {
         // // Sử dụng hàm với số lượng và số lượng isActive mong muốn
         // await createJewelrySettings(100, 50);
         }
-        await createJewelrySettings(dataSource, factoryManager, 8);
+        await createJewelrySettings(dataSource, factoryManager, 6);
 
 
 
 
      
   
-      //Create jewelry setting variant
-        const jewelryerysettingvariantFactory = factoryManager.get(JewelrySettingVariantEntity);   
-        await jewelryerysettingvariantFactory.saveMany(28); 
-        
+      // //Create jewelry setting variant
+      {
+      //   const jewelryerysettingvariantFactory = factoryManager.get(JewelrySettingVariantEntity);  
+
+      //   // Nhập số lượng bạn muốn tạo
+      //   const numberOfVariants = 28;
+
+      //   // Sử dụng createMany để tạo nhiều bản sao
+      //   const variants = await jewelryerysettingvariantFactory.saveMany(numberOfVariants);
+
+      //   // Lưu tất cả các đối tượng vào cơ sở dữ liệu
+      //   await dataSource.getRepository(JewelrySettingVariantEntity).save(variants);
+      }
+      await createJewelrySettingVariants(dataSource, 4, 192); 
+                  
+
+         
+
 
 
       //Create products
         const productFactory = factoryManager.get(ProductEntity);
         //lấy từ repo lên 
         const accountRepository = dataSource.getRepository(AccountsEntity);
-        const collectionRepository = dataSource.getRepository(CollectionEntity);
+        // const collectionRepository = dataSource.getRepository(CollectionEntity);
         const discountRepository = dataSource.getRepository(DiscountEntity);
-        const jewelrySettingVariantRepository = dataSource.getRepository(JewelrySettingVariantEntity);
+        // const jewelrySettingVariantRepository = dataSource.getRepository(JewelrySettingVariantEntity);
       
         const customer = await accountRepository.find({ where: { Role: 'ROLE_CUSTOMER' } });
-        const collections = await collectionRepository.find();
+        // const collections = await collectionRepository.find();
         const discounts = await discountRepository.find();
         //  const jewelrySettingVariants = await jewelrySettingVariantRepository.find();
         // Đặt số lượng sản phẩm bạn muốn tạo
@@ -311,7 +327,7 @@ export default class DataSeeder implements Seeder {
         // Tạo sản phẩm mới
         for (let i = 0; i < productCount; i++) {
           const customers = customer[i % customer.length];
-          const collection = collections[i % collections.length];
+          // const collection = collections[i % collections.length];
           const discount = discounts[i % discounts.length];
           // const jewelrySettingVariant = jewelrySettingVariants[i % jewelrySettingVariants.length];
           await productFactory.save({
@@ -324,7 +340,7 @@ export default class DataSeeder implements Seeder {
       
        
       //Create diamonds
-        const numDiamonds = 50; 
+        const numDiamonds = 30; 
         const diamondFactory = factoryManager.get(DiamondEntity);
         let diamonds = []; 
         for(let i = 0; i<  numDiamonds; i++){
@@ -388,10 +404,10 @@ async function createJewelrySettings(
     '2': ['Charm', 'Allure', 'Elegance', 'Glamour'],                                     // Necklace
     '3': ['Grace', 'Elegance', 'Poise'],                                                 // Bracelet
     '4': ['Radiance', 'Sparkle', 'Glow'],                                                 // Earring
-    '5': ['Union', 'Bond', 'Eternal'],                                               // Wedding Ring
-    '6': ['Promise', 'Commitment', 'Vow'],                                        // Engagement Ring
-    '7': ['Valor', 'Strength', 'Courage'],                                    // Men Engagement Ring
-    '8': ['Bond', 'Union', 'Togetherness']                                      // Men Wedding Ring
+    '5': ['Union', 'Bond', 'Eternal'],                                                   // Wedding Ring
+    '6': ['Promise', 'Commitment', 'Vow'],                                                // Engagement Ring
+    '7': ['Valor', 'Strength', 'Courage'],                                                 // Men Engagement Ring
+    '8': ['Bond', 'Union', 'Togetherness']                                                // Men Wedding Ring
   };
 
   for (const jewelryType of jewelryTypes) {
@@ -417,6 +433,15 @@ async function createJewelrySettings(
       jewelrySetting.Name = uniqueName;
       jewelrySetting.JewelryTypeID = jewelryType.JewelryTypeID;
       jewelrySetting.IsActive = true;
+
+      // Thiết lập DiamondShape dựa trên JewelryTypeID
+      if (jewelrySetting.JewelryTypeID === 7 || jewelrySetting.JewelryTypeID === 8) {
+        jewelrySetting.DiamondShape = null;
+      } else {
+        const shape = ['Round', 'Princess', 'Emerald', 'Marquise', 'Oval', 'Heart', 'Cushion', 'Radiant', 'Pear'];
+        jewelrySetting.DiamondShape = faker.helpers.arrayElement(shape);
+      }
+      
     }
 
     // Lưu các JewelrySettingEntity với tên duy nhất
@@ -425,7 +450,76 @@ async function createJewelrySettings(
 }
 
 
+export async function createJewelrySettingVariants(
+  dataSource: DataSource,
+  numberOfVariantsPerMaterial: number,
+  batchSize: number // Kích thước lô
+): Promise<void> {
+  try {
+    const jewelrySettingRepository = dataSource.getRepository(JewelrySettingEntity);
+    const materialRepository = dataSource.getRepository(MaterialJewelryEntity);
+    const jewelrySettingVariantRepository = dataSource.getRepository(JewelrySettingVariantEntity);
 
+    const jewelrySettings = await jewelrySettingRepository.find();
+    const materials = await materialRepository.find();
+
+    const totalVariants = jewelrySettings.length * 4 * numberOfVariantsPerMaterial;
+    let createdCount = 0;
+
+    while (createdCount < totalVariants) {
+      await dataSource.transaction(async (transactionalEntityManager: EntityManager) => {
+        const variantEntities: JewelrySettingVariantEntity[] = [];
+
+        for (const jewelrySetting of jewelrySettings) {
+          // Tìm các MaterialJewelryID đã tồn tại cho JewelrySettingID hiện tại
+          const existingVariants = await jewelrySettingVariantRepository.find({
+            where: { JewelrySettingID: jewelrySetting.JewelrySettingID },
+            select: ['MaterialJewelryID']
+          });
+          const existingMaterialIds = new Set(existingVariants.map(v => v.MaterialJewelryID));
+
+          // Lấy những chất liệu còn thiếu để đủ 4 loại
+          const availableMaterials = materials
+            .filter(m => !existingMaterialIds.has(m.MaterialJewelryID))
+            .slice(0, 4 - existingMaterialIds.size);
+
+          for (const material of availableMaterials) {
+            for (let i = 0; i < numberOfVariantsPerMaterial; i++) {
+              if (createdCount >= totalVariants) break;
+
+              const variant = jewelrySettingVariantRepository.create({
+                JewelrySettingID: jewelrySetting.JewelrySettingID,
+                MaterialJewelryID: material.MaterialJewelryID,
+                // Các thuộc tính khác đã được xử lý trong factory
+              });
+
+              variantEntities.push(variant);
+              createdCount++;
+
+              if (variantEntities.length >= batchSize) {
+                await transactionalEntityManager.save(variantEntities);
+                variantEntities.length = 0; // Clear the array for the next batch
+              }
+            }
+
+            if (createdCount >= totalVariants) break;
+          }
+
+          if (createdCount >= totalVariants) break;
+        }
+
+        // Save remaining variants in case there are any left
+        if (variantEntities.length > 0) {
+          await transactionalEntityManager.save(variantEntities);
+        }
+      });
+    }
+
+    console.log('All variants have been created successfully');
+  } catch (error) {
+    console.error('Error creating jewelry setting variants:', error);
+  }
+}
 
 async function insertMaterials(dataSource: DataSource) {
   const materialMapping = {
