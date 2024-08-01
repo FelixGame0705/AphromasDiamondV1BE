@@ -281,7 +281,7 @@ export default class DataSeeder implements Seeder {
         // // Sử dụng hàm với số lượng và số lượng isActive mong muốn
         // await createJewelrySettings(100, 50);
         }
-      
+        await createJewelrySettings(dataSource, factoryManager, 8);
 
 
 
@@ -290,9 +290,8 @@ export default class DataSeeder implements Seeder {
   
       //Create jewelry setting variant
         const jewelryerysettingvariantFactory = factoryManager.get(JewelrySettingVariantEntity);   
-        await jewelryerysettingvariantFactory.saveMany(200); 
-
-       
+        await jewelryerysettingvariantFactory.saveMany(28); 
+        
 
 
       //Create products
@@ -308,7 +307,7 @@ export default class DataSeeder implements Seeder {
         const discounts = await discountRepository.find();
         //  const jewelrySettingVariants = await jewelrySettingVariantRepository.find();
         // Đặt số lượng sản phẩm bạn muốn tạo
-        const productCount = 300;  
+        const productCount = 30;  
         // Tạo sản phẩm mới
         for (let i = 0; i < productCount; i++) {
           const customers = customer[i % customer.length];
@@ -375,7 +374,55 @@ export default class DataSeeder implements Seeder {
 }
 
 
+async function createJewelrySettings(
+  dataSource: DataSource,
+  factoryManager: SeederFactoryManager,
+  maxSettingsPerType: number
+): Promise<void> {
+  const jewelrySettingFactory = factoryManager.get(JewelrySettingEntity);
+  const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
+  const jewelryTypes = await jewelryTypeRepository.find();
 
+  const suffixMapById: { [key: string]: string[] } = {
+    '1': ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union', 'Sophistication', 'Splendor'], // Rings
+    '2': ['Charm', 'Allure', 'Elegance', 'Glamour'],                                     // Necklace
+    '3': ['Grace', 'Elegance', 'Poise'],                                                 // Bracelet
+    '4': ['Radiance', 'Sparkle', 'Glow'],                                                 // Earring
+    '5': ['Union', 'Bond', 'Eternal'],                                               // Wedding Ring
+    '6': ['Promise', 'Commitment', 'Vow'],                                        // Engagement Ring
+    '7': ['Valor', 'Strength', 'Courage'],                                    // Men Engagement Ring
+    '8': ['Bond', 'Union', 'Togetherness']                                      // Men Wedding Ring
+  };
+
+  for (const jewelryType of jewelryTypes) {
+    const settings = await jewelrySettingFactory.saveMany(maxSettingsPerType);
+    const usedNames = new Set<string>();
+
+    for (let i = 0; i < maxSettingsPerType; i++) {
+      const jewelrySetting = settings[i];
+      const typeName = jewelryType.Name;
+      const suffixes = suffixMapById[jewelryType.JewelryTypeID] || ['Luxury'];
+      const suffix = suffixes[i % suffixes.length];
+      let name = `${typeName} ${suffix}`;
+
+      // Đảm bảo tên là duy nhất
+      let counter = 1;
+      let uniqueName = name;
+      while (usedNames.has(uniqueName)) {
+        uniqueName = `${name} ${counter}`;
+        counter++;
+      }
+
+      usedNames.add(uniqueName);
+      jewelrySetting.Name = uniqueName;
+      jewelrySetting.JewelryTypeID = jewelryType.JewelryTypeID;
+      jewelrySetting.IsActive = true;
+    }
+
+    // Lưu các JewelrySettingEntity với tên duy nhất
+    await dataSource.getRepository(JewelrySettingEntity).save(settings);
+  }
+}
 
 
 
