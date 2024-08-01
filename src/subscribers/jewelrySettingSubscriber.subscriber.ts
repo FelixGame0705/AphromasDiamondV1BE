@@ -11,33 +11,43 @@ export class JewelrySettingSubscriber implements EntitySubscriberInterface<Jewel
   /**
    * Chỉ ra rằng Subscriber này chỉ lắng nghe các sự kiện của MaterialJewelryEntity.
    */
+  private isHandlingUpdate = false;
   listenTo() {
     return JewelrySettingEntity;
   }
 
 
-  async beforeUpdate(event: UpdateEvent<JewelrySettingEntity>) {
-    // Kiểm tra nếu jewelrySettingVariant đã thay đổi
-    //if (event.updatedColumns.some(column => column.propertyName === 'JewelrySettingID')) {
-      const jewelrySetting = event.entity;
-      if (!jewelrySetting) return;
+  // async beforeUpdate(event: UpdateEvent<JewelrySettingEntity>) {
+  //   if (this.isHandlingUpdate) {
+  //     return;
+  // }
 
-      const jewelrySettingVariant = event.manager.getRepository(JewelrySettingVariantEntity);
-      //const diamondRepository = event.manager.getRepository(DiamondEntity);
+  // this.isHandlingUpdate = true;
+  // try{
+  //   // Kiểm tra nếu jewelrySettingVariant đã thay đổi
+  //   //if (event.updatedColumns.some(column => column.propertyName === 'JewelrySettingID')) {
+  //     const jewelrySetting = event.entity;
+  //     if (!jewelrySetting) return;
 
-      // Cập nhật giá của tất cả trang sức dựa trên giá bán cũ
-      const jewelrySettingVariants = await jewelrySettingVariant.find();
-      //const diamonds = await diamondRepository.find();
+  //     const jewelrySettingVariant = event.manager.getRepository(JewelrySettingVariantEntity);
+  //     //const diamondRepository = event.manager.getRepository(DiamondEntity);
+
+  //     // Cập nhật giá của tất cả trang sức dựa trên giá bán cũ
+  //     const jewelrySettingVariants = await jewelrySettingVariant.find({where: {JewelrySettingID: jewelrySetting.JewelrySettingID}});
+  //     //const diamonds = await diamondRepository.find();
       
-      for (const product of jewelrySettingVariants) {
-        // Logic cập nhật giá trang sức
-        //const diamondsInProduct = diamonds.filter((p)=>p.ProductID === product.ProductID).map(diamond => diamond.Price);
-          product.Price = calculateOldPrice(product, jewelrySetting.ProductionCost, jewelrySetting.AuxiliaryCost);
+  //     for (const product of jewelrySettingVariants) {
+  //       // Logic cập nhật giá trang sức
+  //       //const diamondsInProduct = diamonds.filter((p)=>p.ProductID === product.ProductID).map(diamond => diamond.Price);
+  //         product.Price = calculateOldPrice(product, jewelrySetting.ProductionCost, jewelrySetting.AuxiliaryCost);
           
-          await jewelrySettingVariant.save(product);
-      }
-      console.log('Cập nhật hoàn tất jewelrySetting');
-    }
+  //         await jewelrySettingVariant.save(product);
+  //     }
+  //     console.log('Cập nhật hoàn tất jewelrySetting');
+  //   } finally{
+  //     this.isHandlingUpdate = false;
+  //   }
+  //   }
  // }
 
 
@@ -45,6 +55,12 @@ export class JewelrySettingSubscriber implements EntitySubscriberInterface<Jewel
    * Được gọi sau khi cập nhật thực thể.
    */
   async afterUpdate(event: UpdateEvent<JewelrySettingEntity>) {
+    if (this.isHandlingUpdate) {
+      return;
+  }
+
+  this.isHandlingUpdate = true;
+  try{
     // Kiểm tra nếu jewelrySettingVariant đã thay đổi
     //if (event.updatedColumns.some(column => column.propertyName === 'JewelrySettingID')) {
       const jewelrySetting = event.entity;
@@ -54,28 +70,32 @@ export class JewelrySettingSubscriber implements EntitySubscriberInterface<Jewel
       //const diamondRepository = event.manager.getRepository(DiamondEntity);
 
       // Cập nhật giá của tất cả trang sức dựa trên giá bán mới
-      const jewelrySettingVariants = await jewelrySettingVariant.find();
+      const jewelrySettingVariants = await jewelrySettingVariant.find({where: {JewelrySettingID: jewelrySetting.JewelrySettingID}});
       //const diamonds = await diamondRepository.find();
       
-      for (const item of jewelrySettingVariants) {
-        // Logic cập nhật giá trang sức
-        //const diamondsInProduct = diamonds.filter((p)=>p.ProductID === product.ProductID).map(diamond => diamond.Price);
-          item.Price = calculateNewPrice(item, jewelrySetting.ProductionCost, jewelrySetting.AuxiliaryCost);
+      // for (const item of jewelrySettingVariants) {
+      //   // Logic cập nhật giá trang sức
+      //   //const diamondsInProduct = diamonds.filter((p)=>p.ProductID === product.ProductID).map(diamond => diamond.Price);
+      //     // item.Price = calculateNewPrice(item.Price, jewelrySetting.ProductionCost, jewelrySetting.AuxiliaryCost);
           
-          await jewelrySettingVariant.save(item);
-      }
+      //     await jewelrySettingVariant.save(item);
+      // }
+      await jewelrySettingVariant.save(jewelrySettingVariants)
       console.log('Cập nhật hoàn tất.');
+    }finally{
+      this.isHandlingUpdate = false;
     }
+  }
   }
 //}
 
 // Hàm trợ giúp để tính giá trang sức mới
-function calculateNewPrice(jewelry: JewelrySettingVariantEntity, productionCost: number, auxiliaryCost: number): number {
+function calculateNewPrice(jewelry: number, productionCost: number, auxiliaryCost: number): number {
   // Logic tính giá mới của bạn
-  return jewelry.Price+=productionCost+auxiliaryCost;
+  return jewelry+=productionCost+auxiliaryCost;
 }
 
-function calculateOldPrice(jewelry: JewelrySettingVariantEntity, productionCost: number, auxiliaryCost: number): number {
+function calculateOldPrice(jewelry: number, productionCost: number, auxiliaryCost: number): number {
     // Logic tính giá mới của bạn
-    return jewelry.Price-=productionCost+auxiliaryCost;
+    return jewelry-=productionCost+auxiliaryCost;
   }
