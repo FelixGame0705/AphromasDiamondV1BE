@@ -6,8 +6,8 @@ export const jewelrysettingFactory = setSeederFactory(JewelrySettingEntity, asyn
      
       
     const  jewelrysetting = new JewelrySettingEntity()
-    jewelrysetting.Name = faker.commerce.productName();
-    
+    // jewelrysetting.Name = faker.commerce.productName();
+
  
     // jewelrysetting.ProductionCost = faker.datatype.number({ min: 50, max: 200 });
     
