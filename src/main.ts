@@ -13,7 +13,7 @@ async function bootstrap() {
 
   await app.listen(3000);
 
-   //runFakeData()
+   //runDataRender()
   
   if (module.hot) {
     module.hot.accept();
@@ -23,7 +23,7 @@ async function bootstrap() {
 }
 bootstrap();
 
-async function runFakeData(){
+async function runDataRender(){
   await dataSource.initialize()
         .then(async () => {
           console.log('Data Source has been initialized!');

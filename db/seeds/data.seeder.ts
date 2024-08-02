@@ -1,6 +1,6 @@
 
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
-import { DataSource, FindOneOptions } from 'typeorm';
+import { DataSource, EntityManager, FindOneOptions } from 'typeorm';
 import { AccountsEntity } from 'src/entities/accounts.entity';
 import { CustomerEntity } from 'src/entities/customer.entity';
 import { MaterialJewelryEntity } from 'src/entities/marterialJewelry.entity';
@@ -17,212 +17,274 @@ import { VoucherEntity } from 'src/entities/voucher.entity';
 import { FeedbackEntity } from 'src/entities/feedback.entity';
 import { DiamondEntity } from 'src/entities/diamond.entity';
 import * as bcrypt from 'bcrypt';
-import { OrderEntity } from 'src/entities/order.entity';
-import { OrderLineEntity } from 'src/entities/orderLine.entity';
- 
- 
+import { faker } from '@faker-js/faker';
 
+
+
+// import { OrderEntity } from 'src/entities/order.entity';
+// import { OrderLineEntity } from 'src/entities/orderLine.entity';
 // import { CertificateRepository } from 'src/modules/certificate/certificate.repository';
-import { collectionFactory } from '../factories/collection.factory';
-import { Size } from '../../src/models/size.model';
+// import { collectionFactory } from '../factories/collection.factory';
+// import { Size } from '../../src/models/size.model';
 // import { jewelrytypeFactory } from '../factories/jewelrytype.factory';
-import { JewelryTypeRepository } from '../../src/modules/jewelryType/jewelryType.repository';
+// import { JewelryTypeRepository } from '../../src/modules/jewelryType/jewelryType.repository';
  
 
 export default class DataSeeder implements Seeder {
   public async run(
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,
+    
   ): Promise<void> {
     try {
       console.log('Starting data seeding...');  
 
+      //Create materials
+        const materials = insertMaterials(dataSource);
+        await materials;
 
-      // const materials = insertMaterials(dataSource);
-      // const jewelrytypes = insertjewelryType(dataSource);
-      // const sizes = insertSizes(dataSource);
-      // const acc = insertAccounts(dataSource);
-      // await materials;
-      // await jewelrytypes;
-      // await sizes;
-      // await acc;
+      //Create types
+        const jewelrytypes = insertjewelryType(dataSource);
+        await jewelrytypes;
 
-      // //Create collection cho Như Nguyên yêu cầu
-      // const collect = insertCollectionbyNN(dataSource);
-      // await collect;
+      //create sizes
+        const sizes = insertSizes(dataSource); 
+        await sizes;
 
-      // //Create collection
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-      // const collectionFactory = factoryManager.get(CollectionEntity);
-      // await collectionFactory.saveMany(2);
+      //Create accounts
+        const acc = insertAccounts(dataSource);
+        await acc;
 
-      // //Create discount
-      // const discountFactory = factoryManager.get(DiscountEntity);
-      // await discountFactory.saveMany(10);
+      //Create customers
+        const customerFactory = factoryManager.get(CustomerEntity);
+        const customers = await customerFactory.saveMany(6);
+
+      //Create accounts for each customer
+        const accountFactory = factoryManager.get(AccountsEntity);
+        const accounts = [];
+        for (const customer of customers) {
+          const account = await accountFactory.save({
+            CustomerID: customer.CustomerID,
+          });
+          accounts.push(account);
+        }
+
+      //Create collection cho Như Nguyên yêu cầu
+        {
+        // const collect = insertCollectionbyNN(dataSource);
+        // await collect;
+
+        // // //Create collection                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        // const collectionFactory = factoryManager.get(CollectionEntity);
+        // await collectionFactory.saveMany(2);
+        }
+
+      //Create discount
+        const discountFactory = factoryManager.get(DiscountEntity);
+        await discountFactory.saveMany(15);
          
-      // //Create customers
-      // const customerFactory = factoryManager.get(CustomerEntity);
-      // const customers = await customerFactory.saveMany(6);
-
-      // //Create accounts for each customer
-      // const accountFactory = factoryManager.get(AccountsEntity);
-      // const accounts = [];
-      // for (const customer of customers) {
-      //   const account = await accountFactory.save({
-      //     CustomerID: customer.CustomerID,
-      //   });
-      //   accounts.push(account);
-      // }
-
-      // //Create notificate for each account
-      // //v1
-      // // const notificationFactory = factoryManager.get(NotificationEntity);
-      // // for (const account of accounts) {
-      // //   await notificationFactory.save({
-      // //     AccountID: account.AccountID,  
-      // //   }); 
-      // // }
-
-
-
-      // //v2
-      // const notificationFactory = factoryManager.get(NotificationEntity);
-
-      // // Hàm helper để tạo số ngẫu nhiên trong khoảng
-      // function getRandomInt(min: number, max: number): number {
-      //   return Math.floor(Math.random() * (max - min + 1)) + min;
-      // }
-
-      // // Tạo thông báo cho mỗi tài khoản
-      // for (const account of accounts) {
-      //   // Số lượng thông báo cho mỗi tài khoản (ít nhất 1, tối đa 5)
-      //   const notificationCount = getRandomInt(1, 5);
-      //   for (let i = 0; i < notificationCount; i++) {
-      //     await notificationFactory.save({
-      //       AccountID: account.AccountID,
-      //       // Các trường khác sẽ được tạo tự động bởi factory
-      //     });
-      //   }
-      // }
-      
-
-
-      // //Create vouchers
-      // const voucherFactory = factoryManager.get(VoucherEntity);
-      // await voucherFactory.saveMany(20);
-
-
-
-      // //TạoOrder
-      
-      // //Create orders for each customer
-
-      // //v1
-      // // const orderFactory = factoryManager.get(OrderEntity);
-      // // for (const customer of customers) {
-      // //   await orderFactory.save({
-      // //     CustomerID: customer.CustomerID,
-      // //   });
-      // // }
-      
-      // //v2
-      // // const orderFactory = factoryManager.get(OrderEntity);
-      // // for (let i = 0; i < customers.length; i++) {
-      // //   const customer = customers[i];
-      // //   const voucher = vouchers[i % vouchers.length];  
-      // //   await orderFactory.save({
-      // //     CustomerID: customer.CustomerID,
-      // //     VoucherID: voucher.VoucherID,
-      // // });
-      // // }
-
-        
-
-      // //Create jewelry setting  
-      
-      // // //v1
-      // const jewelryerysettingFactory = factoryManager.get(JewelrySettingEntity);   
-      // // const jewelrySettings =  
-      // await jewelryerysettingFactory.saveMany(100); 
-      // // Lấy tên loại trang sức từ repository
-      // const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
-      // const jewelrytype = await jewelryTypeRepository.find();
-
-      // // const suffixMap: { [key: string]: string } = {
-      //   'Rings': 'Elegance',
-      //   'Necklace': 'Charm',
-      //   'Bracelet': 'Grace',
-      //   'Earring': 'Radiance',
-      //   'Wedding Ring': 'Union',
-      //   'Engagement Ring': 'Promise',
-      //   'Men Engagement Ring': 'Valor',
-      //   'Men Wedding Ring': 'Bond'
-
-
-         
-      // };
-
-      // for (const jewelrysetting of  jewelrysetting) {
-      //   const jewelryType = jewelrytype.find(type => type.JewelryTypeID === jewelrysetting.JewelryTypeID);
-      //   if (jewelryType) {
-      //     // const typeName = jewelryType.Name;
-      //     // const suffix = suffixMap[typeName] || 'Luxury';
-      //     // jewelrysetting.Name = `${typeName} ${suffix}`;
-      //     await dataSource.getRepository(JewelrySettingEntity).save(jewelrysetting);
-      //   }
-      // }
-
-
-    //   //v2
-        // Tạo các JewelrySettingEntity
-        const jewelrySettingFactory = factoryManager.get(JewelrySettingEntity);
-        const jewelrySettings = await jewelrySettingFactory.saveMany(100);
-
-        // Lấy tên loại trang sức từ repository
-        const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
-        const jewelryTypes = await jewelryTypeRepository.find();
-
-        const suffixMap: { [key: string]: string[] } = {
-          'Rings': ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union'],
-          'Necklace': ['Charm'],
-          'Bracelet': ['Grace'],
-          'Earring': ['Radiance'],
-          'Wedding Ring': ['Union'],
-          'Engagement Ring': ['Promise'],
-          'Men Engagement Ring': ['Valor'],
-          'Men Wedding Ring': ['Bond']
-        };
-
-        const usedNames = new Set<string>();
-
-        // Sinh tên duy nhất cho từng JewelrySettingEntity
-        for (let i = 0; i < 100; i++) {
-          const jewelrySetting = jewelrySettings[i];
-          const jewelryType = jewelryTypes[i % jewelryTypes.length];
-
-          if (jewelryType) {
-            const typeName = jewelryType.Name;
-            const suffixes = suffixMap[typeName] || ['Luxury'];
-            const suffix = suffixes[i % suffixes.length];
-            let name = `${typeName} ${suffix}`;
-
-            // Đảm bảo tên là duy nhất
-            let counter = 1;
-            let uniqueName = name;
-            while (usedNames.has(uniqueName)) {
-              uniqueName = `${name} ${counter}`;
-              counter++;
-            }
-
-            usedNames.add(uniqueName);
-            jewelrySetting.Name = uniqueName;
+      //Create notificate for each account
+        //v1
+        {
+        // const notificationFactory = factoryManager.get(NotificationEntity);
+        // for (const account of accounts) {
+        //   await notificationFactory.save({
+        //     AccountID: account.AccountID,  
+        //   }); 
+        // }
+        }
+        //v2
+        const notificationFactory = factoryManager.get(NotificationEntity);
+        function getRandomInt(min: number, max: number): number {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        // Tạo thông báo cho mỗi tài khoản
+        for (const account of accounts) {
+          // Số lượng thông báo cho mỗi tài khoản (ít nhất 1, tối đa 5)
+          const notificationCount = getRandomInt(1, 5);
+          for (let i = 0; i < notificationCount; i++) {
+            await notificationFactory.save({
+              AccountID: account.AccountID,   
+            });
           }
         }
 
-        // Lưu các JewelrySettingEntity với tên duy nhất
-        await dataSource.getRepository(JewelrySettingEntity).save(jewelrySettings);
+      //Create vouchers
+        const voucherFactory = factoryManager.get(VoucherEntity);
+        await voucherFactory.saveMany(25);
 
+      //TạoOrder
+        {
+        //Create orders for each customer
+
+        //v1
+        // const orderFactory = factoryManager.get(OrderEntity);
+        // for (const customer of customers) {
+        //   await orderFactory.save({
+        //     CustomerID: customer.CustomerID,
+        //   });
+        // }
+        
+        //v2
+        // const orderFactory = factoryManager.get(OrderEntity);
+        // for (let i = 0; i < customers.length; i++) {
+        //   const customer = customers[i];
+        //   const voucher = vouchers[i % vouchers.length];  
+        //   await orderFactory.save({
+        //     CustomerID: customer.CustomerID,
+        //     VoucherID: voucher.VoucherID,
+        // });
+        // }
+        }
       
+      //Create jewelry setting  
+        {
+        // // //v1
+        // const jewelryerysettingFactory = factoryManager.get(JewelrySettingEntity);   
+        // // const jewelrySettings =  
+        // await jewelryerysettingFactory.saveMany(100); 
+        // // Lấy tên loại trang sức từ repository
+        // const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
+        // const jewelrytype = await jewelryTypeRepository.find();
+
+        //  const suffixMap: { [key: string]: string } = {
+        //   'Rings': 'Elegance',
+        //   'Necklace': 'Charm',
+        //   'Bracelet': 'Grace',
+        //   'Earring': 'Radiance',
+        //   'Wedding Ring': 'Union',
+        //   'Engagement Ring': 'Promise',
+        //   'Men Engagement Ring': 'Valor',
+        //   'Men Wedding Ring': 'Bond'
+
+
+          
+        // };
+
+        // for (const jewelrysetting of  jewelrysetting) {
+        //   const jewelryType = jewelrytype.find(type => type.JewelryTypeID === jewelrysetting.JewelryTypeID);
+        //   if (jewelryType) {
+        //     const typeName = jewelryType.Name;
+        //     const suffix = suffixMap[typeName] || 'Luxury';
+        //     jewelrysetting.Name = `${typeName} ${suffix}`;
+        //     await dataSource.getRepository(JewelrySettingEntity).save(jewelrysetting);
+        //   }
+        // }
+
+
+        //  //v2
+        //   // Tạo các JewelrySettingEntity
+        //   const jewelrySettingFactory = factoryManager.get(JewelrySettingEntity);
+        //   const jewelrySettings = await jewelrySettingFactory.saveMany(100);
+
+        //   // Lấy tên loại trang sức từ repository
+        //   const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
+        //   const jewelryTypes = await jewelryTypeRepository.find();
+
+        //   const suffixMap: { [key: string]: string[] } = {
+        //     'Rings': ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union'],
+        //     'Necklace': ['Charm'],
+        //     'Bracelet': ['Grace'],
+        //     'Earring': ['Radiance'],
+        //     'Wedding Ring': ['Union'],
+        //     'Engagement Ring': ['Promise'],
+        //     'Men Engagement Ring': ['Valor'],
+        //     'Men Wedding Ring': ['Bond']
+        //   };
+
+        //   const usedNames = new Set<string>();
+
+        //   // Sinh tên duy nhất cho từng JewelrySettingEntity
+        //   for (let i = 0; i < 100; i++) {
+        //     const jewelrySetting = jewelrySettings[i];
+        //     const jewelryType = jewelryTypes[i % jewelryTypes.length];
+
+        //     if (jewelryType) {
+        //       const typeName = jewelryType.Name;
+        //       const suffixes = suffixMap[typeName] || ['Luxury'];
+        //       const suffix = suffixes[i % suffixes.length];
+        //       let name = `${typeName} ${suffix}`;
+
+        //       // Đảm bảo tên là duy nhất
+        //       let counter = 1;
+        //       let uniqueName = name;
+        //       while (usedNames.has(uniqueName)) {
+        //         uniqueName = `${name} ${counter}`;
+        //         counter++;
+        //       }
+
+        //       usedNames.add(uniqueName);
+        //       jewelrySetting.Name = uniqueName;
+        //     }
+        //   }
+
+        //   // Lưu các JewelrySettingEntity với tên duy nhất
+        //   await dataSource.getRepository(JewelrySettingEntity).save(jewelrySettings);
+
+
+
+        // //V3
+        // // Tạo JewelrySettingEntity
+        // const createJewelrySettings = async (numSettings: number, numActive: number) => {
+        // const jewelrySettingFactory = factoryManager.get(JewelrySettingEntity);
+        // const jewelrySettings = await jewelrySettingFactory.saveMany(numSettings);
+
+        // // Lấy tên loại trang sức từ repository
+        // const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
+        // const jewelryTypes = await jewelryTypeRepository.find();
+
+        // const suffixMapById: { [key: string]: string[] } = {
+        //   'Rings': ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union', 'Sophistication', 'Splendor'], // 1: Rings
+        //   'Necklace': ['Charm', 'Allure', 'Elegance', 'Glamour'],                                     // 2: Necklace
+        //   'Bracelet': ['Grace', 'Elegance', 'Poise'],                                                 // 3: Bracelet
+        //   'Earring': ['Radiance', 'Sparkle', 'Glow'],                                                 // 4: Earring
+        //   'Wedding Ring': ['Union', 'Bond', 'Eternal'],                                               // 5: Wedding Ring
+        //   'Engagement Ring': ['Promise', 'Commitment', 'Vow'],                                        // 6: Engagement Ring
+        //   'Men Engagement Ring': ['Valor', 'Strength', 'Courage'],                                    // 7: Men Engagement Ring
+        //   'Men Wedding Ring': ['Bond', 'Union', 'Togetherness']  
+            
+          
+        // };
+
+        //   const usedNames = new Set<string>();
+
+        //   // Sinh tên duy nhất cho từng JewelrySettingEntity
+        //   for (let i = 0; i < numSettings; i++) {
+        //     const jewelrySetting = jewelrySettings[i];
+        //     const jewelryType = jewelryTypes[i % jewelryTypes.length];
+
+        //     if (jewelryType) {
+        //       const typeId = jewelryType.JewelryTypeID;   
+        //       const typeName = jewelryType.Name;
+        //       const suffixes = suffixMapById[typeId] || ['Luxury'];
+        //       const suffix = suffixes[i % suffixes.length];
+        //       let name = `${typeName} ${suffix}`;
+
+        //       // Đảm bảo tên là duy nhất
+        //       let counter = 1;
+        //       let uniqueName = name;
+        //       while (usedNames.has(uniqueName)) {
+        //         uniqueName = `${name} ${counter}`;
+        //         counter++;
+        //       }
+
+        //       usedNames.add(uniqueName);
+        //       jewelrySetting.Name = uniqueName;
+
+        //       // Gán giá trị isActive
+        //       jewelrySetting.IsActive = i < numActive;
+        //     }
+        //   }
+
+        //   // Lưu các JewelrySettingEntity với tên duy nhất
+        //   await dataSource.getRepository(JewelrySettingEntity).save(jewelrySettings);
+        // };
+
+        // // Sử dụng hàm với số lượng và số lượng isActive mong muốn
+        // await createJewelrySettings(100, 50);
+        }
+        await createJewelrySettings(dataSource, factoryManager, 6);
+
 
 
 
@@ -230,105 +292,135 @@ export default class DataSeeder implements Seeder {
   
       //Create jewelry setting variant
       
-      const jewelryerysettingvariantFactory = factoryManager.get(JewelrySettingVariantEntity);   
-      await jewelryerysettingvariantFactory.saveMany(200); 
+        // const jewelryerysettingvariantFactory = factoryManager.get(JewelrySettingVariantEntity);  
 
-       
+        // // Nhập số lượng bạn muốn tạo
+        // const numberOfVariants = 192;
+
+        // // Sử dụng createMany để tạo nhiều bản sao
+        // const variants = await jewelryerysettingvariantFactory.saveMany(numberOfVariants);
+
+        // // Lưu tất cả các đối tượng vào cơ sở dữ liệu
+        // await dataSource.getRepository(JewelrySettingVariantEntity).save(variants);
 
 
-      // //Create products
+        const jewelrySettingVariantRepository = dataSource.getRepository(JewelrySettingVariantEntity);
+    const jewelrySettingRepository = dataSource.getRepository(JewelrySettingEntity);
+    const materialRepository = dataSource.getRepository(MaterialJewelryEntity);
 
-      //v1
-      // const productFactory = factoryManager.get(ProductEntity);
-      // await productFactory.saveMany(5);
-      
-      
-      //v3
-      // Tạo sản phẩm (product)
-      const productFactory = factoryManager.get(ProductEntity);
-      //lấy từ repo lên 
-      const accountRepository = dataSource.getRepository(AccountsEntity);
-      const collectionRepository = dataSource.getRepository(CollectionEntity);
-      const discountRepository = dataSource.getRepository(DiscountEntity);
-      const jewelrySettingVariantRepository = dataSource.getRepository(JewelrySettingVariantEntity);
-    
-       const customer = await accountRepository.find({ where: { Role: 'ROLE_CUSTOMER' } });
-       const collections = await collectionRepository.find();
-       const discounts = await discountRepository.find();
-      //  const jewelrySettingVariants = await jewelrySettingVariantRepository.find();
- 
+    // Lấy factory cho JewelrySettingVariantEntity
+    const jewelrySettingVariantFactory = factoryManager.get(JewelrySettingVariantEntity);
 
-      // Đặt số lượng sản phẩm bạn muốn tạo
-      const productCount = 300;  
+    // Lấy danh sách tất cả JewelrySettings và Materials
+    const jewelrySettings = await jewelrySettingRepository.find();
+    const materialss = await materialRepository.find();
 
-      // Tạo sản phẩm mới
-      for (let i = 0; i < productCount; i++) {
-        const customers = customer[i % customer.length];
-        const collection = collections[i % collections.length];
-        const discount = discounts[i % discounts.length];
-        // const jewelrySettingVariant = jewelrySettingVariants[i % jewelrySettingVariants.length];
+    for (const jewelrySetting of jewelrySettings) {
+      // Lấy các variants đã tồn tại cho JewelrySettingID hiện tại
+      const existingVariants = await jewelrySettingVariantRepository.find({
+        where: { JewelrySettingID: jewelrySetting.JewelrySettingID },
+        select: ['MaterialJewelryID']
+      });
 
-        await productFactory.save({
-          AccountID: customers.CustomerID,
-          // CollectionID: collection.CollectionID,
-          DiscountID: discount.DiscountID,
-          // JewelrySettingVariantID: jewelrySettingVariant.JewelrySettingVariantID,
-        });
+      const existingMaterialIds = new Set(existingVariants.map(v => v.MaterialJewelryID));
+
+      // Nếu đã có đủ 4 variants, bỏ qua
+      if (existingMaterialIds.size >= 4) {
+        continue;
       }
+
+      // Lấy các chất liệu còn thiếu để đủ 4 loại
+      const availableMaterials = materialss.filter(m => !existingMaterialIds.has(m.MaterialJewelryID));
+      const neededMaterials = availableMaterials.slice(0, 4 - existingMaterialIds.size);
+
+      // Tạo các variants mới cho JewelrySettingID hiện tại
+      const variantsToCreate = await Promise.all(neededMaterials.map(async material => {
+        const variant = await jewelrySettingVariantFactory.make();
+        variant.JewelrySettingID = jewelrySetting.JewelrySettingID;
+        variant.MaterialJewelryID = material.MaterialJewelryID;
+        return variant;
+      }));
+
+      // Lưu tất cả các đối tượng vào cơ sở dữ liệu
+      await jewelrySettingVariantRepository.save(variantsToCreate);
+    }
+      
+                  
+
+         
+
+
+
+      //Create products
+        const productFactory = factoryManager.get(ProductEntity);
+        //lấy từ repo lên 
+        const accountRepository = dataSource.getRepository(AccountsEntity);
+        // const collectionRepository = dataSource.getRepository(CollectionEntity);
+        const discountRepository = dataSource.getRepository(DiscountEntity);
+        // const jewelrySettingVariantRepository = dataSource.getRepository(JewelrySettingVariantEntity);
+      
+        const customer = await accountRepository.find({ where: { Role: 'ROLE_CUSTOMER' } });
+        // const collections = await collectionRepository.find();
+        const discounts = await discountRepository.find();
+        //  const jewelrySettingVariants = await jewelrySettingVariantRepository.find();
+        // Đặt số lượng sản phẩm bạn muốn tạo
+        const productCount = 30;  
+        // Tạo sản phẩm mới
+        for (let i = 0; i < productCount; i++) {
+          const customers = customer[i % customer.length];
+          // const collection = collections[i % collections.length];
+          const discount = discounts[i % discounts.length];
+          // const jewelrySettingVariant = jewelrySettingVariants[i % jewelrySettingVariants.length];
+          await productFactory.save({
+            AccountID: customers.CustomerID,
+            // CollectionID: collection.CollectionID,
+            DiscountID: discount.DiscountID,
+            // JewelrySettingVariantID: jewelrySettingVariant.JewelrySettingVariantID,
+          });
+        }
       
        
-      // //Create diamonds
-      // const numDiamonds = 50; 
-      // const diamondFactory = factoryManager.get(DiamondEntity);
-      // let diamonds = []; 
-      // for(let i = 0; i<  numDiamonds; i++){
-      //   const diamond = await diamondFactory.save(); 
-      //   diamonds.push(diamond);
-      // }
+      //Create diamonds
+        const numDiamonds = 30; 
+        const diamondFactory = factoryManager.get(DiamondEntity);
+        let diamonds = []; 
+        for(let i = 0; i<  numDiamonds; i++){
+          const diamond = await diamondFactory.save(); 
+          diamonds.push(diamond);
+        }
       
-
-      // //Create certificates for each diamond
-      // const certificate = insertCertificates(dataSource);
-      // await certificate;
+      //Create certificates for each diamond
+        const certificate = insertCertificates(dataSource);
+        await certificate;
       
-      
-
-      // // const certificateFactory = factoryManager.get(CertificateEntity);
-      // // for (const diamond of diamonds) {
-      // //   await certificateFactory.save({
-      // //     DiamondID: diamond.DiamondID, 
-      // //   });
-      // // }
-
-
-      // //Tạo  order line
-      
-      // //Create order lines 
-      // // const orderLineFactory = factoryManager.get(OrderLineEntity);
-      // // await orderLineFactory.saveMany(5);
-      
+      //Tạo order line
+        {
+        // //Create order lines 
+        // // const orderLineFactory = factoryManager.get(OrderLineEntity);
+        // // await orderLineFactory.saveMany(5);
+        }
     
-      // // //Create feedback
+      //Create feedback
 
-      // //v1
-      // // const feedbackFactory = factoryManager.get(FeedbackEntity);
-      // // await feedbackFactory.saveMany(5);
+        //v1
+        // const feedbackFactory = factoryManager.get(FeedbackEntity);
+        // await feedbackFactory.saveMany(5);
 
-      // //v2
-      // const feedbackFactory = factoryManager.get(FeedbackEntity);
-      // //lấy từ repository lên 
-      // const jewelrySettingss = await dataSource.getRepository(JewelrySettingEntity).find();
-      // const accountss = await dataSource.getRepository(AccountsEntity).find();
+        //v2
+        const feedbackFactory = factoryManager.get(FeedbackEntity);
+        //lấy từ repository lên 
+        const jewelrySettingss = await dataSource.getRepository(JewelrySettingEntity).find();
+        const accountss = await dataSource.getRepository(AccountsEntity).find();
 
-      // const numFeedback = 50;
-      // for (let i = 0; i < numFeedback; i++) {
-      //   await feedbackFactory.save({
-      //     DiamondID: diamonds[Math.floor(Math.random() * diamonds.length)].DiamondID,
-      //     JewelrySettingID: jewelrySettingss[Math.floor(Math.random() * jewelrySettingss.length)].JewelrySettingID,
-      //     OrderID: null,
-      //     AccountID: accountss[Math.floor(Math.random() * accounts.length)].AccountID,
-      //   });
-      // }
+        const numFeedback = 50;
+        for (let i = 0; i < numFeedback; i++) {
+          await feedbackFactory.save({
+            DiamondID: diamonds[Math.floor(Math.random() * diamonds.length)].DiamondID,
+            JewelrySettingID: jewelrySettingss[Math.floor(Math.random() * jewelrySettingss.length)].JewelrySettingID,
+            OrderID: null,
+            AccountID: accountss[Math.floor(Math.random() * accounts.length)].AccountID,
+          });
+        }
       
 
       console.log('Data seeded successfully!');
@@ -339,10 +431,67 @@ export default class DataSeeder implements Seeder {
 }
 
 
+async function createJewelrySettings(
+  dataSource: DataSource,
+  factoryManager: SeederFactoryManager,
+  maxSettingsPerType: number
+): Promise<void> {
+  const jewelrySettingFactory = factoryManager.get(JewelrySettingEntity);
+  const jewelryTypeRepository = dataSource.getRepository(JewelryTypeEntity);
+  const jewelryTypes = await jewelryTypeRepository.find();
+
+  const suffixMapById: { [key: string]: string[] } = {
+    '1': ['Elegance', 'Charm', 'Grace', 'Radiance', 'Union', 'Sophistication', 'Splendor'], // Rings
+    '2': ['Charm', 'Allure', 'Elegance', 'Glamour'],                                     // Necklace
+    '3': ['Grace', 'Elegance', 'Poise'],                                                 // Bracelet
+    '4': ['Radiance', 'Sparkle', 'Glow'],                                                 // Earring
+    '5': ['Union', 'Bond', 'Eternal'],                                                   // Wedding Ring
+    '6': ['Promise', 'Commitment', 'Vow'],                                                // Engagement Ring
+    '7': ['Valor', 'Strength', 'Courage'],                                                 // Men Engagement Ring
+    '8': ['Bond', 'Union', 'Togetherness']                                                // Men Wedding Ring
+  };
+
+  for (const jewelryType of jewelryTypes) {
+    const settings = await jewelrySettingFactory.saveMany(maxSettingsPerType);
+    const usedNames = new Set<string>();
+
+    for (let i = 0; i < maxSettingsPerType; i++) {
+      const jewelrySetting = settings[i];
+      const typeName = jewelryType.Name;
+      const suffixes = suffixMapById[jewelryType.JewelryTypeID] || ['Luxury'];
+      const suffix = suffixes[i % suffixes.length];
+      let name = `${typeName} ${suffix}`;
+
+      // Đảm bảo tên là duy nhất
+      let counter = 1;
+      let uniqueName = name;
+      while (usedNames.has(uniqueName)) {
+        uniqueName = `${name} ${counter}`;
+        counter++;
+      }
+
+      usedNames.add(uniqueName);
+      jewelrySetting.Name = uniqueName;
+      jewelrySetting.JewelryTypeID = jewelryType.JewelryTypeID;
+      jewelrySetting.IsActive = true;
+
+      // Thiết lập DiamondShape dựa trên JewelryTypeID
+      if (jewelrySetting.JewelryTypeID === 7 || jewelrySetting.JewelryTypeID === 8) {
+        jewelrySetting.DiamondShape = null;
+      } else {
+        const shape = ['Round', 'Princess', 'Emerald', 'Marquise', 'Oval', 'Heart', 'Cushion', 'Radiant', 'Pear'];
+        jewelrySetting.DiamondShape = faker.helpers.arrayElement(shape);
+      }
+      
+    }
+
+    // Lưu các JewelrySettingEntity với tên duy nhất
+    await dataSource.getRepository(JewelrySettingEntity).save(settings);
+  }
+}
 
 
-
-
+ 
 
 async function insertMaterials(dataSource: DataSource) {
   const materialMapping = {
@@ -482,7 +631,6 @@ async function insertCollectionbyNN(dataSource: DataSource): Promise<void> {
       }
     
   }
-
 
  async function insertAccounts(dataSource: DataSource): Promise<void> {
   const accountsToInsert = [

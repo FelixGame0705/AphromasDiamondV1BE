@@ -20,7 +20,7 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
   const WeightCarat = parseFloat(faker.datatype.number({ min: 0.05, max: 30.00, precision: 0.01 }).toFixed(2));
   diamond.WeightCarat = WeightCarat;
 
-  
+  diamond.IsActive= true;
 
    
 
@@ -31,7 +31,7 @@ export const diamondFactory = setSeederFactory(DiamondEntity, async (faker) => {
   diamond.LengthOnWidthRatio = parseFloat(faker.datatype.number({ min: 1.00, max: 1.99, precision: 0.01 }).toFixed(2));
 
   //IsActive
-  diamond.IsActive = faker.datatype.boolean();
+  // diamond.IsActive = faker.datatype.boolean();
 
   //Fluorescence
   const fluorescence = ['None', 'Faint', 'Medium', 'Strong', 'Very Strong'];
